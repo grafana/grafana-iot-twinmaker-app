@@ -6,7 +6,7 @@ The production plugins can be downloaded from [the TwinMaker app plugin page](ht
 
 For an overview of the plugin see [src/README.md](https://github.com/grafana/grafana-iot-twinmaker-app/blob/main/src/README.md).
 
-## Developer Guide
+## Developer Guide - Coming Soon
 
 Pull down the git repo locally.
 
