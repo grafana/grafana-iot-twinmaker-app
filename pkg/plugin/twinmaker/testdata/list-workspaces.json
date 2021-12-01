@@ -1,0 +1,12 @@
+{
+  "NextToken": null,
+  "WorkspaceSummaries": [
+    {
+      "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/CookieFactory-11-16",
+      "CreationDateTime": "2021-11-16T18:30:40.54Z",
+      "Description": "Workspace to test TwinMaker preview",
+      "UpdateDateTime": "2021-11-16T18:30:40.54Z",
+      "WorkspaceId": "CookieFactory-11-16"
+    }
+  ]
+}

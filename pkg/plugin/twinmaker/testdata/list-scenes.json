@@ -1,0 +1,13 @@
+{
+    "NextToken": null,
+    "SceneSummaries": [
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/CookieFactory-11-16/scene/CookieFactory",
+            "ContentLocation": "s3://roci-workspace-cookiefactory-11-16-166800769179/CookieFactory.json",
+            "CreationDateTime": "2021-11-16T18:53:37.301Z",
+            "Description": null,
+            "SceneId": "CookieFactory",
+            "UpdateDateTime": "2021-11-16T18:53:37.301Z"
+        }
+    ]
+}
