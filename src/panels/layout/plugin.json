@@ -1,0 +1,15 @@
+{
+  "type": "panel",
+  "name": "Dashboard Layout",
+  "id": "grafana-iot-twinmaker-layout-panel",
+  "skipDataQuery": true,
+  "hideFromList": true,
+
+  "info": {
+    "description": "Write rules to update the dashboard when selecting a TwinMaker entity.",
+    "logos": {
+      "small": "img/AWS-IoT-TwinMaker.svg",
+      "large": "img/AWS-IoT-TwinMaker.svg"
+    }
+  }
+}

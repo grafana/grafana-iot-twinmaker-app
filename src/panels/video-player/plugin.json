@@ -1,0 +1,13 @@
+{
+  "type": "panel",
+  "name": "AWS IoT TwinMaker Video Player",
+  "id": "grafana-iot-twinmaker-videoplayer-panel",
+  "skipDataQuery": true,
+  "info": {
+    "description": "Playback video from your AWS IoT Greengrass Edge Connector for Kinesis Video Streams",
+    "logos": {
+      "small": "img/AWS-IoT-TwinMaker.svg",
+      "large": "img/AWS-IoT-TwinMaker.svg"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+    "PropertyValues": {
+        "bounds": {
+            "PropertyReference": {
+                "ComponentName": "Space",
+                "EntityId": "Factory_aa3d7d8b-6b94-44fe-ab02-6936bfcdade6",
+                "ExternalIdProperty": null,
+                "PropertyName": "bounds"
+            },
+            "PropertyValue": {
+                "BooleanValue": null,
+                "DoubleValue": null,
+                "Expression": null,
+                "IntegerValue": null,
+                "ListValue": [
+                    {
+                        "BooleanValue": null,
+                        "DoubleValue": 105.09,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": null
+                    },
+                    {
+                        "BooleanValue": null,
+                        "DoubleValue": 9.5,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": null
+                    },
+                    {
+                        "BooleanValue": null,
+                        "DoubleValue": 175.96,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": null
+                    }
+                ],
+                "LongValue": null,
+                "MapValue": null,
+                "RelationshipValue": null,
+                "StringValue": null
+            }
+        }
+    }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "grafana-iot-twinmaker-app",
+  "version": "1.0.0",
+  "description": "Grafana IoT TwinMaker App Plugin",
+  "scripts": {
+    "build": "rm -rf dist && npx grafana-toolkit plugin:build && mage build:backend",
+    "test": "grafana-toolkit plugin:test",
+    "dev": "grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch",
+    "clean": "rm -rf node_modules/ dist/ build/*"
+  },
+  "author": "IoT TwinMaker Frontend",
+  "devDependencies": {
+    "@grafana/aws-sdk": "^0.0.3",
+    "@grafana/data": "8.2.0",
+    "@grafana/runtime": "8.2.0",
+    "@grafana/toolkit": "8.2.0",
+    "@grafana/ui": "8.2.0",
+    "@testing-library/react": "^11.2.2",
+    "@types/lodash": "latest"
+  },
+  "dependencies": {
+    "aws-iot-twinmaker-grafana-utils": "file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz",
+    "aws-sdk": "^2.833.0",
+    "query-string": "^7.0.1",
+    "react-redux": "^7.2.3",
+    "react-use": "^17.3.1"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}

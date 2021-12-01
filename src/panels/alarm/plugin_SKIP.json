@@ -1,0 +1,13 @@
+{
+  "type": "panel",
+  "name": "TwinMaker Alarms",
+  "id": "grafana-iot-twinmaker-alarm-panel",
+
+  "info": {
+    "description": "TwinMaker alarms panel",
+    "logos": {
+      "small": "img/icon.svg",
+      "large": "img/icon.svg"
+    }
+  }
+}
