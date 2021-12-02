@@ -667,4 +667,6 @@ type: docker
 
 ---
 kind: signature
-hmac: af31c7ee20a01db06d3574c5acda8020da0dde03500ebee276e2636cef0b11dd
+hmac: 5b34984dac4638d8fed884c100457fe6e2e1be7b117d6eeefd8c9177837aa17e
+
+...
