@@ -22,7 +22,12 @@
     "updated": "%TODAY%"
   },
 
-  "includes": [],
+  "includes": [
+    {
+      "type": "datasource",
+      "name": "Grafana IoT TwinMaker Datasource"
+    }
+  ],
 
   "dependencies": {
     "grafanaDependency": ">=8.2.0",
