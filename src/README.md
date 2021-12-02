@@ -1,6 +1,6 @@
 # AWS IoT TwinMaker Application Plugin for Grafana
 
-<img src="https://github.com/grafana/grafana-iot-twinmaker-app/blob/main/docs/TwinMakerDashboard.png" />
+![dashboard](https://github.com/grafana/grafana-iot-twinmaker-app/raw/main/docs/TwinMakerDashboard.png)
 
 ## Summary
 
@@ -27,7 +27,7 @@ The AWS IoT TwinMaker Application Grafana plugin provides custom panels, dashboa
 
 Import a dashboard from the TwinMaker datasource configuration page. See the “Dashboard” tab.
 
-<img src="https://github.com/grafana/grafana-iot-twinmaker-app/blob/main/docs/DashboardTab.png" />
+![dashboard-tab](https://github.com/grafana/grafana-iot-twinmaker-app/raw/main/docs/DashboardTab.png)
 
 ### Requirements
 
@@ -69,7 +69,7 @@ a. `-v ~/.aws:/usr/share/grafana/.aws` will mount a volume with the credentials 
 
 Navigate to Grafana in your browser and log in. Go to the plugin list and search for AWS IoT TwinMaker Application and enable the plugin.
 
-<img src="https://github.com/grafana/grafana-iot-twinmaker-app/blob/main/docs/TwinMakerAppPlugin.png" />
+![app-plugin](https://github.com/grafana/grafana-iot-twinmaker-app/raw/main/docs/TwinMakerAppPlugin.png)
 
 Configure your [TwinMaker datasources](https://github.com/grafana/grafana-iot-twinmaker-app/tree/main/src/datasource/README.md).
 
