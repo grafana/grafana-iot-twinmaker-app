@@ -1,12 +1,12 @@
 # AWS IoT TwinMaker Scene Viewer Panel
 
-<img src="https://github.com/grafana/grafana-iot-twinmaker-app/blob/main/docs/SceneViewerPanel.png" />
+![scene-viewer](https://github.com/grafana/grafana-iot-twinmaker-app/raw/main/docs/SceneViewerPanel.png)
 
 Image: TwinMaker Scene Viewer panel with an example scene of a cookie factory.
 
 ## Setup
 
-<img src="https://github.com/grafana/grafana-iot-twinmaker-app/blob/main/docs/EditSceneViewer.png" />
+![scene-viewer-edit](https://github.com/grafana/grafana-iot-twinmaker-app/raw/main/docs/EditSceneViewer.png)
 
 Image: edit panel page for the Scene Viewer
 
