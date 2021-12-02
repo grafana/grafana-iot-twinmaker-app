@@ -1,12 +1,12 @@
 # AWS IoT TwinMaker Video Player Panel
 
-<img src="https://github.com/grafana/grafana-iot-twinmaker-app/blob/main/docs/VideoPlayerPanel.png" />
+![video](https://github.com/grafana/grafana-iot-twinmaker-app/raw/main/docs/VideoPlayerPanel.png)
 
 Image: TwinMaker Video Player panel with an example video of a cookie factory.
 
 ## Setup
 
-<img src="https://github.com/grafana/grafana-iot-twinmaker-app/blob/main/docs/EditVideoPlayer.png" />
+![video-edit](https://github.com/grafana/grafana-iot-twinmaker-app/raw/main/docs/EditVideoPlayer.png)
 
 Image: edit panel page for the Video Player
 
