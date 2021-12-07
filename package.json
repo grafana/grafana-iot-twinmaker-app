@@ -17,7 +17,8 @@
     "@grafana/toolkit": "8.2.0",
     "@grafana/ui": "8.2.0",
     "@testing-library/react": "^11.2.2",
-    "@types/lodash": "latest"
+    "@types/lodash": "latest",
+    "tslib": "2.3.1"
   },
   "dependencies": {
     "aws-iot-twinmaker-grafana-utils": "file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz",
@@ -28,5 +29,8 @@
   },
   "engines": {
     "node": ">=16"
+  },
+  "resolutions": {
+    "rxjs": "7.3.0"
   }
 }
