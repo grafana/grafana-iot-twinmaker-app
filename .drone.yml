@@ -28,26 +28,26 @@ steps:
     environment:
       GRABPL_VERSION:
         from_secret: grabpl_version
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: initialize
   - commands:
       - ./node_modules/.bin/grafana-toolkit plugin:ci-build
     depends_on:
       - initialize
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: build-and-test-frontend
   - commands:
       - mage -v lint
       - mage -v coverage
     depends_on:
       - initialize
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: test-backend
   - commands:
       - mage -v buildAll
     depends_on:
       - test-backend
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: build-backend
   - commands:
       - echo "Starting veracode scan..."
@@ -68,7 +68,7 @@ steps:
     environment:
       SRCCLR_API_TOKEN:
         from_secret: srcclr_api_token
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: security-scan
   - commands:
       - ./node_modules/.bin/grafana-toolkit plugin:ci-build --finish
@@ -79,14 +79,14 @@ steps:
     environment:
       GRAFANA_API_KEY:
         from_secret: grafana_api_key
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: package
   - commands:
       - ./bin/dockerize -wait tcp://plugin-build-report-service:5432 -timeout 120s
       - ./bin/grabpl plugin create-build-report
     depends_on:
       - initialize
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: create-build-report
   - commands:
       - if [ -z "$GCP_KEY" ]; then echo "Missing GCS Publish Key"; exit -1; fi
@@ -137,7 +137,7 @@ steps:
     environment:
       GCP_KEY:
         from_secret: gcp_key
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: upload-artifacts
   - commands:
       - ./bin/dockerize -wait tcp://plugin-build-report-service:5432 -timeout 120s
@@ -154,7 +154,7 @@ steps:
       - if [ -f failed ]; then return 1; else return 0; fi
     depends_on:
       - upload-artifacts
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: check-e2e
   - commands:
       - ./bin/dockerize -wait tcp://plugin-build-report-service:5432 -timeout 120s
@@ -220,26 +220,26 @@ steps:
     environment:
       GRABPL_VERSION:
         from_secret: grabpl_version
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: initialize
   - commands:
       - ./node_modules/.bin/grafana-toolkit plugin:ci-build
     depends_on:
       - initialize
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: build-and-test-frontend
   - commands:
       - mage -v lint
       - mage -v coverage
     depends_on:
       - initialize
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: test-backend
   - commands:
       - mage -v buildAll
     depends_on:
       - test-backend
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: build-backend
   - commands:
       - echo "Starting veracode scan..."
@@ -260,7 +260,7 @@ steps:
     environment:
       SRCCLR_API_TOKEN:
         from_secret: srcclr_api_token
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: security-scan
   - commands:
       - ./node_modules/.bin/grafana-toolkit plugin:ci-build --finish
@@ -271,14 +271,14 @@ steps:
     environment:
       GRAFANA_API_KEY:
         from_secret: grafana_api_key
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: package
   - commands:
       - ./bin/dockerize -wait tcp://plugin-build-report-service:5432 -timeout 120s
       - ./bin/grabpl plugin create-build-report
     depends_on:
       - initialize
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: create-build-report
   - commands:
       - if [ -z "$GCP_KEY" ]; then echo "Missing GCS Publish Key"; exit -1; fi
@@ -329,7 +329,7 @@ steps:
     environment:
       GCP_KEY:
         from_secret: gcp_key
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: upload-artifacts
   - commands:
       - ./bin/dockerize -wait tcp://plugin-build-report-service:5432 -timeout 120s
@@ -346,7 +346,7 @@ steps:
       - if [ -f failed ]; then return 1; else return 0; fi
     depends_on:
       - upload-artifacts
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: check-e2e
   - commands:
       - ./bin/dockerize -wait tcp://plugin-build-report-service:5432 -timeout 120s
@@ -447,26 +447,26 @@ steps:
     environment:
       GRABPL_VERSION:
         from_secret: grabpl_version
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: initialize
   - commands:
       - ./node_modules/.bin/grafana-toolkit plugin:ci-build
     depends_on:
       - initialize
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: build-and-test-frontend
   - commands:
       - mage -v lint
       - mage -v coverage
     depends_on:
       - initialize
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: test-backend
   - commands:
       - mage -v buildAll
     depends_on:
       - test-backend
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: build-backend
   - commands:
       - echo "Starting veracode scan..."
@@ -487,7 +487,7 @@ steps:
     environment:
       SRCCLR_API_TOKEN:
         from_secret: srcclr_api_token
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: security-scan
   - commands:
       - ./node_modules/.bin/grafana-toolkit plugin:ci-build --finish
@@ -498,14 +498,14 @@ steps:
     environment:
       GRAFANA_API_KEY:
         from_secret: grafana_api_key
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: package
   - commands:
       - ./bin/dockerize -wait tcp://plugin-build-report-service:5432 -timeout 120s
       - ./bin/grabpl plugin create-build-report
     depends_on:
       - initialize
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: create-build-report
   - commands:
       - if [ -z "$GCP_KEY" ]; then echo "Missing GCS Publish Key"; exit -1; fi
@@ -556,7 +556,7 @@ steps:
     environment:
       GCP_KEY:
         from_secret: gcp_key
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: upload-artifacts
   - commands:
       - ./bin/dockerize -wait tcp://plugin-build-report-service:5432 -timeout 120s
@@ -573,7 +573,7 @@ steps:
       - if [ -f failed ]; then return 1; else return 0; fi
     depends_on:
       - upload-artifacts
-    image: atifshoukatali/grafana-plugin-ci:1.2.2-alpine
+    image: grafana/grafana-plugin-ci:1.3.0-alpine
     name: check-e2e
   - commands:
       - ./bin/dockerize -wait tcp://plugin-build-report-service:5432 -timeout 120s
