@@ -23,7 +23,7 @@ steps:
       - curl -fLO https://github.com/jwilder/dockerize/releases/download/v$${DOCKERIZE_VERSION}/dockerize-linux-amd64-v$${DOCKERIZE_VERSION}.tar.gz
       - tar -C bin -xzvf dockerize-linux-amd64-v$${DOCKERIZE_VERSION}.tar.gz
       - rm dockerize-linux-amd64-v$${DOCKERIZE_VERSION}.tar.gz
-      - npm install --frozen-lockfile --no-progress
+      - yarn install --frozen-lockfile --no-progress
       - rm -rf node_modules/@grafana/data/node_modules
     environment:
       GRABPL_VERSION:
@@ -215,7 +215,7 @@ steps:
       - curl -fLO https://github.com/jwilder/dockerize/releases/download/v$${DOCKERIZE_VERSION}/dockerize-linux-amd64-v$${DOCKERIZE_VERSION}.tar.gz
       - tar -C bin -xzvf dockerize-linux-amd64-v$${DOCKERIZE_VERSION}.tar.gz
       - rm dockerize-linux-amd64-v$${DOCKERIZE_VERSION}.tar.gz
-      - npm install --frozen-lockfile --no-progress
+      - yarn install --frozen-lockfile --no-progress
       - rm -rf node_modules/@grafana/data/node_modules
     environment:
       GRABPL_VERSION:
@@ -442,7 +442,7 @@ steps:
       - curl -fLO https://github.com/jwilder/dockerize/releases/download/v$${DOCKERIZE_VERSION}/dockerize-linux-amd64-v$${DOCKERIZE_VERSION}.tar.gz
       - tar -C bin -xzvf dockerize-linux-amd64-v$${DOCKERIZE_VERSION}.tar.gz
       - rm dockerize-linux-amd64-v$${DOCKERIZE_VERSION}.tar.gz
-      - npm install --frozen-lockfile --no-progress
+      - yarn install --frozen-lockfile --no-progress
       - rm -rf node_modules/@grafana/data/node_modules
     environment:
       GRABPL_VERSION:
