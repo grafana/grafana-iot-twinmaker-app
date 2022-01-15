@@ -1,5 +1,10 @@
 # Changelog
 
-## 1.0.0
+## v1.0.1
 
-Initial release.
+- Update aws-iot-twinmaker-grafana-utils package.
+- Fix broken link on datasource configuration page.
+
+## v1.0.0
+
+- Initial release.
