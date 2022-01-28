@@ -5,6 +5,7 @@ import {
   ComponentName,
   ComponentPropsType,
   IAwsState,
+  IDataBindingTemplate,
   IDataFrame,
   IDataInput,
   TwinMakerApiModel,
@@ -12,6 +13,7 @@ import {
   ValueType,
   awsActions,
   DataBindingLabelKeys,
+  undecorateDataBindingTemplate,
 } from 'aws-iot-twinmaker-grafana-utils';
 import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
 import { SceneViewerPropsFromParent } from './interfaces';
@@ -141,13 +143,26 @@ export const SceneViewer = (props: SceneViewerProps) => {
       },
     };
 
+    const selectedEntityVar = props.selectedEntityVarName
+      ? props.replaceVariables(props.selectedEntityVarName)
+      : undefined;
+    const selectedComponentVar = props.selectedComponentVarName
+      ? props.replaceVariables(props.selectedComponentVarName)
+      : undefined;
+
+    const dataBindingTemplate: IDataBindingTemplate = {};
+    if (props.selectedEntityVarName && selectedEntityVar) {
+      const undecoratedKey = undecorateDataBindingTemplate(props.selectedEntityVarName);
+      dataBindingTemplate[undecoratedKey] = selectedEntityVar;
+    }
+    if (props.selectedComponentVarName && selectedComponentVar) {
+      const undecoratedKey = undecorateDataBindingTemplate(props.selectedComponentVarName);
+      dataBindingTemplate[undecoratedKey] = selectedComponentVar;
+    }
+
     const selectedDataBinding = {
-      [DataBindingLabelKeys.entityId]: props.selectedEntityVarName
-        ? props.replaceVariables(props.selectedEntityVarName)
-        : '',
-      [DataBindingLabelKeys.componentName]: props.selectedComponentVarName
-        ? props.replaceVariables(props.selectedComponentVarName)
-        : '',
+      [DataBindingLabelKeys.entityId]: selectedEntityVar ?? '',
+      [DataBindingLabelKeys.componentName]: selectedComponentVar ?? '',
     };
 
     const staticPluginPath = `public/plugins/${plugin.id}`;
@@ -169,6 +184,7 @@ export const SceneViewer = (props: SceneViewerProps) => {
       onTargetObjectChanged,
       selectedDataBinding,
       dataInput,
+      dataBindingTemplate,
     };
 
     console.log('webgl renderer props', webGlRendererProps);
