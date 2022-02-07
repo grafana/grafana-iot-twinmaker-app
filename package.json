@@ -7,7 +7,10 @@
     "test": "grafana-toolkit plugin:test",
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
-    "clean": "rm -rf node_modules/ dist/ build/*"
+    "clean": "rm -rf node_modules/ dist/ build/*",
+    "e2e": "grafana-e2e run",
+    "e2e:open": "grafana-e2e open",
+    "e2e:update": "grafana-e2e run --update-screenshots"
   },
   "author": "IoT TwinMaker Frontend",
   "devDependencies": {
@@ -15,6 +18,7 @@
     "@grafana/data": "8.2.3",
     "@grafana/runtime": "8.2.0",
     "@grafana/toolkit": "8.2.0",
+    "@grafana/e2e": "8.2.0",
     "@grafana/ui": "8.2.0",
     "@testing-library/react": "^11.2.2",
     "@types/lodash": "latest",
