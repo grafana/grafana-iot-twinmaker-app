@@ -1,5 +1,8 @@
 import { e2e } from '@grafana/e2e';
 
+// use this as a reference to add tests: 
+// https://github.com/grafana/athena-datasource/blob/main/cypress/integration/smoke.spec.ts
+
 // @todo this actually returns type `Cypress.Chainable`
 const addTwinMakerDataSource = (connection: string, user: string, password: string): any => {
     return true
