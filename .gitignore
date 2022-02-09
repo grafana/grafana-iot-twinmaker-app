@@ -32,3 +32,8 @@ build/
 
 # nodenv
 .node-version
+
+#e2e testing
+cypress/videos
+cypress/report.json
+cypress/screenshots/actual
