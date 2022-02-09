@@ -38,8 +38,8 @@ type TwinMakerClient interface {
 type twinMakerClient struct {
 	tokenRole string
 
-	twinMakerService  func() (*iottwinmaker.IoTTwinMaker, error)
-	tokenService func() (*sts.STS, error)
+	twinMakerService func() (*iottwinmaker.IoTTwinMaker, error)
+	tokenService     func() (*sts.STS, error)
 }
 
 // NewTwinMakerClient provides a twinMakerClient for the session and associated calls
@@ -79,9 +79,9 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	}
 
 	return &twinMakerClient{
-		twinMakerService:  twinMakerService,
-		tokenService: tokenService,
-		tokenRole:    settings.AWSDatasourceSettings.AssumeRoleARN,
+		twinMakerService: twinMakerService,
+		tokenService:     tokenService,
+		tokenRole:        settings.AWSDatasourceSettings.AssumeRoleARN,
 	}, nil
 }
 
@@ -96,7 +96,25 @@ func (c *twinMakerClient) ListWorkspaces(ctx context.Context, query models.TwinM
 		NextToken:  aws.String(query.NextToken),
 	}
 
-	return client.ListWorkspacesWithContext(ctx, params)
+	workspaces, err := client.ListWorkspacesWithContext(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	cWorkspaces := workspaces
+	for cWorkspaces.NextToken != nil {
+		params.NextToken = cWorkspaces.NextToken
+
+		cWorkspaces, err := client.ListWorkspacesWithContext(ctx, params)
+		if err != nil {
+			return nil, err
+		}
+
+		workspaces.WorkspaceSummaries = append(workspaces.WorkspaceSummaries, cWorkspaces.WorkspaceSummaries...)
+		workspaces.NextToken = cWorkspaces.NextToken
+	}
+
+	return workspaces, nil
 }
 
 func (c *twinMakerClient) ListScenes(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.ListScenesOutput, error) {
@@ -112,7 +130,25 @@ func (c *twinMakerClient) ListScenes(ctx context.Context, query models.TwinMaker
 		WorkspaceId: &query.WorkspaceId,
 	}
 
-	return client.ListScenesWithContext(ctx, params)
+	scenes, err := client.ListScenesWithContext(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	cScenes := scenes
+	for cScenes.NextToken != nil {
+		params.NextToken = cScenes.NextToken
+
+		cScenes, err := client.ListScenesWithContext(ctx, params)
+		if err != nil {
+			return nil, err
+		}
+
+		scenes.SceneSummaries = append(scenes.SceneSummaries, cScenes.SceneSummaries...)
+		scenes.NextToken = cScenes.NextToken
+	}
+
+	return scenes, nil
 }
 
 func (c *twinMakerClient) ListEntities(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.ListEntitiesOutput, error) {
@@ -134,7 +170,25 @@ func (c *twinMakerClient) ListEntities(ctx context.Context, query models.TwinMak
 		}
 	}
 
-	return client.ListEntitiesWithContext(ctx, params)
+	entities, err := client.ListEntitiesWithContext(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	cEntities := entities
+	for cEntities.NextToken != nil {
+		params.NextToken = cEntities.NextToken
+
+		cEntities, err := client.ListEntitiesWithContext(ctx, params)
+		if err != nil {
+			return nil, err
+		}
+
+		entities.EntitySummaries = append(entities.EntitySummaries, cEntities.EntitySummaries...)
+		entities.NextToken = cEntities.NextToken
+	}
+
+	return entities, nil
 }
 
 func (c *twinMakerClient) ListComponentTypes(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.ListComponentTypesOutput, error) {
@@ -156,7 +210,25 @@ func (c *twinMakerClient) ListComponentTypes(ctx context.Context, query models.T
 		}
 	}
 
-	return client.ListComponentTypesWithContext(ctx, params)
+	componentTypes, err := client.ListComponentTypesWithContext(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	cComponentTypes := componentTypes
+	for cComponentTypes.NextToken != nil {
+		params.NextToken = cComponentTypes.NextToken
+
+		cComponentTypes, err := client.ListComponentTypesWithContext(ctx, params)
+		if err != nil {
+			return nil, err
+		}
+
+		componentTypes.ComponentTypeSummaries = append(componentTypes.ComponentTypeSummaries, cComponentTypes.ComponentTypeSummaries...)
+		componentTypes.NextToken = cComponentTypes.NextToken
+	}
+
+	return componentTypes, nil
 }
 
 func (c *twinMakerClient) GetComponentType(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetComponentTypeOutput, error) {
