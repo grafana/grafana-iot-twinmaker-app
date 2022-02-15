@@ -128,10 +128,10 @@ func TestHandleAWSData(t *testing.T) {
 
 		client.path = "get-alarms"
 		resp := handler.GetAlarms(context.Background(), models.TwinMakerQuery{
-			WorkspaceId: "CookieFactory-11-16",
+			WorkspaceId: "CookieFactory-11-29",
 			TimeRange: backend.TimeRange{
-				From: time.Date(2021, 11, 1, 1, 0, 0, 0, time.UTC),
-				To:   time.Date(2021, 11, 7, 20, 5, 0, 0, time.UTC),
+				From: time.Date(2022, 1, 1, 8, 0, 0, 0, time.UTC),
+				To:   time.Date(2022, 2, 13, 9, 0, 0, 0, time.UTC),
 			},
 		})
 		_ = runTest(t, client.path, &resp)

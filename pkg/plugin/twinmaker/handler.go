@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"sort"
-	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -398,15 +397,15 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 	alarmComponentType := "com.amazon.iottwinmaker.alarm.basic"
 	externalIdKey := "alarm_key"
 	alarmProperty := "alarm_status"
-	isFiltered := len(query.Filter) > 0
+	isFiltered := len(query.PropertyFilter) > 0
 
 	var filter []models.TwinMakerPropertyFilter
 	if isFiltered {
-		filter = query.Filter
-		query.Filter = nil
+		filter = query.PropertyFilter
+		query.PropertyFilter = nil
 	}
 
-	// Step 1 - Get all componentTypes that extend from the base alarm type
+	// Get all componentTypes that extend from the base alarm type
 	alarmComponentTypes := map[string]*iottwinmaker.ComponentTypeSummary{}
 	query.ComponentTypeId = alarmComponentType
 	componentTypes, err := s.client.ListComponentTypes(ctx, query)
@@ -415,103 +414,26 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 		return
 	}
 
-	// Step 2 - List all entities with alarm componentTypeIds as a filter
-	entitySummaries := []*iottwinmaker.EntitySummary{}
+	// Get the propertyValueHistory associated with all componentTypes from above
+	var pValues []*iottwinmaker.PropertyValueHistory
 	for _, componentTypeSummary := range componentTypes.ComponentTypeSummaries {
 		// Set mapping of alarm component types for quick lookup later
 		alarmComponentTypes[*componentTypeSummary.ComponentTypeId] = componentTypeSummary
-
+		query.EntityId = ""
+		query.Properties = []*string{aws.String(alarmProperty)}
 		query.ComponentTypeId = *componentTypeSummary.ComponentTypeId
-		dr.Error = err
-		entities, err := s.client.ListEntities(ctx, query)
-		if err != nil {
-			return
+		if isFiltered {
+			query.PropertyFilter = filter
 		}
-
-		entitySummaries = append(entitySummaries, entities.EntitySummaries...)
-	}
-
-	// Step 3 - Call GetEntity on each alarm entity
-	alarms := map[string]alarm{}
-	for _, entitySummary := range entitySummaries {
-		query.EntityId = *entitySummary.EntityId
-		entity, err := s.client.GetEntity(ctx, query)
-		dr.Error = err
-		if err != nil {
-			return
-		}
-
-		for _, component := range entity.Components {
-			_, isAlarm := alarmComponentTypes[*component.ComponentTypeId]
-			if isAlarm {
-				alarmKey := component.Properties[externalIdKey].Value.StringValue
-				if alarmKey != nil {
-					alarmMappingKey := *component.ComponentTypeId + "_" + *alarmKey
-					alarms[alarmMappingKey] = alarm{
-						name:       component.ComponentName,
-						id:         alarmKey,
-						entityId:   entity.EntityId,
-						entityName: entity.EntityName,
-					}
-				}
-			}
-		}
-	}
-
-	if isFiltered {
-		query.Filter = filter
-	}
-
-	// Step 4 - Call GetPropertyValueHistory by alarm componentType and match with fetched alarms
-	failures := []data.Notice{}
-	query.EntityId = ""
-	query.Properties = []*string{aws.String(alarmProperty)}
-	filteredAlarms := []alarm{}
-	for componentTypeId := range alarmComponentTypes {
-		query.ComponentTypeId = componentTypeId
 		p, err := s.client.GetPropertyValueHistory(ctx, query)
-		// Show warning on panel when history API fails
+		dr.Error = err
 		if err != nil {
-			notice := data.Notice{
-				Severity: data.NoticeSeverityWarning,
-				Text:     err.Error(),
-			}
-			failures = append(failures, notice)
+			return
 		}
-
-		for _, propertyValue := range p.PropertyValues {
-			alarmKey := propertyValue.EntityPropertyReference.ExternalIdProperty[externalIdKey]
-			alarmMappingKey := componentTypeId + "_" + *alarmKey
-
-			alarm, isAlarm := alarms[alarmMappingKey]
-			if isAlarm {
-				vals := propertyValue.Values
-				v := vals[len(vals)-1]
-				alarm.status = v.Value.StringValue
-				alarm.time = v.Timestamp
-				alarms[alarmMappingKey] = alarm
-
-				if isFiltered {
-					filteredAlarms = append(filteredAlarms, alarm)
-				}
-			}
-		}
+		pValues = append(pValues, p.PropertyValues...)
 	}
 
-	showAlarms := filteredAlarms
-	if !isFiltered {
-		showAlarms = make([]alarm, 0, len(alarms))
-		for _, a := range alarms {
-			showAlarms = append(showAlarms, a)
-		}
-	}
-	sort.Slice(showAlarms, func(i, j int) bool {
-		a1 := showAlarms[i]
-		a2 := showAlarms[j]
-		return strings.Compare(a1.sortString(), a2.sortString()) >= 0
-	})
-
-	fields := newTwinMakerFrameBuilder(len(showAlarms))
+	fields := newTwinMakerFrameBuilder(len(pValues))
 	name := fields.Name()
 	name.Name = "alarmName"
 	id := fields.AlarmId()
@@ -552,15 +474,62 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 	}
 	t := fields.Time()
 
-	for i, alarm := range showAlarms {
-		t.Set(i, alarm.time)
-		name.Set(i, alarm.name)
-		status.Set(i, alarm.status)
-		id.Set(i, alarm.id)
-		eId.Set(i, alarm.entityId)
-		eName.Set(i, alarm.entityName)
-	}
+	query.EntityId = ""
+	query.Properties = nil
+	query.ComponentTypeId = ""
+	failures := []data.Notice{}
+	for i, alarm := range pValues {
+		externalId := alarm.EntityPropertyReference.ExternalIdProperty[externalIdKey]
+		query.ListEntitiesFilter = []models.TwinMakerListListEntitiesFilter{
+			{
+				ExternalId: *externalId,
+			},
+		}
+		le, err := s.client.ListEntities(ctx, query)
 
+		if err != nil {
+			notice := data.Notice{
+				Severity: data.NoticeSeverityWarning,
+				Text:     err.Error(),
+			}
+			failures = append(failures, notice)
+			break
+		}
+		entityId := le.EntitySummaries[0].EntityId
+		entityName := le.EntitySummaries[0].EntityName
+		query.EntityId = *entityId
+		e, err := s.client.GetEntity(ctx, query)
+		if err != nil {
+			notice := data.Notice{
+				Severity: data.NoticeSeverityWarning,
+				Text:     err.Error(),
+			}
+			failures = append(failures, notice)
+			break
+		}
+		componentName := ""
+		for _, component := range e.Components {
+			_, isAlarm := alarmComponentTypes[*component.ComponentTypeId]
+			if isAlarm {
+				for propertyKey, propertyValue := range component.Properties {
+					if propertyKey == "alarm_key" {
+						if *propertyValue.Value.StringValue == *externalId {
+							componentName = *component.ComponentName
+							break
+						}
+					}
+				}
+				break
+			}
+		}
+		aValues := len(alarm.Values)
+		t.Set(i, alarm.Values[aValues-1].Timestamp)
+		name.Set(i, &componentName)
+		status.Set(i, alarm.Values[aValues-1].Value.StringValue)
+		id.Set(i, externalId)
+		eId.Set(i, entityId)
+		eName.Set(i, entityName)
+	}
 	frame := fields.ToFrame("", nil)
 	frame.AppendNotices(failures...)
 	dr.Frames = append(dr.Frames, frame)
