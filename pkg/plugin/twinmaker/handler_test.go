@@ -133,6 +133,13 @@ func TestHandleAWSData(t *testing.T) {
 				From: time.Date(2022, 1, 1, 8, 0, 0, 0, time.UTC),
 				To:   time.Date(2022, 2, 13, 9, 0, 0, 0, time.UTC),
 			},
+			PropertyFilter: []models.TwinMakerPropertyFilter{
+				{
+					Name:  "alarm_status",
+					Value: "ACTIVE",
+					Op:    "=",
+				},
+			},
 		})
 		_ = runTest(t, client.path, &resp)
 	})
