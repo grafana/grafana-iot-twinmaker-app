@@ -1,7 +1,6 @@
 import defaults from 'lodash/defaults';
-
 import React, { PureComponent } from 'react';
-import { Alert, Icon, InlineField, InlineFieldRow, LinkButton, MultiSelect, Select } from '@grafana/ui';
+import { Alert, Icon, InlineField, InlineFieldRow, LinkButton, MultiSelect, Select, Input } from '@grafana/ui';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { TwinMakerDataSource } from '../datasource';
 import { defaultQuery, TwinMakerDataSourceOptions } from '../types';
@@ -112,6 +111,13 @@ export class QueryEditor extends PureComponent<Props, State> {
       : undefined;
     onChange({ ...query, filter });
     onRunQuery();
+  };
+
+  onMaxResultsChange = (event: any) => {
+    const { onChange, query } = this.props;
+    const maxResults = +event.target.value;
+    console.log(maxResults);
+    onChange({ ...query, maxResults });
   };
 
   onEntityIdChange = (event: SelectableValue<string>) => {
@@ -337,6 +343,22 @@ export class QueryEditor extends PureComponent<Props, State> {
     );
   }
 
+  renderAlarmMaxResultsInput(query: TwinMakerQuery) {
+    return (
+      <InlineFieldRow>
+        <InlineField label={'Max. Alarms'} grow={true} labelWidth={firstLabelWith}>
+          <Input
+            className="width-15"
+            value={query.maxResults}
+            type={'number'}
+            onChange={this.onMaxResultsChange}
+            placeholder={'50'}
+          />
+        </InlineField>
+      </InlineFieldRow>
+    );
+  }
+
   onFilterChanged = (index: number, evt?: TwinMakerPropertyFilter) => {
     const { onChange, query } = this.props;
     const filter = query.filter ? query.filter.slice() : [];
@@ -421,7 +443,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     if (isTwinMakerPanelQuery(query)) {
       if (!this.panels.length) {
         return (
-          <Alert title="No TwinMaker panels in the dashbaord" severity="warning">
+          <Alert title="No TwinMaker panels in the dashboard" severity="warning">
             This query type will listen for actions within a panel, however the dashboard does not contain any
             configured panels.
           </Alert>
@@ -472,7 +494,12 @@ export class QueryEditor extends PureComponent<Props, State> {
       case TwinMakerQueryType.ListScenes:
         return null; // nothing required
       case TwinMakerQueryType.GetAlarms:
-        return this.renderAlarmFilterSelector(query, true);
+        return (
+          <>
+            {this.renderAlarmFilterSelector(query, true)}
+            {this.renderAlarmMaxResultsInput(query)}
+          </>
+        );
       case TwinMakerQueryType.ListEntities:
         return this.renderComponentTypeSelector(query, compType);
       case TwinMakerQueryType.GetEntity:

@@ -63,6 +63,7 @@ type TwinMakerQuery struct {
 	PropertyFilter     []TwinMakerPropertyFilter         `json:"propertyFilter,omitempty"`
 	ListEntitiesFilter []TwinMakerListListEntitiesFilter `json:"listEntitiesFilter,omitempty"`
 	Order              TwinMakerResultOrder              `json:"order,omitempty"`
+	MaxResults         int                               `json:"maxResults,omitempty"`
 
 	// Direct from the gRPC interfaces
 	QueryType TwinMakerQueryType `json:"-"`
