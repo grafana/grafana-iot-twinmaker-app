@@ -123,7 +123,7 @@ func (ds *TwinMakerDatasource) CheckHealth(ctx context.Context, _ *backend.Check
 		if ok {
 			return &backend.CheckHealthResult{
 				Status:  backend.HealthStatusError,
-				Message: awsErr.OrigErr().Error(),
+				Message: awsErr.Error(),
 			}, nil
 		}
 		return &backend.CheckHealthResult{
