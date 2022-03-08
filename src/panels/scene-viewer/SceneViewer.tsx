@@ -176,7 +176,7 @@ export const SceneViewer = (props: SceneViewerProps) => {
           sceneId: props.options.sceneId!,
         },
       },
-      hdriPath: `${staticPluginPath}/static`,
+      cdnPath: `${window.location.origin}/${staticPluginPath}/static`,
       dracoDecoder: {
         enable: true,
         path: `${window.location.origin}/${staticPluginPath}/static/draco/`,
