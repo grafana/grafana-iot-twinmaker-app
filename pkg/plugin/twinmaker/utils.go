@@ -53,31 +53,31 @@ func LoadPolicy(workspace *iottwinmaker.GetWorkspaceOutput) (string, error) {
 				"Effect": "Allow"
 			},
 			{
-				"Action": [
-					"kinesisvideo:Describe*",
-					"kinesisvideo:Get*",
-					"kinesisvideo:List*"
-				],
-				"Resource": "*",
-				"Effect": "Allow"
-			},
-			{
-				"Action": [
-					"iotsitewise:Describe*",
-					"iotsitewise:List*",
-					"iotsitewise:Get*"
-				],
-				"Resource": "*",
-				"Effect": "Allow"
-			},
-			{
-				"Action": "iotsitewise:BatchPutAssetPropertyValue",
-				"Resource": "*",
 				"Effect": "Allow",
+				"Action": [
+				  "kinesisvideo:GetDataEndpoint",
+				  "kinesisvideo:GetHLSStreamingSessionURL"
+				],
+				"Resource": "*"
+			},
+			{
+				"Effect": "Allow",
+				"Action": [
+				  "iotsitewise:GetAssetPropertyValue",
+				  "iotsitewise:GetInterpolatedAssetPropertyValues"
+				],
+				"Resource": "*"
+			},
+			{
+				 "Effect": "Allow",
+				 "Action": [
+				  "iotsitewise:BatchPutAssetPropertyValue"
+				],
+				"Resource": "*",
 				"Condition": {
-					"StringEquals": {
-						"aws:ResourceTag/{{.WorkspaceId}}": "SiteWatch"
-					}
+				  "StringLike": {
+					"aws:ResourceTag/EdgeConnectorForKVS": "*{{.WorkspaceId}}*"
+				  } 
 				}
 			},
 			{
