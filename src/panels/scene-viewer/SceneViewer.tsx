@@ -14,6 +14,7 @@ import {
   awsActions,
   DataBindingLabelKeys,
   undecorateDataBindingTemplate,
+  IDataField,
 } from 'aws-iot-twinmaker-grafana-utils';
 import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
 import { SceneViewerPropsFromParent } from './interfaces';
@@ -89,47 +90,83 @@ export const SceneViewer = (props: SceneViewerProps) => {
   );
 
   const mapDataFrame = useCallback(
-    (df: DataFrame): IDataFrame => {
-      return {
-        dataFrameId: df.refId || '',
-        fields: df.fields.map((f) => {
-          let labels = f.labels;
-          if (f.labels && !isEmpty(f.labels)) {
-            const alarmKey = f.labels[TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmKey];
-            const componentTypeId = f.labels[DataBindingLabelKeys.componentTypeId];
+    (df: DataFrame): IDataFrame[] => {
+      // Map GetAlarms query dataFrame.
+      const componentNameField = df.fields.find((field) => field.name === 'alarmName')?.values.toArray();
+      const entityIdField = df.fields.find((field) => field.name === 'entityId')?.values.toArray();
+      const alarmStatusField = df.fields.find((field) => field.name === 'alarmStatus')?.values.toArray();
+      const timeField = df.fields.find((field) => field.name === 'Time')?.values.toArray();
 
-            if (!f.labels?.[DataBindingLabelKeys.entityId] && componentTypeId && alarmKey) {
-              Object.keys(props.alarms[alarmKey] || {}).find((entityId) => {
-                Object.keys(props.alarms[alarmKey][entityId]).find((componentName) => {
-                  // @ts-expect-error
-                  if (props.alarms[alarmKey][entityId][componentName].componentTypeId === componentTypeId) {
-                    labels = {
-                      ...labels,
-                      [DataBindingLabelKeys.entityId]: entityId,
-                      [DataBindingLabelKeys.componentName]: componentName,
-                    };
-                    return true;
-                  }
-                  return false;
-                });
-              });
-            }
-          }
-          return {
-            name: f.name,
-            labels,
-            valueType: f.type as ValueType,
-            values: f.values.toArray().slice(),
+      if (componentNameField && entityIdField && alarmStatusField && timeField) {
+        const mappedFrames: IDataFrame[] = [];
+        alarmStatusField.forEach((status, index) => {
+          const labels = {
+            [DataBindingLabelKeys.entityId]: entityIdField[index],
+            [DataBindingLabelKeys.componentName]: componentNameField[index],
           };
-        }),
-      };
+          const mappedStatus: IDataField = {
+            name: TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmStatus,
+            valueType: 'string',
+            values: [status],
+            labels,
+          };
+          const mappedTime: IDataField = {
+            name: 'Time',
+            valueType: 'time',
+            values: [timeField[index]],
+            labels,
+          };
+          mappedFrames.push({
+            dataFrameId: df.refId ? `${df.refId}-${index}` : '',
+            fields: [mappedStatus, mappedTime],
+          });
+        });
+        return mappedFrames;
+      }
+
+      return [
+        {
+          dataFrameId: df.refId || '',
+          fields: df.fields.map((f) => {
+            let labels = f.labels;
+            // TODO: Handle data from get history by component query. To be deprecated once this query has entityId and componentName in labels.
+            if (f.labels && !isEmpty(f.labels)) {
+              const alarmKey = f.labels[TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmKey];
+              const componentTypeId = f.labels[DataBindingLabelKeys.componentTypeId];
+
+              if (!f.labels?.[DataBindingLabelKeys.entityId] && componentTypeId && alarmKey) {
+                Object.keys(props.alarms[alarmKey] || {}).find((entityId) => {
+                  Object.keys(props.alarms[alarmKey][entityId]).find((componentName) => {
+                    // @ts-expect-error
+                    if (props.alarms[alarmKey][entityId][componentName].componentTypeId === componentTypeId) {
+                      labels = {
+                        ...labels,
+                        [DataBindingLabelKeys.entityId]: entityId,
+                        [DataBindingLabelKeys.componentName]: componentName,
+                      };
+                      return true;
+                    }
+                    return false;
+                  });
+                });
+              }
+            }
+            return {
+              name: f.name,
+              labels,
+              valueType: f.type as ValueType,
+              values: f.values.toArray().slice(),
+            };
+          }),
+        },
+      ];
     },
     [props.alarms]
   );
 
   const createDataInputFrames = (series: DataFrame[]) => {
     const dataFrames: IDataFrame[] = [];
-    series.forEach((df) => dataFrames.push(mapDataFrame(df)));
+    series.forEach((df) => dataFrames.push(...mapDataFrame(df)));
 
     return dataFrames;
   };
