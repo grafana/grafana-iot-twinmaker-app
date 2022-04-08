@@ -48,16 +48,20 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	sessions := awsds.NewSessionCache()
 	agent := userAgentString("grafana-iot-twinmaker-app")
 
+	// Clients should not use a custom endpoint to load session credentials
+	noEndpointSettings := settings.AWSDatasourceSettings
+	noEndpointSettings.Endpoint = ""
+
 	// STS client can not use scoped down role to generate tokens
-	stssettings := settings.AWSDatasourceSettings
+	stssettings := noEndpointSettings
 	stssettings.AssumeRoleARN = ""
-	stssettings.Endpoint = "" // always standard
 
 	twinMakerService := func() (*iottwinmaker.IoTTwinMaker, error) {
-		sess, err := sessions.GetSession("", settings.AWSDatasourceSettings)
+		sess, err := sessions.GetSession("", noEndpointSettings)
 		if err != nil {
 			return nil, err
 		}
+		sess.Config.Endpoint = &settings.AWSDatasourceSettings.Endpoint
 
 		svc := iottwinmaker.New(sess, aws.NewConfig())
 		svc.Handlers.Send.PushFront(func(r *request.Request) {
