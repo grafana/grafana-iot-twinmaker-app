@@ -2,11 +2,13 @@ package twinmaker
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"strings"
 	"text/template"
 
 	"github.com/aws/aws-sdk-go/service/iottwinmaker"
+	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
@@ -129,4 +131,120 @@ func setUrlDatalink(field *data.Field) {
 			{Title: "Link", URL: "${__value.text}", TargetBlank: true},
 		},
 	}
+}
+
+func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmaker.EntityPropertyReference) (s string) {
+	externalId := ""
+	for _, val := range entityPropertyReference.ExternalIdProperty {
+		// Only one externalId in the mapping
+		externalId = *val
+		break
+	}
+	// Key is the combination of the unique entityId_componentName_externalId_propertyId
+	refKey := ""
+	if entityPropertyReference.EntityId != nil {
+		refKey = refKey + *entityPropertyReference.EntityId + "_"
+	}
+	if entityPropertyReference.ComponentName != nil {
+		refKey = refKey + *entityPropertyReference.ComponentName + "_"
+	}
+	refKey = refKey + externalId + "_"
+	if entityPropertyReference.PropertyName != nil {
+		refKey = refKey + *entityPropertyReference.PropertyName
+	}
+	return refKey
+}
+
+type PropertyReference struct {
+	values     					[]*iottwinmaker.PropertyValue
+	entityPropertyReference   	*iottwinmaker.EntityPropertyReference
+	entityName		*string
+}
+
+func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, query models.TwinMakerQuery) (p []PropertyReference, n []data.Notice, err error) {
+	propertyReferences := []PropertyReference{}
+	failures := []data.Notice{}
+	componentTypeId := query.ComponentTypeId
+
+	// Step 1: Call GetPropertyValueHistory and get the externalId from the response
+	result, err := s.client.GetPropertyValueHistory(ctx, query)
+	if err != nil {
+		return propertyReferences, failures, err
+	}
+
+	if len(result.PropertyValues) > 0 {
+		// Loop through all propertyValues if there are multiple components of the same type on the entity
+		for _, propertyValue := range result.PropertyValues {
+			externalId := ""
+			for _, val := range propertyValue.EntityPropertyReference.ExternalIdProperty {
+				// Only one externalId per component
+				externalId = *val
+				break
+			}
+
+			// Step 2: Call ListEntities with a filter for the externalId
+			query.EntityId = ""
+			query.Properties = nil
+			query.ComponentTypeId = ""
+
+			query.ListEntitiesFilter = []models.TwinMakerListEntitiesFilter{
+				{
+					ExternalId: externalId,
+				},
+			}
+			le, err := s.client.ListEntities(ctx, query)
+	
+			if err != nil {
+				notice := data.Notice{
+					Severity: data.NoticeSeverityWarning,
+					Text:     err.Error(),
+				}
+				failures = append(failures, notice)
+			}
+	
+			// Step 3: Call GetEntity to get the componentName of the externalId
+			if len(le.EntitySummaries) > 0 {
+				entityId := le.EntitySummaries[0].EntityId
+				entityName := le.EntitySummaries[0].EntityName
+				query.EntityId = *entityId
+				e, err := s.client.GetEntity(ctx, query)
+				if err != nil {
+					notice := data.Notice{
+						Severity: data.NoticeSeverityWarning,
+						Text:     err.Error(),
+					}
+					failures = append(failures, notice)
+				}
+				componentName := ""
+				for _, component := range e.Components {
+					// If the componentTypeId and externalId match then we found the component
+					if *component.ComponentTypeId == componentTypeId {
+						for _, property := range component.Properties {
+							if *property.Definition.IsExternalId {
+								if *property.Value.StringValue == externalId {
+									componentName = *component.ComponentName
+									break
+								}
+							}
+						}
+						break
+					}
+				}
+
+				pr := PropertyReference{
+					values: propertyValue.Values,
+					entityPropertyReference: &iottwinmaker.EntityPropertyReference{
+						EntityId: entityId,
+						ComponentName: &componentName,
+						ExternalIdProperty: propertyValue.EntityPropertyReference.ExternalIdProperty,
+						PropertyName: propertyValue.EntityPropertyReference.PropertyName,
+					},
+					entityName: entityName,
+				}
+				propertyReferences = append(propertyReferences, pr)
+			}
+		}
+	}
+
+	return propertyReferences, failures, nil
 }

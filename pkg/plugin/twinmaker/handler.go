@@ -36,34 +36,6 @@ type twinMakerHandler struct {
 	client TwinMakerClient
 }
 
-type alarm struct {
-	time       *time.Time
-	name       *string
-	status     *string
-	id         *string
-	entityId   *string
-	entityName *string
-}
-
-func (a *alarm) sortString() string {
-	t := time.Unix(0, 0)
-	if a.time != nil {
-		t = *a.time
-	}
-
-	e := "ent"
-	if a.entityName != nil {
-		e = *a.entityName
-	}
-
-	n := "__"
-	if a.name != nil {
-		n = *a.name
-	}
-
-	return fmt.Sprintf("%v/%v/%v", t, e, n)
-}
-
 func NewTwinMakerHandler(client TwinMakerClient) TwinMakerHandler {
 	return &twinMakerHandler{
 		client: client,
@@ -325,7 +297,7 @@ func (s *twinMakerHandler) processMapValue(v map[string]*iottwinmaker.DataValue)
 	return frame
 }
 
-func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValueHistoryOutput, err error, query models.TwinMakerQuery) (dr backend.DataResponse) {
+func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValueHistoryOutput, err error, failures []data.Notice, query models.TwinMakerQuery) (dr backend.DataResponse) {
 	dr.Error = err
 	if err != nil {
 		return
@@ -366,20 +338,35 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 		}
 
 		frame := fields.ToFrame("", results.NextToken)
+		frame.AppendNotices(failures...)
 		dr.Frames = append(dr.Frames, frame)
 	}
 	return
 }
 
-func (s *twinMakerHandler) GetComponentHistory(ctx context.Context, query models.TwinMakerQuery) backend.DataResponse {
+func (s *twinMakerHandler) GetComponentHistory(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
 	if query.ComponentTypeId == "" {
 		return backend.DataResponse{
 			Error: fmt.Errorf("missing component parameter"),
 		}
 	}
 
-	result, err := s.client.GetPropertyValueHistory(ctx, query)
-	return s.processHistory(result, err, query)
+	propertyReferences, failures, err := s.GetComponentHistoryWithLookup(ctx, query)
+	result := &iottwinmaker.GetPropertyValueHistoryOutput{
+		NextToken: nil,
+		PropertyValues: []*iottwinmaker.PropertyValueHistory{},
+	}
+
+	for _, p := range propertyReferences {
+		propertyValue := iottwinmaker.PropertyValueHistory{
+			EntityPropertyReference: p.entityPropertyReference,
+			Values: p.values,
+		}
+		result.PropertyValues = append(result.PropertyValues, &propertyValue)
+	}
+
+	// Return dataFrame with the history results and entityId and componentName
+	return s.processHistory(result, err, failures, query)
 }
 
 func (s *twinMakerHandler) GetEntityHistory(ctx context.Context, query models.TwinMakerQuery) backend.DataResponse {
@@ -389,11 +376,15 @@ func (s *twinMakerHandler) GetEntityHistory(ctx context.Context, query models.Tw
 		}
 	}
 	result, err := s.client.GetPropertyValueHistory(ctx, query)
-	return s.processHistory(result, err, query)
+	failures := []data.Notice{}
+	return s.processHistory(result, err, failures, query)
 }
 
 // return status and value here
+// Use GetComponentHistory with the hardcoded alarm inputs - call once for each alarm componentType, then concat at the end
+// If putting together the data frame first is an issue - move logic to helper that runs through steps 1-3
 func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
+	failures := []data.Notice{}
 	alarmComponentType := "com.amazon.iottwinmaker.alarm.basic"
 	externalIdKey := "alarm_key"
 	alarmProperty := "alarm_status"
@@ -406,7 +397,6 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 	}
 
 	// Get all componentTypes that extend from the base alarm type
-	alarmComponentTypes := map[string]*iottwinmaker.ComponentTypeSummary{}
 	query.ComponentTypeId = alarmComponentType
 	componentTypes, err := s.client.ListComponentTypes(ctx, query)
 	dr.Error = err
@@ -415,22 +405,23 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 	}
 
 	// Get the propertyValueHistory associated with all componentTypes from above
-	var pValues []*iottwinmaker.PropertyValueHistory
+	var pValues []PropertyReference
 	for _, componentTypeSummary := range componentTypes.ComponentTypeSummaries {
 		// Set mapping of alarm component types for quick lookup later
-		alarmComponentTypes[*componentTypeSummary.ComponentTypeId] = componentTypeSummary
 		query.EntityId = ""
 		query.Properties = []*string{aws.String(alarmProperty)}
 		query.ComponentTypeId = *componentTypeSummary.ComponentTypeId
 		if isFiltered {
 			query.PropertyFilter = filter
 		}
-		p, err := s.client.GetPropertyValueHistory(ctx, query)
+
+		propertyReferences, newFailures, err := s.GetComponentHistoryWithLookup(ctx, query)
 		dr.Error = err
 		if err != nil {
 			return
 		}
-		pValues = append(pValues, p.PropertyValues...)
+		failures = append(failures, newFailures...)
+		pValues = append(pValues, propertyReferences...)
 	}
 
 	fields := newTwinMakerFrameBuilder(len(pValues))
@@ -474,61 +465,14 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 	}
 	t := fields.Time()
 
-	query.EntityId = ""
-	query.Properties = nil
-	query.ComponentTypeId = ""
-	failures := []data.Notice{}
-	for i, alarm := range pValues {
-		externalId := alarm.EntityPropertyReference.ExternalIdProperty[externalIdKey]
-		query.ListEntitiesFilter = []models.TwinMakerListListEntitiesFilter{
-			{
-				ExternalId: *externalId,
-			},
-		}
-		le, err := s.client.ListEntities(ctx, query)
-
-		if err != nil {
-			notice := data.Notice{
-				Severity: data.NoticeSeverityWarning,
-				Text:     err.Error(),
-			}
-			failures = append(failures, notice)
-			break
-		}
-		entityId := le.EntitySummaries[0].EntityId
-		entityName := le.EntitySummaries[0].EntityName
-		query.EntityId = *entityId
-		e, err := s.client.GetEntity(ctx, query)
-		if err != nil {
-			notice := data.Notice{
-				Severity: data.NoticeSeverityWarning,
-				Text:     err.Error(),
-			}
-			failures = append(failures, notice)
-			break
-		}
-		componentName := ""
-		for _, component := range e.Components {
-			_, isAlarm := alarmComponentTypes[*component.ComponentTypeId]
-			if isAlarm {
-				for propertyKey, propertyValue := range component.Properties {
-					if propertyKey == "alarm_key" {
-						if *propertyValue.Value.StringValue == *externalId {
-							componentName = *component.ComponentName
-							break
-						}
-					}
-				}
-				break
-			}
-		}
-		aValues := len(alarm.Values)
-		t.Set(i, alarm.Values[aValues-1].Timestamp)
-		name.Set(i, &componentName)
-		status.Set(i, alarm.Values[aValues-1].Value.StringValue)
-		id.Set(i, externalId)
-		eId.Set(i, entityId)
-		eName.Set(i, entityName)
+	for i, propertyReference := range pValues {
+		aValues := len(propertyReference.values)
+		t.Set(i, propertyReference.values[aValues-1].Timestamp)
+		name.Set(i, propertyReference.entityPropertyReference.ComponentName)
+		status.Set(i, propertyReference.values[aValues-1].Value.StringValue)
+		id.Set(i, propertyReference.entityPropertyReference.ExternalIdProperty[externalIdKey])
+		eId.Set(i, propertyReference.entityPropertyReference.EntityId)
+		eName.Set(i, propertyReference.entityName)
 	}
 	frame := fields.ToFrame("", nil)
 	frame.AppendNotices(failures...)

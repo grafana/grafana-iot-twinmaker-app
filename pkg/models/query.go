@@ -34,7 +34,7 @@ type TwinMakerPropertyFilter struct {
 	Op    string `json:"op,omitempty"`
 }
 
-type TwinMakerListListEntitiesFilter struct {
+type TwinMakerListEntitiesFilter struct {
 	ComponentTypeId string `json:"componentTypeId,omitempty"`
 	ExternalId      string `json:"externalId,omitempty"`
 	ParentEntityId  string `json:"parentEntityId,omitempty"`
@@ -61,7 +61,7 @@ type TwinMakerQuery struct {
 	ComponentName      string                            `json:"componentName,omitempty"`
 	ComponentTypeId    string                            `json:"componentTypeId,omitempty"`
 	PropertyFilter     []TwinMakerPropertyFilter         `json:"propertyFilter,omitempty"`
-	ListEntitiesFilter []TwinMakerListListEntitiesFilter `json:"listEntitiesFilter,omitempty"`
+	ListEntitiesFilter []TwinMakerListEntitiesFilter `json:"listEntitiesFilter,omitempty"`
 	Order              TwinMakerResultOrder              `json:"order,omitempty"`
 
 	// Direct from the gRPC interfaces
