@@ -77,6 +77,12 @@ func (s *twinMakerHandler) ListWorkspaces(ctx context.Context, query models.Twin
 	if err != nil {
 		return
 	}
+
+	if results == nil {
+		dr.Error = fmt.Errorf("error loading workspaces")
+		return
+	}
+
 	fields := newTwinMakerFrameBuilder(len(results.WorkspaceSummaries))
 
 	arn := fields.ARN()
@@ -102,6 +108,12 @@ func (s *twinMakerHandler) ListScenes(ctx context.Context, query models.TwinMake
 	if err != nil {
 		return
 	}
+
+	if results == nil {
+		dr.Error = fmt.Errorf("error loading scenes")
+		return
+	}
+
 	fields := newTwinMakerFrameBuilder(len(results.SceneSummaries))
 
 	arn := fields.ARN()
@@ -127,6 +139,12 @@ func (s *twinMakerHandler) ListEntities(ctx context.Context, query models.TwinMa
 	if err != nil {
 		return
 	}
+
+	if results == nil {
+		dr.Error = fmt.Errorf("error loading entities")
+		return
+	}
+
 	fields := newTwinMakerFrameBuilder(len(results.EntitySummaries))
 
 	entityId := fields.EntityID()
@@ -154,6 +172,12 @@ func (s *twinMakerHandler) ListComponentTypes(ctx context.Context, query models.
 	if err != nil {
 		return
 	}
+
+	if results == nil {
+		dr.Error = fmt.Errorf("error loading componentTypes")
+		return
+	}
+
 	fields := newTwinMakerFrameBuilder(len(results.ComponentTypeSummaries))
 
 	componentId := fields.ComponentID()
@@ -177,6 +201,11 @@ func (s *twinMakerHandler) GetEntity(ctx context.Context, query models.TwinMaker
 	result, err := s.client.GetEntity(ctx, query)
 	dr.Error = err
 	if err != nil {
+		return
+	}
+
+	if result == nil {
+		dr.Error = fmt.Errorf("error loading entity")
 		return
 	}
 
@@ -236,6 +265,11 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 	results, err := s.client.GetPropertyValue(ctx, query)
 	dr.Error = err
 	if err != nil {
+		return
+	}
+
+	if results == nil {
+		dr.Error = fmt.Errorf("error loading propertyValue")
 		return
 	}
 
@@ -332,6 +366,11 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 		return
 	}
 
+	if results == nil {
+		dr.Error = fmt.Errorf("error loading propertyValueHistory")
+		return
+	}
+
 	for _, prop := range results.PropertyValues {
 		if len(prop.Values) == 0 {
 			continue
@@ -415,6 +454,11 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 		return
 	}
 
+	if componentTypes == nil {
+		dr.Error = fmt.Errorf("error loading componentTypes for GetAlarms query")
+		return
+	}
+
 	// Step 2 - List all entities with alarm componentTypeIds as a filter
 	entitySummaries := []*iottwinmaker.EntitySummary{}
 	for _, componentTypeSummary := range componentTypes.ComponentTypeSummaries {
@@ -428,6 +472,11 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 			return
 		}
 
+		if entities == nil {
+			dr.Error = fmt.Errorf("error loading entities for GetAlarms query")
+			return
+		}
+
 		entitySummaries = append(entitySummaries, entities.EntitySummaries...)
 	}
 
@@ -438,6 +487,11 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 		entity, err := s.client.GetEntity(ctx, query)
 		dr.Error = err
 		if err != nil {
+			return
+		}
+
+		if entity == nil {
+			dr.Error = fmt.Errorf("error loading entity for GetAlarms query")
 			return
 		}
 
@@ -475,6 +529,12 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 			notice := data.Notice{
 				Severity: data.NoticeSeverityWarning,
 				Text:     err.Error(),
+			}
+			failures = append(failures, notice)
+		} else if p == nil {
+			notice := data.Notice{
+				Severity: data.NoticeSeverityWarning,
+				Text:     "error loading propertyValueHistory for GetAlarms query",
 			}
 			failures = append(failures, notice)
 		}
