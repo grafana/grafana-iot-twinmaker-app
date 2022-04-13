@@ -380,6 +380,7 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 		v, conv := fields.Value(prop.Values[0].Value)
 		v.Name = "" // filled in with value below
 		for i, history := range prop.Values {
+			//nolint: staticcheck
 			t.Set(i, history.Timestamp)
 			v.Set(i, conv(history.Value))
 		}
@@ -548,6 +549,7 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 				vals := propertyValue.Values
 				v := vals[len(vals)-1]
 				alarm.status = v.Value.StringValue
+				//nolint: staticcheck
 				alarm.time = v.Timestamp
 				alarms[alarmMappingKey] = alarm
 
