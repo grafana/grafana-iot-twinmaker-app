@@ -77,6 +77,10 @@ func (s *twinMakerHandler) ListWorkspaces(ctx context.Context, query models.Twin
 	if err != nil {
 		return
 	}
+	if results == nil {
+		dr.Error = fmt.Errorf("no workspaces found")
+		return
+	}
 	fields := newTwinMakerFrameBuilder(len(results.WorkspaceSummaries))
 
 	arn := fields.ARN()
@@ -102,6 +106,10 @@ func (s *twinMakerHandler) ListScenes(ctx context.Context, query models.TwinMake
 	if err != nil {
 		return
 	}
+	if results == nil {
+		dr.Error = fmt.Errorf("no scenes found")
+		return
+	}
 	fields := newTwinMakerFrameBuilder(len(results.SceneSummaries))
 
 	arn := fields.ARN()
@@ -125,6 +133,10 @@ func (s *twinMakerHandler) ListEntities(ctx context.Context, query models.TwinMa
 	results, err := s.client.ListEntities(ctx, query)
 	dr.Error = err
 	if err != nil {
+		return
+	}
+	if results == nil {
+		dr.Error = fmt.Errorf("no entities found")
 		return
 	}
 	fields := newTwinMakerFrameBuilder(len(results.EntitySummaries))
@@ -177,6 +189,10 @@ func (s *twinMakerHandler) GetEntity(ctx context.Context, query models.TwinMaker
 	result, err := s.client.GetEntity(ctx, query)
 	dr.Error = err
 	if err != nil {
+		return
+	}
+	if result == nil {
+		dr.Error = fmt.Errorf("entity not found")
 		return
 	}
 
@@ -236,6 +252,10 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 	results, err := s.client.GetPropertyValue(ctx, query)
 	dr.Error = err
 	if err != nil {
+		return
+	}
+	if results == nil {
+		dr.Error = fmt.Errorf("property not found")
 		return
 	}
 
@@ -329,6 +349,9 @@ func (s *twinMakerHandler) processMapValue(v map[string]*iottwinmaker.DataValue)
 func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValueHistoryOutput, err error, query models.TwinMakerQuery) (dr backend.DataResponse) {
 	dr.Error = err
 	if err != nil {
+		return
+	}
+	if results == nil {
 		return
 	}
 
