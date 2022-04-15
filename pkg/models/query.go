@@ -86,6 +86,10 @@ func (q *TwinMakerQuery) CacheKey(pfix string) string {
 		key += "!" + f.Name + f.Op + f.Value
 	}
 
+	for _, ef := range q.ListEntitiesFilter {
+		key += "&" + ef.ExternalId
+	}
+
 	key += "@" + q.Order
 
 	return key

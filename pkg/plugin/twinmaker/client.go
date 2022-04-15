@@ -381,41 +381,7 @@ func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query mod
 		params.SetPropertyFilters(filter)
 	}
 
-	propertyValueHistories, err := client.GetPropertyValueHistoryWithContext(ctx, params)
-	if err != nil {
-		return nil, err
-	}
-	// Keep mapping of entityPropertyReferences to its index in the result's propertyValues
-	entityPropertyReferenceMapping := map[string]int{}
-	for i, propertyValue := range propertyValueHistories.PropertyValues {
-		refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference)
-		entityPropertyReferenceMapping[refKey] = i
-	}
-
-	cPropertyValuesHistories := propertyValueHistories
-	for cPropertyValuesHistories.NextToken != nil {
-		params.NextToken = cPropertyValuesHistories.NextToken
-
-		cPropertyValuesHistories, err := client.GetPropertyValueHistoryWithContext(ctx, params)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, propertyValue := range cPropertyValuesHistories.PropertyValues {
-			refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference)
-			if i, ok := entityPropertyReferenceMapping[refKey]; ok {
-				// Append to existing values array to avoid duplicates
-				propertyValueHistories.PropertyValues[i].Values = append(propertyValueHistories.PropertyValues[i].Values, propertyValue.Values...)
-			} else {
-				entityPropertyReferenceMapping[refKey] = len(propertyValueHistories.PropertyValues)
-				propertyValueHistories.PropertyValues = append(propertyValueHistories.PropertyValues, propertyValue)
-			}
-		}
-
-		propertyValueHistories.NextToken = cPropertyValuesHistories.NextToken
-	}
-
-	return propertyValueHistories, nil
+	return client.GetPropertyValueHistoryWithContext(ctx, params)
 }
 
 func (c *twinMakerClient) GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*sts.Credentials, error) {

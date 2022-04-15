@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"strings"
 	"text/template"
 
@@ -200,6 +201,8 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, qu
 					Text:     err.Error(),
 				}
 				failures = append(failures, notice)
+			} else if le == nil {
+				return propertyReferences, failures, fmt.Errorf("error loading entities for GetAlarms query")
 			}
 	
 			// Step 3: Call GetEntity to get the componentName of the externalId
@@ -214,7 +217,10 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, qu
 						Text:     err.Error(),
 					}
 					failures = append(failures, notice)
+				} else if e == nil {
+					return propertyReferences, failures, fmt.Errorf("error loading entity for GetAlarms query")
 				}
+
 				componentName := ""
 				for _, component := range e.Components {
 					// If the componentTypeId and externalId match then we found the component
