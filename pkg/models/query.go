@@ -60,7 +60,7 @@ type TwinMakerQuery struct {
 	NextToken          string                            `json:"nextToken,omitempty"`
 	ComponentName      string                            `json:"componentName,omitempty"`
 	ComponentTypeId    string                            `json:"componentTypeId,omitempty"`
-	PropertyFilter     []TwinMakerPropertyFilter         `json:"propertyFilter,omitempty"`
+	PropertyFilter     []TwinMakerPropertyFilter         `json:"filter,omitempty"`
 	ListEntitiesFilter []TwinMakerListEntitiesFilter `json:"listEntitiesFilter,omitempty"`
 	Order              TwinMakerResultOrder              `json:"order,omitempty"`
 
@@ -85,7 +85,7 @@ func (q *TwinMakerQuery) CacheKey(pfix string) string {
 	for _, f := range q.PropertyFilter {
 		key += "!" + f.Name + f.Op + f.Value
 	}
-
+	// TODO: does it break the filter?
 	for _, ef := range q.ListEntitiesFilter {
 		key += "&" + ef.ExternalId
 	}
