@@ -381,7 +381,7 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 		v.Name = "" // filled in with value below
 		for i, history := range prop.Values {
 			//nolint: staticcheck
-			t.Set(i, s.GetTimeObjectFromStringTime(history.Time))
+			t.Set(i, getTimeObjectFromStringTime(history.Time))
 			v.Set(i, conv(history.Value))
 		}
 
@@ -550,7 +550,7 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 				v := vals[len(vals)-1]
 				alarm.status = v.Value.StringValue
 				//nolint: staticcheck
-				alarm.time = s.GetTimeObjectFromStringTime(v.Time)
+				alarm.time = getTimeObjectFromStringTime(v.Time)
 				alarms[alarmMappingKey] = alarm
 
 				if isFiltered {
@@ -659,7 +659,7 @@ func (s *twinMakerHandler) GetSessionToken(ctx context.Context, duration time.Du
 	return info, err
 }
 
-func (s *twinMakerHandler) GetTimeObjectFromStringTime(timeString *string) *time.Time {
+func getTimeObjectFromStringTime(timeString *string) *time.Time {
 	t, err := time.Parse(time.RFC3339, *timeString)
 	if err != nil {
 		fmt.Println(err.Error())
