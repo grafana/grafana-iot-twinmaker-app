@@ -114,10 +114,11 @@ export class QueryEditor extends PureComponent<Props, State> {
   };
 
   onMaxResultsChange = (event: any) => {
-    const { onChange, query } = this.props;
-    const maxResults = +event.target.value;
-    console.log(maxResults);
+    const { onChange, query, onRunQuery } = this.props;
+    // set default maxResults to 50
+    const maxResults = event.target.value ? +event.target.value : 50;
     onChange({ ...query, maxResults });
+    onRunQuery();
   };
 
   onEntityIdChange = (event: SelectableValue<string>) => {
