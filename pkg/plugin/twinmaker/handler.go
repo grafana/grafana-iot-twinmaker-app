@@ -283,9 +283,8 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 	for _, propVal := range propVals {
 		prop := results.PropertyValues[propVal]
 		if v := prop.PropertyValue.ListValue; v != nil {
-			frame = s.processListValue(v)
+			frame = s.processListValue(v, propVal)
 			frame.Name = *prop.PropertyReference.PropertyName
-			continue
 		}
 		if v := prop.PropertyValue.MapValue; v != nil {
 			frame = s.processMapValue(v)
@@ -301,17 +300,17 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 			"componentName": *prop.PropertyReference.ComponentName,
 		}
 		frame.Fields = append(frame.Fields, f)
+		dr.Frames = append(dr.Frames, frame)
 	}
-	dr.Frames = append(dr.Frames, frame)
 
 	return
 }
 
-func (s *twinMakerHandler) processListValue(v []*iottwinmaker.DataValue) *data.Frame {
+func (s *twinMakerHandler) processListValue(v []*iottwinmaker.DataValue, propVal string) *data.Frame {
 	fields := newTwinMakerFrameBuilder(len(v))
 
 	valField, valConvertor := fields.Value(v[0])
-	valField.Name = "Value"
+	valField.Name = propVal
 
 	isUrl := false
 	for i, value := range v {
