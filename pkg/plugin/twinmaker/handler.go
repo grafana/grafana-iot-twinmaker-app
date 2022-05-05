@@ -592,30 +592,30 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 			// Table panel
 			"displayMode": "color-text",
 		},
-		// Mappings: data.ValueMappings{
-		// 	data.ValueMapper{
-		// 		"NORMAL": {
-		// 			Color: "green",
-		// 			Index: 0,
-		// 			Text:  "NORMAL",
-		// 		},
-		// 		"ACTIVE": data.ValueMappingResult{
-		// 			Color: "red",
-		// 			Index: 1,
-		// 			Text:  "ACTIVE",
-		// 		},
-		// 		"SNOOZE_DISABLED": {
-		// 			Color: "orange",
-		// 			Index: 2,
-		// 			Text:  "SNOOZE_DISABLED",
-		// 		},
-		// 		"ACKNOWLEDGED": {
-		// 			Color: "blue",
-		// 			Index: 3,
-		// 			Text:  "ACKNOWLEDGED",
-		// 		},
-		// 	},
-		// },
+		Mappings: data.ValueMappings{
+			data.ValueMapper{
+				"NORMAL": {
+					Color: "green",
+					Index: 0,
+					Text:  "NORMAL",
+				},
+				"ACTIVE": data.ValueMappingResult{
+					Color: "red",
+					Index: 1,
+					Text:  "ACTIVE",
+				},
+				"SNOOZE_DISABLED": {
+					Color: "orange",
+					Index: 2,
+					Text:  "SNOOZE_DISABLED",
+				},
+				"ACKNOWLEDGED": {
+					Color: "blue",
+					Index: 3,
+					Text:  "ACKNOWLEDGED",
+				},
+			},
+		},
 	}
 	t := fields.Time()
 
