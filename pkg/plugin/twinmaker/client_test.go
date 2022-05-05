@@ -75,7 +75,7 @@ func TestFetchAWSData(t *testing.T) {
 	})
 
 	t.Run("manually query twinmaker", func(t *testing.T) {
-		// t.Skip()
+		t.Skip()
 
 		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials

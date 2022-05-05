@@ -513,6 +513,7 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 	for i, propertyReference := range pValues {
 		aValues := len(propertyReference.values)
 		if aValues > 0 {
+			//nolint: staticcheck
 			t.Set(i, propertyReference.values[0].Timestamp)
 			status.Set(i, propertyReference.values[0].Value.StringValue)
 		}
