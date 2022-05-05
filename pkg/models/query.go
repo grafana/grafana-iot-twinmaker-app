@@ -61,7 +61,7 @@ type TwinMakerQuery struct {
 	ComponentName      string                            `json:"componentName,omitempty"`
 	ComponentTypeId    string                            `json:"componentTypeId,omitempty"`
 	PropertyFilter     []TwinMakerPropertyFilter         `json:"filter,omitempty"`
-	ListEntitiesFilter []TwinMakerListEntitiesFilter `json:"listEntitiesFilter,omitempty"`
+	ListEntitiesFilter []TwinMakerListEntitiesFilter     `json:"listEntitiesFilter,omitempty"`
 	Order              TwinMakerResultOrder              `json:"order,omitempty"`
 
 	// Direct from the gRPC interfaces

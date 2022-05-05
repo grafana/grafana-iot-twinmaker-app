@@ -347,8 +347,9 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 			continue
 		}
 		fields := newTwinMakerFrameBuilder(len(prop.Values))
-		t := fields.Time()
+		// Must return value field first so its labels can be used for the Time field
 		v, conv := fields.Value(prop.Values[0].Value)
+		t := fields.Time()
 		v.Name = "" // filled in with value below
 		for i, history := range prop.Values {
 			//nolint: staticcheck
@@ -420,9 +421,7 @@ func (s *twinMakerHandler) GetEntityHistory(ctx context.Context, query models.Tw
 	return s.processHistory(result, err, failures, query)
 }
 
-// return status and value here
-// Use GetComponentHistory with the hardcoded alarm inputs - call once for each alarm componentType, then concat at the end
-// If putting together the data frame first is an issue - move logic to helper that runs through steps 1-3
+// Variation of GetComponentHistory for all alarm components that extend from the basic componentType
 func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
 	failures := []data.Notice{}
 	alarmComponentType := "com.amazon.iottwinmaker.alarm.basic"
@@ -456,6 +455,7 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 		query.EntityId = ""
 		query.Properties = []*string{aws.String(alarmProperty)}
 		query.ComponentTypeId = *componentTypeSummary.ComponentTypeId
+		query.Order = models.ResultOrderDesc
 		if isFiltered {
 			query.PropertyFilter = filter
 		}
@@ -512,9 +512,11 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 
 	for i, propertyReference := range pValues {
 		aValues := len(propertyReference.values)
-		t.Set(i, propertyReference.values[aValues-1].Timestamp)
+		if aValues > 0 {
+			t.Set(i, propertyReference.values[0].Timestamp)
+			status.Set(i, propertyReference.values[0].Value.StringValue)
+		}
 		name.Set(i, propertyReference.entityPropertyReference.ComponentName)
-		status.Set(i, propertyReference.values[aValues-1].Value.StringValue)
 		id.Set(i, propertyReference.entityPropertyReference.ExternalIdProperty[externalIdKey])
 		eId.Set(i, propertyReference.entityPropertyReference.EntityId)
 		eName.Set(i, propertyReference.entityName)

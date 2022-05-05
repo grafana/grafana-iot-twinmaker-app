@@ -164,7 +164,6 @@ func (c *twinMakerClient) ListEntities(ctx context.Context, query models.TwinMak
 
 	params := &iottwinmaker.ListEntitiesInput{
 		MaxResults:  aws.Int64(200),
-		NextToken:   aws.String(query.NextToken),
 		WorkspaceId: &query.WorkspaceId,
 	}
 

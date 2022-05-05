@@ -134,6 +134,12 @@ func setUrlDatalink(field *data.Field) {
 	}
 }
 
+type PropertyReference struct {
+	values     					[]*iottwinmaker.PropertyValue
+	entityPropertyReference   	*iottwinmaker.EntityPropertyReference
+	entityName					*string
+}
+
 func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmaker.EntityPropertyReference) (s string) {
 	externalId := ""
 	for _, val := range entityPropertyReference.ExternalIdProperty {
@@ -156,10 +162,42 @@ func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmaker.EntityP
 	return refKey
 }
 
-type PropertyReference struct {
-	values     					[]*iottwinmaker.PropertyValue
-	entityPropertyReference   	*iottwinmaker.EntityPropertyReference
-	entityName		*string
+func (s *twinMakerHandler) GetPropertyValueHistoryPaginated(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
+	propertyValueHistories, err := s.client.GetPropertyValueHistory(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+
+	// Keep mapping of entityPropertyReferences to its index in the result's propertyValues
+	entityPropertyReferenceMapping := map[string]int{}
+	for i, propertyValue := range propertyValueHistories.PropertyValues {
+		refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference)
+		entityPropertyReferenceMapping[refKey] = i
+	}
+
+	cPropertyValuesHistories := propertyValueHistories
+	for cPropertyValuesHistories.NextToken != nil {
+		query.NextToken = *cPropertyValuesHistories.NextToken
+		cPropertyValuesHistories, err := s.client.GetPropertyValueHistory(ctx, query)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, propertyValue := range cPropertyValuesHistories.PropertyValues {
+			refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference)
+			if i, ok := entityPropertyReferenceMapping[refKey]; ok {
+				// Append to existing values array to avoid duplicates
+				propertyValueHistories.PropertyValues[i].Values = append(propertyValueHistories.PropertyValues[i].Values, propertyValue.Values...)
+			} else {
+				entityPropertyReferenceMapping[refKey] = len(propertyValueHistories.PropertyValues)
+				propertyValueHistories.PropertyValues = append(propertyValueHistories.PropertyValues, propertyValue)
+			}
+		}
+
+		propertyValueHistories.NextToken = cPropertyValuesHistories.NextToken
+	}
+
+	return propertyValueHistories, nil
 }
 
 func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, query models.TwinMakerQuery) (p []PropertyReference, n []data.Notice, err error) {
@@ -168,7 +206,7 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, qu
 	componentTypeId := query.ComponentTypeId
 
 	// Step 1: Call GetPropertyValueHistory and get the externalId from the response
-	result, err := s.client.GetPropertyValueHistory(ctx, query)
+	result, err := s.GetPropertyValueHistoryPaginated(ctx, query)
 	if err != nil {
 		return propertyReferences, failures, err
 	}
@@ -201,7 +239,8 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, qu
 					Text:     err.Error(),
 				}
 				failures = append(failures, notice)
-			} else if le == nil {
+			} 
+			if le == nil {
 				return propertyReferences, failures, fmt.Errorf("error loading entities for GetAlarms query")
 			}
 	

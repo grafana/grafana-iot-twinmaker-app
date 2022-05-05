@@ -1,7 +1,7 @@
 {
-    "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/CookieFactory-11-16/component-type/com.example.cookiefactory.alarm",
+    "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.alarm",
     "ComponentTypeId": "com.example.cookiefactory.alarm",
-    "CreationDateTime": "2021-11-16T18:53:09.02Z",
+    "CreationDateTime": "2022-04-27T17:29:43.035Z",
     "Description": null,
     "ExtendsFrom": [
         "com.example.timestream-telemetry",
@@ -12,7 +12,7 @@
             "ImplementedBy": {
                 "IsNative": false,
                 "Lambda": {
-                    "Arn": "arn:aws:lambda:us-east-1:166800769179:function:CookieFactoryTelemetry-timestreamReaderUDQAE43A25A-xA1U76x6svso"
+                    "Arn": "arn:aws:lambda:us-east-1:166800769179:function:TelemetryForAlarms-timestreamReaderUDQAE43A25A-aCxt84UEfx7J"
                 }
             },
             "IsInherited": false,
@@ -159,6 +159,6 @@
         },
         "State": "ACTIVE"
     },
-    "UpdateDateTime": "2021-11-16T18:53:09.02Z",
-    "WorkspaceId": "CookieFactory-11-16"
+    "UpdateDateTime": "2022-04-27T17:29:43.035Z",
+    "WorkspaceId": "AlarmWorkspace"
 }
