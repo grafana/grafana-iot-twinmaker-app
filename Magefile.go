@@ -1,21 +1,29 @@
-//+build mage
+//go:build mage
+// +build mage
 
 package main
 
 import (
-	"fmt"
+	"github.com/magefile/mage/sh"
+
 	// mage:import
 	build "github.com/grafana/grafana-plugin-sdk-go/build"
 )
 
-// Hello prints a message (shows that you can define custom Mage targets).
-func Hello() {
-	fmt.Println("hello plugin developer!")
-}
+// Drone signs the Drone configuration file
+// This needs to be run everytime the drone.yml file is modified
+// See https://github.com/grafana/deployment_tools/blob/master/docs/infrastructure/drone/signing.md for more info
+func Drone() error {
+	if err := sh.RunV("drone", "lint"); err != nil {
+		return err
+	}
 
-// var _ = build.SetBeforeBuildCallback(func(cfg build.Config) (build.Config, error) {
-// 	return cfg, nil
-// })
+	if err := sh.RunV("drone", "--server", "https://drone.grafana.net", "sign", "--save", "grafana/grafana-iot-twinmaker-app"); err != nil {
+		return err
+	}
+
+	return nil
+}
 
 // Default configures the default target.
 var Default = build.BuildAll
