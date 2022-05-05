@@ -283,12 +283,13 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 	for _, propVal := range propVals {
 		prop := results.PropertyValues[propVal]
 		if v := prop.PropertyValue.ListValue; v != nil {
-			frame = s.processListValue(v, propVal)
-			frame.Name = *prop.PropertyReference.PropertyName
+			fr := s.processListValue(v, propVal)
+			frame.Fields = append(frame.Fields, fr.Fields...)
+			continue
 		}
 		if v := prop.PropertyValue.MapValue; v != nil {
-			frame = s.processMapValue(v)
-			frame.Name = *prop.PropertyReference.PropertyName
+			fr := s.processMapValue(v)
+			frame.Fields = append(frame.Fields, fr.Fields...)
 			continue
 		}
 		f, converter := newDataValueField(prop.PropertyValue, 1)
@@ -300,8 +301,8 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 			"componentName": *prop.PropertyReference.ComponentName,
 		}
 		frame.Fields = append(frame.Fields, f)
-		dr.Frames = append(dr.Frames, frame)
 	}
+	dr.Frames = append(dr.Frames, frame)
 
 	return
 }
@@ -379,9 +380,13 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 		v, conv := fields.Value(prop.Values[0].Value)
 		v.Name = "" // filled in with value below
 		for i, history := range prop.Values {
-			//nolint: staticcheck
-			t.Set(i, getTimeObjectFromStringTime(history.Time))
-			v.Set(i, conv(history.Value))
+			if time, err := getTimeObjectFromStringTime(history.Time); err == nil {
+				t.Set(i, time)
+				v.Set(i, conv(history.Value))
+			} else {
+				t.Set(i, nil)
+				v.Set(i, conv(history.Value))
+			}
 		}
 
 		ref := prop.EntityPropertyReference
@@ -548,8 +553,9 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 				vals := propertyValue.Values
 				v := vals[len(vals)-1]
 				alarm.status = v.Value.StringValue
-				//nolint: staticcheck
-				alarm.time = getTimeObjectFromStringTime(v.Time)
+				if t, err := getTimeObjectFromStringTime(v.Time); err == nil {
+					alarm.time = t
+				}
 				alarms[alarmMappingKey] = alarm
 
 				if isFiltered {
@@ -586,30 +592,30 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 			// Table panel
 			"displayMode": "color-text",
 		},
-		Mappings: data.ValueMappings{
-			data.ValueMapper{
-				"NORMAL": {
-					Color: "green",
-					Index: 0,
-					Text:  "NORMAL",
-				},
-				"ACTIVE": data.ValueMappingResult{
-					Color: "red",
-					Index: 1,
-					Text:  "ACTIVE",
-				},
-				"SNOOZE_DISABLED": {
-					Color: "orange",
-					Index: 2,
-					Text:  "SNOOZE_DISABLED",
-				},
-				"ACKNOWLEDGED": {
-					Color: "blue",
-					Index: 3,
-					Text:  "ACKNOWLEDGED",
-				},
-			},
-		},
+		// Mappings: data.ValueMappings{
+		// 	data.ValueMapper{
+		// 		"NORMAL": {
+		// 			Color: "green",
+		// 			Index: 0,
+		// 			Text:  "NORMAL",
+		// 		},
+		// 		"ACTIVE": data.ValueMappingResult{
+		// 			Color: "red",
+		// 			Index: 1,
+		// 			Text:  "ACTIVE",
+		// 		},
+		// 		"SNOOZE_DISABLED": {
+		// 			Color: "orange",
+		// 			Index: 2,
+		// 			Text:  "SNOOZE_DISABLED",
+		// 		},
+		// 		"ACKNOWLEDGED": {
+		// 			Color: "blue",
+		// 			Index: 3,
+		// 			Text:  "ACKNOWLEDGED",
+		// 		},
+		// 	},
+		// },
 	}
 	t := fields.Time()
 
@@ -658,10 +664,10 @@ func (s *twinMakerHandler) GetSessionToken(ctx context.Context, duration time.Du
 	return info, err
 }
 
-func getTimeObjectFromStringTime(timeString *string) *time.Time {
-	t, err := time.Parse(time.RFC3339, *timeString)
-	if err != nil {
-		fmt.Println(err.Error())
+func getTimeObjectFromStringTime(timeString *string) (*time.Time, error) {
+	if timeString == nil {
+		return nil, fmt.Errorf("no time string")
 	}
-	return &t
+	t, err := time.Parse(time.RFC3339, *timeString)
+	return &t, err
 }
