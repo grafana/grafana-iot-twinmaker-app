@@ -352,9 +352,13 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 		t := fields.Time()
 		v.Name = "" // filled in with value below
 		for i, history := range prop.Values {
-			//nolint: staticcheck
-			t.Set(i, history.Timestamp)
-			v.Set(i, conv(history.Value))
+			if timeValue, err := getTimeObjectFromStringTime(history.Time); err == nil {
+				t.Set(i, timeValue)
+				v.Set(i, conv(history.Value))
+			} else {
+				t.Set(i, nil)
+				v.Set(i, conv(history.Value))
+			}
 		}
 
 		ref := prop.EntityPropertyReference
@@ -394,14 +398,14 @@ func (s *twinMakerHandler) GetComponentHistory(ctx context.Context, query models
 
 	propertyReferences, failures, err := s.GetComponentHistoryWithLookup(ctx, query)
 	result := &iottwinmaker.GetPropertyValueHistoryOutput{
-		NextToken: nil,
+		NextToken:      nil,
 		PropertyValues: []*iottwinmaker.PropertyValueHistory{},
 	}
 
 	for _, p := range propertyReferences {
 		propertyValue := iottwinmaker.PropertyValueHistory{
 			EntityPropertyReference: p.entityPropertyReference,
-			Values: p.values,
+			Values:                  p.values,
 		}
 		result.PropertyValues = append(result.PropertyValues, &propertyValue)
 	}
@@ -513,8 +517,9 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 	for i, propertyReference := range pValues {
 		aValues := len(propertyReference.values)
 		if aValues > 0 {
-			//nolint: staticcheck
-			t.Set(i, propertyReference.values[0].Timestamp)
+			if timeValue, err := getTimeObjectFromStringTime(propertyReference.values[0].Time); err == nil {
+				t.Set(i, timeValue)
+			}
 			status.Set(i, propertyReference.values[0].Value.StringValue)
 		}
 		name.Set(i, propertyReference.entityPropertyReference.ComponentName)

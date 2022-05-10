@@ -337,9 +337,9 @@ func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query mod
 	}
 
 	params := &iottwinmaker.GetPropertyValueHistoryInput{
-		EndDateTime:        &query.TimeRange.To,
+		EndTime:            getTimeStringFromTimeObject(&query.TimeRange.To),
 		SelectedProperties: query.Properties,
-		StartDateTime:      &query.TimeRange.From,
+		StartTime:          getTimeStringFromTimeObject(&query.TimeRange.From),
 		WorkspaceId:        &query.WorkspaceId,
 	}
 

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strings"
 	"text/template"
+	"time"
 
 	"github.com/aws/aws-sdk-go/service/iottwinmaker"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
@@ -135,9 +136,9 @@ func setUrlDatalink(field *data.Field) {
 }
 
 type PropertyReference struct {
-	values     					[]*iottwinmaker.PropertyValue
-	entityPropertyReference   	*iottwinmaker.EntityPropertyReference
-	entityName					*string
+	values                  []*iottwinmaker.PropertyValue
+	entityPropertyReference *iottwinmaker.EntityPropertyReference
+	entityName              *string
 }
 
 func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmaker.EntityPropertyReference) (s string) {
@@ -232,18 +233,18 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, qu
 				},
 			}
 			le, err := s.client.ListEntities(ctx, query)
-	
+
 			if err != nil {
 				notice := data.Notice{
 					Severity: data.NoticeSeverityWarning,
 					Text:     err.Error(),
 				}
 				failures = append(failures, notice)
-			} 
+			}
 			if le == nil {
 				return propertyReferences, failures, fmt.Errorf("error loading entities for GetAlarms query")
 			}
-	
+
 			// Step 3: Call GetEntity to get the componentName of the externalId
 			if len(le.EntitySummaries) > 0 {
 				entityId := le.EntitySummaries[0].EntityId
@@ -279,10 +280,10 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, qu
 				pr := PropertyReference{
 					values: propertyValue.Values,
 					entityPropertyReference: &iottwinmaker.EntityPropertyReference{
-						EntityId: entityId,
-						ComponentName: &componentName,
+						EntityId:           entityId,
+						ComponentName:      &componentName,
 						ExternalIdProperty: propertyValue.EntityPropertyReference.ExternalIdProperty,
-						PropertyName: propertyValue.EntityPropertyReference.PropertyName,
+						PropertyName:       propertyValue.EntityPropertyReference.PropertyName,
 					},
 					entityName: entityName,
 				}
@@ -292,4 +293,27 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, qu
 	}
 
 	return propertyReferences, failures, nil
+}
+
+func getTimeObjectFromStringTime(timeString *string) (*time.Time, error) {
+	if timeString == nil {
+		return nil, fmt.Errorf("no time string")
+	}
+	stringValue := *timeString
+	// Handle missing seconds value in the time string
+	index := 16 // Position for seconds
+	if string(stringValue[index]) != ":" {
+		stringValue = stringValue[:index] + ":00" + stringValue[index:]
+	}
+	// Convert to time object
+	t, err := time.Parse(time.RFC3339, stringValue)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	return &t, err
+}
+
+func getTimeStringFromTimeObject(timeObject *time.Time) *string {
+	timeString := timeObject.Format(time.RFC3339)
+	return &timeString
 }
