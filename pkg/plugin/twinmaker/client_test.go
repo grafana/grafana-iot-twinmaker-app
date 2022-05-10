@@ -23,13 +23,13 @@ func TestFetchAWSData(t *testing.T) {
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType:      awsds.AuthTypeDefault,
-				AssumeRoleARN: "arn:aws:iam::166800769179:role/TwinMakerGrafanaWorkspaceDashboardRole",
+				AssumeRoleARN: "arn:aws:iam::166800769179:role/IoTTwinMakerDashboardRole-8cf9aa9e",
 				Region:        "us-east-1",
 			},
 		})
 		require.NoError(t, err)
 
-		WorkspaceId := "GrafanaWorkspace"
+		WorkspaceId := "AlarmWorkspace"
 		token, err := c.GetSessionToken(context.Background(), time.Second*3600, WorkspaceId)
 		require.NoError(t, err)
 		require.NotEmpty(t, token)
@@ -61,13 +61,13 @@ func TestFetchAWSData(t *testing.T) {
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType:      awsds.AuthTypeDefault,
-				AssumeRoleARN: "arn:aws:iam::166800769179:role/TwinMakerGrafanaWorkspaceDashboardRole",
+				AssumeRoleARN: "arn:aws:iam::166800769179:role/IoTTwinMakerDashboardRole-8cf9aa9e",
 				Region:        "us-east-1",
 			},
 		})
 		require.NoError(t, err)
 
-		WorkspaceId := "GrafanaWorkspace"
+		WorkspaceId := "AlarmWorkspace"
 		token, err := c.GetSessionToken(context.Background(), time.Second*3600, WorkspaceId)
 		require.NoError(t, err)
 
@@ -82,7 +82,6 @@ func TestFetchAWSData(t *testing.T) {
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType: awsds.AuthTypeDefault,
 				Region:   "us-east-1",
-				Endpoint: "https://gamma.us-east-1.twinmaker.iot.aws.dev",
 			},
 		})
 		require.NoError(t, err)
@@ -92,25 +91,25 @@ func TestFetchAWSData(t *testing.T) {
 		writeTestData("list-workspaces", w, t)
 
 		s, err := c.ListScenes(context.Background(), models.TwinMakerQuery{
-			WorkspaceId: "CookieFactory-11-16",
+			WorkspaceId: "AlarmWorkspace",
 		})
 		require.NoError(t, err)
 		writeTestData("list-scenes", s, t)
 
 		e, err := c.ListEntities(context.Background(), models.TwinMakerQuery{
-			WorkspaceId: "CookieFactory-11-16",
+			WorkspaceId: "AlarmWorkspace",
 		})
 		require.NoError(t, err)
 		writeTestData("list-entities", e, t)
 
 		ct, err := c.ListComponentTypes(context.Background(), models.TwinMakerQuery{
-			WorkspaceId: "CookieFactory-11-16",
+			WorkspaceId: "AlarmWorkspace",
 		})
 		require.NoError(t, err)
 		writeTestData("list-component-types", ct, t)
 
 		ci, err := c.GetComponentType(context.Background(), models.TwinMakerQuery{
-			WorkspaceId:     "CookieFactory-11-16",
+			WorkspaceId:     "AlarmWorkspace",
 			ComponentTypeId: "com.example.cookiefactory.alarm",
 		})
 		require.NoError(t, err)
@@ -118,14 +117,14 @@ func TestFetchAWSData(t *testing.T) {
 
 		g, err := c.GetEntity(context.Background(), models.TwinMakerQuery{
 			EntityId:    "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
-			WorkspaceId: "CookieFactory-11-16",
+			WorkspaceId: "AlarmWorkspace",
 		})
 		require.NoError(t, err)
 		writeTestData("get-entity", g, t)
 
 		pv, err := c.GetPropertyValue(context.Background(), models.TwinMakerQuery{
 			EntityId:      "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
-			WorkspaceId:   "CookieFactory-11-16",
+			WorkspaceId:   "AlarmWorkspace",
 			Properties:    []*string{aws.String("alarm_key"), aws.String("telemetryAssetType")},
 			ComponentName: "AlarmComponent",
 		})
@@ -135,7 +134,7 @@ func TestFetchAWSData(t *testing.T) {
 		// List data type property
 		pv, err = c.GetPropertyValue(context.Background(), models.TwinMakerQuery{
 			EntityId:      "Factory_aa3d7d8b-6b94-44fe-ab02-6936bfcdade6",
-			WorkspaceId:   "CookieFactory-11-16",
+			WorkspaceId:   "AlarmWorkspace",
 			Properties:    []*string{aws.String("bounds")},
 			ComponentName: "Space",
 		})
@@ -144,10 +143,10 @@ func TestFetchAWSData(t *testing.T) {
 
 		// Map data type property
 		pv, err = c.GetPropertyValue(context.Background(), models.TwinMakerQuery{
-			EntityId:      "b2f31ce2-0c71-4e6d-8c65-000d8781d676",
-			WorkspaceId:   "CookieFactory-11-16",
+			EntityId:      "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
+			WorkspaceId:   "AlarmWorkspace",
 			Properties:    []*string{aws.String("documents")},
-			ComponentName: "DocumentComponent",
+			ComponentName: "SpecSheets",
 		})
 		require.NoError(t, err)
 		writeTestData("get-property-value-map", pv, t)
@@ -155,10 +154,10 @@ func TestFetchAWSData(t *testing.T) {
 		// check the combination: entityId -> componentName -> propertyName(s)
 		p, err := c.GetPropertyValueHistory(context.Background(), models.TwinMakerQuery{
 			EntityId:    "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
-			WorkspaceId: "CookieFactory-11-16",
+			WorkspaceId: "AlarmWorkspace",
 			TimeRange: backend.TimeRange{
-				From: time.Date(2021, 11, 1, 1, 0, 0, 0, time.UTC),
-				To:   time.Date(2021, 11, 7, 23, 5, 0, 0, time.UTC),
+				From: time.Date(2022, 4, 27, 0, 0, 0, 0, time.UTC),
+				To:   time.Date(2022, 4, 27, 23, 0, 0, 0, time.UTC),
 			},
 			Properties:    []*string{aws.String("alarm_status")},
 			ComponentName: "AlarmComponent",
@@ -168,13 +167,20 @@ func TestFetchAWSData(t *testing.T) {
 
 		// check the combination: componentTypeId -> propertyName(s)
 		p, err = c.GetPropertyValueHistory(context.Background(), models.TwinMakerQuery{
-			WorkspaceId: "CookieFactory-11-16",
+			WorkspaceId: "AlarmWorkspace",
 			TimeRange: backend.TimeRange{
-				From: time.Date(2021, 11, 1, 1, 0, 0, 0, time.UTC),
-				To:   time.Date(2021, 11, 7, 23, 5, 0, 0, time.UTC),
+				From: time.Date(2022, 4, 27, 0, 0, 0, 0, time.UTC),
+				To:   time.Date(2022, 4, 27, 23, 0, 0, 0, time.UTC),
 			},
 			Properties:      []*string{aws.String("alarm_status")},
 			ComponentTypeId: "com.example.cookiefactory.alarm",
+			PropertyFilter: []models.TwinMakerPropertyFilter{
+				{
+					Name:  "alarm_status",
+					Value: "ACTIVE",
+					Op:    "=",
+				},
+			},
 		})
 		require.NoError(t, err)
 		writeTestData("get-property-history-alarms-w-id", p, t)

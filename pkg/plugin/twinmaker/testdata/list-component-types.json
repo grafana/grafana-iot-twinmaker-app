@@ -1,87 +1,147 @@
 {
     "ComponentTypeSummaries": [
         {
-            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/CookieFactory-11-16/component-type/com.example.cookiefactory.alarm",
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.alarm",
             "ComponentTypeId": "com.example.cookiefactory.alarm",
-            "CreationDateTime": "2021-11-16T18:53:09.02Z",
+            "CreationDateTime": "2022-04-27T17:29:43.035Z",
             "Description": null,
-            "Status": null,
-            "UpdateDateTime": "2021-11-16T18:53:09.02Z"
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:43.035Z"
         },
         {
-            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/CookieFactory-11-16/component-type/com.example.cookiefactory.mixer",
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.mixer",
             "ComponentTypeId": "com.example.cookiefactory.mixer",
-            "CreationDateTime": "2021-11-16T18:53:09.511Z",
+            "CreationDateTime": "2022-04-27T17:29:43.217Z",
             "Description": null,
-            "Status": null,
-            "UpdateDateTime": "2021-11-16T18:53:09.511Z"
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:43.217Z"
         },
         {
-            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/CookieFactory-11-16/component-type/com.example.cookiefactory.space",
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.space",
             "ComponentTypeId": "com.example.cookiefactory.space",
-            "CreationDateTime": "2021-11-16T18:53:10.146Z",
+            "CreationDateTime": "2022-04-27T17:29:43.539Z",
             "Description": null,
-            "Status": null,
-            "UpdateDateTime": "2021-11-16T18:53:10.146Z"
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:43.539Z"
         },
         {
-            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/CookieFactory-11-16/component-type/com.example.cookiefactory.watertank",
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.watertank",
             "ComponentTypeId": "com.example.cookiefactory.watertank",
-            "CreationDateTime": "2021-11-16T18:53:09.675Z",
+            "CreationDateTime": "2022-04-27T17:29:43.377Z",
             "Description": null,
-            "Status": null,
-            "UpdateDateTime": "2021-11-16T18:53:09.675Z"
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:43.377Z"
         },
         {
-            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/CookieFactory-11-16/component-type/com.example.timestream-telemetry",
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.timestream-telemetry",
             "ComponentTypeId": "com.example.timestream-telemetry",
-            "CreationDateTime": "2021-11-16T18:53:08.872Z",
+            "CreationDateTime": "2022-04-27T17:29:42.887Z",
             "Description": null,
-            "Status": null,
-            "UpdateDateTime": "2021-11-16T18:53:08.872Z"
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:42.887Z"
         },
         {
             "Arn": "arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iotsitewise.connector",
             "ComponentTypeId": "com.amazon.iotsitewise.connector",
-            "CreationDateTime": "2021-11-09T18:30:37.819Z",
+            "CreationDateTime": "2021-11-13T00:25:32.467Z",
             "Description": "IoT SiteWise connector for syncing asset properties",
-            "Status": null,
-            "UpdateDateTime": "2021-11-10T22:01:44.746Z"
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2021-11-13T00:25:32.467Z"
         },
         {
             "Arn": "arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iotsitewise.connector.edgevideo",
             "ComponentTypeId": "com.amazon.iotsitewise.connector.edgevideo",
-            "CreationDateTime": "2021-11-09T18:30:39.247Z",
+            "CreationDateTime": "2021-11-13T00:25:34.069Z",
             "Description": "IoT SiteWise connector for syncing edgevideo asset properties",
-            "Status": null,
-            "UpdateDateTime": "2021-11-09T18:30:39.247Z"
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2021-11-13T00:25:34.069Z"
         },
         {
             "Arn": "arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iottwinmaker.alarm.basic",
             "ComponentTypeId": "com.amazon.iottwinmaker.alarm.basic",
-            "CreationDateTime": "2021-11-09T18:30:40.734Z",
+            "CreationDateTime": "2021-11-13T00:25:35.967Z",
             "Description": "Abstract alarm component type",
-            "Status": null,
-            "UpdateDateTime": "2021-11-09T18:30:40.734Z"
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2021-11-13T00:25:35.967Z"
         },
         {
             "Arn": "arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iottwinmaker.documents",
             "ComponentTypeId": "com.amazon.iottwinmaker.documents",
-            "CreationDateTime": "2021-11-09T18:30:36.391Z",
+            "CreationDateTime": "2021-11-13T00:25:30.797Z",
             "Description": "Component type for storing document urls",
-            "Status": null,
-            "UpdateDateTime": "2021-11-09T18:30:36.391Z"
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2021-11-13T00:25:30.797Z"
         },
         {
             "Arn": "arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iottwinmaker.parameters",
             "ComponentTypeId": "com.amazon.iottwinmaker.parameters",
-            "CreationDateTime": "2021-11-09T18:30:42.155Z",
+            "CreationDateTime": "2021-11-13T00:25:38.067Z",
             "Description": "Component type for storing parameter values",
-            "Status": null,
-            "UpdateDateTime": "2021-11-09T18:30:42.155Z"
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2021-11-13T00:25:38.067Z"
         }
     ],
     "MaxResults": null,
     "NextToken": null,
-    "WorkspaceId": "CookieFactory-11-16"
+    "WorkspaceId": "AlarmWorkspace"
 }

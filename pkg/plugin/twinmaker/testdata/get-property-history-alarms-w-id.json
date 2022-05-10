@@ -1,613 +1,19 @@
 {
-    "NextToken": "v1.local.sJPVIFHNn4i6pW_ij_32UiBVVXwBeAxY6u4MCm_OQ1b4lAdcKwxqtz9QHmh4lRfNWw3KV7ifLOv-FQ_0cukS6jZ28Upz8j1oCg9XA3nK0blgqxlUGkAxlBk4YMtcPnkQMHfIiaJtoBhuqOcLyjerMI7aHqUnlih-d7D9ae2v2kuZoaD0VMtE418sGDgu22jQXQFhIHeacxvdMLmEMqRTIpRIusxuY5fqcCyivrcUMSS1Kfo-0mnkFH9bcS08BDXbpuWlCoG_R1ZJzRbKZeJUQwvBBce_3OnsfoQvMbtgCJLdC5Uv_3hreE7JoVlGKH4K8As84wGaW7frWqHPL6JPUP4iqbMHwoDcvh1clBWWdCvWGaI-_JG2MDp_7llfuaLw_739B3anUeR2Er3qA6q_ZdgHOYysRt8s7cpLG3kj4SFUOBoAtkVMR1gjyIH6nLCENmhYTE7LWdonrTeyvHtFThwVgKRQy7hHqN4k0kNxomh77SW1hsc7evOH6AAUKYQrX8Ee5wlqr2rXVIm_omv1jolmjLiq81-u6aUJNXvNartbKJptQkfEWzlAgCztCAgoG8AlZWbK21r5Zv2dG1k6vM9XkS5P2FtUeXuvhdlC1o1O7uZNA4br1y6G-F6kG-1ITvKzqzs7MbyZMx1BQIOjvfmBa8nFYLE-PMMF8nE51UG4l24nMQK4n8sm6J2VbYE9_oTg8QvRPmvGQXSgyqPlHWUQxfiNwVzAW-IlYTLp9Idvcy4y0Lob1HW8miUp2eBHt9QKpJ2M0xs-LAXxA2nEgHzfsTSblxFzrTHyzCRGTRQ4OkcXVcJEPRh3zjgdiG3P5beOmjfLbZWwJTq3IRVGX9LbFZ6-iZ5O7DgtoGqeGN1_69dcVojXUOAsKAvhlUyOyTE4F62zx9syfNjH7C1KGQUZa6L6wb2wGzZDV4kn3Zt0mlpMlDZKT8YPHqFmp0XAricLf8L1FCTcFOb2SZAMyZXCskBPUW1lkYSA0l4x7cqB5pMrZGVZOcgorDQ9G6AK1D0LfSuqeOnDdh1h-UFM1fFA44abfKXIPtgjP87ASw6D8ysCmiOSLiAYKnut47-T_bB3O944J-6g9xIw-CJCLkrfAbolKAW2ulc4kBzAb5q60drASzrM9RIbGXFbImeKPp40iRyhaQ2WGbui68ni1yZtYghMSWBddJipb0lIqdGHy1bGtY04ga_zGXXbY4-fWr2RRWFfJnuEDc5ul-gNmKfB4HTw0acKZ_AXeww3aLhKGbrz9AZnu1rgtOqqk2b-sQOkpMMc2MNmJtk12rgfF3ZpODTYmOqxGf4S36GsIoiv5Opi_tmSm7Hy1Ihpu_ERM5Ywh6yOynUtrePUNMTDu8y4gf4_H1OUGrHSmQiCI65DhBlD9n6dBLK5VdwQLqbBz-5s3xg5RM82NAVOifvLaJqQxwx7Qz-tHQgL1U-O9aHIT0rKcsSElwk9yxVy6kIirlAvpeodPWIR6uNKaew8TmmTt-3lv0lqFcDuQ5wIwiyfD3Dw.eyJraWQiOiJBUUlEQUhnbm5FL3dBV3J0em9jNDM0YjYrdUlaM1ozNXE0REtUaW42NFdvb3p4aURwd0VqZHVqNHFXQWZhNmJmclpxcDlTbndBQUFBZmpCOEJna3Foa2lHOXcwQkJ3YWdiekJ0QWdFQU1HZ0dDU3FHU0liM0RRRUhBVEFlQmdsZ2hrZ0JaUU1FQVM0d0VRUU1yWGhvVGZYT0RiUzczRllCQWdFUWdEdnZMTC94ZEVjbDQ0QWNHYzN3U3pJQm1Jb1h1SmFGSnBwT2RGSEVZY3NKeFNDa2JlQjRmeXFCMkcxdlp5eVhyK2tpTGJpR1hNdWYwY2JtTnc9PSJ9",
+    "NextToken": "v1.local.3z-pHruU-Wz85jQ2C1rDvY4LCNck3WrheKrGnzP3EH7bvBX-dLkrh7LsJKCDIaAF-dAnG2dnps7tVC4Bc9Q4JzgwVYPhOZiPHywrJZvg8uW-a_VLejV7rg73FzHmLFytHcIRHZhb15yRmsCRVj6ndAdQ0mcXpY_qBUSZ4uFtiKSG8d9sxrAsoqPnOrlnCnY5VRXQMbvJb-TX5B9bT_5zfW6IWvZ4q9kKl9W1UD-dO38YBMevuISWeAEiNWQ53C8yWKxUTXmj2RZ1JtjtV14TDojGZUj0UWDf4b0Lzro2KaH0GV3CneDPmTnVP3E4kLPohT13WJStZZ1JZ0rlf3IGKTRUG5Im9mDmvDfwJR6ohMufOaDYyV11Qcnww2rt6k4E9ffsQVWDeS_vMqIk4ucPHPF6CTe1boHoLGDJx96qtEh4Fwb1EpHBzAQQn-twCLyZVs69mut63G5DWtyLgCk1VzwohSHqR4e5EU5XKUQ7olmYvAIZXwWQ13e961TujYmD8jnc7R0oxyl4ae4gqGdQtZD2P0MBysNKm20COx86WYz-u5370tjcJe4kQnvYlIWeTv5qHfhLCflUO6fZcbjTFh7DCTMYElOCBWCurlVl25-k4q5pxu124oUUTepCT9zX9zXIdb1PAp2JrvfDJ0wpayqCiiv996HOiEzBTaK0q-zvhfafE2txZC7mX5A7LzHR4N7NihbJw9j5cTpAyWHIBv4EFkoKPZtbtWWEZixBpmdDahy37FC4DmC0PJdCoBxXWCxvDV_C7G6758miCbvnIztyJENMNGSDvPuSqApSyZGo6-pQ17C_gYY2ItKdsKeR6C6TDZbPEF7_nr7BbfewcGhUSGQX57xuyZ9BdgKv42Y_TkpS98uUPH4Zo1-kmc4hKCQ-kjq82lQydxcFHmWqOCaMNHPflEkIwMRVa2PzDb1VkwBdoTqlBke_kVF0ZP-2cJZRy_C5FFVnAAtu5jFPXZ0SZsPfrthHmK_VmYp7IjGNfaXeH-vqwMMEJQduPV61M8C1RLrWPcM3MXzvX1lZwkkrh7-6FKxOwuaqlocuufKzGSJdGh0wz5J5CiD-O3JFLZYywDmwN7UenOAkhgg5HPzgcvxjih1yjuG-rF4qlax7DIQ4mwHDzgm9MuVbxLosYnZlOK_zJY-P0w2DKxx4kvOHFdaNTkRwfa9YOqjmeklv4IMEq2Lryc192Ph4UEg5qoOnY77S_UVds1zFavoY-U1jf3eYtQ0C9COmmByiBFv3_pIJo3xSzKO-lEe6Zf2zIs2TXpbHe-2AycA3MRb1EqH9iU-7SGYks9Uc9b6mXQlQImMWc4cXvwKDOhb60s8ToH643qtqY2OhJibhCUG0taGKBLwO16pKeIRlNbanewtqJqRDx4k8bl0P3wK1x9-5saPZ6BeLLCd18D0tdV9d2EPfKfcaTtXGbjtIFVhElmnHw_UyZD57nfaabGUpDefr4iotMBH38INXhdPjqVUyKKsLv6fqFZdZjnRg.eyJraWQiOiJBUUlEQUhoUGk5aXV0Slh4WG4xY0dQeDlFWEVhdlFKTU9HSU5XdHJqREZYWkoxRldpUUdnb01keGhCVnJHWEFpVTZsaldHMGtBQUFBZmpCOEJna3Foa2lHOXcwQkJ3YWdiekJ0QWdFQU1HZ0dDU3FHU0liM0RRRUhBVEFlQmdsZ2hrZ0JaUU1FQVM0d0VRUU1iajN2Zm82L3ZHWk5Ga0FOQWdFUWdEdjFHYlRURHlwM2V1K3lXMVV2MThnQnZSNVA2dWxiQ2RMOWk1WEl6Mk5MYmJRd3hzbURYcW9nZnpsZldNMWJzNHV2RjVyMlhzMWdHMW4wNXc9PSJ9",
     "PropertyValues": [
         {
             "EntityPropertyReference": {
                 "ComponentName": null,
                 "EntityId": null,
                 "ExternalIdProperty": {
-                    "alarm_key": "Mixer_7_ca6b9bd9-6ace-433f-a095-da4b8ab53b1b",
-                    "propertyName": "alarm_status"
+                    "alarm_key": "Mixer_10_54205d7c-1407-4f17-8b38-188e437e8d9d"
                 },
                 "PropertyName": "alarm_status"
             },
             "Values": [
                 {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_3_f813ecad-e144-4105-a4dd-64b8070fe012",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_1_597c735b-38fd-476c-b276-7592b1699ef8",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_11_2ef76a9e-825b-4405-992f-f6fb401412ac",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_23_7025eb0a-1950-4142-a30a-90b90b12c56a",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_17_92cdfa24-6cac-45e3-9b69-92a0117fd66a",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_21_aacc32af-d1f2-4bec-be43-08baef9d9339",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_16_6393f849-ca84-4e43-9605-d20fa2477264",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_10_54205d7c-1407-4f17-8b38-188e437e8d9d",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "ACTIVE"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "ACTIVE"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "ACTIVE"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:19:42Z",
                     "Value": {
                         "BooleanValue": null,
                         "DoubleValue": null,
@@ -627,125 +33,14 @@
                 "ComponentName": null,
                 "EntityId": null,
                 "ExternalIdProperty": {
-                    "alarm_key": "Mixer_5_a15993f9-dfb5-41f4-b7fe-acd3e1b838c4",
-                    "propertyName": "alarm_status"
+                    "alarm_key": "Mixer_0_237685e2-3f33-42f9-8cff-5f761c94aa73"
                 },
                 "PropertyName": "alarm_status"
             },
             "Values": [
                 {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_4_137a2b35-33ff-4590-aa98-3299aab56203",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "ACTIVE"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "ACTIVE"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "ACTIVE"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:19:42Z",
                     "Value": {
                         "BooleanValue": null,
                         "DoubleValue": null,
@@ -765,552 +60,14 @@
                 "ComponentName": null,
                 "EntityId": null,
                 "ExternalIdProperty": {
-                    "alarm_key": "Mixer_18_1774f1e2-a64b-4273-8572-d50fd7be2ed3",
-                    "propertyName": "alarm_status"
+                    "alarm_key": "Mixer_4_137a2b35-33ff-4590-aa98-3299aab56203"
                 },
                 "PropertyName": "alarm_status"
             },
             "Values": [
                 {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_2_23a4ba92-f85c-423a-ba95-0a2f392d68eb",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_8_f058a7eb-4c6c-4990-8a5f-e39168f16f03",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_14_57a12ffb-6b5d-499f-95d8-9c1f88e9151a",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_13_e8061c85-73de-43f5-a772-4b14323abdf1",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_25_4d403849-b962-44ed-8458-3994fb60d9fd",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_20_db23cc52-ecd6-43a4-8b45-dc286089905a",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_12_18786fcb-0b98-4e12-8d56-c7ab06007588",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_0_237685e2-3f33-42f9-8cff-5f761c94aa73",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "ACTIVE"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "ACTIVE"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:19:42Z",
                     "Value": {
                         "BooleanValue": null,
                         "DoubleValue": null,
@@ -1330,400 +87,14 @@
                 "ComponentName": null,
                 "EntityId": null,
                 "ExternalIdProperty": {
-                    "alarm_key": "Mixer_6_93efa292-4bd2-4e01-bcee-bb943c332dd2",
-                    "propertyName": "alarm_status"
+                    "alarm_key": "WaterTank_ce63b782-c855-4cff-8d1c-6e542e0a3cbf"
                 },
                 "PropertyName": "alarm_status"
             },
             "Values": [
                 {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_15_445782e9-808d-459b-86bf-6267f3fd1971",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_22_fc8faca3-c6fa-4bdc-9a60-045d3d6134b7",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_9_515ed6a1-0fb1-4e09-a513-b682938a2bb4",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_24_a328de22-4e43-40da-b11d-5705bf8297c6",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:17Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "Mixer_19_46603486-4777-484b-ac6c-df287a8a0aaf",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:11Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                }
-            ]
-        },
-        {
-            "EntityPropertyReference": {
-                "ComponentName": null,
-                "EntityId": null,
-                "ExternalIdProperty": {
-                    "alarm_key": "WaterTank_ce63b782-c855-4cff-8d1c-6e542e0a3cbf",
-                    "propertyName": "alarm_status"
-                },
-                "PropertyName": "alarm_status"
-            },
-            "Values": [
-                {
-                    "Time": "2021-11-05T00:00:00Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:05Z",
-                    "Value": {
-                        "BooleanValue": null,
-                        "DoubleValue": null,
-                        "Expression": null,
-                        "IntegerValue": null,
-                        "ListValue": null,
-                        "LongValue": null,
-                        "MapValue": null,
-                        "RelationshipValue": null,
-                        "StringValue": "NORMAL"
-                    }
-                },
-                {
-                    "Time": "2021-11-05T00:00:09Z",
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:19:51Z",
                     "Value": {
                         "BooleanValue": null,
                         "DoubleValue": null,
@@ -1737,7 +108,8 @@
                     }
                 },
                 {
-                    "Time": "2021-11-05T00:00:14Z",
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:20:05Z",
                     "Value": {
                         "BooleanValue": null,
                         "DoubleValue": null,
@@ -1747,7 +119,1432 @@
                         "LongValue": null,
                         "MapValue": null,
                         "RelationshipValue": null,
-                        "StringValue": "ACKNOWLEDGED"
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:20:16Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:20:30Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:20:42Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:20:56Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:21:07Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:21:21Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:21:32Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:21:46Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:21:57Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:22:12Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:22:23Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:22:37Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:22:48Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:23:02Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:23:13Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:23:27Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:23:39Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:23:53Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:24:04Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:24:18Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:24:29Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:24:43Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:24:54Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:25:08Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:25:20Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:25:34Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:25:45Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:25:59Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:26:10Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:26:24Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:26:36Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:26:50Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:27:01Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:27:15Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:27:26Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:27:40Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:27:51Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:28:05Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:28:17Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:28:31Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:28:42Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:28:56Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:29:07Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:29:21Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:29:32Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:29:47Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:29:58Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:30:12Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:30:23Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:30:37Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:30:48Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:31:02Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:31:14Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:31:28Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:31:39Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:31:53Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:32:04Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:32:18Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:32:29Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:32:43Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:32:55Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:33:09Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:33:20Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:33:34Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:33:45Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:33:59Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:34:11Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:34:25Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:34:36Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:34:50Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:35:01Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:35:15Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:35:26Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:35:40Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:35:52Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:36:06Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:36:17Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:36:31Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:36:42Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:36:56Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:37:08Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:37:22Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:37:33Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:37:47Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:37:58Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:38:12Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:38:23Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:38:37Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:38:49Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:39:03Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:39:14Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:39:28Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:39:39Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:39:53Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    }
+                },
+                {
+                    "Time": null,
+                    "Timestamp": "2022-04-27T17:40:04Z",
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
                     }
                 }
             ]

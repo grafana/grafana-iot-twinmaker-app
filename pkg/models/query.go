@@ -34,6 +34,12 @@ type TwinMakerPropertyFilter struct {
 	Op    string `json:"op,omitempty"`
 }
 
+type TwinMakerListEntitiesFilter struct {
+	ComponentTypeId string `json:"componentTypeId,omitempty"`
+	ExternalId      string `json:"externalId,omitempty"`
+	ParentEntityId  string `json:"parentEntityId,omitempty"`
+}
+
 func (f *TwinMakerPropertyFilter) ToTwinMakerFilter() *iottwinmaker.PropertyFilter {
 	filter := &iottwinmaker.PropertyFilter{
 		PropertyName: &f.Name,
@@ -48,18 +54,19 @@ func (f *TwinMakerPropertyFilter) ToTwinMakerFilter() *iottwinmaker.PropertyFilt
 
 // TwinMakerQuery model
 type TwinMakerQuery struct {
-	WorkspaceId     string               `json:"workspaceId,omitempty"`
-	EntityId        string               `json:"entityId,omitempty"`
-	Properties      []*string            `json:"properties,omitempty"`
-	NextToken       string               `json:"nextToken,omitempty"`
-	ComponentName   string               `json:"componentName,omitempty"`
-	ComponentTypeId string               `json:"componentTypeId,omitempty"`
-	Filter          []TwinMakerPropertyFilter `json:"filter,omitempty"`
-	Order           TwinMakerResultOrder      `json:"order,omitempty"`
+	WorkspaceId        string                            `json:"workspaceId,omitempty"`
+	EntityId           string                            `json:"entityId,omitempty"`
+	Properties         []*string                         `json:"properties,omitempty"`
+	NextToken          string                            `json:"nextToken,omitempty"`
+	ComponentName      string                            `json:"componentName,omitempty"`
+	ComponentTypeId    string                            `json:"componentTypeId,omitempty"`
+	PropertyFilter     []TwinMakerPropertyFilter         `json:"filter,omitempty"`
+	ListEntitiesFilter []TwinMakerListEntitiesFilter     `json:"listEntitiesFilter,omitempty"`
+	Order              TwinMakerResultOrder              `json:"order,omitempty"`
 
 	// Direct from the gRPC interfaces
-	QueryType TwinMakerQueryType     `json:"-"`
-	TimeRange backend.TimeRange `json:"-"`
+	QueryType TwinMakerQueryType `json:"-"`
+	TimeRange backend.TimeRange  `json:"-"`
 }
 
 func (q *TwinMakerQuery) CacheKey(pfix string) string {
@@ -75,8 +82,12 @@ func (q *TwinMakerQuery) CacheKey(pfix string) string {
 		}
 	}
 
-	for _, f := range q.Filter {
+	for _, f := range q.PropertyFilter {
 		key += "!" + f.Name + f.Op + f.Value
+	}
+	// TODO: does it break the filter?
+	for _, ef := range q.ListEntitiesFilter {
+		key += "&" + ef.ExternalId
 	}
 
 	key += "@" + q.Order

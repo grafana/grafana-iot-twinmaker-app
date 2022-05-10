@@ -2,8 +2,8 @@
     "PropertyValues": {
         "documents": {
             "PropertyReference": {
-                "ComponentName": "DocumentComponent",
-                "EntityId": "b2f31ce2-0c71-4e6d-8c65-000d8781d676",
+                "ComponentName": "SpecSheets",
+                "EntityId": "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
                 "ExternalIdProperty": null,
                 "PropertyName": "documents"
             },
@@ -15,7 +15,7 @@
                 "ListValue": null,
                 "LongValue": null,
                 "MapValue": {
-                    "amazon": {
+                    "manufacturer_page": {
                         "BooleanValue": null,
                         "DoubleValue": null,
                         "Expression": null,
@@ -24,9 +24,9 @@
                         "LongValue": null,
                         "MapValue": null,
                         "RelationshipValue": null,
-                        "StringValue": "https://www.amazon.com"
+                        "StringValue": "https://console.aws.amazon.com/iottwinmaker/home"
                     },
-                    "google": {
+                    "mixer1_manual": {
                         "BooleanValue": null,
                         "DoubleValue": null,
                         "Expression": null,
@@ -35,7 +35,7 @@
                         "LongValue": null,
                         "MapValue": null,
                         "RelationshipValue": null,
-                        "StringValue": "https://www.google.com"
+                        "StringValue": "https://github.com/aws-samples/aws-iot-twinmaker-samples"
                     }
                 },
                 "RelationshipValue": null,

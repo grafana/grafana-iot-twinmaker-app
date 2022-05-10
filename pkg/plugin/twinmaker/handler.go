@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"sort"
-	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -35,34 +34,6 @@ type TwinMakerHandler interface {
 
 type twinMakerHandler struct {
 	client TwinMakerClient
-}
-
-type alarm struct {
-	time       *time.Time
-	name       *string
-	status     *string
-	id         *string
-	entityId   *string
-	entityName *string
-}
-
-func (a *alarm) sortString() string {
-	t := time.Unix(0, 0)
-	if a.time != nil {
-		t = *a.time
-	}
-
-	e := "ent"
-	if a.entityName != nil {
-		e = *a.entityName
-	}
-
-	n := "__"
-	if a.name != nil {
-		n = *a.name
-	}
-
-	return fmt.Sprintf("%v/%v/%v", t, e, n)
 }
 
 func NewTwinMakerHandler(client TwinMakerClient) TwinMakerHandler {
@@ -360,7 +331,7 @@ func (s *twinMakerHandler) processMapValue(v map[string]*iottwinmaker.DataValue)
 	return frame
 }
 
-func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValueHistoryOutput, err error, query models.TwinMakerQuery) (dr backend.DataResponse) {
+func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValueHistoryOutput, err error, failures []data.Notice, query models.TwinMakerQuery) (dr backend.DataResponse) {
 	dr.Error = err
 	if err != nil {
 		return
@@ -376,12 +347,13 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 			continue
 		}
 		fields := newTwinMakerFrameBuilder(len(prop.Values))
-		t := fields.Time()
+		// Must return value field first so its labels can be used for the Time field
 		v, conv := fields.Value(prop.Values[0].Value)
+		t := fields.Time()
 		v.Name = "" // filled in with value below
 		for i, history := range prop.Values {
 			//nolint: staticcheck
-			t.Set(i, getTimeObjectFromStringTime(history.Time))
+			t.Set(i, history.Timestamp)
 			v.Set(i, conv(history.Value))
 		}
 
@@ -407,20 +379,35 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 		}
 
 		frame := fields.ToFrame("", results.NextToken)
+		frame.AppendNotices(failures...)
 		dr.Frames = append(dr.Frames, frame)
 	}
 	return
 }
 
-func (s *twinMakerHandler) GetComponentHistory(ctx context.Context, query models.TwinMakerQuery) backend.DataResponse {
+func (s *twinMakerHandler) GetComponentHistory(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
 	if query.ComponentTypeId == "" {
 		return backend.DataResponse{
 			Error: fmt.Errorf("missing component parameter"),
 		}
 	}
 
-	result, err := s.client.GetPropertyValueHistory(ctx, query)
-	return s.processHistory(result, err, query)
+	propertyReferences, failures, err := s.GetComponentHistoryWithLookup(ctx, query)
+	result := &iottwinmaker.GetPropertyValueHistoryOutput{
+		NextToken: nil,
+		PropertyValues: []*iottwinmaker.PropertyValueHistory{},
+	}
+
+	for _, p := range propertyReferences {
+		propertyValue := iottwinmaker.PropertyValueHistory{
+			EntityPropertyReference: p.entityPropertyReference,
+			Values: p.values,
+		}
+		result.PropertyValues = append(result.PropertyValues, &propertyValue)
+	}
+
+	// Return dataFrame with the history results and entityId and componentName
+	return s.processHistory(result, err, failures, query)
 }
 
 func (s *twinMakerHandler) GetEntityHistory(ctx context.Context, query models.TwinMakerQuery) backend.DataResponse {
@@ -430,150 +417,59 @@ func (s *twinMakerHandler) GetEntityHistory(ctx context.Context, query models.Tw
 		}
 	}
 	result, err := s.client.GetPropertyValueHistory(ctx, query)
-	return s.processHistory(result, err, query)
+	failures := []data.Notice{}
+	return s.processHistory(result, err, failures, query)
 }
 
-// return status and value here
+// Variation of GetComponentHistory for all alarm components that extend from the basic componentType
 func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
+	failures := []data.Notice{}
 	alarmComponentType := "com.amazon.iottwinmaker.alarm.basic"
 	externalIdKey := "alarm_key"
 	alarmProperty := "alarm_status"
-	isFiltered := len(query.Filter) > 0
+	isFiltered := len(query.PropertyFilter) > 0
 
 	var filter []models.TwinMakerPropertyFilter
 	if isFiltered {
-		filter = query.Filter
-		query.Filter = nil
+		filter = query.PropertyFilter
+		query.PropertyFilter = nil
 	}
 
-	// Step 1 - Get all componentTypes that extend from the base alarm type
-	alarmComponentTypes := map[string]*iottwinmaker.ComponentTypeSummary{}
+	// Get all componentTypes that extend from the base alarm type
 	query.ComponentTypeId = alarmComponentType
 	componentTypes, err := s.client.ListComponentTypes(ctx, query)
 	dr.Error = err
 	if err != nil {
 		return
 	}
-
 	if componentTypes == nil {
 		dr.Error = fmt.Errorf("error loading componentTypes for GetAlarms query")
 		return
 	}
 
-	// Step 2 - List all entities with alarm componentTypeIds as a filter
-	entitySummaries := []*iottwinmaker.EntitySummary{}
+	// Get the propertyValueHistory associated with all componentTypes from above
+	var pValues []PropertyReference
+
 	for _, componentTypeSummary := range componentTypes.ComponentTypeSummaries {
 		// Set mapping of alarm component types for quick lookup later
-		alarmComponentTypes[*componentTypeSummary.ComponentTypeId] = componentTypeSummary
-
+		query.EntityId = ""
+		query.Properties = []*string{aws.String(alarmProperty)}
 		query.ComponentTypeId = *componentTypeSummary.ComponentTypeId
-		dr.Error = err
-		entities, err := s.client.ListEntities(ctx, query)
-		if err != nil {
-			return
+		query.Order = models.ResultOrderDesc
+		if isFiltered {
+			query.PropertyFilter = filter
 		}
 
-		if entities == nil {
-			dr.Error = fmt.Errorf("error loading entities for GetAlarms query")
-			return
-		}
-
-		entitySummaries = append(entitySummaries, entities.EntitySummaries...)
-	}
-
-	// Step 3 - Call GetEntity on each alarm entity
-	alarms := map[string]alarm{}
-	for _, entitySummary := range entitySummaries {
-		query.EntityId = *entitySummary.EntityId
-		entity, err := s.client.GetEntity(ctx, query)
+		propertyReferences, newFailures, err := s.GetComponentHistoryWithLookup(ctx, query)
 		dr.Error = err
 		if err != nil {
 			return
 		}
-
-		if entity == nil {
-			dr.Error = fmt.Errorf("error loading entity for GetAlarms query")
-			return
-		}
-
-		for _, component := range entity.Components {
-			_, isAlarm := alarmComponentTypes[*component.ComponentTypeId]
-			if isAlarm {
-				alarmKey := component.Properties[externalIdKey].Value.StringValue
-				if alarmKey != nil {
-					alarmMappingKey := *component.ComponentTypeId + "_" + *alarmKey
-					alarms[alarmMappingKey] = alarm{
-						name:       component.ComponentName,
-						id:         alarmKey,
-						entityId:   entity.EntityId,
-						entityName: entity.EntityName,
-					}
-				}
-			}
-		}
+		failures = append(failures, newFailures...)
+		pValues = append(pValues, propertyReferences...)
 	}
 
-	if isFiltered {
-		query.Filter = filter
-	}
-
-	// Step 4 - Call GetPropertyValueHistory by alarm componentType and match with fetched alarms
-	failures := []data.Notice{}
-	query.EntityId = ""
-	query.Properties = []*string{aws.String(alarmProperty)}
-	filteredAlarms := []alarm{}
-	for componentTypeId := range alarmComponentTypes {
-		query.ComponentTypeId = componentTypeId
-		p, err := s.client.GetPropertyValueHistory(ctx, query)
-		// Show warning on panel when history API fails
-		if err != nil {
-			notice := data.Notice{
-				Severity: data.NoticeSeverityWarning,
-				Text:     err.Error(),
-			}
-			failures = append(failures, notice)
-		} else if p == nil {
-			notice := data.Notice{
-				Severity: data.NoticeSeverityWarning,
-				Text:     "error loading propertyValueHistory for GetAlarms query",
-			}
-			failures = append(failures, notice)
-		}
-
-		for _, propertyValue := range p.PropertyValues {
-			alarmKey := propertyValue.EntityPropertyReference.ExternalIdProperty[externalIdKey]
-			alarmMappingKey := componentTypeId + "_" + *alarmKey
-
-			alarm, isAlarm := alarms[alarmMappingKey]
-			if isAlarm {
-				vals := propertyValue.Values
-				v := vals[len(vals)-1]
-				alarm.status = v.Value.StringValue
-				//nolint: staticcheck
-				alarm.time = getTimeObjectFromStringTime(v.Time)
-				alarms[alarmMappingKey] = alarm
-
-				if isFiltered {
-					filteredAlarms = append(filteredAlarms, alarm)
-				}
-			}
-		}
-	}
-
-	showAlarms := filteredAlarms
-	if !isFiltered {
-		showAlarms = make([]alarm, 0, len(alarms))
-		for _, a := range alarms {
-			showAlarms = append(showAlarms, a)
-		}
-	}
-	sort.Slice(showAlarms, func(i, j int) bool {
-		a1 := showAlarms[i]
-		a2 := showAlarms[j]
-		return strings.Compare(a1.sortString(), a2.sortString()) >= 0
-	})
-
-	fields := newTwinMakerFrameBuilder(len(showAlarms))
+	fields := newTwinMakerFrameBuilder(len(pValues))
 	name := fields.Name()
 	name.Name = "alarmName"
 	id := fields.AlarmId()
@@ -614,15 +510,18 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 	}
 	t := fields.Time()
 
-	for i, alarm := range showAlarms {
-		t.Set(i, alarm.time)
-		name.Set(i, alarm.name)
-		status.Set(i, alarm.status)
-		id.Set(i, alarm.id)
-		eId.Set(i, alarm.entityId)
-		eName.Set(i, alarm.entityName)
+	for i, propertyReference := range pValues {
+		aValues := len(propertyReference.values)
+		if aValues > 0 {
+			//nolint: staticcheck
+			t.Set(i, propertyReference.values[0].Timestamp)
+			status.Set(i, propertyReference.values[0].Value.StringValue)
+		}
+		name.Set(i, propertyReference.entityPropertyReference.ComponentName)
+		id.Set(i, propertyReference.entityPropertyReference.ExternalIdProperty[externalIdKey])
+		eId.Set(i, propertyReference.entityPropertyReference.EntityId)
+		eName.Set(i, propertyReference.entityName)
 	}
-
 	frame := fields.ToFrame("", nil)
 	frame.AppendNotices(failures...)
 	dr.Frames = append(dr.Frames, frame)
@@ -657,12 +556,4 @@ func (s *twinMakerHandler) GetSessionToken(ctx context.Context, duration time.Du
 	}
 
 	return info, err
-}
-
-func getTimeObjectFromStringTime(timeString *string) *time.Time {
-	t, err := time.Parse(time.RFC3339, *timeString)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	return &t
 }
