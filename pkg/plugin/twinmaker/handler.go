@@ -356,8 +356,7 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 				t.Set(i, timeValue)
 				v.Set(i, conv(history.Value))
 			} else {
-				t.Set(i, nil)
-				v.Set(i, conv(history.Value))
+				dr.Error = fmt.Errorf("error parsing timestamp while loading propertyValueHistory")
 			}
 		}
 
@@ -519,6 +518,8 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 		if aValues > 0 {
 			if timeValue, err := getTimeObjectFromStringTime(propertyReference.values[0].Time); err == nil {
 				t.Set(i, timeValue)
+			} else {
+				dr.Error = fmt.Errorf("error parsing timestamp during GetAlarms query")
 			}
 			status.Set(i, propertyReference.values[0].Value.StringValue)
 		}
