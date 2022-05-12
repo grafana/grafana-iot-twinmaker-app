@@ -12,8 +12,8 @@
             },
             "Values": [
                 {
-                    "Time": null,
-                    "Timestamp": "2022-04-27T17:19:42Z",
+                    "Time": "2022-04-27T17:19:42Z",
+                    "Timestamp": null,
                     "Value": {
                         "BooleanValue": null,
                         "DoubleValue": null,
