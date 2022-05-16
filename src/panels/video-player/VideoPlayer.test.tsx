@@ -13,6 +13,8 @@ import { setTemplateSrv } from '@grafana/runtime';
 setTemplateSrv({
   getVariables: () => [],
   replace: (v: string) => v,
+  containsTemplate: () => false,
+  updateTimeRange: () => {},
 });
 
 describe('VideoPlayer', () => {

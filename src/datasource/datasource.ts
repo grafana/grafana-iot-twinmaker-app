@@ -122,7 +122,7 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
   }
 
   // Fetch temporary AWS tokens from the backend plugin and convert them into JS SDK Credentials
-  getTokens = async (): Promise<Credentials> => {
+  async getTokens(): Promise<Credentials> {
     const tokenInfo = (await super.getResource('token')) as AWSTokenInfo;
     const credentials = new Credentials({
       accessKeyId: tokenInfo.accessKeyId,
@@ -131,5 +131,5 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
     });
     credentials.expireTime = new Date(tokenInfo.expiration);
     return credentials;
-  };
+  }
 }
