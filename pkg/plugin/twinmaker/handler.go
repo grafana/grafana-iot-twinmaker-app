@@ -476,6 +476,12 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 		}
 		failures = append(failures, newFailures...)
 		pValues = append(pValues, propertyReferences...)
+		if isLimited && len(pValues) >= maxResults {
+			if len(pValues) > maxResults {
+				pValues = pValues[:maxResults]
+			}
+			break
+		}
 	}
 
 	fields := newTwinMakerFrameBuilder(len(pValues))
