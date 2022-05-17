@@ -29,7 +29,7 @@ func TestCheckHealthHandler(t *testing.T) {
 		)
 
 		require.Equal(t, res.Status, backend.HealthStatusError)
-		require.Equal(t, res.Message, "The security token included in the request is invalid.")
+		require.Contains(t, res.Message, "InvalidClientTokenId: The security token included in the request is invalid.\n\tstatus code: 403")
 	})
 
 	t.Run("HealthStatusOK when can connect", func(t *testing.T) {

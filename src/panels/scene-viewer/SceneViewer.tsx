@@ -4,57 +4,26 @@ import { DataFrame } from '@grafana/data';
 import {
   ComponentName,
   ComponentPropsType,
-  IAwsState,
   IDataBindingTemplate,
   IDataFrame,
   IDataInput,
   TwinMakerApiModel,
   TargetObjectData,
   ValueType,
-  awsActions,
   DataBindingLabelKeys,
   undecorateDataBindingTemplate,
+  IDataField,
 } from 'aws-iot-twinmaker-grafana-utils';
 import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
 import { SceneViewerPropsFromParent } from './interfaces';
 import { getStyles } from './styles';
-import { connect, ConnectedProps } from 'react-redux';
 import { getValidHttpUrl, mergeDashboard, updateUrlParams } from './helpers';
 import { MERGE_DASHBOARD_TARGET_ID_KEY } from 'common/constants';
 import plugin from '../../plugin.json';
-import { useEffectOnce } from 'react-use';
-import { isEmpty } from 'lodash';
 
-// State from Redux and Props from Grafana
-const mapStateToProps = (state: { aws: IAwsState }, props: SceneViewerPropsFromParent) => {
-  return {
-    options: props.options,
-    width: props.width,
-    height: props.height,
-    twinMakerUxSdk: props.twinMakerUxSdk,
-    workspaceId: props.workspaceId,
-    data: props.data,
-    alarms: state.aws.alarm.alarms,
-    isFetchingAlarms: state.aws.alarm.apiStatuses.getAlarms.isLoading,
-    replaceVariables: props.replaceVariables,
-    selectedEntityVarName: props.options.customSelEntityVarName,
-    selectedComponentVarName: props.options.customSelCompVarName,
-  };
-};
-
-const connector = connect(mapStateToProps);
-
-export type SceneViewerProps = ConnectedProps<typeof connector>;
-
-export const SceneViewer = (props: SceneViewerProps) => {
+export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const styles = getStyles(props.width, props.height);
   const selectedNodeRef = useRef<string>();
-
-  useEffectOnce(() => {
-    if (!props.isFetchingAlarms && isEmpty(props.alarms)) {
-      props.twinMakerUxSdk.awsStore.dispatchAwsAction(awsActions.getAlarms(props.workspaceId));
-    }
-  });
 
   const onTargetObjectChanged = useCallback(
     (objectData: TargetObjectData) => {
@@ -72,64 +41,74 @@ export const SceneViewer = (props: SceneViewerProps) => {
           const dashboardId = anchorData.navLink?.params?.[MERGE_DASHBOARD_TARGET_ID_KEY];
           mergeDashboard(dashboardId).then((options) => {
             updateUrlParams(
-              options?.customSelEntityVarName || props.selectedEntityVarName,
-              options?.customSelCompVarName || props.selectedComponentVarName,
+              options?.customSelEntityVarName || props.options.customSelEntityVarName,
+              options?.customSelCompVarName || props.options.customSelCompVarName,
               anchorData
             );
           });
         } else {
           if (selectedNodeRef.current === anchorData.anchorNodeRef) {
             selectedNodeRef.current = undefined;
-            updateUrlParams(props.selectedEntityVarName, props.selectedComponentVarName, anchorData);
+            updateUrlParams(props.options.customSelEntityVarName, props.options.customSelCompVarName, anchorData);
           }
         }
       }
     },
-    [props.selectedEntityVarName, props.selectedComponentVarName]
+    [props.options.customSelEntityVarName, props.options.customSelCompVarName]
   );
 
-  const mapDataFrame = useCallback(
-    (df: DataFrame): IDataFrame => {
-      return {
+  const mapDataFrame = (df: DataFrame): IDataFrame[] => {
+    // Map GetAlarms query dataFrame.
+    const componentNameField = df.fields.find((field) => field.name === 'alarmName')?.values.toArray();
+    const entityIdField = df.fields.find((field) => field.name === 'entityId')?.values.toArray();
+    const alarmStatusField = df.fields.find((field) => field.name === 'alarmStatus')?.values.toArray();
+    const timeField = df.fields.find((field) => field.name === 'Time')?.values.toArray();
+
+    if (componentNameField && entityIdField && alarmStatusField && timeField) {
+      const mappedFrames: IDataFrame[] = [];
+      alarmStatusField.forEach((status, index) => {
+        const labels = {
+          [DataBindingLabelKeys.entityId]: entityIdField[index],
+          [DataBindingLabelKeys.componentName]: componentNameField[index],
+        };
+        const mappedStatus: IDataField = {
+          name: TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmStatus,
+          valueType: 'string',
+          values: [status],
+          labels,
+        };
+        const mappedTime: IDataField = {
+          name: 'Time',
+          valueType: 'time',
+          values: [timeField[index]],
+          labels,
+        };
+        mappedFrames.push({
+          dataFrameId: df.refId ? `${df.refId}-${index}` : '',
+          fields: [mappedStatus, mappedTime],
+        });
+      });
+      return mappedFrames;
+    }
+
+    return [
+      {
         dataFrameId: df.refId || '',
         fields: df.fields.map((f) => {
-          let labels = f.labels;
-          if (f.labels && !isEmpty(f.labels)) {
-            const alarmKey = f.labels[TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmKey];
-            const componentTypeId = f.labels[DataBindingLabelKeys.componentTypeId];
-
-            if (!f.labels?.[DataBindingLabelKeys.entityId] && componentTypeId && alarmKey) {
-              Object.keys(props.alarms[alarmKey] || {}).find((entityId) => {
-                Object.keys(props.alarms[alarmKey][entityId]).find((componentName) => {
-                  // @ts-expect-error
-                  if (props.alarms[alarmKey][entityId][componentName].componentTypeId === componentTypeId) {
-                    labels = {
-                      ...labels,
-                      [DataBindingLabelKeys.entityId]: entityId,
-                      [DataBindingLabelKeys.componentName]: componentName,
-                    };
-                    return true;
-                  }
-                  return false;
-                });
-              });
-            }
-          }
           return {
             name: f.name,
-            labels,
+            labels: f.labels,
             valueType: f.type as ValueType,
             values: f.values.toArray().slice(),
           };
         }),
-      };
-    },
-    [props.alarms]
-  );
+      },
+    ];
+  };
 
   const createDataInputFrames = (series: DataFrame[]) => {
     const dataFrames: IDataFrame[] = [];
-    series.forEach((df) => dataFrames.push(mapDataFrame(df)));
+    series.forEach((df) => dataFrames.push(...mapDataFrame(df)));
 
     return dataFrames;
   };
@@ -143,20 +122,20 @@ export const SceneViewer = (props: SceneViewerProps) => {
       },
     };
 
-    const selectedEntityVar = props.selectedEntityVarName
-      ? props.replaceVariables(props.selectedEntityVarName)
+    const selectedEntityVar = props.options.customSelEntityVarName
+      ? props.replaceVariables(props.options.customSelEntityVarName)
       : undefined;
-    const selectedComponentVar = props.selectedComponentVarName
-      ? props.replaceVariables(props.selectedComponentVarName)
+    const selectedComponentVar = props.options.customSelCompVarName
+      ? props.replaceVariables(props.options.customSelCompVarName)
       : undefined;
 
     const dataBindingTemplate: IDataBindingTemplate = {};
-    if (props.selectedEntityVarName && selectedEntityVar) {
-      const undecoratedKey = undecorateDataBindingTemplate(props.selectedEntityVarName);
+    if (props.options.customSelEntityVarName && selectedEntityVar) {
+      const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelEntityVarName);
       dataBindingTemplate[undecoratedKey] = selectedEntityVar;
     }
-    if (props.selectedComponentVarName && selectedComponentVar) {
-      const undecoratedKey = undecorateDataBindingTemplate(props.selectedComponentVarName);
+    if (props.options.customSelCompVarName && selectedComponentVar) {
+      const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelCompVarName);
       dataBindingTemplate[undecoratedKey] = selectedComponentVar;
     }
 
@@ -176,7 +155,7 @@ export const SceneViewer = (props: SceneViewerProps) => {
           sceneId: props.options.sceneId!,
         },
       },
-      hdriPath: `${staticPluginPath}/static`,
+      cdnPath: `${window.location.origin}/${staticPluginPath}/static`,
       dracoDecoder: {
         enable: true,
         path: `${window.location.origin}/${staticPluginPath}/static/draco/`,
@@ -191,7 +170,7 @@ export const SceneViewer = (props: SceneViewerProps) => {
 
     return props.twinMakerUxSdk.createComponentForReact(ComponentName.WebGLRenderer, webGlRendererProps);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.options.sceneId, props.width, props.height, props.twinMakerUxSdk, props.data.series, props.alarms]);
+  }, [props.options.sceneId, props.width, props.height, props.twinMakerUxSdk, props.data.series]);
 
   return (
     <div
@@ -203,5 +182,3 @@ export const SceneViewer = (props: SceneViewerProps) => {
     </div>
   );
 };
-
-export const SceneViewerConnected = connector(SceneViewer);

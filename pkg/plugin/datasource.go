@@ -117,25 +117,25 @@ func (ds *TwinMakerDatasource) QueryData(ctx context.Context, req *backend.Query
 }
 
 func (ds *TwinMakerDatasource) CheckHealth(ctx context.Context, _ *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
+	if ds.settings.WorkspaceID == "" {
+		return &backend.CheckHealthResult{
+			Status:  backend.HealthStatusError,
+			Message: "Missing WorkspaceID configuration",
+		}, nil
+	}
+	
 	_, err := ds.handler.GetSessionToken(ctx, time.Second*3600, ds.settings.WorkspaceID)
 	if err != nil {
 		awsErr, ok := err.(awserr.Error)
 		if ok {
 			return &backend.CheckHealthResult{
 				Status:  backend.HealthStatusError,
-				Message: awsErr.Message(),
+				Message: awsErr.Error(),
 			}, nil
 		}
 		return &backend.CheckHealthResult{
 			Status:  backend.HealthStatusError,
 			Message: "Failed to get session token",
-		}, nil
-	}
-
-	if ds.settings.WorkspaceID == "" {
-		return &backend.CheckHealthResult{
-			Status:  backend.HealthStatusError,
-			Message: "Missing WorkspaceID configuration",
 		}, nil
 	}
 

@@ -48,16 +48,20 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	sessions := awsds.NewSessionCache()
 	agent := userAgentString("grafana-iot-twinmaker-app")
 
+	// Clients should not use a custom endpoint to load session credentials
+	noEndpointSettings := settings.AWSDatasourceSettings
+	noEndpointSettings.Endpoint = ""
+
 	// STS client can not use scoped down role to generate tokens
-	stssettings := settings.AWSDatasourceSettings
+	stssettings := noEndpointSettings
 	stssettings.AssumeRoleARN = ""
-	stssettings.Endpoint = "" // always standard
 
 	twinMakerService := func() (*iottwinmaker.IoTTwinMaker, error) {
-		sess, err := sessions.GetSession("", settings.AWSDatasourceSettings)
+		sess, err := sessions.GetSession("", noEndpointSettings)
 		if err != nil {
 			return nil, err
 		}
+		sess.Config.Endpoint = &settings.AWSDatasourceSettings.Endpoint
 
 		svc := iottwinmaker.New(sess, aws.NewConfig())
 		svc.Handlers.Send.PushFront(func(r *request.Request) {
@@ -160,7 +164,6 @@ func (c *twinMakerClient) ListEntities(ctx context.Context, query models.TwinMak
 
 	params := &iottwinmaker.ListEntitiesInput{
 		MaxResults:  aws.Int64(200),
-		NextToken:   aws.String(query.NextToken),
 		WorkspaceId: &query.WorkspaceId,
 	}
 
@@ -334,9 +337,9 @@ func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query mod
 	}
 
 	params := &iottwinmaker.GetPropertyValueHistoryInput{
-		EndDateTime:        &query.TimeRange.To,
+		EndTime:            getTimeStringFromTimeObject(&query.TimeRange.To),
 		SelectedProperties: query.Properties,
-		StartDateTime:      &query.TimeRange.From,
+		StartTime:          getTimeStringFromTimeObject(&query.TimeRange.From),
 		WorkspaceId:        &query.WorkspaceId,
 	}
 
@@ -377,25 +380,7 @@ func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query mod
 		params.SetPropertyFilters(filter)
 	}
 
-	propertyValueHistories, err := client.GetPropertyValueHistoryWithContext(ctx, params)
-	if err != nil {
-		return nil, err
-	}
-
-	cPropertyValuesHistories := propertyValueHistories
-	for cPropertyValuesHistories.NextToken != nil {
-		params.NextToken = cPropertyValuesHistories.NextToken
-
-		cPropertyValuesHistories, err := client.GetPropertyValueHistoryWithContext(ctx, params)
-		if err != nil {
-			return nil, err
-		}
-
-		propertyValueHistories.PropertyValues = append(propertyValueHistories.PropertyValues, cPropertyValuesHistories.PropertyValues...)
-		propertyValueHistories.NextToken = cPropertyValuesHistories.NextToken
-	}
-
-	return propertyValueHistories, nil
+	return client.GetPropertyValueHistoryWithContext(ctx, params)
 }
 
 func (c *twinMakerClient) GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*sts.Credentials, error) {

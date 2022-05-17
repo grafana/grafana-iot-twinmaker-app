@@ -6,7 +6,7 @@ import { LoadingPlaceholder } from '@grafana/ui';
 
 import { ScenePanelState } from './interfaces';
 
-import { SceneViewerConnected } from './SceneViewer';
+import { SceneViewer } from './SceneViewer';
 import { configureSdkWithDataSource, DataSourceParams } from '../sdkInit';
 import { PanelOptions } from './types';
 import { getTwinMakerDashboardManager } from 'common/manager';
@@ -59,7 +59,7 @@ export class ScenePanel extends React.Component<Props, ScenePanelState> {
     return this.dataSourceParams ? (
       hasSceneInput ? (
         <Provider store={this.dataSourceParams.store}>
-          <SceneViewerConnected {...this.props} {...this.dataSourceParams} />
+          <SceneViewer {...this.props} {...this.dataSourceParams} />
         </Provider>
       ) : (
         <div> Missing TwinMaker scene in panel display options </div>
