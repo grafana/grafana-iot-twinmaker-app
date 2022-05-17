@@ -116,8 +116,7 @@ export class QueryEditor extends PureComponent<Props, State> {
   onMaxResultsChange = (event: any) => {
     const { onChange, query, onRunQuery } = this.props;
     // set default maxResults to 50
-    const maxResults = +event.target.value;
-    console.log(maxResults);
+    const maxResults = event.target.valueAsNumber ?? 50;
     onChange({ ...query, maxResults });
     onRunQuery();
   };
@@ -352,9 +351,9 @@ export class QueryEditor extends PureComponent<Props, State> {
           <Input
             className="width-15"
             value={query.maxResults}
-            type={'number'}
+            type="number"
             onChange={this.onMaxResultsChange}
-            placeholder={'50'}
+            placeholder="50"
           />
         </InlineField>
       </InlineFieldRow>
