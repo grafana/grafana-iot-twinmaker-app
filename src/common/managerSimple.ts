@@ -17,7 +17,7 @@ export class SimpleTwinMakerDashboardManager implements TwinMakerDashboardManage
   listTwinMakerPanels() {
     const keep = new Set(Object.values(TWINMAKER_PANEL_TYPE_ID));
     const dash = getCurrentDashboard();
-    return dash.panels
+    return dash?.panels
       .filter((p) => keep.has(p.type))
       .map((p) => {
         let label = p.title ?? `Panel: ${p.id}`;
