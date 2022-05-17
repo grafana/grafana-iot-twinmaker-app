@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -20,7 +21,7 @@ func TestHandleAWSData(t *testing.T) {
 
 	t.Run("manually get an sts token", func(t *testing.T) {
 		client.path = "get-token"
-		WorkspaceId := "CookieFactory-11-16"
+		WorkspaceId := "AlarmWorkspace"
 		token, err := handler.GetSessionToken(context.Background(), time.Second*3600, WorkspaceId)
 		require.NoError(t, err)
 		require.NotEmpty(t, token)
@@ -91,26 +92,52 @@ func TestHandleAWSData(t *testing.T) {
 			"componentName": "AlarmComponent",
 			"entityId":      "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
 		}
-		require.Equal(t, labels, dr.Frames[0].Fields[1].Labels)
+		require.Equal(t, labels, dr.Frames[0].Fields[0].Labels)
 	})
 
 	t.Run("run GetComponentHistory handler w id", func(t *testing.T) {
+		t.Skip()
+		// cannot use the mock client here since this uses different API calls
+		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+			// use credentials in ~/.aws/credentials
+			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
+				AuthType: awsds.AuthTypeDefault,
+				Region:   "us-east-1",
+			},
+		})
+		require.NoError(t, err)
+		handler := NewTwinMakerHandler(c)
+
 		client.path = "get-property-history-alarms-w-id"
 		resp := handler.GetComponentHistory(context.Background(), models.TwinMakerQuery{
-			ComponentTypeId: "xxx",
+			WorkspaceId: "AlarmWorkspace",
+			TimeRange: backend.TimeRange{
+				From: time.Date(2022, 4, 27, 0, 0, 0, 0, time.UTC),
+				To:   time.Date(2022, 4, 27, 23, 0, 0, 0, time.UTC),
+			},
+			ComponentTypeId: "com.example.cookiefactory.alarm",
+			Properties:      []*string{aws.String("alarm_status")},
+			PropertyFilter: []models.TwinMakerPropertyFilter{
+				{
+					Name:  "alarm_status",
+					Value: "ACTIVE",
+					Op:    "=",
+				},
+			},
+			Order: "DESCENDING",
 		})
 		dr := runTest(t, client.path, &resp)
 		labels := data.Labels{
-			"alarm_key":       "Mixer_7_ca6b9bd9-6ace-433f-a095-da4b8ab53b1b",
-			"componentTypeId": "xxx",
+			"entityId":      "WaterTank_ab5e8bc0-5c8f-44d8-b0a9-bef9c8d2cfab",
+			"componentName": "AlarmComponent",
 		}
-		require.Equal(t, labels, dr.Frames[0].Fields[1].Labels)
-		labels["alarm_key"] = "Mixer_3_f813ecad-e144-4105-a4dd-64b8070fe012"
-		require.Equal(t, labels, dr.Frames[1].Fields[1].Labels)
-		labels["alarm_key"] = "Mixer_1_597c735b-38fd-476c-b276-7592b1699ef8"
-		require.Equal(t, labels, dr.Frames[2].Fields[1].Labels)
-		labels["alarm_key"] = "Mixer_11_2ef76a9e-825b-4405-992f-f6fb401412ac"
-		require.Equal(t, labels, dr.Frames[3].Fields[1].Labels)
+		require.Equal(t, labels, dr.Frames[0].Fields[0].Labels)
+		labels["entityId"] = "Mixer_0_cd81d9fd-3f74-437a-802b-9747ff240837"
+		require.Equal(t, labels, dr.Frames[1].Fields[0].Labels)
+		labels["entityId"] = "Mixer_4_784b3c3e-5779-4ca1-ad0b-036b18dd1fcc"
+		require.Equal(t, labels, dr.Frames[2].Fields[0].Labels)
+		labels["entityId"] = "Mixer_10_9ee8913d-1fef-4453-beee-fbfc147fc03c"
+		require.Equal(t, labels, dr.Frames[3].Fields[0].Labels)
 	})
 
 	t.Run("run GetAlarms handler", func(t *testing.T) {
@@ -128,10 +155,17 @@ func TestHandleAWSData(t *testing.T) {
 
 		client.path = "get-alarms"
 		resp := handler.GetAlarms(context.Background(), models.TwinMakerQuery{
-			WorkspaceId: "CookieFactory-11-16",
+			WorkspaceId: "AlarmWorkspace",
 			TimeRange: backend.TimeRange{
-				From: time.Date(2021, 11, 1, 1, 0, 0, 0, time.UTC),
-				To:   time.Date(2021, 11, 7, 20, 5, 0, 0, time.UTC),
+				From: time.Date(2022, 4, 27, 0, 0, 0, 0, time.UTC),
+				To:   time.Date(2022, 4, 27, 23, 0, 0, 0, time.UTC),
+			},
+			PropertyFilter: []models.TwinMakerPropertyFilter{
+				{
+					Name:  "alarm_status",
+					Value: "ACTIVE",
+					Op:    "=",
+				},
 			},
 		})
 		_ = runTest(t, client.path, &resp)

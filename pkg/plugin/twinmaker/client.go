@@ -2,6 +2,7 @@ package twinmaker
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
 	"runtime"
@@ -163,14 +164,29 @@ func (c *twinMakerClient) ListEntities(ctx context.Context, query models.TwinMak
 
 	params := &iottwinmaker.ListEntitiesInput{
 		MaxResults:  aws.Int64(200),
-		NextToken:   aws.String(query.NextToken),
 		WorkspaceId: &query.WorkspaceId,
 	}
 
+	// this will be overridden if a filter is set
 	if query.ComponentTypeId != "" {
 		params.Filters = make([]*iottwinmaker.ListEntitiesFilter, 1)
 		params.Filters[0] = &iottwinmaker.ListEntitiesFilter{
 			ComponentTypeId: &query.ComponentTypeId,
+		}
+	}
+
+	// if a filter is set then just use that instead directly
+	if len(query.ListEntitiesFilter) > 0 {
+		if len(params.Filters) == 0 {
+			params.Filters = make([]*iottwinmaker.ListEntitiesFilter, 1)
+		}
+		listEntitiesFilter, err := json.Marshal(query.ListEntitiesFilter)
+		if err != nil {
+			return nil, err
+		}
+		err = json.Unmarshal(listEntitiesFilter, &params.Filters)
+		if err != nil {
+			return nil, err
 		}
 	}
 
@@ -321,9 +337,9 @@ func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query mod
 	}
 
 	params := &iottwinmaker.GetPropertyValueHistoryInput{
-		EndDateTime:        &query.TimeRange.To,
+		EndTime:            getTimeStringFromTimeObject(&query.TimeRange.To),
 		SelectedProperties: query.Properties,
-		StartDateTime:      &query.TimeRange.From,
+		StartTime:          getTimeStringFromTimeObject(&query.TimeRange.From),
 		WorkspaceId:        &query.WorkspaceId,
 	}
 
@@ -351,9 +367,9 @@ func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query mod
 		params.ComponentName = &query.ComponentName
 	}
 
-	if len(query.Filter) > 0 {
+	if len(query.PropertyFilter) > 0 {
 		var filter []*iottwinmaker.PropertyFilter
-		for _, fq := range query.Filter {
+		for _, fq := range query.PropertyFilter {
 			if fq.Name != "" && fq.Value != "" {
 				if fq.Op == "" {
 					fq.Op = "=" // matches the placeholder text in the frontend
