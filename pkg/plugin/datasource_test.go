@@ -15,6 +15,26 @@ func TestCheckHealthHandler(t *testing.T) {
 	t.Run("HealthStatusError when cannot connect", func(t *testing.T) {
 		ds := plugin.NewTwinMakerDatasource(models.TwinMakerDataSourceSetting{
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
+				AccessKey:     "sdkhfbhkdshjf",
+				SecretKey:     "sdafdsfdsf",
+				AuthType:      awsds.AuthTypeKeys,
+				Region:        "us-east-1",
+				AssumeRoleARN: "arn:abcefhtogjslghs:aws:ssafg",
+			},
+			WorkspaceID: "aaa",
+		})
+
+		res, _ := ds.CheckHealth(
+			context.Background(),
+			&backend.CheckHealthRequest{},
+		)
+
+		require.Equal(t, res.Status, backend.HealthStatusError)
+		require.Contains(t, res.Message, "InvalidClientTokenId: The security token included in the request is invalid.\n\tstatus code: 403")
+	})
+	t.Run("HealthStatusError when assume role arn is not filled out", func(t *testing.T) {
+		ds := plugin.NewTwinMakerDatasource(models.TwinMakerDataSourceSetting{
+			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AccessKey: "sdkhfbhkdshjf",
 				SecretKey: "sdafdsfdsf",
 				AuthType:  awsds.AuthTypeKeys,
@@ -29,17 +49,17 @@ func TestCheckHealthHandler(t *testing.T) {
 		)
 
 		require.Equal(t, res.Status, backend.HealthStatusError)
-		require.Contains(t, res.Message, "InvalidClientTokenId: The security token included in the request is invalid.\n\tstatus code: 403")
+		require.Contains(t, res.Message, "Assume Role ARN is required")
 	})
-
 	t.Run("HealthStatusOK when can connect", func(t *testing.T) {
 		t.Skip()
 		ds := plugin.NewTwinMakerDatasource(models.TwinMakerDataSourceSetting{
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
-				AccessKey: "sdkhfbhkdshjf",
-				SecretKey: "sdafdsfdsf",
-				AuthType:  awsds.AuthTypeKeys,
-				Region:    "us-east-1",
+				AccessKey:     "sdkhfbhkdshjf",
+				SecretKey:     "sdafdsfdsf",
+				AuthType:      awsds.AuthTypeKeys,
+				Region:        "us-east-1",
+				AssumeRoleARN: "abc",
 			},
 			WorkspaceID: "aaa",
 		})
