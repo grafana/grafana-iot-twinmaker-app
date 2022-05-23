@@ -347,7 +347,12 @@ export class QueryEditor extends PureComponent<Props, State> {
   renderAlarmMaxResultsInput(query: TwinMakerQuery) {
     return (
       <InlineFieldRow>
-        <InlineField label={'Max. Alarms'} grow={true} labelWidth={firstLabelWith}>
+        <InlineField
+          label={'Max. Alarms'}
+          grow={true}
+          labelWidth={firstLabelWith}
+          tooltip="Leave this field blank to return all results"
+        >
           <Input
             className="width-15"
             value={query.maxResults}

@@ -164,6 +164,15 @@ func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmaker.EntityP
 }
 
 func (s *twinMakerHandler) GetPropertyValueHistoryPaginated(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
+	// original input max results from users
+	// max = 430
+	max := query.MaxResults
+	leftOver := 0
+	if max > 200 {
+		query.MaxResults = 200
+		leftOver = max - 200
+	}
+
 	propertyValueHistories, err := s.client.GetPropertyValueHistory(ctx, query)
 	if err != nil {
 		return nil, err
@@ -177,8 +186,15 @@ func (s *twinMakerHandler) GetPropertyValueHistoryPaginated(ctx context.Context,
 	}
 
 	cPropertyValuesHistories := propertyValueHistories
-	for cPropertyValuesHistories.NextToken != nil {
+	for cPropertyValuesHistories.NextToken != nil && leftOver > 0 {
 		query.NextToken = *cPropertyValuesHistories.NextToken
+		if leftOver > 200 {
+			query.MaxResults = 200
+			leftOver = leftOver - 200
+		} else {
+			query.MaxResults = leftOver
+			leftOver = 0
+		}
 		cPropertyValuesHistories, err := s.client.GetPropertyValueHistory(ctx, query)
 		if err != nil {
 			return nil, err
@@ -196,8 +212,8 @@ func (s *twinMakerHandler) GetPropertyValueHistoryPaginated(ctx context.Context,
 		}
 
 		propertyValueHistories.NextToken = cPropertyValuesHistories.NextToken
-	}
 
+	}
 	return propertyValueHistories, nil
 }
 
