@@ -165,7 +165,6 @@ func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmaker.EntityP
 
 func (s *twinMakerHandler) GetPropertyValueHistoryPaginated(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
 	// original input max results from users
-	// max = 430
 	max := query.MaxResults
 	leftOver := 0
 	if max > 200 {
