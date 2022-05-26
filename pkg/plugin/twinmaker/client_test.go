@@ -35,7 +35,7 @@ func TestFetchAWSData(t *testing.T) {
 		require.NotEmpty(t, token)
 	})
 
-	t.Run("get a sts token with custom expiry when creds are temp", func(t *testing.T) {
+	t.Run("throw error when assume role arn is missing", func(t *testing.T) {
 		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
@@ -48,10 +48,8 @@ func TestFetchAWSData(t *testing.T) {
 		require.NoError(t, err)
 
 		WorkspaceId := "GrafanaWorkspace"
-		token, err := c.GetSessionToken(context.Background(), time.Second*3600, WorkspaceId)
-		require.NoError(t, err)
-		require.NotEmpty(t, token)
-		require.NotNil(t, token.Expiration)
+		_, err = c.GetSessionToken(context.Background(), time.Second*3600, WorkspaceId)
+		require.Error(t, err)
 	})
 
 	t.Run("manually get an sts token when creds are permanent", func(t *testing.T) {
