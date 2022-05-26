@@ -20,7 +20,7 @@ func writeJsonResponse(w http.ResponseWriter, rsp interface{}, err error) {
 
 func (ds *TwinMakerDatasource) HandleGetToken(w http.ResponseWriter, r *http.Request) {
 	if ds.settings.AssumeRoleARN == "" {
-		w.WriteHeader(http.StatusBadRequest)
+		w.WriteHeader(http.StatusInternalServerError)
 		_, _ = w.Write([]byte(`{"message": "Assume Role ARN is missing in datasource configuration"}`))
 		return
 	}
