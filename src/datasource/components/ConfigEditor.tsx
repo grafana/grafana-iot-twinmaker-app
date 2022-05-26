@@ -67,7 +67,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
           <Alert title="Assume Role ARN" severity="error" style={{ width: 700 }}>
             Specify an IAM role to narrow the permission scope of this datasource. Follow the documentation{' '}
             <a
-              href="https://docs.aws.amazon.com/iot-twinmaker/latest/guide/datasource-integration.html"
+              href="https://docs.aws.amazon.com/iot-twinmaker/latest/guide/dashboard-IAM-role.html"
               target="_blank"
               rel="noreferrer noopener"
             >
