@@ -43,33 +43,41 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
             updateUrlParams(
               options?.customSelEntityVarName || props.options.customSelEntityVarName,
               options?.customSelCompVarName || props.options.customSelCompVarName,
+              options?.customSelPropertyVarName || props.options.customSelPropertyVarName,
               anchorData
             );
           });
         } else {
           if (selectedNodeRef.current === anchorData.anchorNodeRef) {
             selectedNodeRef.current = undefined;
-            updateUrlParams(props.options.customSelEntityVarName, props.options.customSelCompVarName, anchorData);
+            updateUrlParams(
+              props.options.customSelEntityVarName,
+              props.options.customSelCompVarName,
+              props.options.customSelPropertyVarName,
+              anchorData
+            );
           }
         }
       }
     },
-    [props.options.customSelEntityVarName, props.options.customSelCompVarName]
+    [props.options.customSelEntityVarName, props.options.customSelCompVarName, props.options.customSelPropertyVarName]
   );
 
   const mapDataFrame = (df: DataFrame): IDataFrame[] => {
     // Map GetAlarms query dataFrame.
+    const propertyNameField = df.fields.find((field) => field.name === 'propertyName')?.values.toArray();
     const componentNameField = df.fields.find((field) => field.name === 'alarmName')?.values.toArray();
     const entityIdField = df.fields.find((field) => field.name === 'entityId')?.values.toArray();
     const alarmStatusField = df.fields.find((field) => field.name === 'alarmStatus')?.values.toArray();
     const timeField = df.fields.find((field) => field.name === 'Time')?.values.toArray();
 
-    if (componentNameField && entityIdField && alarmStatusField && timeField) {
+    if (propertyNameField && componentNameField && entityIdField && alarmStatusField && timeField) {
       const mappedFrames: IDataFrame[] = [];
       alarmStatusField.forEach((status, index) => {
         const labels = {
           [DataBindingLabelKeys.entityId]: entityIdField[index],
           [DataBindingLabelKeys.componentName]: componentNameField[index],
+          [DataBindingLabelKeys.propertyName]: propertyNameField[index],
         };
         const mappedStatus: IDataField = {
           name: TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmStatus,
@@ -128,6 +136,9 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     const selectedComponentVar = props.options.customSelCompVarName
       ? props.replaceVariables(props.options.customSelCompVarName)
       : undefined;
+    const selectedPropertyVar = props.options.customSelPropertyVarName
+      ? props.replaceVariables(props.options.customSelPropertyVarName)
+      : undefined;
 
     const dataBindingTemplate: IDataBindingTemplate = {};
     if (props.options.customSelEntityVarName && selectedEntityVar) {
@@ -138,10 +149,15 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelCompVarName);
       dataBindingTemplate[undecoratedKey] = selectedComponentVar;
     }
+    if (props.options.customSelPropertyVarName && selectedPropertyVar) {
+      const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelPropertyVarName);
+      dataBindingTemplate[undecoratedKey] = selectedPropertyVar;
+    }
 
     const selectedDataBinding = {
       [DataBindingLabelKeys.entityId]: selectedEntityVar ?? '',
       [DataBindingLabelKeys.componentName]: selectedComponentVar ?? '',
+      [DataBindingLabelKeys.propertyName]: selectedPropertyVar ?? '',
     };
 
     const staticPluginPath = `public/plugins/${plugin.id}`;

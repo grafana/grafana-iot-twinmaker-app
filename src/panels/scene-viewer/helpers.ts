@@ -80,6 +80,7 @@ export function getValidHttpUrl(navLinkProps?: INavLink) {
 export function updateUrlParams(
   selectedEntityVarName?: string,
   selectedComponentVarName?: string,
+  selectedPropertyVarName?: string,
   anchorData?: IAnchorEvent
 ) {
   if (anchorData && anchorData.dataBindingContext) {
@@ -97,6 +98,13 @@ export function updateUrlParams(
       actions.push({
         variable: selectedComponentVarName,
         value: dataBinding[DataBindingLabelKeys.componentName],
+      });
+    }
+
+    if (selectedPropertyVarName) {
+      actions.push({
+        variable: selectedPropertyVarName,
+        value: dataBinding[DataBindingLabelKeys.propertyName],
       });
     }
 
