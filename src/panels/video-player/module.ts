@@ -21,7 +21,6 @@ export const plugin = new PanelPlugin<PanelOptions>(VideoPlayerPanel).setPanelOp
       id: 'kvsStreamName',
       path: 'kvsStreamName',
       name: 'KVS stream name',
-      description: 'Enter your KVS stream name',
       defaultValue: '',
       settings: {
         isComponentName: false,
@@ -33,7 +32,6 @@ export const plugin = new PanelPlugin<PanelOptions>(VideoPlayerPanel).setPanelOp
       id: 'entityId',
       path: 'entityId',
       name: 'Entity',
-      description: 'Enter entityId for GG Edge Connector for KVS',
       defaultValue: '',
       settings: {
         isComponentName: false,
@@ -44,8 +42,7 @@ export const plugin = new PanelPlugin<PanelOptions>(VideoPlayerPanel).setPanelOp
     .addCustomEditor({
       id: 'componentName',
       path: 'componentName',
-      name: 'Component name',
-      description: 'Enter componentName for GG Edge Connector for KVS',
+      name: 'Component',
       defaultValue: '',
       settings: {
         isComponentName: true,
