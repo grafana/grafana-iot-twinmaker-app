@@ -58,7 +58,7 @@ func newDataValueField(v *iottwinmaker.DataValue, count int) (*data.Field, func(
 	}
 
 	if val := v.LongValue; val != nil {
-		f := data.NewFieldFromFieldType(data.FieldTypeNullableFloat64, count)
+		f := data.NewFieldFromFieldType(data.FieldTypeNullableInt64, count)
 		c := func(v *iottwinmaker.DataValue) interface{} {
 			return v.LongValue
 		}
