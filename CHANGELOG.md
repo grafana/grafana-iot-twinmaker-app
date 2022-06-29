@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.1.2
+
+- Increase the size and brightness of the tag selection graphic 
+- Color the outer circle to be blue for tags
+- Make video tag consistent with other tags
+- Black icon issue for tags in FireFox
+
 ## v1.1.1
 
 - Fix bug in GetPropertyValue query to display multiple LIST property types
