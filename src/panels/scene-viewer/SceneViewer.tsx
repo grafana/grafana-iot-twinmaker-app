@@ -65,19 +65,17 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
 
   const mapDataFrame = (df: DataFrame): IDataFrame[] => {
     // Map GetAlarms query dataFrame.
-    const propertyNameField = df.fields.find((field) => field.name === 'propertyName')?.values.toArray();
     const componentNameField = df.fields.find((field) => field.name === 'alarmName')?.values.toArray();
     const entityIdField = df.fields.find((field) => field.name === 'entityId')?.values.toArray();
     const alarmStatusField = df.fields.find((field) => field.name === 'alarmStatus')?.values.toArray();
     const timeField = df.fields.find((field) => field.name === 'Time')?.values.toArray();
 
-    if (propertyNameField && componentNameField && entityIdField && alarmStatusField && timeField) {
+    if (componentNameField && entityIdField && alarmStatusField && timeField) {
       const mappedFrames: IDataFrame[] = [];
       alarmStatusField.forEach((status, index) => {
         const labels = {
           [DataBindingLabelKeys.entityId]: entityIdField[index],
           [DataBindingLabelKeys.componentName]: componentNameField[index],
-          [DataBindingLabelKeys.propertyName]: propertyNameField[index],
         };
         const mappedStatus: IDataField = {
           name: TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmStatus,

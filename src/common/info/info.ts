@@ -1,6 +1,11 @@
 import { SelectableValue } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { TwinMakerWorkspaceInfoSupplier, WorkspaceSelectionInfo } from './types';
+import {
+  SelectableComponentInfo,
+  SelectableQueryResults,
+  TwinMakerWorkspaceInfoSupplier,
+  WorkspaceSelectionInfo,
+} from './types';
 import { chain, isObject, omitBy } from 'lodash';
 
 export function getTwinMakerWorkspaceInfoSupplier(
@@ -45,6 +50,94 @@ export function getCachingWorkspaceInfoSupplier(supplier: TwinMakerWorkspaceInfo
   };
 }
 
+export enum ComponentFieldName {
+  timeSeries = 'timeSeries',
+  props = 'props',
+}
+
+export function resolvePropsFromComponentSel(
+  compName: SelectionInfo<string>,
+  field: ComponentFieldName,
+  entityInfo: SelectableComponentInfo[] | undefined
+) {
+  let resolvedCompName: string | undefined;
+  if (compName.current && compName.current.value && compName.current.value.indexOf('$') >= 0) {
+    resolvedCompName = getTemplateSrv().replace(compName.current.value);
+  }
+  let propOpts = compName.current?.[field] as SelectableQueryResults | undefined;
+  if (!propOpts && resolvedCompName) {
+    const comp = entityInfo?.find((item) => item.value === resolvedCompName);
+    propOpts = comp?.[field] as SelectableQueryResults;
+  }
+  return propOpts;
+}
+
+const handleValueNotFound = <T = any>(value: T) => {
+  const current = {
+    label: `${value} (not found)`,
+    value,
+  };
+  if (current.label!.indexOf('$') >= 0) {
+    current.label = `${value}`;
+    const escaped = getTemplateSrv().replace(String(value));
+    if (escaped !== current.label) {
+      current.label += ` (variable)`;
+    } else {
+      current.label += ` ${escaped}`;
+    }
+  }
+  return current;
+};
+
+export interface MultiSelectionInfo<T = any> {
+  options: Array<SelectableValue<T>>;
+  current?: SelectableQueryResults;
+}
+
+export function getMultiSelectionInfo(
+  values?: string[],
+  options?: Array<SelectableValue<string>>,
+  templateVars?: Array<SelectableValue<string>>
+): MultiSelectionInfo<string> {
+  if (values && !options) {
+    const selected: SelectableQueryResults = [];
+    for (const value of values) {
+      const current = { label: `${value}`, value };
+      selected.push(current);
+    }
+    return { options: selected, current: selected };
+  }
+
+  if (!options) {
+    options = [];
+  }
+  if (templateVars) {
+    options = [{ label: 'Use template variable', options: templateVars, icon: 'link-h' }, ...options];
+  }
+  const selected: SelectableQueryResults = [];
+  if (values) {
+    for (const value of values) {
+      let current = options.find((item) => item.value === value);
+      if (templateVars && !current) {
+        current = templateVars.find((item) => item.value === value);
+      }
+
+      if (value && !current) {
+        current = handleValueNotFound(value);
+        options.push(current);
+      }
+
+      if (current) {
+        selected.push(current);
+      }
+    }
+  }
+  return {
+    options,
+    current: selected,
+  };
+}
+
 export interface SelectionInfo<T = any> {
   options: Array<SelectableValue<T>>;
   current?: SelectableValue<T>;
@@ -71,19 +164,7 @@ export function getSelectionInfo<T>(
   }
 
   if (v && !current) {
-    current = {
-      label: `${v} (not found)`,
-      value: v,
-    };
-    if (current.label!.indexOf('$') >= 0) {
-      current.label = `${v}`;
-      const escaped = getTemplateSrv().replace(String(v));
-      if (escaped !== current.label) {
-        current.label += ` (variable)`;
-      } else {
-        current.label += ` ${escaped}`;
-      }
-    }
+    current = handleValueNotFound(v);
     options.push(current);
   }
   return {
