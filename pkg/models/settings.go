@@ -11,6 +11,7 @@ import (
 type TwinMakerDataSourceSetting struct {
 	awsds.AWSDatasourceSettings
 	WorkspaceID string `json:"workspaceId"`
+	UID string
 }
 
 func (s *TwinMakerDataSourceSetting) Load(config backend.DataSourceInstanceSettings) error {
@@ -20,6 +21,8 @@ func (s *TwinMakerDataSourceSetting) Load(config backend.DataSourceInstanceSetti
 		}
 	}
 
+	s.UID = config.UID
+	
 	if s.Region == "default" || s.Region == "" {
 		s.Region = s.DefaultRegion
 	}

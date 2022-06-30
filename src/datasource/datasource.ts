@@ -9,6 +9,7 @@ import { getCachingWorkspaceInfoSupplier, getTwinMakerWorkspaceInfoSupplier } fr
 import { TwinMakerQueryType, TwinMakerQuery } from 'common/manager';
 import { getRequestLooper, MultiRequestTracker } from './requestLooper';
 import { appendMatchingFrames } from './appendFrames';
+import { doTwinMakerChannelStream } from './streaming';
 
 export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, TwinMakerDataSourceOptions> {
   private workspaceId: string;
@@ -68,6 +69,11 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
   }
 
   query(options: DataQueryRequest<TwinMakerQuery>): Observable<DataQueryResponse> {
+    for (const target of options.targets) {
+      if (target.queryType === TwinMakerQueryType.EntityHistory) {
+        return doTwinMakerChannelStream(target, this, options);
+      }
+    }
     return getRequestLooper(options, {
       // Check for a "nextToken" in the response
       getNextQueries: (rsp: DataQueryResponse) => {
@@ -120,9 +126,8 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
       onCancel: (tracker: MultiRequestTracker) => {},
     });
   }
-
   // Fetch temporary AWS tokens from the backend plugin and convert them into JS SDK Credentials
-  getTokens = async (): Promise<Credentials> => {
+  async getTokens(): Promise<Credentials> {
     const tokenInfo = (await super.getResource('token')) as AWSTokenInfo;
     const credentials = new Credentials({
       accessKeyId: tokenInfo.accessKeyId,
@@ -131,5 +136,5 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
     });
     credentials.expireTime = new Date(tokenInfo.expiration);
     return credentials;
-  };
+  }
 }

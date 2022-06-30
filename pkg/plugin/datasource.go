@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+	"encoding/json"
 
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/gorilla/mux"
@@ -13,6 +14,8 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource/httpadapter"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 )
 
 // NewTwinMakerInstance creates a new datasource instance.
@@ -176,18 +179,93 @@ func (ds *TwinMakerDatasource) CheckHealth(ctx context.Context, _ *backend.Check
 	}, nil
 }
 
-func (ds *TwinMakerDatasource) SubscribeStream(_ context.Context, req *backend.SubscribeStreamRequest) (*backend.SubscribeStreamResponse, error) {
-	// nothing yet
+func (ds *TwinMakerDatasource) SubscribeStream(ctx context.Context, req *backend.SubscribeStreamRequest) (*backend.SubscribeStreamResponse, error) {
+	type rawQuery struct {
+		TimeRange struct {
+			From int64 `json:"from"`
+			To int64 `json:"to"`
+		} `json:"timeRange"`
+	}
+	model := rawQuery{}
+	if err := json.Unmarshal(req.Data, &model); err != nil {
+		return nil, fmt.Errorf("could not read query: %w", err)
+	}
+	model2 := backend.DataQuery{
+		JSON: req.Data,
+	}
+	q, err := models.ReadQuery(model2)
+	if err != nil {
+		return nil, fmt.Errorf("could not read query: %w", err)
+	}
+	q.TimeRange = backend.TimeRange{
+		To: time.UnixMilli(model.TimeRange.To),
+		From: time.UnixMilli(model.TimeRange.From),
+	}
+	if q.WorkspaceId == "" {
+		q.WorkspaceId = ds.settings.WorkspaceID
+	}
+	res := ds.handler.GetEntityHistory(ctx, q)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	var initialData *backend.InitialData
+	if len(res.Frames) > 1 {
+		return nil, fmt.Errorf("multi frames are currently not supported")
+	}
+	if len(res.Frames) == 1 {
+		b, err := data.FrameToJSON(res.Frames[0], data.IncludeAll)
+		initialData, err = backend.NewInitialData(b)
+		log.DefaultLogger.Info("SubscribeStream called", "request", req, "model2", err)
+	}
+	status := backend.SubscribeStreamStatusOK
+
 	return &backend.SubscribeStreamResponse{
-		Status: backend.SubscribeStreamStatusNotFound,
+		Status: status,
+		InitialData: initialData,
 	}, nil
 }
 
 func (ds *TwinMakerDatasource) RunStream(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender) error {
-	return fmt.Errorf("not implemented")
-}
+	log.DefaultLogger.Info("RunStream called", "request data", req.Data)
 
-func (ds *TwinMakerDatasource) PublishStream(_ context.Context, _ *backend.PublishStreamRequest) (*backend.PublishStreamResponse, error) {
+	// Create the same data frame as for query data.
+	frame := data.NewFrame("response")
+
+	// Add fields (matching the same schema used in QueryData).
+	frame.Fields = append(frame.Fields,
+		data.NewField("values", nil, make([]float64, 1)),
+		data.NewField("time", nil, make([]time.Time, 1)),
+	)
+
+	counter := 0
+
+	// Stream data frames periodically till stream closed by Grafana.
+	for {
+		select {
+		case <-ctx.Done():
+			log.DefaultLogger.Info("Context done, finish streaming", "path", req.Path)
+			return nil
+		case <-time.After(time.Second):
+			// parse path?
+			// Send random data periodically.
+			frame.Fields[0].Set(0, float64(10*(counter%2+1)))
+			frame.Fields[1].Set(0, time.Now())
+
+			counter++
+
+			err := sender.SendFrame(frame, data.IncludeAll)
+			if err != nil {
+				log.DefaultLogger.Error("Error sending frame", "error", err)
+				continue
+			}
+		}
+	}
+}
+// PublishStream is called when a client sends a message to the stream.
+func (d *TwinMakerDatasource) PublishStream(_ context.Context, req *backend.PublishStreamRequest) (*backend.PublishStreamResponse, error) {
+	log.DefaultLogger.Info("PublishStream called", "request", req)
+
+	// Do not allow publishing at all.
 	return &backend.PublishStreamResponse{
 		Status: backend.PublishStreamStatusPermissionDenied,
 	}, nil
@@ -213,7 +291,25 @@ func (ds *TwinMakerDatasource) DoQuery(ctx context.Context, query models.TwinMak
 	case models.QueryTypeGetPropertyValue:
 		return ds.handler.GetPropertyValue(ctx, query)
 	case models.QueryTypeEntityHistory:
-		return ds.handler.GetEntityHistory(ctx, query)
+		res := ds.handler.GetEntityHistory(ctx, query)
+		frame := data.NewFrame("response")
+
+		// Add fields (matching the same schema used in QueryData).
+		frame.Fields = append(frame.Fields,
+			data.NewField("values", nil, make([]float64, 1)),
+			data.NewField("time", nil, make([]time.Time, 1)),
+		)
+		res.Frames = append(res.Frames, frame)
+		res.Error = nil
+		for i,_ := range res.Frames {
+			res.Frames[i].SetMeta(&data.FrameMeta{
+				Channel: fmt.Sprintf("ds/%s/30s/%s/%s", ds.settings.UID, query.EntityId, query.ComponentName),
+			})
+		}
+		// TODO: 1. encode the properties inside the path of stream
+		// path has to be unique per query (take a hash of the query, use as the key)
+		backend.Logger.Info("debugging entity history", "meta", res.Frames[0].Meta)
+		return res
 	case models.QueryTypeComponentHistory:
 		return ds.handler.GetComponentHistory(ctx, query)
 	case models.QueryTypeGetAlarms:

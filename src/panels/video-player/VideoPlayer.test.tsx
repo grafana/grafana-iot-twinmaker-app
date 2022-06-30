@@ -13,7 +13,7 @@ import { setTemplateSrv } from '@grafana/runtime';
 setTemplateSrv({
   getVariables: () => [],
   replace: (v: string) => v,
-});
+} as any);
 
 describe('VideoPlayer', () => {
   it('should load VideoPlayer component when providing kvsStreamName', () => {
