@@ -14,15 +14,15 @@ To set up your Video Player panel (numbers reference the image above):
 
 1. Create a new panel on your dashboard, then search for and select "AWS IoT TwinMaker Video Player" on the Visualizations list.
 
-2. Select a TwinMaker datasource in the panel options.
+2. Select an AWS IoT TwinMaker datasource in the panel options.
 
-3. Enter a KVS stream name
+3. Enter an Amazon Kinesis video stream name
 
 - If you skip step 4 then the Video Player will load available video from your stream but it will not have a custom time scrubber
 
-4. Enter the entityId and componentName of a TwinMaker component with a `com.amazon.iotsitewise.connector` componentType
+4. Enter the entityId and componentName of an AWS IoT TwinMaker component with a video component
 
-- You do not need to enter a KVS stream name in step 3 since the Video Player can find the KVS stream name associated with your TwinMaker component
+- You do not need to enter the Amazon Kinesis video stream name in step 3 since the Video Player can find the video stream name associated with your AWS IoT TwinMaker component
 
 Click "Apply" then save your dashboard.
 
@@ -36,10 +36,10 @@ Available video:
 Playback mode:
 
 - Switch between LIVE and ON_DEMAND mode by clicking the "Live" button
-- LIVE: live video will be requested from KVS, will fail if no video is available. Ignores the Grafana time range
-- ON_DEMAND: video will be requested from KVS with the time range set on the dashboard
+- LIVE: live video will be requested from Amazon Kinesis Video Streams, will fail if no video is available. Ignores the Grafana time range
+- ON_DEMAND: video will be requested from Amazon Kinesis Video Streams with the time range set on the dashboard
   - Limitation: cannot playback video for more than a 24 hour time range
 
 ## Request video upload
 
-- Video may be stored on your edge connector but not yet uploaded to KVS. To upload available video to KVS you can select a time range and click the "Request Video" button. Refresh the dashboard after some time (~10 seconds) to see the video available for playback.
+- Video may be stored on your edge connector but not yet uploaded to Amazon Kinesis Video Streams. To upload available video to Amazon Kinesis Video Streams you can select a time range and click the "Request Video" button. Refresh the dashboard after some time (~10 seconds) to see the video available for playback.
