@@ -55,7 +55,7 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
   }
 
   /**
-   * Supports template variables for entityId, componentName, componentTypeId
+   * Supports template variables for entityId, componentName, selectedProperties, componentTypeId
    */
   applyTemplateVariables(query: TwinMakerQuery, scopedVars: ScopedVars): TwinMakerQuery {
     const templateSrv = getTemplateSrv();
@@ -63,6 +63,7 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
       ...query,
       entityId: templateSrv.replace(query.entityId || '', scopedVars),
       componentName: templateSrv.replace(query.componentName || '', scopedVars),
+      properties: query.properties?.map((p) => templateSrv.replace(p || '', scopedVars)) || [],
       componentTypeId: templateSrv.replace(query.componentTypeId || '', scopedVars),
     };
   }
