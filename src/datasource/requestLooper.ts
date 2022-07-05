@@ -81,9 +81,7 @@ export function getRequestLooper<T extends DataQuery = DataQuery>(
             .subscribe(observer);
           nextQueries = undefined;
         } else {
-          const targets = req.targets.filter(
-            (t) => t.queryType === TwinMakerQueryType.EntityHistory && t.isStreamingOn
-          );
+          const targets = req.targets.filter((t) => t.queryType === TwinMakerQueryType.EntityHistory);
           if (targets.length === 0) {
             subscriber.complete();
           } else {
