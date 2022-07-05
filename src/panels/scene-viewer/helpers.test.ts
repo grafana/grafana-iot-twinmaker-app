@@ -143,6 +143,7 @@ describe('panel helpers', () => {
       dataBindingContext: {
         [DataBindingLabelKeys.entityId]: 'entity-1',
         [DataBindingLabelKeys.componentName]: 'comp-1',
+        [DataBindingLabelKeys.propertyName]: 'prop-1',
       },
     };
 
@@ -160,9 +161,10 @@ describe('panel helpers', () => {
       const expectedParams = {
         'var-sel-aaa': (anchorData.dataBindingContext as any)[DataBindingLabelKeys.entityId],
         'var-sel-bbb': (anchorData.dataBindingContext as any)[DataBindingLabelKeys.componentName],
+        'var-sel-ccc': (anchorData.dataBindingContext as any)[DataBindingLabelKeys.propertyName],
         'var-random': '123',
       };
-      updateUrlParams('sel-aaa', 'sel-bbb', anchorData);
+      updateUrlParams('sel-aaa', 'sel-bbb', 'sel-ccc', anchorData);
 
       expect(mockLocationSrv.update).toBeCalledTimes(1);
       expect(mockLocationSrv.update).toBeCalledWith({
@@ -177,7 +179,7 @@ describe('panel helpers', () => {
         'var-sel-bbb': undefined,
         random: undefined,
       };
-      updateUrlParams('sel-aaa', 'sel-bbb', { ...anchorData, isSelected: false });
+      updateUrlParams('sel-aaa', 'sel-bbb', 'sel-ccc', { ...anchorData, isSelected: false });
 
       expect(mockLocationSrv.update).toBeCalledTimes(1);
       expect(mockLocationSrv.update).toBeCalledWith({

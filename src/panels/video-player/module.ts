@@ -9,6 +9,7 @@ export const plugin = new PanelPlugin<PanelOptions>(VideoPlayerPanel).setPanelOp
     .addSelect({
       path: 'datasource',
       name: 'Workspace',
+      description: 'Select an AWS IoT TwinMaker workspace',
       settings: {
         options: [],
         getOptions: async () => {
@@ -20,8 +21,8 @@ export const plugin = new PanelPlugin<PanelOptions>(VideoPlayerPanel).setPanelOp
     .addCustomEditor({
       id: 'kvsStreamName',
       path: 'kvsStreamName',
-      name: 'KVS stream name',
-      description: 'Enter your KVS stream name',
+      name: 'Kinesis video stream name',
+      description: 'Enter an Amazon Kinesis video stream name for standard video playback',
       defaultValue: '',
       settings: {
         isComponentName: false,
@@ -33,7 +34,7 @@ export const plugin = new PanelPlugin<PanelOptions>(VideoPlayerPanel).setPanelOp
       id: 'entityId',
       path: 'entityId',
       name: 'Entity',
-      description: 'Enter entityId for GG Edge Connector for KVS',
+      description: 'Enter an AWS IoT TwinMaker entityId with a video component',
       defaultValue: '',
       settings: {
         isComponentName: false,
@@ -45,7 +46,7 @@ export const plugin = new PanelPlugin<PanelOptions>(VideoPlayerPanel).setPanelOp
       id: 'componentName',
       path: 'componentName',
       name: 'Component name',
-      description: 'Enter componentName for GG Edge Connector for KVS',
+      description: 'Enter an AWS IoT TwinMaker componentName with a video type',
       defaultValue: '',
       settings: {
         isComponentName: true,

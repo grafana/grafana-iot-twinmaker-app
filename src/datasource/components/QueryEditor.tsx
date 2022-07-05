@@ -7,7 +7,13 @@ import { defaultQuery, TwinMakerDataSourceOptions } from '../types';
 import { TwinMakerApiModel } from 'aws-iot-twinmaker-grafana-utils';
 import { changeQueryType, QueryTypeInfo, twinMakerOrderOptions, twinMakerQueryTypes } from 'datasource/queryInfo';
 import { WorkspaceSelectionInfo, SelectableComponentInfo, SelectableQueryResults } from 'common/info/types';
-import { getSelectionInfo, SelectionInfo } from 'common/info/info';
+import {
+  ComponentFieldName,
+  getMultiSelectionInfo,
+  getSelectionInfo,
+  resolvePropsFromComponentSel,
+  SelectionInfo,
+} from 'common/info/info';
 import {
   getTwinMakerDashboardManager,
   isTwinMakerPanelQuery,
@@ -426,13 +432,14 @@ export class QueryEditor extends PureComponent<Props, State> {
         }
       }
     }
+    const properties = getMultiSelectionInfo(query.properties, propOpts, this.state.templateVars);
     return (
       <InlineFieldRow>
         <InlineField label={'Selected Properties'} grow={true} labelWidth={firstLabelWith}>
           <MultiSelect
             menuShouldPortal={true}
-            value={query.properties}
-            options={propOpts}
+            value={properties.current}
+            options={properties.options}
             onChange={this.onPropertiesSelected}
             isLoading={isLoading}
             allowCustomValue={true}
@@ -513,7 +520,7 @@ export class QueryEditor extends PureComponent<Props, State> {
       case TwinMakerQueryType.GetPropertyValue:
         if (query.entityId) {
           const compName = getSelectionInfo(query.componentName, entityInfo, this.state.templateVars);
-          const propOpts = compName.current?.props as SelectableQueryResults;
+          const propOpts = resolvePropsFromComponentSel(compName, ComponentFieldName.props, entityInfo);
           return (
             <>
               {this.renderEntitySelector(query, true)}
@@ -525,7 +532,7 @@ export class QueryEditor extends PureComponent<Props, State> {
         return this.renderEntitySelector(query, true);
       case TwinMakerQueryType.EntityHistory: {
         const compName = getSelectionInfo(query.componentName, entityInfo, this.state.templateVars);
-        const propOpts = compName.current?.timeSeries as SelectableQueryResults;
+        const propOpts = resolvePropsFromComponentSel(compName, ComponentFieldName.timeSeries, entityInfo);
         return (
           <>
             {this.renderEntitySelector(query, true)}

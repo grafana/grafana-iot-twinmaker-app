@@ -39,5 +39,12 @@ export const plugin = new PanelPlugin<PanelOptions>(ScenePanel)
         settings: {
           options: getVariableOptions(),
         },
+      })
+      .addSelect({
+        path: 'customSelPropertyVarName',
+        name: 'Selected property variable name',
+        settings: {
+          options: getVariableOptions(),
+        },
       });
   });
