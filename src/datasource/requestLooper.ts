@@ -1,4 +1,5 @@
-import { DataQuery, DataQueryRequest, DataQueryResponse, LoadingState, DataFrame } from '@grafana/data';
+import { DataQuery, DataQueryRequest, DataQueryResponse, LoadingState, DataFrame, dateTime } from '@grafana/data';
+import { TwinMakerQueryType } from 'common/manager';
 import { Observable, Subscription } from 'rxjs';
 
 export interface MultiRequestTracker {
@@ -80,7 +81,33 @@ export function getRequestLooper<T extends DataQuery = DataQuery>(
             .subscribe(observer);
           nextQueries = undefined;
         } else {
-          subscriber.complete();
+          const targets = req.targets.filter(
+            (t) => t.queryType === TwinMakerQueryType.EntityHistory && t.isStreamingOn
+          );
+          if (targets.length === 0) {
+            subscriber.complete();
+          } else {
+            tracker.fetchEndTime = undefined;
+            tracker.fetchStartTime = Date.now();
+            setTimeout(() => {
+              subscription = options
+                .query({
+                  ...req,
+                  targets: targets,
+                  requestId: `${req.requestId}.${++count}`,
+                  startTime: tracker.fetchStartTime ?? 0,
+                  range: {
+                    from: req.range.to,
+                    to: dateTime(Date.now()),
+                    raw: {
+                      from: req.range.to,
+                      to: dateTime(Date.now()),
+                    },
+                  },
+                })
+                .subscribe(observer);
+            }, req.intervalMs);
+          }
         }
       },
     };
