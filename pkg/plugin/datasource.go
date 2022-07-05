@@ -123,6 +123,13 @@ func (ds *TwinMakerDatasource) CheckHealth(ctx context.Context, _ *backend.Check
 			Message: "Missing WorkspaceID configuration",
 		}, nil
 	}
+	// TODO: add in changelog
+	if ds.settings.AssumeRoleARN == "" {
+		return &backend.CheckHealthResult{
+			Status:  backend.HealthStatusError,
+			Message: "Assume Role ARN is required",
+		}, nil
+	}
 	
 	_, err := ds.handler.GetSessionToken(ctx, time.Second*3600, ds.settings.WorkspaceID)
 	if err != nil {

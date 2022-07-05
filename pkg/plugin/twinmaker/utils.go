@@ -141,12 +141,14 @@ type PropertyReference struct {
 	entityName              *string
 }
 
-func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmaker.EntityPropertyReference) (s string) {
+func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmaker.EntityPropertyReference, propertyDefinitions map[string]*iottwinmaker.PropertyDefinitionResponse) (s string) {
 	externalId := ""
-	for _, val := range entityPropertyReference.ExternalIdProperty {
-		// Only one externalId in the mapping
-		externalId = *val
-		break
+	for key, val := range entityPropertyReference.ExternalIdProperty {
+		// Check that the property is an externalId property
+		if property, ok := propertyDefinitions[key]; ok && *property.IsExternalId {
+			externalId = *val
+			break
+		}
 	}
 	// Key is the combination of the unique entityId_componentName_externalId_propertyId
 	refKey := ""
@@ -163,15 +165,72 @@ func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmaker.EntityP
 	return refKey
 }
 
-func (s *twinMakerHandler) GetPropertyValueHistoryPaginated(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
-	// original input max results from users
-	max := query.MaxResults
-	leftOver := 0
-	if max > 200 {
-		query.MaxResults = 200
-		leftOver = max - 200
-	}
+/*
+* This function returns the latest value for each entity property.
+* Assumes that the Roci Api query returns data from latest to oldest.
+*/
+func (s *twinMakerHandler) GetLatestPropertyValueHistoryPaginated(ctx context.Context, query models.TwinMakerQuery, propertyDefinitions map[string]*iottwinmaker.PropertyDefinitionResponse) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
+        var maxResults int
+        isLimited := false
+        if query.MaxResults > 0 {
+            isLimited = true
+            maxResults = query.MaxResults
+            query.MaxResults = 0
+        }
 
+        propertyValueHistories, err := s.client.GetPropertyValueHistory(ctx, query)
+        if err != nil {
+            return nil, err
+        }
+
+        // Keep mapping of entityPropertyReferences to its index in the result's propertyValues
+        entityPropertyReferenceMapping := map[string]int{}
+        for i, propertyValue := range propertyValueHistories.PropertyValues {
+            refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference, propertyDefinitions)
+            entityPropertyReferenceMapping[refKey] = i
+		    values := propertyValueHistories.PropertyValues[i].Values
+            // only save 1 value
+            if len(values) > 0 {
+                propertyValueHistories.PropertyValues[i].Values = values[0:1]
+            }
+            // if we have max results, return
+            if isLimited && len(entityPropertyReferenceMapping) >= maxResults {
+                return propertyValueHistories, nil
+            }
+        }
+
+        cPropertyValuesHistories := propertyValueHistories
+        for cPropertyValuesHistories.NextToken != nil {
+            query.NextToken = *cPropertyValuesHistories.NextToken
+            cPropertyValuesHistories, err := s.client.GetPropertyValueHistory(ctx, query)
+            if err != nil {
+                return nil, err
+            }
+
+            for _, propertyValue := range cPropertyValuesHistories.PropertyValues {
+                refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference, propertyDefinitions)
+                if _, ok := entityPropertyReferenceMapping[refKey]; !ok {
+                    entityPropertyReferenceMapping[refKey] = len(propertyValueHistories.PropertyValues)
+                    // only save 1 value
+                    if len(propertyValue.Values) > 0 {
+                        propertyValue.Values = propertyValue.Values[0:1]
+                    }
+                    propertyValueHistories.PropertyValues = append(propertyValueHistories.PropertyValues, propertyValue)
+
+                    // if we have max results, return
+                    if isLimited && len(entityPropertyReferenceMapping) >= maxResults {
+                        return propertyValueHistories, nil
+                    }
+                }
+            }
+
+            propertyValueHistories.NextToken = cPropertyValuesHistories.NextToken
+        }
+
+        return propertyValueHistories, nil
+     }
+
+func (s *twinMakerHandler) GetPropertyValueHistoryPaginated(ctx context.Context, query models.TwinMakerQuery, propertyDefinitions map[string]*iottwinmaker.PropertyDefinitionResponse) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
 	propertyValueHistories, err := s.client.GetPropertyValueHistory(ctx, query)
 	if err != nil {
 		return nil, err
@@ -180,27 +239,20 @@ func (s *twinMakerHandler) GetPropertyValueHistoryPaginated(ctx context.Context,
 	// Keep mapping of entityPropertyReferences to its index in the result's propertyValues
 	entityPropertyReferenceMapping := map[string]int{}
 	for i, propertyValue := range propertyValueHistories.PropertyValues {
-		refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference)
+		refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference, propertyDefinitions)
 		entityPropertyReferenceMapping[refKey] = i
 	}
 
 	cPropertyValuesHistories := propertyValueHistories
-	for cPropertyValuesHistories.NextToken != nil && leftOver > 0 {
+	for cPropertyValuesHistories.NextToken != nil {
 		query.NextToken = *cPropertyValuesHistories.NextToken
-		if leftOver > 200 {
-			query.MaxResults = 200
-			leftOver = leftOver - 200
-		} else {
-			query.MaxResults = leftOver
-			leftOver = 0
-		}
 		cPropertyValuesHistories, err := s.client.GetPropertyValueHistory(ctx, query)
 		if err != nil {
 			return nil, err
 		}
 
 		for _, propertyValue := range cPropertyValuesHistories.PropertyValues {
-			refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference)
+			refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference, propertyDefinitions)
 			if i, ok := entityPropertyReferenceMapping[refKey]; ok {
 				// Append to existing values array to avoid duplicates
 				propertyValueHistories.PropertyValues[i].Values = append(propertyValueHistories.PropertyValues[i].Values, propertyValue.Values...)
@@ -211,18 +263,26 @@ func (s *twinMakerHandler) GetPropertyValueHistoryPaginated(ctx context.Context,
 		}
 
 		propertyValueHistories.NextToken = cPropertyValuesHistories.NextToken
-
 	}
+
 	return propertyValueHistories, nil
 }
 
-func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, query models.TwinMakerQuery) (p []PropertyReference, n []data.Notice, err error) {
+func (s *twinMakerHandler) GetComponentHistoryWithLookupHelper(ctx context.Context, query models.TwinMakerQuery, historyFunction func(ctx context.Context, query models.TwinMakerQuery, propertyDefinitions map[string]*iottwinmaker.PropertyDefinitionResponse) (*iottwinmaker.GetPropertyValueHistoryOutput, error)) (p []PropertyReference, n []data.Notice, err error) {
 	propertyReferences := []PropertyReference{}
 	failures := []data.Notice{}
 	componentTypeId := query.ComponentTypeId
 
-	// Step 1: Call GetPropertyValueHistory and get the externalId from the response
-	result, err := s.GetPropertyValueHistoryPaginated(ctx, query)
+	// Step 1: Call GetComponentType to get the property list for externalId validation
+	ct, err := s.client.GetComponentType(ctx, query)
+	if err != nil {
+		return propertyReferences, failures, err
+	}
+
+	propertyDefinitions := ct.PropertyDefinitions
+
+	// Step 2: Call GetPropertyValueHistory and get the externalId from the response
+	result, err := historyFunction(ctx, query, propertyDefinitions)
 	if err != nil {
 		return propertyReferences, failures, err
 	}
@@ -231,13 +291,15 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, qu
 		// Loop through all propertyValues if there are multiple components of the same type on the entity
 		for _, propertyValue := range result.PropertyValues {
 			externalId := ""
-			for _, val := range propertyValue.EntityPropertyReference.ExternalIdProperty {
-				// Only one externalId per component
-				externalId = *val
-				break
+			for key, val := range propertyValue.EntityPropertyReference.ExternalIdProperty {
+				// Check that the property is an externalId property
+				if property, ok := propertyDefinitions[key]; ok && *property.IsExternalId {
+					externalId = *val
+					break
+				}
 			}
 
-			// Step 2: Call ListEntities with a filter for the externalId
+			// Step 3: Call ListEntities with a filter for the externalId
 			query.EntityId = ""
 			query.Properties = nil
 			query.ComponentTypeId = ""
@@ -260,7 +322,7 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, qu
 				return propertyReferences, failures, fmt.Errorf("error loading entities for GetAlarms query")
 			}
 
-			// Step 3: Call GetEntity to get the componentName of the externalId
+			// Step 4: Call GetEntity to get the componentName of the externalId
 			if len(le.EntitySummaries) > 0 {
 				entityId := le.EntitySummaries[0].EntityId
 				entityName := le.EntitySummaries[0].EntityName
@@ -308,6 +370,14 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, qu
 	}
 
 	return propertyReferences, failures, nil
+}
+
+func (s *twinMakerHandler) GetLatestComponentHistoryWithLookup(ctx context.Context, query models.TwinMakerQuery) (p []PropertyReference, n []data.Notice, err error) {
+    return s.GetComponentHistoryWithLookupHelper(ctx, query, s.GetLatestPropertyValueHistoryPaginated)
+}
+
+func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, query models.TwinMakerQuery) (p []PropertyReference, n []data.Notice, err error) {
+    return s.GetComponentHistoryWithLookupHelper(ctx, query, s.GetPropertyValueHistoryPaginated)
 }
 
 func getTimeObjectFromStringTime(timeString *string) (*time.Time, error) {

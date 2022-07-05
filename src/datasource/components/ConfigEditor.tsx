@@ -64,11 +64,10 @@ export class ConfigEditor extends PureComponent<Props, State> {
         <ConnectionConfig {...this.props} standardRegions={standardRegions} />
 
         {!arn && (
-          <Alert title="Assume Role ARN" severity="warning" style={{ width: 700 }}>
-            This datasource will use the credentials directly from your authentication provider which may be a security
-            risk. Specify an IAM role to narrow the permission scope of this datasource. Follow the documentation{' '}
+          <Alert title="Assume Role ARN" severity="error" style={{ width: 700 }}>
+            Specify an IAM role to narrow the permission scope of this datasource. Follow the documentation{' '}
             <a
-              href="https://docs.aws.amazon.com/iot-twinmaker/latest/guide/datasource-integration.html"
+              href="https://docs.aws.amazon.com/iot-twinmaker/latest/guide/dashboard-IAM-role.html"
               target="_blank"
               rel="noreferrer noopener"
             >

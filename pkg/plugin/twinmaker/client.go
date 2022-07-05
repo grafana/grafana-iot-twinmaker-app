@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials/stscreds"
 	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/service/iottwinmaker"
 	"github.com/aws/aws-sdk-go/service/sts"
@@ -424,49 +423,9 @@ func (c *twinMakerClient) GetSessionToken(ctx context.Context, duration time.Dur
 		}
 
 		return out.Credentials, err
+	} else {
+		return nil, fmt.Errorf("assume role ARN is missing in datasource configuration")
 	}
-
-	// if there is a sessionToken set in the default credentials within
-	// the chain of authentication providers, it means they are temporary,
-	// and hence the frontend needs to use them directly and we don't
-	// need to call sts for temporary session tokens
-	creds, err := client.Config.Credentials.GetWithContext(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	if creds.SessionToken != "" {
-		// force expire the creds here because of the expire window
-		// logic in the frontend, where it assumes the expiry before
-		// a certain time of the actual expiry
-		client.Config.Credentials.Expire()
-
-		creds, err := client.Config.Credentials.GetWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		// just force an expiry time here too since using the
-		// Credentials.ExpiresAt() is not supported for some
-		// Providers that might be being used
-		expiryTime := time.Now().Add(stscreds.DefaultDuration)
-
-		return &sts.Credentials{
-			AccessKeyId:     &creds.AccessKeyID,
-			SecretAccessKey: &creds.SecretAccessKey,
-			SessionToken:    &creds.SessionToken,
-			Expiration:      &expiryTime,
-		}, err
-	}
-
-	input := &sts.GetSessionTokenInput{
-		DurationSeconds: aws.Int64(int64(duration.Seconds())),
-	}
-	out, err := tokenService.GetSessionTokenWithContext(ctx, input)
-	if err != nil {
-		return nil, err
-	}
-	return out.Credentials, err
 }
 
 // TODO, move to https://github.com/grafana/grafana-plugin-sdk-go
