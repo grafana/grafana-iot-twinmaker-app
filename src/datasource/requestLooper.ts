@@ -82,9 +82,9 @@ export function getRequestLooper<T extends DataQuery = DataQuery>(
           nextQueries = undefined;
         } else {
           // check for queries that are opted for streaming
-          const targets = req.targets.filter(
-            (t) => t.queryType === TwinMakerQueryType.EntityHistory && req.isStreaming
-          );
+          const targets = req.targets.filter((t) => {
+            return t.queryType === TwinMakerQueryType.EntityHistory && t.isStreaming;
+          });
           if (targets.length === 0) {
             subscriber.complete();
           } else {
