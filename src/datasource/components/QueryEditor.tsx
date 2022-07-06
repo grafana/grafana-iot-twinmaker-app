@@ -1,7 +1,7 @@
 import defaults from 'lodash/defaults';
 
 import React, { PureComponent } from 'react';
-import { Alert, Icon, InlineField, InlineFieldRow, LinkButton, MultiSelect, Select } from '@grafana/ui';
+import { Alert, Icon, InlineField, InlineFieldRow, InlineSwitch, LinkButton, MultiSelect, Select } from '@grafana/ui';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { TwinMakerDataSource } from '../datasource';
 import { defaultQuery, TwinMakerDataSourceOptions } from '../types';
@@ -232,6 +232,11 @@ export class QueryEditor extends PureComponent<Props, State> {
     onRunQuery();
   };
 
+  onToggleStream = () => {
+    const { onChange, query, onRunQuery } = this.props;
+    onChange({ ...query, isStreaming: !query.isStreaming });
+    onRunQuery();
+  };
   renderEntitySelector(query: TwinMakerQuery, isClearable: boolean) {
     const entity = getSelectionInfo(query.entityId, this.state.workspace?.entities, this.state.templateVars);
     return (
@@ -302,6 +307,9 @@ export class QueryEditor extends PureComponent<Props, State> {
             onCreateOption={this.onComponentNameTextChange}
             formatCreateLabel={(v) => `Component Name: ${v}`}
           />
+        </InlineField>
+        <InlineField labelWidth={14} label="Stream" tooltip="Polling data in an interval">
+          <InlineSwitch value={Boolean(query.isStreaming)} onChange={this.onToggleStream} />
         </InlineField>
       </InlineFieldRow>
     );

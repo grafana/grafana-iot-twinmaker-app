@@ -45,6 +45,7 @@ export interface TwinMakerQuery extends DataQuery {
   properties?: string[];
   filter?: TwinMakerPropertyFilter[];
   order?: TwinMakerResultOrder;
+  isStreaming?: boolean;
 }
 
 export interface TwinMakerPanelQuery extends TwinMakerQuery {
