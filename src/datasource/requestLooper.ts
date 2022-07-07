@@ -1,5 +1,5 @@
 import { DataQuery, DataQueryRequest, DataQueryResponse, LoadingState, DataFrame, dateTime } from '@grafana/data';
-import { TwinMakerQueryType } from 'common/manager';
+import { TwinMakerQuery, TwinMakerQueryType } from 'common/manager';
 import { Observable, Subscription } from 'rxjs';
 
 export interface MultiRequestTracker {
@@ -33,7 +33,10 @@ export interface RequestLoopOptions<TQuery extends DataQuery = DataQuery> {
 /**
  * Continue executing requests as long as `getNextQuery` returns a query
  */
-export function getRequestLooper<T extends DataQuery = DataQuery>(
+interface TwinmakerQuery extends DataQuery {
+  isStreaming?: boolean;
+}
+export function getRequestLooper<T extends TwinmakerQuery>(
   req: DataQueryRequest<T>,
   options: RequestLoopOptions<T>
 ): Observable<DataQueryResponse> {
