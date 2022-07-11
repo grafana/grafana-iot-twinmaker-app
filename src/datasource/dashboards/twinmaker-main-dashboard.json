@@ -211,11 +211,11 @@
             "vars": [
               {
                 "fieldName": "entityId",
-                "name": "${sel_entity}"
+                "name": "sel_entity"
               },
               {
                 "fieldName": "alarmName",
-                "name": "${sel_comp}"
+                "name": "sel_comp"
               }
             ]
           }
@@ -284,8 +284,8 @@
       },
       "id": 6,
       "options": {
-        "customSelCompVarName": "${sel_comp}",
-        "customSelEntityVarName": "${sel_entity}",
+        "customSelCompVarName": "sel_comp",
+        "customSelEntityVarName": "sel_entity",
         "datasource": "${DS_AWS_IOT TWINMAKER}",
         "sceneId": ""
       },
