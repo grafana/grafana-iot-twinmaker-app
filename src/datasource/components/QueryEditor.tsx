@@ -39,7 +39,6 @@ import {
 import { getTemplateSrv } from '@grafana/runtime';
 import { getVariableOptions } from 'common/variables';
 import FilterQueryEditor from './FilterQueryEditor';
-import { BlurTextInput } from './BlurTextInput';
 
 export const firstLabelWith = 18;
 
