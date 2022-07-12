@@ -1,5 +1,5 @@
 import { DataQuery, DataQueryRequest, DataQueryResponse, LoadingState, DataFrame, dateTime } from '@grafana/data';
-import { TwinMakerQuery, TwinMakerQueryType } from 'common/manager';
+import { TwinMakerQueryType } from 'common/manager';
 import { Observable, Subscription } from 'rxjs';
 
 export interface MultiRequestTracker {
@@ -35,6 +35,7 @@ export interface RequestLoopOptions<TQuery extends DataQuery = DataQuery> {
  */
 interface TwinmakerQuery extends DataQuery {
   isStreaming?: boolean;
+  intervalStreaming?: string;
 }
 export function getRequestLooper<T extends TwinmakerQuery>(
   req: DataQueryRequest<T>,
@@ -84,8 +85,10 @@ export function getRequestLooper<T extends TwinmakerQuery>(
             .subscribe(observer);
           nextQueries = undefined;
         } else {
+          let intervalMs = 30000;
           // check for queries that are opted for streaming
           const targets = req.targets.filter((t) => {
+            intervalMs = parseInt(t.intervalStreaming ?? '30');
             return t.queryType === TwinMakerQueryType.EntityHistory && t.isStreaming;
           });
           if (targets.length === 0) {
@@ -110,7 +113,7 @@ export function getRequestLooper<T extends TwinmakerQuery>(
                   },
                 })
                 .subscribe(observer);
-            }, req.intervalMs);
+            }, intervalMs * 1000);
           }
         }
       },
