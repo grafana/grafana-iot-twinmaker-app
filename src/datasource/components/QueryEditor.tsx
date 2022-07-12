@@ -1,17 +1,7 @@
 import defaults from 'lodash/defaults';
 
 import React, { PureComponent } from 'react';
-import {
-  Alert,
-  Icon,
-  InlineField,
-  InlineFieldRow,
-  InlineSwitch,
-  Input,
-  LinkButton,
-  MultiSelect,
-  Select,
-} from '@grafana/ui';
+import { Alert, Icon, InlineField, InlineFieldRow, InlineSwitch, LinkButton, MultiSelect, Select } from '@grafana/ui';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { TwinMakerDataSource } from '../datasource';
 import { defaultQuery, TwinMakerDataSourceOptions } from '../types';
