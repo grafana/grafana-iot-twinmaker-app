@@ -88,7 +88,7 @@ export function getRequestLooper<T extends TwinmakerQuery>(
           let intervalMs = 30;
           // check for queries that are opted for streaming
           const targets = req.targets.filter((t) => {
-            intervalMs = parseInt(t.intervalStreaming ?? '30', 10);
+            intervalMs = Number(t.intervalStreaming ?? '30');
             return t.queryType === TwinMakerQueryType.EntityHistory && t.isStreaming;
           });
           if (targets.length === 0) {
