@@ -1,7 +1,17 @@
 import defaults from 'lodash/defaults';
 
 import React, { PureComponent } from 'react';
-import { Alert, Icon, InlineField, InlineFieldRow, InlineSwitch, LinkButton, MultiSelect, Select } from '@grafana/ui';
+import {
+  Alert,
+  Icon,
+  InlineField,
+  InlineFieldRow,
+  InlineSwitch,
+  Input,
+  LinkButton,
+  MultiSelect,
+  Select,
+} from '@grafana/ui';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { TwinMakerDataSource } from '../datasource';
 import { defaultQuery, TwinMakerDataSourceOptions } from '../types';
@@ -239,9 +249,9 @@ export class QueryEditor extends PureComponent<Props, State> {
     onRunQuery();
   };
 
-  onIntervalChange = (value?: string) => {
+  onIntervalChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { onChange, query, onRunQuery } = this.props;
-    onChange({ ...query, intervalStreaming: value });
+    onChange({ ...query, intervalStreaming: e.currentTarget.valueAsNumber });
     onRunQuery();
   };
   renderEntitySelector(query: TwinMakerQuery, isClearable: boolean) {
@@ -319,7 +329,7 @@ export class QueryEditor extends PureComponent<Props, State> {
           <InlineSwitch value={Boolean(query.isStreaming)} onChange={this.onToggleStream} />
         </InlineField>
         <InlineField label="Interval" tooltip="Set an interval in seconds to poll data, minimum 5s">
-          <BlurTextInput placeholder="30" value={query.intervalStreaming} onChange={this.onIntervalChange} />
+          <Input type="number" placeholder="30" value={query.intervalStreaming} onChange={this.onIntervalChange} />
         </InlineField>
       </InlineFieldRow>
     );
