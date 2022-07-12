@@ -170,11 +170,11 @@ func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmaker.EntityP
 * Assumes that the Roci Api query returns data from latest to oldest.
 */
 func (s *twinMakerHandler) GetLatestPropertyValueHistoryPaginated(ctx context.Context, query models.TwinMakerQuery, propertyDefinitions map[string]*iottwinmaker.PropertyDefinitionResponse) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
-        var maxResults int
+        var maxPropertyValues int
         isLimited := false
         if query.MaxResults > 0 {
             isLimited = true
-            maxResults = query.MaxResults
+            maxPropertyValues = query.MaxResults
             query.MaxResults = 0
         }
 
@@ -194,7 +194,10 @@ func (s *twinMakerHandler) GetLatestPropertyValueHistoryPaginated(ctx context.Co
                 propertyValueHistories.PropertyValues[i].Values = values[0:1]
             }
             // if we have max results, return
-            if isLimited && len(entityPropertyReferenceMapping) >= maxResults {
+            if isLimited && len(entityPropertyReferenceMapping) >= maxPropertyValues {
+                if len(propertyValueHistories.PropertyValues) > maxPropertyValues {
+                    propertyValueHistories.PropertyValues = propertyValueHistories.PropertyValues[:maxPropertyValues]
+                }
                 return propertyValueHistories, nil
             }
         }
@@ -218,7 +221,7 @@ func (s *twinMakerHandler) GetLatestPropertyValueHistoryPaginated(ctx context.Co
                     propertyValueHistories.PropertyValues = append(propertyValueHistories.PropertyValues, propertyValue)
 
                     // if we have max results, return
-                    if isLimited && len(entityPropertyReferenceMapping) >= maxResults {
+                    if isLimited && len(entityPropertyReferenceMapping) >= maxPropertyValues {
                         return propertyValueHistories, nil
                     }
                 }

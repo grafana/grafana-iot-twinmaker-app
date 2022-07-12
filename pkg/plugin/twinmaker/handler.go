@@ -431,11 +431,11 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 	externalIdKey := "alarm_key"
 	alarmProperty := "alarm_status"
 	isFiltered := len(query.PropertyFilter) > 0
-	var maxResults int
+	var maxNoOfAlarms int
 	isLimited := false
 	if query.MaxResults > 0 {
 		isLimited = true
-		maxResults = query.MaxResults
+		maxNoOfAlarms = query.MaxResults
 	}
 
 	var filter []models.TwinMakerPropertyFilter
@@ -476,11 +476,12 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 		}
 		failures = append(failures, newFailures...)
 		pValues = append(pValues, propertyReferences...)
-		if isLimited && len(pValues) >= maxResults {
-			if len(pValues) > maxResults {
-				pValues = pValues[:maxResults]
-			}
-			break
+		if isLimited {
+		    // update the queries' maxResults so we ask for less on the next iteration
+		    query.MaxResults = maxNoOfAlarms - len(pValues)
+            if len(pValues) >= maxNoOfAlarms {
+                break
+            }
 		}
 	}
 
