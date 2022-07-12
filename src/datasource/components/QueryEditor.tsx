@@ -319,7 +319,7 @@ export class QueryEditor extends PureComponent<Props, State> {
           <InlineSwitch value={Boolean(query.isStreaming)} onChange={this.onToggleStream} />
         </InlineField>
         <InlineField label="Interval" tooltip="Set an interval in seconds to poll data, minimum 5s">
-          <BlurTextInput value={query.intervalStreaming} onChange={this.onIntervalChange} />
+          <BlurTextInput placeholder="30" value={query.intervalStreaming} onChange={this.onIntervalChange} />
         </InlineField>
       </InlineFieldRow>
     );
