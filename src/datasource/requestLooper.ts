@@ -41,12 +41,23 @@ export function getRequestLooper<T extends TwinmakerQuery>(
   req: DataQueryRequest<T>,
   options: RequestLoopOptions<T>
 ): Observable<DataQueryResponse> {
+  let intervalTime = 0;
+  // check for queries that are opted for streaming
+  if (req.range.raw.to === 'now') {
+    req.targets.forEach((t) => {
+      if (t.queryType === TwinMakerQueryType.EntityHistory && t.isStreaming) {
+        intervalTime = Number(t.intervalStreaming ?? 30);
+      }
+    });
+  }
+
   return new Observable<DataQueryResponse>((subscriber) => {
     let nextQueries: T[] | undefined = undefined;
     let subscription: Subscription | undefined = undefined;
     const tracker: MultiRequestTracker = {
       fetchStartTime: Date.now(),
       fetchEndTime: undefined,
+      data: [],
     };
     let loadingState: LoadingState | undefined = LoadingState.Loading;
     let count = 1;
@@ -60,7 +71,13 @@ export function getRequestLooper<T extends TwinmakerQuery>(
           nextQueries = options.getNextQueries(rsp);
         }
         const data = options.process(tracker, rsp.data, !!!nextQueries);
-        subscriber.next({ ...rsp, data, state: loadingState, key: req.requestId });
+        tracker.data = data;
+        subscriber.next({
+          ...rsp,
+          data,
+          state: intervalTime > 0 ? LoadingState.Streaming : loadingState,
+          key: req.requestId,
+        });
       },
       error: (err: any) => {
         subscriber.error(err);
@@ -85,30 +102,28 @@ export function getRequestLooper<T extends TwinmakerQuery>(
             .subscribe(observer);
           nextQueries = undefined;
         } else {
-          let intervalTime = 30;
-          // check for queries that are opted for streaming
-          const targets = req.targets.filter((t) => {
-            intervalTime = Number(t.intervalStreaming ?? 30);
-            return t.queryType === TwinMakerQueryType.EntityHistory && t.isStreaming;
-          });
-          if (targets.length === 0) {
+          if (intervalTime <= 0) {
             subscriber.complete();
           } else {
             tracker.fetchEndTime = undefined;
             tracker.fetchStartTime = Date.now();
+            const lastBuffer = tracker.data?.[0]?.fields[1].values;
+            const length = tracker.data ? tracker.data[0]?.length - 1 : 0;
+            const lastTimeReceived = length > 0 ? lastBuffer?.get(length) : dateTime(tracker.fetchEndTime);
+
             setTimeout(() => {
               subscription = options
                 .query({
                   ...req,
-                  targets: targets,
+                  targets: req.targets,
                   requestId: `${req.requestId}.${++count}`,
                   startTime: tracker.fetchStartTime ?? 0,
                   range: {
-                    from: req.range.to,
+                    from: lastTimeReceived,
                     to: dateTime(Date.now()),
                     raw: {
                       from: req.range.to,
-                      to: dateTime(Date.now()),
+                      to: 'now',
                     },
                   },
                 })

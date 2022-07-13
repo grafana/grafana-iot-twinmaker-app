@@ -3,6 +3,7 @@ import defaults from 'lodash/defaults';
 import React, { PureComponent } from 'react';
 import {
   Alert,
+  FieldValidationMessage,
   Icon,
   InlineField,
   InlineFieldRow,
@@ -50,6 +51,7 @@ interface State {
   entity?: SelectableComponentInfo[];
   entityLoading?: boolean;
   topics?: TwinMakerPanelTopicInfo[];
+  invalidInterval?: boolean;
 }
 
 export class QueryEditor extends PureComponent<Props, State> {
@@ -58,7 +60,9 @@ export class QueryEditor extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.panels = getTwinMakerDashboardManager().listTwinMakerPanels();
-    this.state = {};
+    this.state = {
+      invalidInterval: false,
+    };
   }
 
   componentDidMount() {
@@ -250,7 +254,15 @@ export class QueryEditor extends PureComponent<Props, State> {
 
   onIntervalChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { onChange, query, onRunQuery } = this.props;
-    onChange({ ...query, intervalStreaming: e.currentTarget.valueAsNumber });
+    if (e.currentTarget.valueAsNumber < 5) {
+      this.setState({ invalidInterval: true });
+    } else {
+      this.setState({ invalidInterval: false });
+    }
+    onChange({
+      ...query,
+      intervalStreaming: e.currentTarget.valueAsNumber,
+    });
     onRunQuery();
   };
   renderEntitySelector(query: TwinMakerQuery, isClearable: boolean) {
@@ -327,8 +339,24 @@ export class QueryEditor extends PureComponent<Props, State> {
         <InlineField label="Stream" tooltip="Polling data in an interval">
           <InlineSwitch value={Boolean(query.isStreaming)} onChange={this.onToggleStream} />
         </InlineField>
-        <InlineField label="Interval" tooltip="Set an interval in seconds to poll data, minimum 5s">
-          <Input type="number" placeholder="30" value={query.intervalStreaming} onChange={this.onIntervalChange} />
+        <InlineField
+          label="Interval"
+          tooltip="Set an interval in seconds to stream data, min 5s, default 30s"
+          disabled={!query.isStreaming}
+          invalid={this.state.invalidInterval}
+        >
+          <>
+            <Input
+              type="number"
+              placeholder="30"
+              value={query.intervalStreaming || ''}
+              onChange={this.onIntervalChange}
+              width={8}
+            />
+            {this.state.invalidInterval && (
+              <FieldValidationMessage>Interval must be at least 5s</FieldValidationMessage>
+            )}
+          </>
         </InlineField>
       </InlineFieldRow>
     );
