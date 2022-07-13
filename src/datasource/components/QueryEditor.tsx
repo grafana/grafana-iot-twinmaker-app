@@ -1,5 +1,4 @@
 import defaults from 'lodash/defaults';
-
 import React, { PureComponent } from 'react';
 import {
   Alert,
@@ -131,6 +130,14 @@ export class QueryEditor extends PureComponent<Props, State> {
       ? [{ name: 'alarm_status', value: event.value, op: DEFAULT_PROPERTY_FILTER_OPERATOR }]
       : undefined;
     onChange({ ...query, filter });
+    onRunQuery();
+  };
+
+  onMaxResultsChange = (event: any) => {
+    const { onChange, query, onRunQuery } = this.props;
+    // set default maxResults to 50
+    const maxResults = event.target.valueAsNumber ?? 50;
+    onChange({ ...query, maxResults });
     onRunQuery();
   };
 
@@ -398,6 +405,27 @@ export class QueryEditor extends PureComponent<Props, State> {
     );
   }
 
+  renderAlarmMaxResultsInput(query: TwinMakerQuery) {
+    return (
+      <InlineFieldRow>
+        <InlineField
+          label={'Max. Alarms'}
+          grow={true}
+          labelWidth={firstLabelWith}
+          tooltip="Leave this field blank to return all results"
+        >
+          <Input
+            className="width-15"
+            value={query.maxResults}
+            type="number"
+            onChange={this.onMaxResultsChange}
+            placeholder="50"
+          />
+        </InlineField>
+      </InlineFieldRow>
+    );
+  }
+
   onFilterChanged = (index: number, evt?: TwinMakerPropertyFilter) => {
     const { onChange, query } = this.props;
     const filter = query.filter ? query.filter.slice() : [];
@@ -483,7 +511,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     if (isTwinMakerPanelQuery(query)) {
       if (!this.panels.length) {
         return (
-          <Alert title="No TwinMaker panels in the dashbaord" severity="warning">
+          <Alert title="No TwinMaker panels in the dashboard" severity="warning">
             This query type will listen for actions within a panel, however the dashboard does not contain any
             configured panels.
           </Alert>
@@ -534,7 +562,12 @@ export class QueryEditor extends PureComponent<Props, State> {
       case TwinMakerQueryType.ListScenes:
         return null; // nothing required
       case TwinMakerQueryType.GetAlarms:
-        return this.renderAlarmFilterSelector(query, true);
+        return (
+          <>
+            {this.renderAlarmFilterSelector(query, true)}
+            {this.renderAlarmMaxResultsInput(query)}
+          </>
+        );
       case TwinMakerQueryType.ListEntities:
         return this.renderComponentTypeSelector(query, compType);
       case TwinMakerQueryType.GetEntity:
