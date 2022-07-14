@@ -40,6 +40,7 @@ import {
 import { getTemplateSrv } from '@grafana/runtime';
 import { getVariableOptions } from 'common/variables';
 import FilterQueryEditor from './FilterQueryEditor';
+import { BlurTextInput } from './BlurTextInput';
 
 export const firstLabelWith = 18;
 
@@ -252,16 +253,18 @@ export class QueryEditor extends PureComponent<Props, State> {
     onRunQuery();
   };
 
-  onIntervalChange = (e: React.FormEvent<HTMLInputElement>) => {
+  onIntervalChange = (value?: string) => {
     const { onChange, query, onRunQuery } = this.props;
-    if (e.currentTarget.valueAsNumber < 5) {
+    console.log(value);
+    // not sending input less than 5 secs
+    if (Number(value) < 5) {
       this.setState({ invalidInterval: true });
     } else {
       this.setState({ invalidInterval: false });
     }
     onChange({
       ...query,
-      intervalStreaming: e.currentTarget.valueAsNumber,
+      intervalStreaming: value,
     });
     onRunQuery();
   };
@@ -346,12 +349,11 @@ export class QueryEditor extends PureComponent<Props, State> {
           invalid={this.state.invalidInterval}
         >
           <>
-            <Input
-              type="number"
-              placeholder="30"
-              value={query.intervalStreaming || ''}
-              onChange={this.onIntervalChange}
+            <BlurTextInput
               width={8}
+              placeholder="30"
+              value={query.intervalStreaming ?? ''}
+              onChange={this.onIntervalChange}
             />
             {this.state.invalidInterval && (
               <FieldValidationMessage>Interval must be at least 5s</FieldValidationMessage>

@@ -35,7 +35,7 @@ export interface RequestLoopOptions<TQuery extends DataQuery = DataQuery> {
  */
 interface TwinmakerQuery extends DataQuery {
   isStreaming?: boolean;
-  intervalStreaming?: number;
+  intervalStreaming?: string;
 }
 export function getRequestLooper<T extends TwinmakerQuery>(
   req: DataQueryRequest<T>,
@@ -46,7 +46,7 @@ export function getRequestLooper<T extends TwinmakerQuery>(
   if (req.range.raw.to === 'now') {
     req.targets.forEach((t) => {
       if (t.queryType === TwinMakerQueryType.EntityHistory && t.isStreaming) {
-        intervalTime = Number(t.intervalStreaming ?? 30);
+        intervalTime = t.intervalStreaming === undefined ? 30 : Number(t.intervalStreaming);
       }
     });
   }
@@ -110,7 +110,7 @@ export function getRequestLooper<T extends TwinmakerQuery>(
             const lastBuffer = tracker.data?.[0]?.fields[1].values;
             const length = tracker.data ? tracker.data[0]?.length - 1 : 0;
             const lastTimeReceived = length > 0 ? lastBuffer?.get(length) : dateTime(tracker.fetchEndTime);
-
+            console.log(intervalTime);
             setTimeout(() => {
               subscription = options
                 .query({
