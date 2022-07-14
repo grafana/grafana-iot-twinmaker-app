@@ -44,6 +44,7 @@ export interface TwinMakerQuery extends DataQuery {
   componentTypeId?: string;
   properties?: string[];
   filter?: TwinMakerPropertyFilter[];
+  maxResults?: number;
   order?: TwinMakerResultOrder;
   isStreaming?: boolean;
   intervalStreaming?: string;

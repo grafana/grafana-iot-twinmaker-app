@@ -334,12 +334,13 @@ func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query mod
 	if query.EntityId == "" && query.ComponentTypeId == "" {
 		return nil, fmt.Errorf("missing entity id & component type id - either one required")
 	}
-
+	maxR := int64(query.MaxResults)
 	params := &iottwinmaker.GetPropertyValueHistoryInput{
 		EndTime:            getTimeStringFromTimeObject(&query.TimeRange.To),
 		SelectedProperties: query.Properties,
 		StartTime:          getTimeStringFromTimeObject(&query.TimeRange.From),
 		WorkspaceId:        &query.WorkspaceId,
+		MaxResults:         &maxR,
 	}
 
 	if query.NextToken != "" {

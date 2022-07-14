@@ -83,6 +83,15 @@ export function changeQueryType(q: TwinMakerQuery, info: QueryTypeInfo): TwinMak
       delete copy.order;
       delete copy.componentTypeId;
       break;
+    case TwinMakerQueryType.GetAlarms:
+      copy.filter = [
+        {
+          name: 'alarm_status',
+          value: 'ACTIVE',
+          op: '=',
+        },
+      ];
+      break;
   }
   return copy;
 }
