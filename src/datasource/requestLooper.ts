@@ -61,6 +61,7 @@ export function getRequestLooper<T extends TwinmakerQuery>(
     };
     let loadingState: LoadingState | undefined = LoadingState.Loading;
     let count = 1;
+    let cancel = false;
 
     // Single observer gets reused for each request
     const observer = {
@@ -102,15 +103,15 @@ export function getRequestLooper<T extends TwinmakerQuery>(
             .subscribe(observer);
           nextQueries = undefined;
         } else {
-          if (intervalTime <= 0) {
+          if (intervalTime <= 0 || cancel) {
             subscriber.complete();
           } else {
+            console.log('interval', intervalTime);
             tracker.fetchEndTime = undefined;
             tracker.fetchStartTime = Date.now();
             const lastBuffer = tracker.data?.[0]?.fields[1].values;
             const length = tracker.data ? tracker.data[0]?.length - 1 : 0;
             const lastTimeReceived = length > 0 ? lastBuffer?.get(length) : dateTime(tracker.fetchEndTime);
-
             setTimeout(() => {
               subscription = options
                 .query({
@@ -139,6 +140,7 @@ export function getRequestLooper<T extends TwinmakerQuery>(
 
     return () => {
       nextQueries = undefined;
+      cancel = true;
       observer.complete();
       if (!tracker.fetchEndTime) {
         options.onCancel(tracker);
