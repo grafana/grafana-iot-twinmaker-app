@@ -110,7 +110,7 @@ export function getRequestLooper<T extends TwinmakerQuery>(
             const lastBuffer = tracker.data?.[0]?.fields[1].values;
             const length = tracker.data ? tracker.data[0]?.length - 1 : 0;
             const lastTimeReceived = length > 0 ? lastBuffer?.get(length) : dateTime(tracker.fetchEndTime);
-            console.log(intervalTime);
+
             setTimeout(() => {
               subscription = options
                 .query({
