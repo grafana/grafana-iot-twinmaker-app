@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { DataFrame } from '@grafana/data';
 
 import {
@@ -21,9 +21,55 @@ import { getValidHttpUrl, mergeDashboard, updateUrlParams } from './helpers';
 import { MERGE_DASHBOARD_TARGET_ID_KEY } from 'common/constants';
 import plugin from '../../plugin.json';
 
+(() => {
+  let oldReplaceState = history.replaceState;
+  history.replaceState = function replaceState() {
+    let ret = oldReplaceState.apply(this, arguments as any);
+    window.dispatchEvent(new Event('urlupdate'));
+    return ret;
+  };
+})();
+
 export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const styles = getStyles(props.width, props.height);
   const selectedNodeRef = useRef<string>();
+
+  const [selectedVarData, setSelectedVarData] = useState<{ [x: string]: string }>({});
+
+  const getTempVarName = (name: string) => {
+    return name.indexOf('$') !== -1 ? name : `\$\{${name}\}`;
+  };
+
+  const updateSelectedVarData = useCallback(() => {
+    const newSelectedVarData: { [x: string]: string } = {};
+    let selectedEntityValue, selectedComponentValue, selectedPropertyValue;
+    if (props.options.customSelEntityVarName) {
+      const entityVarName = getTempVarName(props.options.customSelEntityVarName);
+      selectedEntityValue = props.replaceVariables(entityVarName);
+      newSelectedVarData[props.options.customSelEntityVarName] = selectedEntityValue;
+    }
+    if (props.options.customSelCompVarName) {
+      const componentVarName = getTempVarName(props.options.customSelCompVarName);
+      selectedComponentValue = props.replaceVariables(componentVarName);
+      newSelectedVarData[props.options.customSelCompVarName] = selectedComponentValue;
+    }
+    if (props.options.customSelPropertyVarName) {
+      const propertyVarName = getTempVarName(props.options.customSelPropertyVarName);
+      selectedPropertyValue = props.replaceVariables(propertyVarName);
+      newSelectedVarData[props.options.customSelPropertyVarName] = selectedPropertyValue;
+    }
+    setSelectedVarData(newSelectedVarData);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('urlupdate', updateSelectedVarData);
+
+    return () => window.removeEventListener('urlupdate', updateSelectedVarData);
+  }, [
+    props.options.customSelEntityVarName,
+    props.options.customSelCompVarName,
+    props.options.customSelPropertyVarName,
+  ]);
 
   const onTargetObjectChanged = useCallback(
     (objectData: TargetObjectData) => {
@@ -128,34 +174,30 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       },
     };
 
-    const selectedEntityVar = props.options.customSelEntityVarName
-      ? props.replaceVariables(props.options.customSelEntityVarName)
-      : undefined;
-    const selectedComponentVar = props.options.customSelCompVarName
-      ? props.replaceVariables(props.options.customSelCompVarName)
-      : undefined;
-    const selectedPropertyVar = props.options.customSelPropertyVarName
-      ? props.replaceVariables(props.options.customSelPropertyVarName)
-      : undefined;
-
     const dataBindingTemplate: IDataBindingTemplate = {};
-    if (props.options.customSelEntityVarName && selectedEntityVar) {
+    if (props.options.customSelEntityVarName && selectedVarData[props.options.customSelEntityVarName]) {
       const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelEntityVarName);
-      dataBindingTemplate[undecoratedKey] = selectedEntityVar;
+      dataBindingTemplate[undecoratedKey] = selectedVarData[props.options.customSelEntityVarName];
     }
-    if (props.options.customSelCompVarName && selectedComponentVar) {
+    if (props.options.customSelCompVarName && selectedVarData[props.options.customSelCompVarName]) {
       const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelCompVarName);
-      dataBindingTemplate[undecoratedKey] = selectedComponentVar;
+      dataBindingTemplate[undecoratedKey] = selectedVarData[props.options.customSelCompVarName];
     }
-    if (props.options.customSelPropertyVarName && selectedPropertyVar) {
+    if (props.options.customSelPropertyVarName && selectedVarData[props.options.customSelPropertyVarName]) {
       const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelPropertyVarName);
-      dataBindingTemplate[undecoratedKey] = selectedPropertyVar;
+      dataBindingTemplate[undecoratedKey] = selectedVarData[props.options.customSelPropertyVarName];
     }
 
     const selectedDataBinding = {
-      [DataBindingLabelKeys.entityId]: selectedEntityVar ?? '',
-      [DataBindingLabelKeys.componentName]: selectedComponentVar ?? '',
-      [DataBindingLabelKeys.propertyName]: selectedPropertyVar ?? '',
+      [DataBindingLabelKeys.entityId]: props.options.customSelEntityVarName
+        ? selectedVarData[props.options.customSelEntityVarName]
+        : '',
+      [DataBindingLabelKeys.componentName]: props.options.customSelCompVarName
+        ? selectedVarData[props.options.customSelCompVarName]
+        : '',
+      [DataBindingLabelKeys.propertyName]: props.options.customSelPropertyVarName
+        ? selectedVarData[props.options.customSelPropertyVarName]
+        : '',
     };
 
     const staticPluginPath = `public/plugins/${plugin.id}`;
@@ -184,7 +226,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
 
     return props.twinMakerUxSdk.createComponentForReact(ComponentName.WebGLRenderer, webGlRendererProps);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.options.sceneId, props.width, props.height, props.twinMakerUxSdk, props.data.series]);
+  }, [props.options.sceneId, props.width, props.height, props.twinMakerUxSdk, props.data.series, selectedVarData]);
 
   return (
     <div
