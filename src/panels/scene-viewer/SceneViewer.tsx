@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { DataFrame } from '@grafana/data';
 
@@ -22,88 +22,58 @@ import { getValidHttpUrl, mergeDashboard, updateUrlParams } from './helpers';
 import { MERGE_DASHBOARD_TARGET_ID_KEY } from 'common/constants';
 import plugin from '../../plugin.json';
 
-// (() => {
-//   let oldReplaceState = history.replaceState;
-//   history.replaceState = function replaceState() {
-//     let ret = oldReplaceState.apply(this, arguments as any);
-//     window.dispatchEvent(new Event('urlupdate'));
-//     return ret;
-//   };
-// })();
-
 export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const styles = getStyles(props.width, props.height);
   const selectedNodeRef = useRef<string>();
 
   const location = useLocation();
-  // const [selectedVarData, setSelectedVarData] = useState<{ [x: string]: string }>({});
+  let updatedBySceneClick = false;
 
   const getTempVarName = (name: string | undefined) => {
     return name ? (name.indexOf('$') !== -1 ? name : `\$\{${name}\}`) : undefined;
   };
 
-  // const updateSelectedVarData = useCallback(() => {
-  //   const newSelectedVarData: { [x: string]: string } = {};
-  //   let selectedEntityValue, selectedComponentValue, selectedPropertyValue;
-  //   if (props.options.customSelEntityVarName) {
-  //     const entityVarName = getTempVarName(props.options.customSelEntityVarName);
-  //     selectedEntityValue = props.replaceVariables(entityVarName);
-  //     newSelectedVarData[props.options.customSelEntityVarName] = selectedEntityValue;
-  //   }
-  //   if (props.options.customSelCompVarName) {
-  //     const componentVarName = getTempVarName(props.options.customSelCompVarName);
-  //     selectedComponentValue = props.replaceVariables(componentVarName);
-  //     newSelectedVarData[props.options.customSelCompVarName] = selectedComponentValue;
-  //   }
-  //   if (props.options.customSelPropertyVarName) {
-  //     const propertyVarName = getTempVarName(props.options.customSelPropertyVarName);
-  //     selectedPropertyValue = props.replaceVariables(propertyVarName);
-  //     newSelectedVarData[props.options.customSelPropertyVarName] = selectedPropertyValue;
-  //   }
-  //   setSelectedVarData(newSelectedVarData);
-  // }, [location]);
-
-  // useEffect(() => {
-  //   window.addEventListener('urlupdate', updateSelectedVarData);
-
-  //   return () => window.removeEventListener('urlupdate', updateSelectedVarData);
-  // }, [
-  //   props.options.customSelEntityVarName,
-  //   props.options.customSelCompVarName,
-  //   props.options.customSelPropertyVarName,
-  // ]);
-
   const onTargetObjectChanged = useCallback(
     (objectData: TargetObjectData) => {
       const anchorData = objectData.data;
 
+      console.log(anchorData);
       if (anchorData?.eventType === 'click') {
+        console.log('click', selectedNodeRef);
         selectedNodeRef.current = anchorData.anchorNodeRef;
         const targetLink = getValidHttpUrl(anchorData.navLink);
         if (targetLink) {
           window.open(targetLink.toString());
         }
+        updatedBySceneClick = true;
       } else if (anchorData?.eventType === 'change') {
+        console.log('change', selectedNodeRef);
         if (anchorData.isSelected) {
           selectedNodeRef.current = anchorData.anchorNodeRef;
           const dashboardId = anchorData.navLink?.params?.[MERGE_DASHBOARD_TARGET_ID_KEY];
           mergeDashboard(dashboardId).then((options) => {
-            updateUrlParams(
-              options?.customSelEntityVarName || props.options.customSelEntityVarName,
-              options?.customSelCompVarName || props.options.customSelCompVarName,
-              options?.customSelPropertyVarName || props.options.customSelPropertyVarName,
-              anchorData
-            );
+            if (updatedBySceneClick) {
+              updateUrlParams(
+                options?.customSelEntityVarName || props.options.customSelEntityVarName,
+                options?.customSelCompVarName || props.options.customSelCompVarName,
+                options?.customSelPropertyVarName || props.options.customSelPropertyVarName,
+                anchorData
+              );
+              updatedBySceneClick = false;
+            }
           });
         } else {
           if (selectedNodeRef.current === anchorData.anchorNodeRef) {
             selectedNodeRef.current = undefined;
-            updateUrlParams(
-              props.options.customSelEntityVarName,
-              props.options.customSelCompVarName,
-              props.options.customSelPropertyVarName,
-              anchorData
-            );
+            if (updatedBySceneClick) {
+              updateUrlParams(
+                props.options.customSelEntityVarName,
+                props.options.customSelCompVarName,
+                props.options.customSelPropertyVarName,
+                anchorData
+              );
+              updatedBySceneClick = false;
+            }
           }
         }
       }
@@ -176,22 +146,24 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       },
     };
 
-    const entityVarName = getTempVarName(props.options.customSelEntityVarName);
-    const selectedEntityValue = entityVarName ? props.replaceVariables(entityVarName) : undefined;
-    const componentVarName = getTempVarName(props.options.customSelCompVarName);
-    const selectedComponentValue = componentVarName ? props.replaceVariables(componentVarName) : undefined;
-    const propertyVarName = getTempVarName(props.options.customSelPropertyVarName);
-    const selectedPropertyValue = propertyVarName ? props.replaceVariables(propertyVarName) : undefined;
+    let selectedEntityValue, selectedComponentValue, selectedPropertyValue;
+    const varSplit = location.search.split('&var-');
+    varSplit.forEach((variable) => {
+      if (props.options.customSelEntityVarName && variable.includes(props.options.customSelEntityVarName)) {
+        selectedEntityValue = variable.split(`${props.options.customSelEntityVarName}=`)[1];
+      } else if (props.options.customSelCompVarName && variable.includes(props.options.customSelCompVarName)) {
+        selectedComponentValue = variable.split(`${props.options.customSelCompVarName}=`)[1];
+      } else if (props.options.customSelPropertyVarName && variable.includes(props.options.customSelPropertyVarName)) {
+        selectedPropertyValue = variable.split(`${props.options.customSelPropertyVarName}=`)[1];
+      }
+    });
 
-    // const selectedEntityValue = props.options.customSelEntityVarName
-    //   ? props.replaceVariables(props.options.customSelEntityVarName)
-    //   : undefined;
-    // const selectedComponentValue = props.options.customSelCompVarName
-    //   ? props.replaceVariables(props.options.customSelCompVarName)
-    //   : undefined;
-    // const selectedPropertyValue = props.options.customSelPropertyVarName
-    //   ? props.replaceVariables(props.options.customSelPropertyVarName)
-    //   : undefined;
+    const entityVarName = getTempVarName(props.options.customSelEntityVarName);
+    // const selectedEntityValue = entityVarName ? props.replaceVariables(entityVarName) : undefined;
+    const componentVarName = getTempVarName(props.options.customSelCompVarName);
+    // const selectedComponentValue = componentVarName ? props.replaceVariables(componentVarName) : undefined;
+    const propertyVarName = getTempVarName(props.options.customSelPropertyVarName);
+    // const selectedPropertyValue = propertyVarName ? props.replaceVariables(propertyVarName) : undefined;
 
     const dataBindingTemplate: IDataBindingTemplate = {};
     if (entityVarName && selectedEntityValue) {
@@ -239,7 +211,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
 
     return props.twinMakerUxSdk.createComponentForReact(ComponentName.WebGLRenderer, webGlRendererProps);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.options.sceneId, props.width, props.height, props.twinMakerUxSdk, props.data.series]);
+  }, [props.options.sceneId, props.width, props.height, props.twinMakerUxSdk, props.data.series, location]);
 
   return (
     <div
