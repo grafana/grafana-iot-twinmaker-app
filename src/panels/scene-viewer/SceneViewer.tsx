@@ -21,59 +21,57 @@ import { getStyles } from './styles';
 import { getValidHttpUrl, mergeDashboard, updateUrlParams } from './helpers';
 import { MERGE_DASHBOARD_TARGET_ID_KEY } from 'common/constants';
 import plugin from '../../plugin.json';
+import { locationSearchToObject } from '@grafana/runtime';
 
 export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const styles = getStyles(props.width, props.height);
   const selectedNodeRef = useRef<string>();
 
-  const location = useLocation();
-  let updatedBySceneClick = false;
+  const { search } = useLocation();
 
-  const getTempVarName = (name: string | undefined) => {
-    return name ? (name.indexOf('$') !== -1 ? name : `\$\{${name}\}`) : undefined;
+  // Get the template variable name from a variable stored as ${variableName} - remove "${}"
+  const getTempVarName = (name: string) => {
+    return name.indexOf('$') !== -1 ? undecorateDataBindingTemplate(name) : name;
+  };
+
+  // Get the template variable name as stored in the URL - "var-variableName", adding the "var-"
+  const getUrlTempVarName = (name: string) => {
+    const varName = (s: string) => `var-${s}`;
+    const undecoratedName = getTempVarName(name);
+    return varName(undecoratedName);
   };
 
   const onTargetObjectChanged = useCallback(
     (objectData: TargetObjectData) => {
       const anchorData = objectData.data;
 
-      console.log(anchorData);
       if (anchorData?.eventType === 'click') {
-        console.log('click', selectedNodeRef);
         selectedNodeRef.current = anchorData.anchorNodeRef;
         const targetLink = getValidHttpUrl(anchorData.navLink);
         if (targetLink) {
           window.open(targetLink.toString());
         }
-        updatedBySceneClick = true;
       } else if (anchorData?.eventType === 'change') {
-        console.log('change', selectedNodeRef);
         if (anchorData.isSelected) {
           selectedNodeRef.current = anchorData.anchorNodeRef;
           const dashboardId = anchorData.navLink?.params?.[MERGE_DASHBOARD_TARGET_ID_KEY];
           mergeDashboard(dashboardId).then((options) => {
-            if (updatedBySceneClick) {
-              updateUrlParams(
-                options?.customSelEntityVarName || props.options.customSelEntityVarName,
-                options?.customSelCompVarName || props.options.customSelCompVarName,
-                options?.customSelPropertyVarName || props.options.customSelPropertyVarName,
-                anchorData
-              );
-              updatedBySceneClick = false;
-            }
+            updateUrlParams(
+              options?.customSelEntityVarName || props.options.customSelEntityVarName,
+              options?.customSelCompVarName || props.options.customSelCompVarName,
+              options?.customSelPropertyVarName || props.options.customSelPropertyVarName,
+              anchorData
+            );
           });
         } else {
           if (selectedNodeRef.current === anchorData.anchorNodeRef) {
             selectedNodeRef.current = undefined;
-            if (updatedBySceneClick) {
-              updateUrlParams(
-                props.options.customSelEntityVarName,
-                props.options.customSelCompVarName,
-                props.options.customSelPropertyVarName,
-                anchorData
-              );
-              updatedBySceneClick = false;
-            }
+            updateUrlParams(
+              props.options.customSelEntityVarName,
+              props.options.customSelCompVarName,
+              props.options.customSelPropertyVarName,
+              anchorData
+            );
           }
         }
       }
@@ -146,36 +144,30 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       },
     };
 
-    let selectedEntityValue, selectedComponentValue, selectedPropertyValue;
-    const varSplit = location.search.split('&var-');
-    varSplit.forEach((variable) => {
-      if (props.options.customSelEntityVarName && variable.includes(props.options.customSelEntityVarName)) {
-        selectedEntityValue = variable.split(`${props.options.customSelEntityVarName}=`)[1];
-      } else if (props.options.customSelCompVarName && variable.includes(props.options.customSelCompVarName)) {
-        selectedComponentValue = variable.split(`${props.options.customSelCompVarName}=`)[1];
-      } else if (props.options.customSelPropertyVarName && variable.includes(props.options.customSelPropertyVarName)) {
-        selectedPropertyValue = variable.split(`${props.options.customSelPropertyVarName}=`)[1];
-      }
-    });
+    // Get variables from the URL
+    const queryParams = locationSearchToObject(search || '');
 
-    const entityVarName = getTempVarName(props.options.customSelEntityVarName);
-    // const selectedEntityValue = entityVarName ? props.replaceVariables(entityVarName) : undefined;
-    const componentVarName = getTempVarName(props.options.customSelCompVarName);
-    // const selectedComponentValue = componentVarName ? props.replaceVariables(componentVarName) : undefined;
-    const propertyVarName = getTempVarName(props.options.customSelPropertyVarName);
-    // const selectedPropertyValue = propertyVarName ? props.replaceVariables(propertyVarName) : undefined;
+    const selectedEntityValue = props.options.customSelEntityVarName
+      ? (queryParams[getUrlTempVarName(props.options.customSelEntityVarName)] as string)
+      : undefined;
+    const selectedComponentValue = props.options.customSelCompVarName
+      ? (queryParams[getUrlTempVarName(props.options.customSelCompVarName)] as string)
+      : undefined;
+    const selectedPropertyValue = props.options.customSelPropertyVarName
+      ? (queryParams[getUrlTempVarName(props.options.customSelPropertyVarName)] as string)
+      : undefined;
 
     const dataBindingTemplate: IDataBindingTemplate = {};
-    if (entityVarName && selectedEntityValue) {
-      const undecoratedKey = undecorateDataBindingTemplate(entityVarName);
+    if (props.options.customSelEntityVarName && selectedEntityValue) {
+      const undecoratedKey = getTempVarName(props.options.customSelEntityVarName);
       dataBindingTemplate[undecoratedKey] = selectedEntityValue;
     }
-    if (componentVarName && selectedComponentValue) {
-      const undecoratedKey = undecorateDataBindingTemplate(componentVarName);
+    if (props.options.customSelCompVarName && selectedComponentValue) {
+      const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelCompVarName);
       dataBindingTemplate[undecoratedKey] = selectedComponentValue;
     }
-    if (propertyVarName && selectedPropertyValue) {
-      const undecoratedKey = undecorateDataBindingTemplate(propertyVarName);
+    if (props.options.customSelPropertyVarName && selectedPropertyValue) {
+      const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelPropertyVarName);
       dataBindingTemplate[undecoratedKey] = selectedPropertyValue;
     }
 
@@ -211,7 +203,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
 
     return props.twinMakerUxSdk.createComponentForReact(ComponentName.WebGLRenderer, webGlRendererProps);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.options.sceneId, props.width, props.height, props.twinMakerUxSdk, props.data.series, location]);
+  }, [props.options.sceneId, props.width, props.height, props.twinMakerUxSdk, props.data.series, search]);
 
   return (
     <div
