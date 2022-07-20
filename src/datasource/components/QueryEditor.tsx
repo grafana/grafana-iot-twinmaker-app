@@ -29,7 +29,7 @@ import { getTemplateSrv } from '@grafana/runtime';
 import { getVariableOptions } from 'common/variables';
 import FilterQueryEditor from './FilterQueryEditor';
 
-export const firstLabelWith = 18;
+export const firstLabelWidth = 18;
 
 type Props = QueryEditorProps<TwinMakerDataSource, TwinMakerQuery, TwinMakerDataSourceOptions>;
 interface State {
@@ -123,8 +123,10 @@ export class QueryEditor extends PureComponent<Props, State> {
     const { onChange, query, onRunQuery } = this.props;
     // set default maxResults to 50
     const maxResults = event.target.valueAsNumber ?? 50;
-    onChange({ ...query, maxResults });
-    onRunQuery();
+    if (maxResults !== 0) {
+      onChange({ ...query, maxResults });
+      onRunQuery();
+    }
   };
 
   onEntityIdChange = (event: SelectableValue<string>) => {
@@ -243,7 +245,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     const entity = getSelectionInfo(query.entityId, this.state.workspace?.entities, this.state.templateVars);
     return (
       <InlineFieldRow key="entity-selector">
-        <InlineField label={'Entity'} grow={true} labelWidth={firstLabelWith}>
+        <InlineField label={'Entity'} grow={true} labelWidth={firstLabelWidth}>
           <Select
             menuShouldPortal={true}
             value={entity.current}
@@ -276,7 +278,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     }
     return (
       <InlineFieldRow key="component-type">
-        <InlineField label={'Component Type'} grow={true} labelWidth={firstLabelWith}>
+        <InlineField label={'Component Type'} grow={true} labelWidth={firstLabelWidth}>
           <Select
             menuShouldPortal={true}
             value={compType.current}
@@ -297,7 +299,7 @@ export class QueryEditor extends PureComponent<Props, State> {
   renderComponentNameSelector(query: TwinMakerQuery, compName: SelectionInfo<string>, isClearable: boolean) {
     return (
       <InlineFieldRow>
-        <InlineField label={'Component Name'} grow={true} labelWidth={firstLabelWith}>
+        <InlineField label={'Component Name'} grow={true} labelWidth={firstLabelWidth}>
           <Select
             menuShouldPortal={true}
             value={compName.current}
@@ -337,7 +339,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     const filter = getSelectionInfo(current, alarmStatuses);
     return (
       <InlineFieldRow>
-        <InlineField label={'Filter'} grow={true} labelWidth={firstLabelWith}>
+        <InlineField label={'Filter'} grow={true} labelWidth={firstLabelWidth}>
           <Select
             menuShouldPortal={true}
             value={filter.current}
@@ -356,7 +358,7 @@ export class QueryEditor extends PureComponent<Props, State> {
         <InlineField
           label={'Max. Alarms'}
           grow={true}
-          labelWidth={firstLabelWith}
+          labelWidth={firstLabelWidth}
           tooltip="Leave this field blank to return all results"
         >
           <Input
@@ -435,7 +437,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     const properties = getMultiSelectionInfo(query.properties, propOpts, this.state.templateVars);
     return (
       <InlineFieldRow>
-        <InlineField label={'Selected Properties'} grow={true} labelWidth={firstLabelWith}>
+        <InlineField label={'Selected Properties'} grow={true} labelWidth={firstLabelWidth}>
           <MultiSelect
             menuShouldPortal={true}
             value={properties.current}
@@ -468,7 +470,7 @@ export class QueryEditor extends PureComponent<Props, State> {
       return (
         <>
           <InlineFieldRow>
-            <InlineField label={'Panel'} labelWidth={firstLabelWith} grow={true}>
+            <InlineField label={'Panel'} labelWidth={firstLabelWidth} grow={true}>
               <Select
                 menuShouldPortal={true}
                 value={panelSel.current}
@@ -579,7 +581,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     return (
       <div className={'gf-form-group'}>
         <InlineFieldRow>
-          <InlineField label="Query Type" labelWidth={firstLabelWith} grow={true} tooltip={queryTooltip}>
+          <InlineField label="Query Type" labelWidth={firstLabelWidth} grow={true} tooltip={queryTooltip}>
             <Select
               menuShouldPortal={true}
               options={twinMakerQueryTypes}
