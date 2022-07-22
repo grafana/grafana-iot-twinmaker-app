@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { ComponentName, ComponentPropsType } from 'aws-iot-twinmaker-grafana-utils';
+import { ComponentName, ComponentPropsType, VideoData, VideoPlaybackMode } from 'aws-iot-twinmaker-grafana-utils';
 import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
 import { getStyles } from './styles';
 import { VideoPlayerPropsFromParent } from './interfaces';
@@ -11,11 +11,15 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
   // Automatically update the video player when the related parameters change
   const setVideoPlayer = useCallback(() => {
     // Load in VideoPlayer component
-    const videoPlayerProps: ComponentPropsType = {
-      kvsStreamName: props.kvsStreamName,
+    const videoData = new VideoData({
       workspaceId: props.workspaceId,
       entityId: props.entityId,
       componentName: props.componentName,
+      kvsStreamName: props.kvsStreamName,
+    });
+    const videoPlayerProps: ComponentPropsType = {
+      videoData: videoData,
+      playbackMode: VideoPlaybackMode.ON_DEMAND,
       startTime: props.timeRange.from.toDate(),
       endTime: props.timeRange.to.toDate(),
     };
