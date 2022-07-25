@@ -28,6 +28,11 @@
   "dependencies": {
     "aws-iot-twinmaker-grafana-utils": "file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz",
     "aws-sdk": "^2.833.0",
+    "@aws-sdk/client-kinesis-video": "^3.112.0",
+    "@aws-sdk/client-kinesis-video-archived-media": "^3.112.0",
+    "@aws-sdk/client-iotsitewise": "^3.112.0",
+    "@aws-sdk/client-iottwinmaker": "^3.112.0",
+    "@aws-sdk/client-s3": "^3.112.0",
     "query-string": "^7.0.1",
     "react-redux": "^7.2.3",
     "react-use": "^17.3.1"

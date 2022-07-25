@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, InlineField, InlineFieldRow } from '@grafana/ui';
 import { DEFAULT_PROPERTY_FILTER_OPERATOR, TwinMakerPropertyFilter } from 'common/manager';
-import { firstLabelWith } from '.';
+import { firstLabelWidth } from '.';
 import { BlurTextInput } from './BlurTextInput';
 
 export interface Props {
@@ -32,7 +32,7 @@ export default function FilterQueryEditor(props: Props) {
       <InlineField
         label={index === 0 ? 'Filter' : ' (and)'}
         grow={true}
-        labelWidth={firstLabelWith}
+        labelWidth={firstLabelWidth}
         tooltip="currently only string fields are supported"
       >
         <>
