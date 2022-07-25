@@ -24,7 +24,7 @@ func (ds *TwinMakerDatasource) HandleGetToken(w http.ResponseWriter, r *http.Req
 		_, _ = w.Write([]byte(`{"message": "Assume Role ARN is missing in datasource configuration"}`))
 		return
 	}
-	token, err := ds.handler.GetSessionToken(r.Context(), time.Second*3600, ds.settings.WorkspaceID)
+	token, err := ds.handler.GetSessionToken(r.Context(), time.Second*900, ds.settings.WorkspaceID)
 	writeJsonResponse(w, token, err)
 }
 
