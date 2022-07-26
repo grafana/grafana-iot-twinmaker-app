@@ -107,6 +107,7 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
        */
       process: (t: MultiRequestTracker, data: DataFrame[], isLast: boolean) => {
         if (t.data) {
+          console.log('Appending frames', data);
           // append rows to fields with the same structure
           t.data = appendMatchingFrames(t.data, data);
         } else {

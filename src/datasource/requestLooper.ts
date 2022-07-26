@@ -1,6 +1,5 @@
 import { DataQuery, DataQueryRequest, DataQueryResponse, LoadingState, DataFrame, dateTime } from '@grafana/data';
-import { TwinMakerQueryType } from 'common/manager';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 
 export interface MultiRequestTracker {
   fetchStartTime?: number; // The frontend clock
@@ -41,24 +40,56 @@ export function getRequestLooper<T extends TwinmakerQuery>(
   req: DataQueryRequest<T>,
   options: RequestLoopOptions<T>
 ): Observable<DataQueryResponse> {
-  let intervalTime = 0;
-  // check for queries that are opted for streaming
-  if (req.range.raw.to === 'now') {
-    req.targets.forEach((t) => {
-      if (t.queryType === TwinMakerQueryType.EntityHistory && t.isStreaming) {
-        intervalTime = t.intervalStreaming === undefined ? 30 : Number(t.intervalStreaming);
-      }
+  const tracker: MultiRequestTracker = {
+    fetchStartTime: Date.now(),
+    fetchEndTime: undefined,
+    data: [],
+  };
+  const queries = req.targets
+    .filter((t) => t.isStreaming)
+    .map((t) => {
+      return newLooper(
+        tracker,
+        {
+          ...req,
+          targets: [t],
+        },
+        options
+      );
     });
+  const targets = req.targets.filter((t) => !t.isStreaming);
+  if (targets.length > 0) {
+    queries.push(
+      newLooper(
+        tracker,
+        {
+          ...req,
+          targets,
+        },
+        options
+      )
+    );
   }
+  return combineLatest(queries, (...args) =>
+    args.reduce((acc, cur) => {
+      acc.data.push(...cur.data);
+      acc.error = acc.error || cur.error;
+      acc.state = acc.state || cur.state;
+      acc.key = acc.key || cur.key;
+      return acc;
+    })
+  );
+}
 
+export function newLooper<T extends TwinmakerQuery>(
+  tracker: MultiRequestTracker,
+  req: DataQueryRequest<T>,
+  options: RequestLoopOptions<T>
+): Observable<DataQueryResponse> {
+  const isStreaming = req.targets.some((t) => t.isStreaming);
   return new Observable<DataQueryResponse>((subscriber) => {
     let nextQueries: T[] | undefined = undefined;
     let subscription: Subscription | undefined = undefined;
-    const tracker: MultiRequestTracker = {
-      fetchStartTime: Date.now(),
-      fetchEndTime: undefined,
-      data: [],
-    };
     let loadingState: LoadingState | undefined = LoadingState.Loading;
     let count = 1;
     let cancel = false;
@@ -76,7 +107,7 @@ export function getRequestLooper<T extends TwinmakerQuery>(
         subscriber.next({
           ...rsp,
           data,
-          state: intervalTime > 0 ? LoadingState.Streaming : loadingState,
+          state: isStreaming ? LoadingState.Streaming : loadingState,
           key: req.requestId,
         });
       },
@@ -103,15 +134,15 @@ export function getRequestLooper<T extends TwinmakerQuery>(
             .subscribe(observer);
           nextQueries = undefined;
         } else {
-          if (intervalTime <= 0 || cancel) {
+          if (!isStreaming || cancel) {
             subscriber.complete();
           } else {
-            console.log('interval', intervalTime);
             tracker.fetchEndTime = undefined;
             tracker.fetchStartTime = Date.now();
             const lastBuffer = tracker.data?.[0]?.fields[1].values;
             const length = tracker.data ? tracker.data[0]?.length - 1 : 0;
             const lastTimeReceived = length > 0 ? lastBuffer?.get(length) : dateTime(tracker.fetchEndTime);
+            const intervalTime = Number(req.targets.find((t) => t.isStreaming)?.intervalStreaming ?? 30);
             setTimeout(() => {
               subscription = options
                 .query({
