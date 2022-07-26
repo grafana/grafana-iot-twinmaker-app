@@ -4,7 +4,7 @@ import { mockGrafanaUI, mockTwinMakerPanelProps, mockTimeRange } from '../tests/
 
 mockGrafanaUI();
 
-import { ComponentName } from 'aws-iot-twinmaker-grafana-utils';
+import { ComponentName, VideoData, VideoPlaybackMode } from 'aws-iot-twinmaker-grafana-utils';
 import { VideoPlayer } from './VideoPlayer';
 import { VideoPlayerPropsFromParent } from './interfaces';
 import { mockDisplayOptions } from './tests/common';
@@ -21,13 +21,17 @@ describe('VideoPlayer', () => {
     const mockEntityId = 'mockEntityId';
     const mockComponentName = 'mockComponentName';
     const mockWorkspaceId = 'MockWorkspaceId';
-    const expectedComponentOptions = {
+    const mockVideoData = new VideoData({
+      workspaceId: mockWorkspaceId,
+      entityId: mockEntityId,
+      componentName: mockComponentName,
       kvsStreamName: mockKvsStream,
+    });
+    const expectedComponentOptions = {
+      videoData: mockVideoData,
+      playbackMode: VideoPlaybackMode.ON_DEMAND,
       startTime: mockTimeRange.from.toDate(),
       endTime: mockTimeRange.to.toDate(),
-      componentName: mockComponentName,
-      entityId: mockEntityId,
-      workspaceId: mockWorkspaceId,
     };
 
     const options = {
