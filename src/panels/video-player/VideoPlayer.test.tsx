@@ -1,6 +1,14 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { mockGrafanaUI, mockTwinMakerPanelProps, mockTimeRange } from '../tests/utils/__mocks__';
+import {
+  mockGrafanaUI,
+  mockTwinMakerPanelProps,
+  mockTimeRange,
+  mockKinesisVideoClient,
+  mockKinesisVideoArchivedMediaClient,
+  mockSiteWiseClient,
+  mockTwinMakerClient,
+} from '../tests/utils/__mocks__';
 
 mockGrafanaUI();
 
@@ -26,6 +34,10 @@ describe('VideoPlayer', () => {
       entityId: mockEntityId,
       componentName: mockComponentName,
       kvsStreamName: mockKvsStream,
+      kinesisVideoArchivedMediaClient: mockKinesisVideoArchivedMediaClient,
+      kinesisVideoClient: mockKinesisVideoClient,
+      siteWiseClient: mockSiteWiseClient,
+      twinMakerClient: mockTwinMakerClient,
     });
     const expectedComponentOptions = {
       videoData: mockVideoData,

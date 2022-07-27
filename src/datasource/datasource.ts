@@ -144,7 +144,6 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
       sessionToken: tokenInfo.sessionToken,
       expiration: new Date(tokenInfo.expiration),
     };
-    console.log(credentials.expiration);
     return credentials;
   };
 }
