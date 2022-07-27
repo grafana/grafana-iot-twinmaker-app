@@ -11,6 +11,7 @@ import (
 type TwinMakerDataSourceSetting struct {
 	awsds.AWSDatasourceSettings
 	WorkspaceID string `json:"workspaceId"`
+	UID         string `json:"uid"`
 }
 
 func (s *TwinMakerDataSourceSetting) Load(config backend.DataSourceInstanceSettings) error {
@@ -19,6 +20,9 @@ func (s *TwinMakerDataSourceSetting) Load(config backend.DataSourceInstanceSetti
 			return fmt.Errorf("could not unmarshal DatasourceSettings json: %w", err)
 		}
 	}
+
+	// data source UID is needed for constructing the streaming channel topic
+	s.UID = config.UID
 
 	if s.Region == "default" || s.Region == "" {
 		s.Region = s.DefaultRegion

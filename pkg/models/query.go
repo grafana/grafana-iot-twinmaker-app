@@ -1,6 +1,8 @@
 package models
 
 import (
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 
@@ -54,16 +56,18 @@ func (f *TwinMakerPropertyFilter) ToTwinMakerFilter() *iottwinmaker.PropertyFilt
 
 // TwinMakerQuery model
 type TwinMakerQuery struct {
-	WorkspaceId        string                            `json:"workspaceId,omitempty"`
-	EntityId           string                            `json:"entityId,omitempty"`
-	Properties         []*string                         `json:"properties,omitempty"`
-	NextToken          string                            `json:"nextToken,omitempty"`
-	ComponentName      string                            `json:"componentName,omitempty"`
-	ComponentTypeId    string                            `json:"componentTypeId,omitempty"`
-	PropertyFilter     []TwinMakerPropertyFilter         `json:"filter,omitempty"`
-	ListEntitiesFilter []TwinMakerListEntitiesFilter     `json:"listEntitiesFilter,omitempty"`
-	Order              TwinMakerResultOrder              `json:"order,omitempty"`
-	MaxResults         int                               `json:"maxResults,omitempty"`
+	Stream             bool                          `json:"stream,omitempty"`
+	StreamInterval     string                        `json:"streamInterval,omitempty"`
+	WorkspaceId        string                        `json:"workspaceId,omitempty"`
+	EntityId           string                        `json:"entityId,omitempty"`
+	Properties         []*string                     `json:"properties,omitempty"`
+	NextToken          string                        `json:"nextToken,omitempty"`
+	ComponentName      string                        `json:"componentName,omitempty"`
+	ComponentTypeId    string                        `json:"componentTypeId,omitempty"`
+	PropertyFilter     []TwinMakerPropertyFilter     `json:"filter,omitempty"`
+	ListEntitiesFilter []TwinMakerListEntitiesFilter `json:"listEntitiesFilter,omitempty"`
+	Order              TwinMakerResultOrder          `json:"order,omitempty"`
+	MaxResults         int                           `json:"maxResults,omitempty"`
 
 	// Direct from the gRPC interfaces
 	QueryType TwinMakerQueryType `json:"-"`
@@ -94,6 +98,18 @@ func (q *TwinMakerQuery) CacheKey(pfix string) string {
 	key += "@" + q.Order
 
 	return key
+}
+
+// ChannelTopic returns the channel topic for the streaming query
+func (q *TwinMakerQuery) ChannelTopic(uid string) (string, error) {
+	bv, err := json.Marshal(&q)
+	if err != nil {
+		return "", err
+	}
+	hasher := sha256.New()
+	hasher.Write(bv)
+	hash := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
+	return fmt.Sprintf("ds/%s/%s", uid, hash), nil
 }
 
 // ReadQuery will read and validate Settings from the DataSourceConfig
