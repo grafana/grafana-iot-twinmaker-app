@@ -12,7 +12,6 @@ import {
   TargetObjectData,
   ValueType,
   DataBindingLabelKeys,
-  undecorateDataBindingTemplate,
   IDataField,
 } from 'aws-iot-twinmaker-grafana-utils';
 import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
@@ -22,24 +21,13 @@ import { getValidHttpUrl, mergeDashboard, updateUrlParams } from './helpers';
 import { MERGE_DASHBOARD_TARGET_ID_KEY } from 'common/constants';
 import plugin from '../../plugin.json';
 import { locationSearchToObject } from '@grafana/runtime';
+import { getUrlTempVarName, undecorateName } from 'common/variables';
 
 export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const styles = getStyles(props.width, props.height);
   const selectedNodeRef = useRef<string>();
 
   const { search } = useLocation();
-
-  // Get the template variable name from a variable stored as ${variableName} - remove "${}"
-  const getTempVarName = (name: string) => {
-    return name.indexOf('$') !== -1 ? undecorateDataBindingTemplate(name) : name;
-  };
-
-  // Get the template variable name as stored in the URL - "var-variableName", adding the "var-"
-  const getUrlTempVarName = (name: string) => {
-    const varName = (s: string) => `var-${s}`;
-    const undecoratedName = getTempVarName(name);
-    return varName(undecoratedName);
-  };
 
   const onTargetObjectChanged = useCallback(
     (objectData: TargetObjectData) => {
@@ -159,15 +147,15 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
 
     const dataBindingTemplate: IDataBindingTemplate = {};
     if (props.options.customSelEntityVarName && selectedEntityValue) {
-      const undecoratedKey = getTempVarName(props.options.customSelEntityVarName);
+      const undecoratedKey = undecorateName(props.options.customSelEntityVarName);
       dataBindingTemplate[undecoratedKey] = selectedEntityValue;
     }
     if (props.options.customSelCompVarName && selectedComponentValue) {
-      const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelCompVarName);
+      const undecoratedKey = undecorateName(props.options.customSelCompVarName);
       dataBindingTemplate[undecoratedKey] = selectedComponentValue;
     }
     if (props.options.customSelPropertyVarName && selectedPropertyValue) {
-      const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelPropertyVarName);
+      const undecoratedKey = undecorateName(props.options.customSelPropertyVarName);
       dataBindingTemplate[undecoratedKey] = selectedPropertyValue;
     }
 
