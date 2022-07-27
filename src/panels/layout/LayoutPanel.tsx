@@ -18,7 +18,6 @@ import { ReplaySubject, of, throwError } from 'rxjs';
 import { getCurrentDashboard } from 'common/dashboard';
 import { doQueryUpdate, mergeDashboard } from './merge';
 import { TWINMAKER_PANEL_TYPE_ID } from 'common/constants';
-import { CustomScrollbar } from '@grafana/ui';
 
 const twinMakerQueries: Array<Partial<TwinMakerQuery>> = [
   { queryType: TwinMakerQueryType.ListWorkspace },
@@ -228,22 +227,20 @@ export class LayoutPanel extends Component<Props, State> {
     switch (options.show) {
       case DisplayMode.EntityDetails:
         return (
-          <CustomScrollbar autoHeightMin="100%">
-            <div>
-              <table>
-                <tr>
-                  <th>EntityName: &nbsp;</th>
-                  <td>{entityInfo?.EntityName}</td>
-                </tr>
-                <tr>
-                  <th>ComponentTypeId: &nbsp;</th>
-                  <td>{componentInfo?.ComponentTypeId}</td>
-                </tr>
-              </table>
-              {componentInfo && <pre>{JSON.stringify(componentInfo, null, 2)}</pre>}
-              {entityInfo && !componentInfo && <pre>{JSON.stringify(entityInfo, null, 2)}</pre>}
-            </div>
-          </CustomScrollbar>
+          <div>
+            <table>
+              <tr>
+                <th>EntityName: &nbsp;</th>
+                <td>{entityInfo?.EntityName}</td>
+              </tr>
+              <tr>
+                <th>ComponentTypeId: &nbsp;</th>
+                <td>{componentInfo?.ComponentTypeId}</td>
+              </tr>
+            </table>
+            {componentInfo && <pre>{JSON.stringify(componentInfo, null, 2)}</pre>}
+            {entityInfo && !componentInfo && <pre>{JSON.stringify(entityInfo, null, 2)}</pre>}
+          </div>
         );
 
       case DisplayMode.ComponentTypeId:

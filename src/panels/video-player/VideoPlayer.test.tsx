@@ -69,9 +69,6 @@ describe('VideoPlayer', () => {
     const props: VideoPlayerPropsFromParent = {
       ...panelProps,
       options,
-      componentName: mockComponentName,
-      entityId: mockEntityId,
-      kvsStreamName: mockKvsStream,
     };
 
     render(<VideoPlayer {...props} />);

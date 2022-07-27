@@ -59,10 +59,10 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
     };
     return props.twinMakerUxSdk.createComponentForReact(ComponentName.VideoPlayer, videoPlayerProps);
   }, [
-    props.kvsStreamName,
+    props.options.kvsStreamName,
     props.workspaceId,
-    props.entityId,
-    props.componentName,
+    props.options.entityId,
+    props.options.componentName,
     props.timeRange.from,
     props.timeRange.to,
     props.twinMakerUxSdk,
