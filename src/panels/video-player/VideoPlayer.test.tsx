@@ -11,6 +11,19 @@ import {
 } from '../tests/utils/__mocks__';
 
 mockGrafanaUI();
+jest.doMock('react-router-dom', () => ({
+  useLocation: () => {
+    return { search: '' };
+  },
+}));
+
+const mockLocationSearchToObject = jest.fn().mockImplementation(() => {
+  return {};
+});
+jest.doMock('@grafana/runtime', () => ({
+  ...(jest.requireActual('@grafana/runtime') as any),
+  locationSearchToObject: mockLocationSearchToObject,
+}));
 
 import { ComponentName, VideoData, VideoPlaybackMode } from 'aws-iot-twinmaker-grafana-utils';
 import { VideoPlayer } from './VideoPlayer';

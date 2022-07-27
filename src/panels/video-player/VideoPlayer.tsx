@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { ComponentName, ComponentPropsType, VideoData, VideoPlaybackMode } from 'aws-iot-twinmaker-grafana-utils';
 import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
 import { getStyles } from './styles';
@@ -24,13 +24,20 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
 
     // Double check default variable values if url is empty
     if (!entityId) {
-      entityId = templateSrv.replace(tempVarSyntax(props.options.entityId));
+      const entityIdVar = tempVarSyntax(props.options.entityId);
+      const value = templateSrv.replace(entityIdVar);
+      // Not a template var if templateSrv.replace returns the same value
+      entityId = value === entityIdVar ? props.options.entityId : value;
     }
     if (!componentName) {
-      componentName = templateSrv.replace(tempVarSyntax(props.options.componentName));
+      const componentNameVar = tempVarSyntax(props.options.componentName);
+      const value = templateSrv.replace(componentNameVar);
+      componentName = value === componentNameVar ? props.options.componentName : value;
     }
     if (!kvsStreamName) {
-      kvsStreamName = templateSrv.replace(tempVarSyntax(props.options.kvsStreamName));
+      const kvsStreamNameVar = tempVarSyntax(props.options.kvsStreamName);
+      const value = templateSrv.replace(kvsStreamNameVar);
+      kvsStreamName = value === kvsStreamNameVar ? props.options.kvsStreamName : value;
     }
 
     // Load in VideoPlayer component
