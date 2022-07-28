@@ -2,12 +2,17 @@ import { DataFrame, FieldCache, DataQueryRequest } from '@grafana/data';
 import { AlarmInfo, AlarmResultFields, AlarmQueryInfo } from './types';
 import { TwinMakerQuery } from 'common/manager';
 
+const NO_QUERY = 'No query to parse';
+const MISSING_DATE = 'Missing data';
+const FRAME_LENGTH_ERROR = 'Frame had no length';
+const UNKNOWN_FRAME_TYPE = 'Unknown frame type';
+
 export function processAlarmQueryInput(query: DataQueryRequest<TwinMakerQuery> | undefined): AlarmQueryInfo {
   const info: AlarmQueryInfo = {};
 
   if (!query) {
     info.invalidFormat = true;
-    info.warning = 'No query to parse';
+    info.warning = NO_QUERY;
   }
 
   const target = query?.targets[0];
@@ -22,7 +27,7 @@ export function processAlarmResult(data: DataFrame[]): AlarmInfo {
 
   if (!data?.length) {
     info.invalidFormat = true;
-    info.warning = 'missing data';
+    info.warning = MISSING_DATE;
     return info;
   }
 
@@ -31,7 +36,7 @@ export function processAlarmResult(data: DataFrame[]): AlarmInfo {
     const cache = new FieldCache(frame);
     if (!frame.length) {
       info.invalidFormat = true;
-      info.warning = 'frame had no lenght';
+      info.warning = FRAME_LENGTH_ERROR;
       return info; // don't care about structure unless values exist
     }
     
@@ -46,7 +51,7 @@ export function processAlarmResult(data: DataFrame[]): AlarmInfo {
       info.alarmNotificationRecipient = notificationValues?.get(notificationValues.length - 1);
     } else {
       info.invalidFormat = true;
-      info.warning = 'Unknown frame type';
+      info.warning = UNKNOWN_FRAME_TYPE;
       return info;
     }
   }

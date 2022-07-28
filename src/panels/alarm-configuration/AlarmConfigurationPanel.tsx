@@ -1,76 +1,58 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { throwError } from 'rxjs';
 import { DataQueryRequest, PanelProps } from '@grafana/data';
 import { Button, Label, LoadingPlaceholder } from '@grafana/ui';
 
-import { configureSdkWithDataSource, DataSourceParams } from '../sdkInit';
 import { PanelOptions } from './types';
-import { getTwinMakerDashboardManager, TwinMakerQuery } from 'common/manager';
+import { TwinMakerQuery } from 'common/manager';
 import { processAlarmQueryInput, processAlarmResult } from './alarmParser';
 
-import IoTTwinMaker, { BatchPutPropertyValuesRequest } from 'aws-sdk/clients/iottwinmaker';
+import { BatchPutPropertyValuesRequest } from 'aws-sdk/clients/iottwinmaker';
 
 import { AlarmEditModal } from './AlarmEditModal';
 
 import { getTemplateSrv } from '@grafana/runtime';
 
+import { usePanelRegisteration } from 'hooks/usePanelRegistration';
+import { useTwinMakerClient } from 'hooks/useTwinMakerClient';
+
 type Props = PanelProps<PanelOptions>;
 
+const NO_CLIENT = 'TwinMaker client not defined';
+const LOADING = 'Loading...';
+
 export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, data, options }) => {
-  
-  const [configured, setConfigured] = useState(false);
-
-  //do once stuff
-  useLayoutEffect(() => {
-    getTwinMakerDashboardManager().registerTwinMakerPanel(id, {
-      twinMakerPanelQueryRunner: () => throwError(() => `not implemented yet (see twinmaker debug panel)`),
-      onDashboardAction: (cmd) => {
-        console.log('TODO! implement action sent from the manager???', cmd);
-      },
-    });
-  }, [id]);
-
-  //unmount effect
-  useEffect(() => {
-    return () => {
-      getTwinMakerDashboardManager().destroyTwinMakerPanel(id);
-
-    }
-  }, []);
-
-  const [twinMakerClient, setTwinMakerClient] = useState<IoTTwinMaker | undefined>();
-  const [dataSourceParams, setDataSourceParams] = useState<DataSourceParams | undefined>(undefined);
-
-  useEffect(() => {
-    const uid = options.datasource;
-    const runConfigure = async () => {
-      const params = await configureSdkWithDataSource(uid);
-      setDataSourceParams(params);
-      setTwinMakerClient(params?.twinMakerUxSdk.awsClients.iotTwinMaker());
-      setConfigured(true);
-    };
-    runConfigure();
-  }, [options.datasource, setDataSourceParams, setTwinMakerClient]);
-
+    
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [alarmName, setAlarmName] = useState('');
   const [entityId, setEntityId] = useState('');
   const [alarmThreshold, setAlarmThreshold] = useState<number | undefined>();
   const [alarmNotificationRecipient, setAlarmNotificationRecipient] = useState('');
   const [warnings, setWarnings] = useState('');
+  const [twinMakerClient, dataSourceParams] = useTwinMakerClient(options.datasource);
+  const configured = !!twinMakerClient;
 
   const results = useMemo(() => processAlarmResult(data.series), [data.series]);
   const queryInfo = useMemo(
     () => processAlarmQueryInput(data.request as DataQueryRequest<TwinMakerQuery>),
     [data.request]
   );
+  usePanelRegisteration(id);
 
   useEffect(() => {
+    let warning = '';
     if (results.invalidFormat || queryInfo.invalidFormat) {
+      if(!!results.warning) {
+        warning = results.warning;
+      }
+      if(!!queryInfo.warning && !!warning) {
+        warning = `${warning} ${queryInfo.warning}`;
+      } else if (!!queryInfo.warning){
+        warning = queryInfo.warning;
+      }
       setWarnings(results.warning + ' ' + queryInfo.warning);
-    } else {
-      setWarnings('');
-    }
+    } 
+    setWarnings(warning);
 
     const templateSrv = getTemplateSrv();
     setAlarmName(queryInfo.alarmName ? templateSrv.replace(queryInfo.alarmName) : '');
@@ -82,7 +64,7 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
   const updateAlarmThreshold = useCallback(
     (newThreshold: number) => {
       const request: BatchPutPropertyValuesRequest = {
-        workspaceId: dataSourceParams?.workspaceId!,
+        workspaceId: dataSourceParams!.workspaceId,
         entries: [
           {
             entityPropertyReference: {
@@ -112,19 +94,18 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
             setWarnings(error.message);
           });
       } else {
-        console.error('TwinMaker client not defined');
+        console.error(NO_CLIENT);
       }
     },
     [dataSourceParams, alarmName, entityId, twinMakerClient, setAlarmThreshold, setWarnings]
   );
 
-  const [editModalOpen, setEditModalOpen] = useState(false);
   const toggleModal = useCallback(() => {
     setEditModalOpen(!editModalOpen);
   }, [setEditModalOpen, editModalOpen]);
 
   if(!configured) {
-    return <LoadingPlaceholder text={'Loading...'} />;
+    return <LoadingPlaceholder text={LOADING} />;
   } else if (!dataSourceParams) {
     return <div> No TwinMaker Data Source Connected: ${options.datasource} </div>;
   } else if (warnings) {
@@ -137,11 +118,14 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
   } else {
     return (
       <div>
-        <Label description={alarmName}> Alarm ID </Label>
-        <br />
-        <Label description={alarmThreshold}> Thresold </Label>
-        <br />
-        <Label description={alarmNotificationRecipient}> Notifications</Label>
+        <dl>
+          <dt>Alarm ID</dt>
+          <dd>{alarmName}</dd>
+          <dt>Thresold</dt>
+          <dd>{alarmThreshold}</dd>
+          <dt>Notifications</dt>
+          <dd>{alarmNotificationRecipient}</dd>
+        </dl>
         <div>
           <Button variant="secondary" onClick={toggleModal}>Edit Alarm</Button>
         </div>
