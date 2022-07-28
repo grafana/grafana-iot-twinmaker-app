@@ -1,8 +1,6 @@
 package models
 
 import (
-	"crypto/sha256"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 
@@ -98,18 +96,6 @@ func (q *TwinMakerQuery) CacheKey(pfix string) string {
 	key += "@" + q.Order
 
 	return key
-}
-
-// ChannelTopic returns the channel topic for the streaming query
-func (q *TwinMakerQuery) ChannelTopic(uid string) (string, error) {
-	bv, err := json.Marshal(&q)
-	if err != nil {
-		return "", err
-	}
-	hasher := sha256.New()
-	hasher.Write(bv)
-	hash := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
-	return fmt.Sprintf("ds/%s/%s", uid, hash), nil
 }
 
 // ReadQuery will read and validate Settings from the DataSourceConfig

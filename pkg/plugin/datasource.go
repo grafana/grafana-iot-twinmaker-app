@@ -338,10 +338,15 @@ func (ds *TwinMakerDatasource) RequestLoop(ctx context.Context, query models.Twi
 		}
 	}
 
+	// reset the next token for the streaming query
 	query.NextToken = ""
-	if ts := getLastTimestamp(res); ts != nil {
+
+	// unless this is a GetAlerms query, set the start of the time range to match
+	// the last timestamp of the last response.
+	if ts := getLastTimestamp(res); ts != nil && query.QueryType != models.QueryTypeGetAlarms {
 		query.TimeRange.From = *ts
 	}
+
 	time.Sleep(interval)
 	query.TimeRange.To = time.Now()
 	ds.RequestLoop(ctx, query, resChannel)
