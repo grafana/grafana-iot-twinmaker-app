@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ComponentName, ComponentPropsType, VideoData, VideoPlaybackMode } from 'aws-iot-twinmaker-grafana-utils';
 import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
 import { getStyles } from './styles';
@@ -7,6 +7,7 @@ import { auto } from '@popperjs/core';
 import { getTemplateSrv, locationSearchToObject } from '@grafana/runtime';
 import { getUrlTempVarName, tempVarSyntax } from 'common/variables';
 import { useLocation } from 'react-router-dom';
+import { UrlQueryMap } from '@grafana/data';
 
 export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
   const styles = getStyles();
@@ -14,50 +15,72 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
 
   const { search } = useLocation();
 
-  // Automatically update the video player when the related parameters change
-  const setVideoPlayer = useCallback(() => {
-    // Get variables from the URL
+  const [videoPlayer, setVideoPlayer] = useState();
+  const [displayOptions, setDisplayOptions] = useState({
+    entityId: '',
+    componentName: '',
+    kvsStreamName: '',
+    search: search,
+  });
+
+  // Get the value from a template variable
+  const checkTempVar = (displayOption: string) => {
+    const displayOptionVar = tempVarSyntax(displayOption);
+    const value = templateSrv.replace(displayOptionVar);
+    // Not a template var if templateSrv.replace returns the same value
+    return value === displayOptionVar ? displayOption : value;
+  };
+
+  // Get display option value from the URL, or check default variable values
+  const getDisplayOptionValue = (queryParams: UrlQueryMap, displayOption: string) => {
+    return (queryParams[getUrlTempVarName(displayOption)] as string) ?? checkTempVar(displayOption);
+  };
+
+  useEffect(() => {
     const queryParams = locationSearchToObject(search || '');
-    let entityId = queryParams[getUrlTempVarName(props.options.entityId)] as string;
-    let componentName = queryParams[getUrlTempVarName(props.options.componentName)] as string;
-    let kvsStreamName = queryParams[getUrlTempVarName(props.options.kvsStreamName)] as string;
+    const entityId = getDisplayOptionValue(queryParams, props.options.entityId);
+    const componentName = getDisplayOptionValue(queryParams, props.options.componentName);
+    const kvsStreamName = getDisplayOptionValue(queryParams, props.options.kvsStreamName);
 
-    // Double check default variable values if url is empty
-    if (!entityId) {
-      const entityIdVar = tempVarSyntax(props.options.entityId);
-      const value = templateSrv.replace(entityIdVar);
-      // Not a template var if templateSrv.replace returns the same value
-      entityId = value === entityIdVar ? props.options.entityId : value;
-    }
-    if (!componentName) {
-      const componentNameVar = tempVarSyntax(props.options.componentName);
-      const value = templateSrv.replace(componentNameVar);
-      componentName = value === componentNameVar ? props.options.componentName : value;
-    }
-    if (!kvsStreamName) {
-      const kvsStreamNameVar = tempVarSyntax(props.options.kvsStreamName);
-      const value = templateSrv.replace(kvsStreamNameVar);
-      kvsStreamName = value === kvsStreamNameVar ? props.options.kvsStreamName : value;
+    // Component should update if any display option values changed
+    let shouldUpdate = false;
+    if (
+      entityId !== displayOptions.entityId ||
+      componentName !== displayOptions.componentName ||
+      kvsStreamName !== displayOptions.kvsStreamName
+    ) {
+      shouldUpdate = true;
+      setDisplayOptions({
+        entityId,
+        componentName,
+        kvsStreamName,
+        search,
+      });
+    } else if (search === displayOptions.search) {
+      // If the URL didn't change then another field was updated and the video player should rerender
+      shouldUpdate = true;
     }
 
-    // Load in VideoPlayer component
-    const videoData = new VideoData({
-      workspaceId: props.workspaceId,
-      entityId,
-      componentName,
-      kvsStreamName,
-      kinesisVideoArchivedMediaClient: props.twinMakerUxSdk.awsClients.kinesisVideoArchivedMediaV3(),
-      kinesisVideoClient: props.twinMakerUxSdk.awsClients.kinesisVideoV3(),
-      siteWiseClient: props.twinMakerUxSdk.awsClients.siteWiseV3(),
-      twinMakerClient: props.twinMakerUxSdk.awsClients.iotTwinMakerV3(),
-    });
-    const videoPlayerProps: ComponentPropsType = {
-      videoData: videoData,
-      playbackMode: VideoPlaybackMode.ON_DEMAND,
-      startTime: props.timeRange.from.toDate(),
-      endTime: props.timeRange.to.toDate(),
-    };
-    return props.twinMakerUxSdk.createComponentForReact(ComponentName.VideoPlayer, videoPlayerProps);
+    if (shouldUpdate) {
+      // Load in VideoPlayer component
+      const videoData = new VideoData({
+        workspaceId: props.workspaceId,
+        entityId,
+        componentName,
+        kvsStreamName,
+        kinesisVideoArchivedMediaClient: props.twinMakerUxSdk.awsClients.kinesisVideoArchivedMediaV3(),
+        kinesisVideoClient: props.twinMakerUxSdk.awsClients.kinesisVideoV3(),
+        siteWiseClient: props.twinMakerUxSdk.awsClients.siteWiseV3(),
+        twinMakerClient: props.twinMakerUxSdk.awsClients.iotTwinMakerV3(),
+      });
+      const videoPlayerProps: ComponentPropsType = {
+        videoData: videoData,
+        playbackMode: VideoPlaybackMode.ON_DEMAND,
+        startTime: props.timeRange.from.toDate(),
+        endTime: props.timeRange.to.toDate(),
+      };
+      setVideoPlayer(props.twinMakerUxSdk.createComponentForReact(ComponentName.VideoPlayer, videoPlayerProps));
+    }
   }, [
     props.options.kvsStreamName,
     props.workspaceId,
@@ -77,7 +100,7 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
       className={styles.wrapper}
       style={{ width: props.width, height: props.height, overflow: auto }}
     >
-      {setVideoPlayer()}
+      {videoPlayer}
     </div>
   );
 };
