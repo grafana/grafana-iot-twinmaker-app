@@ -1,12 +1,5 @@
 import { Observable } from 'rxjs';
-import {
-  DataQueryRequest,
-  DataQueryResponse,
-  DataSourceInstanceSettings,
-  ScopedVars,
-  StreamingFrameAction,
-  StreamingFrameOptions,
-} from '@grafana/data';
+import { DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, ScopedVars } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 
 import { TwinMakerDataSourceOptions, AWSTokenInfo } from './types';
@@ -37,19 +30,6 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
 
   getWorkspaceId() {
     return this.workspaceId;
-  }
-
-  getStreamingFrameOptions(request: DataQueryRequest<TwinMakerQuery>) {
-    const buffer: StreamingFrameOptions = {
-      maxLength: request.maxDataPoints ?? 1000,
-      action: StreamingFrameAction.Append,
-    };
-
-    if (request.targets[0].queryType === TwinMakerQueryType.GetAlarms) {
-      buffer.action = StreamingFrameAction.Replace;
-    }
-
-    return buffer;
   }
 
   async metricFindQuery(query: TwinMakerQuery) {
