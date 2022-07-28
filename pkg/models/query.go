@@ -56,8 +56,8 @@ func (f *TwinMakerPropertyFilter) ToTwinMakerFilter() *iottwinmaker.PropertyFilt
 
 // TwinMakerQuery model
 type TwinMakerQuery struct {
-	Stream             bool                          `json:"stream,omitempty"`
-	StreamInterval     string                        `json:"streamInterval,omitempty"`
+	IsStreaming        bool                          `json:"isStreaming,omitempty"`
+	IntervalStreaming  string                        `json:"intervalStreaming,omitempty"`
 	WorkspaceId        string                        `json:"workspaceId,omitempty"`
 	EntityId           string                        `json:"entityId,omitempty"`
 	Properties         []*string                     `json:"properties,omitempty"`

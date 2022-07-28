@@ -1,6 +1,17 @@
 import defaults from 'lodash/defaults';
 import React, { PureComponent } from 'react';
-import { Alert, Icon, InlineField, InlineFieldRow, LinkButton, MultiSelect, Select, Input } from '@grafana/ui';
+import {
+  Alert,
+  FieldValidationMessage,
+  Icon,
+  InlineField,
+  InlineFieldRow,
+  InlineSwitch,
+  Input,
+  LinkButton,
+  MultiSelect,
+  Select,
+} from '@grafana/ui';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { TwinMakerDataSource } from '../datasource';
 import { defaultQuery, TwinMakerDataSourceOptions } from '../types';
@@ -28,6 +39,7 @@ import {
 import { getTemplateSrv } from '@grafana/runtime';
 import { getVariableOptions } from 'common/variables';
 import FilterQueryEditor from './FilterQueryEditor';
+import { BlurTextInput } from './BlurTextInput';
 
 export const firstLabelWidth = 18;
 
@@ -39,6 +51,7 @@ interface State {
   entity?: SelectableComponentInfo[];
   entityLoading?: boolean;
   topics?: TwinMakerPanelTopicInfo[];
+  invalidInterval?: boolean;
 }
 
 export class QueryEditor extends PureComponent<Props, State> {
@@ -47,7 +60,9 @@ export class QueryEditor extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.panels = getTwinMakerDashboardManager().listTwinMakerPanels();
-    this.state = {};
+    this.state = {
+      invalidInterval: false,
+    };
   }
 
   componentDidMount() {
@@ -241,6 +256,27 @@ export class QueryEditor extends PureComponent<Props, State> {
     onRunQuery();
   };
 
+  onToggleStream = () => {
+    const { onChange, query, onRunQuery } = this.props;
+    onChange({ ...query, isStreaming: !query.isStreaming });
+    onRunQuery();
+  };
+
+  onIntervalChange = (value?: string) => {
+    const { onChange, query, onRunQuery } = this.props;
+    console.log(value);
+    // not sending input less than 5 secs
+    if (Number(value) < 5) {
+      this.setState({ invalidInterval: true });
+    } else {
+      this.setState({ invalidInterval: false });
+    }
+    onChange({
+      ...query,
+      intervalStreaming: value,
+    });
+    onRunQuery();
+  };
   renderEntitySelector(query: TwinMakerQuery, isClearable: boolean) {
     const entity = getSelectionInfo(query.entityId, this.state.workspace?.entities, this.state.templateVars);
     return (
@@ -292,6 +328,27 @@ export class QueryEditor extends PureComponent<Props, State> {
             placeholder={placeholder}
           />
         </InlineField>
+        <InlineField label="Stream" tooltip="Polling data in an interval">
+          <InlineSwitch value={Boolean(query.isStreaming)} onChange={this.onToggleStream} />
+        </InlineField>
+        <InlineField
+          label="Interval"
+          tooltip="Set an interval in seconds to stream data, min 5s, default 30s"
+          disabled={!query.isStreaming}
+          invalid={this.state.invalidInterval}
+        >
+          <>
+            <BlurTextInput
+              width={8}
+              placeholder="30"
+              value={query.intervalStreaming ?? ''}
+              onChange={this.onIntervalChange}
+            />
+            {this.state.invalidInterval && (
+              <FieldValidationMessage>Interval must be at least 5s</FieldValidationMessage>
+            )}
+          </>
+        </InlineField>
       </InlineFieldRow>
     );
   }
@@ -311,6 +368,27 @@ export class QueryEditor extends PureComponent<Props, State> {
             onCreateOption={this.onComponentNameTextChange}
             formatCreateLabel={(v) => `Component Name: ${v}`}
           />
+        </InlineField>
+        <InlineField label="Stream" tooltip="Polling data in an interval">
+          <InlineSwitch value={Boolean(query.isStreaming)} onChange={this.onToggleStream} />
+        </InlineField>
+        <InlineField
+          label="Interval"
+          tooltip="Set an interval in seconds to stream data, min 5s, default 30s"
+          disabled={!query.isStreaming}
+          invalid={this.state.invalidInterval}
+        >
+          <>
+            <BlurTextInput
+              width={8}
+              placeholder="30"
+              value={query.intervalStreaming ?? ''}
+              onChange={this.onIntervalChange}
+            />
+            {this.state.invalidInterval && (
+              <FieldValidationMessage>Interval must be at least 5s</FieldValidationMessage>
+            )}
+          </>
         </InlineField>
       </InlineFieldRow>
     );
@@ -347,6 +425,27 @@ export class QueryEditor extends PureComponent<Props, State> {
             onChange={this.onAlarmFilterChange}
             isClearable={isClearable}
           />
+        </InlineField>
+        <InlineField label="Stream" tooltip="Polling data in an interval">
+          <InlineSwitch value={Boolean(query.isStreaming)} onChange={this.onToggleStream} />
+        </InlineField>
+        <InlineField
+          label="Interval"
+          tooltip="Set an interval in seconds to stream data, min 5s, default 30s"
+          disabled={!query.isStreaming}
+          invalid={this.state.invalidInterval}
+        >
+          <>
+            <BlurTextInput
+              width={8}
+              placeholder="30"
+              value={query.intervalStreaming ?? ''}
+              onChange={this.onIntervalChange}
+            />
+            {this.state.invalidInterval && (
+              <FieldValidationMessage>Interval must be at least 5s</FieldValidationMessage>
+            )}
+          </>
         </InlineField>
       </InlineFieldRow>
     );

@@ -131,7 +131,7 @@ func (ds *TwinMakerDatasource) QueryData(ctx context.Context, req *backend.Query
 		}
 
 		// we don't need to continue if there is only a single result
-		if query.NextToken == "" && !query.Stream {
+		if query.NextToken == "" && !query.IsStreaming {
 			response.Responses[q.RefID] = res
 			continue
 		}
@@ -307,8 +307,6 @@ func (ds *TwinMakerDatasource) RequestLoop(ctx context.Context, query models.Twi
 	default:
 	}
 
-	backend.Logger.Debug("RequestLoop", "query", query)
-
 	res := ds.DoQuery(ctx, query)
 	resChannel <- &res
 	if res.Error != nil {
@@ -326,13 +324,13 @@ func (ds *TwinMakerDatasource) RequestLoop(ctx context.Context, query models.Twi
 
 	// we've hit the last page, and this isn't a streaming response,
 	// so we can close the channel and return
-	if !query.Stream {
+	if !query.IsStreaming {
 		resChannel <- nil
 		return
 	}
 
 	interval := 30 * time.Second
-	if i, err := strconv.Atoi(query.StreamInterval); err == nil {
+	if i, err := strconv.Atoi(query.IntervalStreaming); err == nil {
 		interval = time.Duration(i) * time.Second
 		// minimum interval is 5 seconds
 		if i < 5 {
@@ -341,7 +339,9 @@ func (ds *TwinMakerDatasource) RequestLoop(ctx context.Context, query models.Twi
 	}
 
 	query.NextToken = ""
-	query.TimeRange.From = time.Now()
+	if ts := getLastTimestamp(res); ts != nil {
+		query.TimeRange.From = *ts
+	}
 	time.Sleep(interval)
 	query.TimeRange.To = time.Now()
 	ds.RequestLoop(ctx, query, resChannel)
@@ -354,4 +354,34 @@ func (d *TwinMakerDatasource) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 // CallResource HTTP style resource
 func (ds *TwinMakerDatasource) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
 	return httpadapter.New(ds).CallResource(ctx, req, sender)
+}
+
+func getLastTimestamp(res backend.DataResponse) *time.Time {
+	var lastTimestamp *time.Time
+
+	for _, frame := range res.Frames {
+		for _, field := range frame.Fields {
+			if field.Len() == 0 {
+				continue
+			}
+
+			ts := time.Unix(0, 0)
+			switch field.Type() {
+			case data.FieldTypeTime:
+				if t, ok := field.At(field.Len() - 1).(time.Time); ok {
+					ts = t
+				}
+			case data.FieldTypeNullableTime:
+				if t, ok := field.At(field.Len() - 1).(*time.Time); ok && t != nil {
+					ts = *t
+				}
+			}
+
+			if lastTimestamp == nil || ts.After(*lastTimestamp) {
+				lastTimestamp = &ts
+			}
+		}
+	}
+
+	return lastTimestamp
 }

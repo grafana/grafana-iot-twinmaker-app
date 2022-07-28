@@ -1,14 +1,12 @@
 import { Observable } from 'rxjs';
-import { DataFrame, DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, ScopedVars } from '@grafana/data';
+import { DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, ScopedVars } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 
-import { TwinMakerDataSourceOptions, AWSTokenInfo, TwinMakerCustomMeta } from './types';
+import { TwinMakerDataSourceOptions, AWSTokenInfo } from './types';
 import { Credentials } from 'aws-sdk/global';
 import { TwinMakerWorkspaceInfoSupplier } from 'common/info/types';
 import { getCachingWorkspaceInfoSupplier, getTwinMakerWorkspaceInfoSupplier } from 'common/info/info';
 import { TwinMakerQueryType, TwinMakerQuery } from 'common/manager';
-import { getRequestLooper, MultiRequestTracker } from './requestLooper';
-import { appendMatchingFrames } from './appendFrames';
 
 export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, TwinMakerDataSourceOptions> {
   private workspaceId: string;
