@@ -25,10 +25,10 @@ export interface Dashboard extends DashboardJSON {
 /**
  * Get access to the current dashboard
  */
-export function getCurrentDashboard() {
+export function getCurrentDashboard(): Dashboard | undefined {
   const $injector = getLegacyAngularInjector();
   const dashboardSrv = $injector.get('dashboardSrv');
-  return dashboardSrv.dashboard as Dashboard;
+  return dashboardSrv.dashboard;
 }
 
 export function getDashboardByUid(uid: string): Promise<DashboardMeta> {
