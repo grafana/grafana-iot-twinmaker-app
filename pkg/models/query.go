@@ -3,6 +3,7 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/aws/aws-sdk-go/service/iottwinmaker"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -55,7 +56,6 @@ func (f *TwinMakerPropertyFilter) ToTwinMakerFilter() *iottwinmaker.PropertyFilt
 // TwinMakerQuery model
 type TwinMakerQuery struct {
 	IsStreaming        bool                          `json:"isStreaming,omitempty"`
-	IntervalStreaming  string                        `json:"intervalStreaming,omitempty"`
 	WorkspaceId        string                        `json:"workspaceId,omitempty"`
 	EntityId           string                        `json:"entityId,omitempty"`
 	Properties         []*string                     `json:"properties,omitempty"`
@@ -66,6 +66,9 @@ type TwinMakerQuery struct {
 	ListEntitiesFilter []TwinMakerListEntitiesFilter `json:"listEntitiesFilter,omitempty"`
 	Order              TwinMakerResultOrder          `json:"order,omitempty"`
 	MaxResults         int                           `json:"maxResults,omitempty"`
+
+	IntervalStreamingSeconds int           `json:"intervalStreaming,string,omitempty"`
+	IntervalStreaming        time.Duration `json:"_"`
 
 	// Direct from the gRPC interfaces
 	QueryType TwinMakerQueryType `json:"-"`
@@ -103,6 +106,15 @@ func ReadQuery(query backend.DataQuery) (TwinMakerQuery, error) {
 	model := TwinMakerQuery{}
 	if err := json.Unmarshal(query.JSON, &model); err != nil {
 		return model, fmt.Errorf("could not read query: %w", err)
+	}
+
+	switch i := model.IntervalStreamingSeconds; {
+	case i >= 5:
+		model.IntervalStreaming = time.Duration(i) * time.Second
+	case i < 5:
+		model.IntervalStreaming = 5 * time.Second
+	default:
+		model.IntervalStreaming = 30 * time.Second
 	}
 
 	// From the raw query

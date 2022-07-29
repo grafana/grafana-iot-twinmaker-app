@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"strconv"
 	"sync"
 	"time"
 
@@ -145,6 +144,14 @@ func (ds *TwinMakerDatasource) QueryData(ctx context.Context, req *backend.Query
 		res.Frames[0].Meta.Channel = fmt.Sprintf("ds/%s/%s", ds.settings.UID, queryUID)
 		response.Responses[q.RefID] = res
 
+		// set the new time range for the first streaming request
+		if query.NextToken == "" {
+			if ts := getFromTimestamp(res); ts != nil {
+				query.TimeRange.From = *ts
+			}
+			query.TimeRange.To = time.Now().Add(query.IntervalStreaming)
+		}
+
 		// stash the query in the stream map for use in RunStream
 		ds.streamMu.Lock()
 		ds.streams[queryUID] = query
@@ -235,6 +242,7 @@ func (ds *TwinMakerDatasource) RunStream(ctx context.Context, req *backend.RunSt
 	ds.streamMu.Lock()
 	query, ok := ds.streams[req.Path]
 	if !ok {
+		ds.streamMu.Unlock()
 		return fmt.Errorf("not found")
 	}
 	delete(ds.streams, req.Path)
@@ -330,15 +338,6 @@ func (ds *TwinMakerDatasource) RequestLoop(ctx context.Context, query models.Twi
 		return
 	}
 
-	interval := 30 * time.Second
-	if i, err := strconv.Atoi(query.IntervalStreaming); err == nil {
-		interval = time.Duration(i) * time.Second
-		// minimum interval is 5 seconds
-		if i < 5 {
-			interval = 5 * time.Second
-		}
-	}
-
 	// reset the next token for the streaming query
 	query.NextToken = ""
 
@@ -346,7 +345,7 @@ func (ds *TwinMakerDatasource) RequestLoop(ctx context.Context, query models.Twi
 		query.TimeRange.From = *ts
 	}
 
-	time.Sleep(interval)
+	time.Sleep(query.IntervalStreaming)
 	query.TimeRange.To = time.Now()
 	ds.RequestLoop(ctx, query, resChannel)
 }
@@ -361,10 +360,9 @@ func (ds *TwinMakerDatasource) CallResource(ctx context.Context, req *backend.Ca
 }
 
 func getFromTimestamp(res backend.DataResponse) *time.Time {
-	var fromTimestamp *time.Time
+	var lastTimestamp *time.Time
 
 	for _, frame := range res.Frames {
-		var lastTimestamp *time.Time
 		for _, field := range frame.Fields {
 			if field.Len() == 0 {
 				continue
@@ -386,11 +384,7 @@ func getFromTimestamp(res backend.DataResponse) *time.Time {
 				lastTimestamp = &ts
 			}
 		}
-
-		if fromTimestamp == nil || (lastTimestamp != nil && lastTimestamp.Before(*fromTimestamp)) {
-			fromTimestamp = lastTimestamp
-		}
 	}
 
-	return fromTimestamp
+	return lastTimestamp
 }
