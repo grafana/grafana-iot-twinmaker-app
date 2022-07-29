@@ -14,9 +14,9 @@ export function mergeDashboard(targetDashboardId?: string): Promise<PanelOptions
     const dashboard = meta.dashboard;
     const currentDashboard = getCurrentDashboard();
 
-    const currentViewerOptions = updateSceneViewerPanel(currentDashboard.panels, dashboard.panels);
+    const currentViewerOptions = updateSceneViewerPanel(currentDashboard?.panels ?? [], dashboard.panels);
 
-    const info = currentDashboard.updatePanels(dashboard.panels);
+    const info = currentDashboard?.updatePanels(dashboard.panels);
     console.log('LOAD', info);
     return currentViewerOptions;
   });
