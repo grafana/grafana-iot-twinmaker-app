@@ -264,7 +264,6 @@ export class QueryEditor extends PureComponent<Props, State> {
 
   onIntervalChange = (value?: string) => {
     const { onChange, query, onRunQuery } = this.props;
-    console.log(value);
     // not sending input less than 5 secs
     if (Number(value) < 5) {
       this.setState({ invalidInterval: true });
