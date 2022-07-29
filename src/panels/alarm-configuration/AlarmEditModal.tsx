@@ -36,10 +36,10 @@ export const AlarmEditModal: React.FunctionComponent<AlarmEditProps> = ({
         />
       </Field>
       <Modal.ButtonRow>
-        <Button variant="secondary" onClick={onDismiss}>Cancel</Button>
-        <Button onClick={handleSaveClick}>
-          Save
+        <Button variant="secondary" onClick={onDismiss}>
+          Cancel
         </Button>
+        <Button onClick={handleSaveClick}>Save</Button>
       </Modal.ButtonRow>
     </Modal>
   );

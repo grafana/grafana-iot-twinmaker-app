@@ -6,12 +6,11 @@ export const usePanelRegisteration = (id: number) => {
   useEffect(() => {
     getTwinMakerDashboardManager().registerTwinMakerPanel(id, {
       twinMakerPanelQueryRunner: () => throwError(() => `not implemented yet (see twinmaker debug panel)`),
-      onDashboardAction: (cmd) => { },
+      onDashboardAction: (cmd) => {},
     });
     //unmount effect
     return () => {
       getTwinMakerDashboardManager().destroyTwinMakerPanel(id);
-
-    }
+    };
   }, [id]);
-}
+};

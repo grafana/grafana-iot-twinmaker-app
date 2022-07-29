@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { DataQueryRequest, PanelProps } from '@grafana/data';
-import { Button, Label, LoadingPlaceholder } from '@grafana/ui';
+import { Button, LoadingPlaceholder } from '@grafana/ui';
 
 import { PanelOptions } from './types';
 import { TwinMakerQuery } from 'common/manager';
@@ -22,7 +22,6 @@ const NO_CLIENT = 'TwinMaker client not defined';
 const LOADING = 'Loading...';
 
 export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, data, options }) => {
-    
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [alarmName, setAlarmName] = useState('');
   const [entityId, setEntityId] = useState('');
@@ -42,16 +41,16 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
   useEffect(() => {
     let warning = '';
     if (results.invalidFormat || queryInfo.invalidFormat) {
-      if(!!results.warning) {
+      if (!!results.warning) {
         warning = results.warning;
       }
-      if(!!queryInfo.warning && !!warning) {
+      if (!!queryInfo.warning && !!warning) {
         warning = `${warning} ${queryInfo.warning}`;
-      } else if (!!queryInfo.warning){
+      } else if (!!queryInfo.warning) {
         warning = queryInfo.warning;
       }
       setWarnings(results.warning + ' ' + queryInfo.warning);
-    } 
+    }
     setWarnings(warning);
 
     const templateSrv = getTemplateSrv();
@@ -104,7 +103,7 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
     setEditModalOpen(!editModalOpen);
   }, [setEditModalOpen, editModalOpen]);
 
-  if(!configured) {
+  if (!configured) {
     return <LoadingPlaceholder text={LOADING} />;
   } else if (!dataSourceParams) {
     return <div> No TwinMaker Data Source Connected: ${options.datasource} </div>;
@@ -127,7 +126,9 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
           <dd>{alarmNotificationRecipient}</dd>
         </dl>
         <div>
-          <Button variant="secondary" onClick={toggleModal}>Edit Alarm</Button>
+          <Button variant="secondary" onClick={toggleModal}>
+            Edit Alarm
+          </Button>
         </div>
         <AlarmEditModal
           isOpen={editModalOpen}
@@ -138,5 +139,4 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
       </div>
     );
   }
-
 };

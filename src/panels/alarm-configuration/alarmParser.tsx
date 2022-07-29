@@ -39,7 +39,7 @@ export function processAlarmResult(data: DataFrame[]): AlarmInfo {
       info.warning = FRAME_LENGTH_ERROR;
       return info; // don't care about structure unless values exist
     }
-    
+
     if (cache.hasFieldNamed(AlarmResultFields.Status)) {
       const alarmStatusValue = cache.getFieldByName(AlarmResultFields.Status)?.values;
       info.alarmStatus = alarmStatusValue?.get(alarmStatusValue.length - 1);
