@@ -17,6 +17,10 @@ export class SimpleTwinMakerDashboardManager implements TwinMakerDashboardManage
   listTwinMakerPanels() {
     const keep = new Set(Object.values(TWINMAKER_PANEL_TYPE_ID));
     const dash = getCurrentDashboard();
+    // dashboard is not available in explore view
+    if (!dash) {
+      return [];
+    }
     return dash.panels
       .filter((p) => keep.has(p.type))
       .map((p) => {
@@ -34,7 +38,7 @@ export class SimpleTwinMakerDashboardManager implements TwinMakerDashboardManage
 
   refresh(panelId?: number) {
     console.log('refresh all panels pointing to: ', panelId);
-    getCurrentDashboard().panels.forEach((p) => {
+    getCurrentDashboard()?.panels.forEach((p) => {
       if (p.targets) {
         for (const q of p.targets) {
           if (isTwinMakerPanelQuery(q) && (q.panelId === panelId || !panelId)) {
@@ -75,7 +79,7 @@ export class SimpleTwinMakerDashboardManager implements TwinMakerDashboardManage
       return panelTopicInfo;
     }
     // ??? some panels may have different support
-    const panel = getCurrentDashboard().panels.find((p) => p.id === panelId);
+    const panel = getCurrentDashboard()?.panels.find((p) => p.id === panelId);
     if (panel?.type === TWINMAKER_PANEL_TYPE_ID.LAYOUT) {
       return panelTopicInfo;
     }

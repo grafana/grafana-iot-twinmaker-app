@@ -14,10 +14,10 @@ export async function mergeDashboard(eventBus: EventBus, targetDashboardId: stri
   const currentDashboard = getCurrentDashboard();
 
   console.log('PREPARE: ', targetDashboardId, dashboard.panels);
-  const panels = prepareDashboardMerge(eventBus, currentDashboard.panels, dashboard.panels);
+  const panels = prepareDashboardMerge(eventBus, currentDashboard?.panels ?? [], dashboard.panels);
   if (panels.length) {
     console.log('UPDATE: ', panels);
-    const info = currentDashboard.updatePanels(panels);
+    const info = currentDashboard?.updatePanels(panels);
     console.log('MERGED: ', info);
     return true;
   }

@@ -45,7 +45,7 @@ export class LayoutPanel extends Component<Props, State> {
   ds?: TwinMakerDataSource;
   loading?: boolean;
   initalized?: boolean;
-  dashboardUid: string;
+  dashboardUid: string | undefined;
   error?: string;
 
   constructor(props: Props) {
@@ -60,14 +60,16 @@ export class LayoutPanel extends Component<Props, State> {
     };
 
     const dashboard = getCurrentDashboard();
-    this.dashboardUid = dashboard.uid;
-    for (const panel of dashboard.panels) {
-      if (panel.id !== this.props.id && panel.type === TWINMAKER_PANEL_TYPE_ID.LAYOUT) {
-        const isEditor = window.location.href.includes('editPanel');
-        if (!isEditor) {
-          this.error = 'Only one layout panel allowed in a dashboard';
+    if (dashboard) {
+      this.dashboardUid = dashboard.uid;
+      for (const panel of dashboard.panels) {
+        if (panel.id !== this.props.id && panel.type === TWINMAKER_PANEL_TYPE_ID.LAYOUT) {
+          const isEditor = window.location.href.includes('editPanel');
+          if (!isEditor) {
+            this.error = 'Only one layout panel allowed in a dashboard';
+          }
+          break;
         }
-        break;
       }
     }
 
