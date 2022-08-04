@@ -7,6 +7,7 @@ import { Credentials } from 'aws-sdk/global';
 import { TwinMakerWorkspaceInfoSupplier } from 'common/info/types';
 import { getCachingWorkspaceInfoSupplier, getTwinMakerWorkspaceInfoSupplier } from 'common/info/info';
 import { TwinMakerQueryType, TwinMakerQuery } from 'common/manager';
+import { Credentials as CredentialsV3, CredentialProvider } from '@aws-sdk/types';
 
 export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, TwinMakerDataSourceOptions> {
   private workspaceId: string;
@@ -79,6 +80,18 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
       sessionToken: tokenInfo.sessionToken,
     });
     credentials.expireTime = new Date(tokenInfo.expiration);
+    return credentials;
+  };
+
+  // Support AWS SDK V3 Credentials
+  getTokensV3: CredentialProvider = async () => {
+    const tokenInfo = (await super.getResource('token')) as AWSTokenInfo;
+    const credentials: CredentialsV3 = {
+      accessKeyId: tokenInfo.accessKeyId,
+      secretAccessKey: tokenInfo.secretAccessKey,
+      sessionToken: tokenInfo.sessionToken,
+      expiration: new Date(tokenInfo.expiration),
+    };
     return credentials;
   };
 }

@@ -13,7 +13,7 @@ export class OldDatasourceStuff {
   constructor(ds: TwinMakerDataSource) {
     this.workspaceId = ds.instanceSettings.jsonData.workspaceId!;
 
-    const awsConfig = getAwsConfig(ds.getTokens, ds.instanceSettings.jsonData.defaultRegion);
+    const awsConfig = getAwsConfig(ds.getTokens, ds.getTokensV3, ds.instanceSettings.jsonData.defaultRegion);
     const endpoint = ds.instanceSettings.jsonData.endpoint;
     if (endpoint && awsConfig.iotTwinMaker) {
       awsConfig.iotTwinMaker.endpoint = endpoint;

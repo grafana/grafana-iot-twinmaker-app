@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { formattedValueToString, getValueFormat, GrafanaTheme2, PanelProps } from '@grafana/data';
 import { AlarmPanelOptions } from './types';
 import { processAlarmResult, AlarmState } from './alarms';
-import { CustomScrollbar, stylesFactory, useTheme2 } from '@grafana/ui';
+import { stylesFactory, useTheme2 } from '@grafana/ui';
 import { css } from '@emotion/css';
 
 type Props = PanelProps<AlarmPanelOptions>;
@@ -38,36 +38,34 @@ export const TwinMakerAlarmPanel: React.FunctionComponent<Props> = ({ data }) =>
   };
 
   return (
-    <CustomScrollbar autoHeightMin="100%">
-      <>
-        {/* {Object.entries(results.status).map((v) => (
+    <>
+      {/* {Object.entries(results.status).map((v) => (
         <div key={v[0]}>
           {v[0]} :: {v[1]}
         </div>
       ))} */}
 
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>When</th>
-              <th>Alarm</th>
-              <th>Entity</th>
-              <th>Status</th>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>When</th>
+            <th>Alarm</th>
+            <th>Entity</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {results.alarms.map((a, i) => (
+            <tr className={getRowStyle(a)} key={`${a.alarmId}/${i}`} onClick={() => alert('clicked: ' + a.alarmId)}>
+              <td>{a.Time ? formattedValueToString(dateFmt(a.Time)) : ''}</td>
+              <td>{a.name}</td>
+              <td>{a.entityName}</td>
+              <td>{a.alarmStatus}</td>
             </tr>
-          </thead>
-          <tbody>
-            {results.alarms.map((a, i) => (
-              <tr className={getRowStyle(a)} key={`${a.alarmId}/${i}`} onClick={() => alert('clicked: ' + a.alarmId)}>
-                <td>{a.Time ? formattedValueToString(dateFmt(a.Time)) : ''}</td>
-                <td>{a.name}</td>
-                <td>{a.entityName}</td>
-                <td>{a.alarmStatus}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </>
-    </CustomScrollbar>
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 };
 

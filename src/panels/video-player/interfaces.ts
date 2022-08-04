@@ -9,7 +9,4 @@ export interface VideoPlayerPanelState {
 export interface VideoPlayerPropsFromParent extends PanelProps<PanelOptions> {
   twinMakerUxSdk: TwinMakerUxSDK;
   workspaceId: string;
-  entityId: string;
-  componentName: string;
-  kvsStreamName: string;
 }

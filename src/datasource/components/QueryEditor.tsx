@@ -69,7 +69,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     this.loadWorkspaceInfo();
     this.loadEntityInfo(this.props.query);
     this.loadTopicInfo(this.props.query);
-    this.setState({ templateVars: getVariableOptions() });
+    this.setState({ templateVars: getVariableOptions({ keepVarSyntax: true }) });
   }
 
   loadWorkspaceInfo = async () => {

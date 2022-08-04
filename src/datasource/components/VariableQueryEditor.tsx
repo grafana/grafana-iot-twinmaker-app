@@ -40,7 +40,7 @@ export default function VariableQueryEditor(props: Props) {
 
   const info = useAsync(async () => await datasource.info.getWorkspaceInfo(), [datasource]);
   const entity = useMemo(
-    () => getSelectionInfo(query.entityId, info.value?.entities, getVariableOptions()),
+    () => getSelectionInfo(query.entityId, info.value?.entities, getVariableOptions({ keepVarSyntax: true })),
     [query, info]
   ); //, this.state.templateVars));
 

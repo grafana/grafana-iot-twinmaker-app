@@ -1,4 +1,5 @@
 import React, { useCallback, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { DataFrame } from '@grafana/data';
 
 import {
@@ -11,7 +12,6 @@ import {
   TargetObjectData,
   ValueType,
   DataBindingLabelKeys,
-  undecorateDataBindingTemplate,
   IDataField,
 } from 'aws-iot-twinmaker-grafana-utils';
 import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
@@ -20,10 +20,14 @@ import { getStyles } from './styles';
 import { getValidHttpUrl, mergeDashboard, updateUrlParams } from './helpers';
 import { MERGE_DASHBOARD_TARGET_ID_KEY } from 'common/constants';
 import plugin from '../../plugin.json';
+import { locationSearchToObject } from '@grafana/runtime';
+import { getUrlTempVarName, undecorateName } from 'common/variables';
 
 export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const styles = getStyles(props.width, props.height);
   const selectedNodeRef = useRef<string>();
+
+  const { search } = useLocation();
 
   const onTargetObjectChanged = useCallback(
     (objectData: TargetObjectData) => {
@@ -128,34 +132,37 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       },
     };
 
-    const selectedEntityVar = props.options.customSelEntityVarName
-      ? props.replaceVariables(props.options.customSelEntityVarName)
+    // Get variables from the URL
+    const queryParams = locationSearchToObject(search || '');
+
+    const selectedEntityValue = props.options.customSelEntityVarName
+      ? (queryParams[getUrlTempVarName(props.options.customSelEntityVarName)] as string)
       : undefined;
-    const selectedComponentVar = props.options.customSelCompVarName
-      ? props.replaceVariables(props.options.customSelCompVarName)
+    const selectedComponentValue = props.options.customSelCompVarName
+      ? (queryParams[getUrlTempVarName(props.options.customSelCompVarName)] as string)
       : undefined;
-    const selectedPropertyVar = props.options.customSelPropertyVarName
-      ? props.replaceVariables(props.options.customSelPropertyVarName)
+    const selectedPropertyValue = props.options.customSelPropertyVarName
+      ? (queryParams[getUrlTempVarName(props.options.customSelPropertyVarName)] as string)
       : undefined;
 
     const dataBindingTemplate: IDataBindingTemplate = {};
-    if (props.options.customSelEntityVarName && selectedEntityVar) {
-      const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelEntityVarName);
-      dataBindingTemplate[undecoratedKey] = selectedEntityVar;
+    if (props.options.customSelEntityVarName && selectedEntityValue) {
+      const undecoratedKey = undecorateName(props.options.customSelEntityVarName);
+      dataBindingTemplate[undecoratedKey] = selectedEntityValue;
     }
-    if (props.options.customSelCompVarName && selectedComponentVar) {
-      const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelCompVarName);
-      dataBindingTemplate[undecoratedKey] = selectedComponentVar;
+    if (props.options.customSelCompVarName && selectedComponentValue) {
+      const undecoratedKey = undecorateName(props.options.customSelCompVarName);
+      dataBindingTemplate[undecoratedKey] = selectedComponentValue;
     }
-    if (props.options.customSelPropertyVarName && selectedPropertyVar) {
-      const undecoratedKey = undecorateDataBindingTemplate(props.options.customSelPropertyVarName);
-      dataBindingTemplate[undecoratedKey] = selectedPropertyVar;
+    if (props.options.customSelPropertyVarName && selectedPropertyValue) {
+      const undecoratedKey = undecorateName(props.options.customSelPropertyVarName);
+      dataBindingTemplate[undecoratedKey] = selectedPropertyValue;
     }
 
     const selectedDataBinding = {
-      [DataBindingLabelKeys.entityId]: selectedEntityVar ?? '',
-      [DataBindingLabelKeys.componentName]: selectedComponentVar ?? '',
-      [DataBindingLabelKeys.propertyName]: selectedPropertyVar ?? '',
+      [DataBindingLabelKeys.entityId]: selectedEntityValue ?? '',
+      [DataBindingLabelKeys.componentName]: selectedComponentValue ?? '',
+      [DataBindingLabelKeys.propertyName]: selectedPropertyValue ?? '',
     };
 
     const staticPluginPath = `public/plugins/${plugin.id}`;
@@ -184,7 +191,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
 
     return props.twinMakerUxSdk.createComponentForReact(ComponentName.WebGLRenderer, webGlRendererProps);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.options.sceneId, props.width, props.height, props.twinMakerUxSdk, props.data.series]);
+  }, [props.options.sceneId, props.width, props.height, props.twinMakerUxSdk, props.data.series, search]);
 
   return (
     <div

@@ -11,6 +11,11 @@ import {
 } from '@grafana/data';
 
 import { mockWorkspaceId } from './MockTwinMakerState';
+import { IoTSiteWise } from '@aws-sdk/client-iotsitewise';
+import { IoTTwinMaker } from '@aws-sdk/client-iottwinmaker';
+import { KinesisVideo } from '@aws-sdk/client-kinesis-video';
+import { KinesisVideoArchivedMedia } from '@aws-sdk/client-kinesis-video-archived-media';
+import { Credentials } from '@aws-sdk/types';
 
 const eventBus: EventBus = {
   publish: jest.fn(),
@@ -43,8 +48,45 @@ const mockFieldConfigSource: FieldConfigSource = {
   overrides: [],
 };
 
+const mockAWSCredentials: Credentials = {
+  accessKeyId: 'accessKeyId',
+  secretAccessKey: 'secretAccessKey',
+  sessionToken: 'sessionToken',
+};
+
+export const mockSiteWiseClient = new IoTSiteWise({
+  ...{
+    region: 'abc',
+  },
+  credentials: mockAWSCredentials,
+});
+export const mockTwinMakerClient = new IoTTwinMaker({
+  ...{
+    region: 'abc',
+  },
+  credentials: mockAWSCredentials,
+});
+export const mockKinesisVideoClient = new KinesisVideo({
+  ...{
+    region: 'abc',
+  },
+  credentials: mockAWSCredentials,
+});
+export const mockKinesisVideoArchivedMediaClient = new KinesisVideoArchivedMedia({
+  ...{
+    region: 'abc',
+  },
+  credentials: mockAWSCredentials,
+});
+
 const mockTwinMakerUxSdk = {
   createComponentForReact: jest.fn(),
+  awsClients: {
+    kinesisVideoArchivedMediaV3: () => mockKinesisVideoArchivedMediaClient,
+    kinesisVideoV3: () => mockKinesisVideoClient,
+    siteWiseV3: () => mockSiteWiseClient,
+    iotTwinMakerV3: () => mockTwinMakerClient,
+  },
 } as unknown as TwinMakerUxSDK;
 
 export const mockPanelProps = (mockDisplayOptions: any): PanelProps => {
