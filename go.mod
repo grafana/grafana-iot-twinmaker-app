@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/aws/aws-sdk-go v1.44.1
+	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	github.com/grafana/grafana-aws-sdk v0.7.1-0.20210726232133-e3ac285039ee
 	github.com/grafana/grafana-plugin-sdk-go v0.134.0

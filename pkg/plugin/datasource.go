@@ -4,15 +4,18 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/plugin/twinmaker"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource/httpadapter"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
 // NewTwinMakerInstance creates a new datasource instance.
@@ -36,6 +39,8 @@ type TwinMakerDatasource struct {
 	client   twinmaker.TwinMakerClient // only used for healthcheck
 	handler  twinmaker.TwinMakerHandler
 	res      twinmaker.TwinMakerResources
+	streamMu sync.RWMutex
+	streams  map[string]models.TwinMakerQuery
 }
 
 // Make sure TwinMakerDatasource implements required interfaces.
@@ -73,6 +78,7 @@ func newTwinMakerDatasource(settings models.TwinMakerDataSourceSetting, c twinma
 		client:   c,
 		router:   r,
 		handler:  twinmaker.NewTwinMakerHandler(cachingClient),
+		streams:  make(map[string]models.TwinMakerQuery),
 
 		// Since the whole result is cached, this does not use the cached client
 		res: twinmaker.NewCachingResource(
@@ -108,9 +114,48 @@ func (ds *TwinMakerDatasource) QueryData(ctx context.Context, req *backend.Query
 			response.Responses[q.RefID] = backend.DataResponse{
 				Error: err,
 			}
-		} else {
-			response.Responses[q.RefID] = ds.DoQuery(ctx, query)
+			continue
 		}
+
+		res := ds.DoQuery(ctx, query)
+		if res.Error != nil {
+			response.Responses[q.RefID] = res
+			continue
+		}
+
+		// if the results are paged, save the next token in the query
+		// so that RunStream can start from the next page
+		if customMeta := models.LoadMetaFromResponse(res); customMeta != nil {
+			query.NextToken = customMeta.NextToken
+		}
+
+		// we don't need to continue if the query is not a stream
+		// or if the result is empty.
+		if (query.NextToken == "" && !query.IsStreaming) || len(res.Frames) == 0 {
+			response.Responses[q.RefID] = res
+			continue
+		}
+
+		// set the streaming channel topic on the first frame in the response
+		queryUID := uuid.New().String()
+		if res.Frames[0].Meta == nil {
+			res.Frames[0].Meta = &data.FrameMeta{}
+		}
+		res.Frames[0].Meta.Channel = fmt.Sprintf("ds/%s/%s", ds.settings.UID, queryUID)
+		response.Responses[q.RefID] = res
+
+		// set the new time range for the first streaming request
+		if query.NextToken == "" {
+			if ts := getFromTimestamp(res); ts != nil {
+				query.TimeRange.From = *ts
+			}
+			query.TimeRange.To = time.Now().Add(query.IntervalStreaming)
+		}
+
+		// stash the query in the stream map for use in RunStream
+		ds.streamMu.Lock()
+		ds.streams[queryUID] = query
+		ds.streamMu.Unlock()
 	}
 
 	return response, nil
@@ -130,7 +175,7 @@ func (ds *TwinMakerDatasource) CheckHealth(ctx context.Context, _ *backend.Check
 			Message: "Assume Role ARN is required",
 		}, nil
 	}
-	
+
 	_, err := ds.handler.GetSessionToken(ctx, time.Second*3600, ds.settings.WorkspaceID)
 	if err != nil {
 		awsErr, ok := err.(awserr.Error)
@@ -177,14 +222,53 @@ func (ds *TwinMakerDatasource) CheckHealth(ctx context.Context, _ *backend.Check
 }
 
 func (ds *TwinMakerDatasource) SubscribeStream(_ context.Context, req *backend.SubscribeStreamRequest) (*backend.SubscribeStreamResponse, error) {
-	// nothing yet
+	status := backend.SubscribeStreamStatusNotFound
+
+	ds.streamMu.RLock()
+	if _, ok := ds.streams[req.Path]; ok {
+		status = backend.SubscribeStreamStatusOK
+	}
+	ds.streamMu.RUnlock()
+
 	return &backend.SubscribeStreamResponse{
-		Status: backend.SubscribeStreamStatusNotFound,
+		Status: status,
 	}, nil
 }
 
 func (ds *TwinMakerDatasource) RunStream(ctx context.Context, req *backend.RunStreamRequest, sender *backend.StreamSender) error {
-	return fmt.Errorf("not implemented")
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	ds.streamMu.Lock()
+	query, ok := ds.streams[req.Path]
+	if !ok {
+		ds.streamMu.Unlock()
+		return fmt.Errorf("not found")
+	}
+	delete(ds.streams, req.Path)
+	ds.streamMu.Unlock()
+
+	resChannel := make(chan *backend.DataResponse)
+	go ds.RequestLoop(ctx, query, resChannel)
+
+	for {
+		select {
+		case <-ctx.Done():
+			return nil
+		case res := <-resChannel:
+			if res == nil {
+				return nil
+			}
+			if res.Error != nil {
+				return res.Error
+			}
+			for _, frame := range res.Frames {
+				if err := sender.SendFrame(frame, data.IncludeAll); err != nil {
+					return err
+				}
+			}
+		}
+	}
 }
 
 func (ds *TwinMakerDatasource) PublishStream(_ context.Context, _ *backend.PublishStreamRequest) (*backend.PublishStreamResponse, error) {
@@ -223,6 +307,49 @@ func (ds *TwinMakerDatasource) DoQuery(ctx context.Context, query models.TwinMak
 	return response
 }
 
+func (ds *TwinMakerDatasource) RequestLoop(ctx context.Context, query models.TwinMakerQuery, resChannel chan *backend.DataResponse) {
+	// stop the request loop if the context is cancelled
+	select {
+	case <-ctx.Done():
+		resChannel <- nil
+		return
+	default:
+	}
+
+	res := ds.DoQuery(ctx, query)
+	resChannel <- &res
+	if res.Error != nil {
+		resChannel <- nil
+		return
+	}
+
+	customMeta := models.LoadMetaFromResponse(res)
+	// if the results are paged, request the next page
+	if customMeta != nil {
+		query.NextToken = customMeta.NextToken
+		ds.RequestLoop(ctx, query, resChannel)
+		return
+	}
+
+	// we've hit the last page, and this isn't a streaming response,
+	// so we can close the channel and return
+	if !query.IsStreaming {
+		resChannel <- nil
+		return
+	}
+
+	// reset the next token for the streaming query
+	query.NextToken = ""
+
+	if ts := getFromTimestamp(res); ts != nil {
+		query.TimeRange.From = *ts
+	}
+
+	time.Sleep(query.IntervalStreaming)
+	query.TimeRange.To = time.Now()
+	ds.RequestLoop(ctx, query, resChannel)
+}
+
 func (d *TwinMakerDatasource) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	d.router.ServeHTTP(w, r)
 }
@@ -230,4 +357,34 @@ func (d *TwinMakerDatasource) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 // CallResource HTTP style resource
 func (ds *TwinMakerDatasource) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
 	return httpadapter.New(ds).CallResource(ctx, req, sender)
+}
+
+func getFromTimestamp(res backend.DataResponse) *time.Time {
+	var lastTimestamp *time.Time
+
+	for _, frame := range res.Frames {
+		for _, field := range frame.Fields {
+			if field.Len() == 0 {
+				continue
+			}
+
+			ts := time.Unix(0, 0)
+			switch field.Type() {
+			case data.FieldTypeTime:
+				if t, ok := field.At(field.Len() - 1).(time.Time); ok {
+					ts = t
+				}
+			case data.FieldTypeNullableTime:
+				if t, ok := field.At(field.Len() - 1).(*time.Time); ok && t != nil {
+					ts = *t
+				}
+			}
+
+			if lastTimestamp == nil || ts.After(*lastTimestamp) {
+				lastTimestamp = &ts
+			}
+		}
+	}
+
+	return lastTimestamp
 }
