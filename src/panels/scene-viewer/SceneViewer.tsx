@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { DataFrame } from '@grafana/data';
 
@@ -9,10 +9,12 @@ import {
   IDataFrame,
   IDataInput,
   TwinMakerApiModel,
-  TargetObjectData,
   ValueType,
   DataBindingLabelKeys,
   IDataField,
+  IWidgetClickEvent,
+  ISelectionChangedEvent,
+  KnownComponentType,
 } from 'aws-iot-twinmaker-grafana-utils';
 import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
 import { SceneViewerPropsFromParent } from './interfaces';
@@ -25,43 +27,50 @@ import { getUrlTempVarName, undecorateName } from 'common/variables';
 
 export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const styles = getStyles(props.width, props.height);
-  const selectedNodeRef = useRef<string>();
 
   const { search } = useLocation();
 
-  const onTargetObjectChanged = useCallback(
-    (objectData: TargetObjectData) => {
-      const anchorData = objectData.data;
+  const onWidgetClick = useCallback(
+    (objectData: IWidgetClickEvent) => {
+      const anchorData =
+        objectData.additionalComponentData?.[
+          objectData.componentTypes.findIndex((type) => type === KnownComponentType.Tag)
+        ];
 
-      if (anchorData?.eventType === 'click') {
-        selectedNodeRef.current = anchorData.anchorNodeRef;
+      if (anchorData) {
         const targetLink = getValidHttpUrl(anchorData.navLink);
         if (targetLink) {
           window.open(targetLink.toString());
         }
-      } else if (anchorData?.eventType === 'change') {
-        if (anchorData.isSelected) {
-          selectedNodeRef.current = anchorData.anchorNodeRef;
-          const dashboardId = anchorData.navLink?.params?.[MERGE_DASHBOARD_TARGET_ID_KEY];
-          mergeDashboard(dashboardId).then((options) => {
-            updateUrlParams(
-              options?.customSelEntityVarName || props.options.customSelEntityVarName,
-              options?.customSelCompVarName || props.options.customSelCompVarName,
-              options?.customSelPropertyVarName || props.options.customSelPropertyVarName,
-              anchorData
-            );
-          });
-        } else {
-          if (selectedNodeRef.current === anchorData.anchorNodeRef) {
-            selectedNodeRef.current = undefined;
-            updateUrlParams(
-              props.options.customSelEntityVarName,
-              props.options.customSelCompVarName,
-              props.options.customSelPropertyVarName,
-              anchorData
-            );
-          }
-        }
+      }
+    },
+    [props.options.customSelEntityVarName, props.options.customSelCompVarName, props.options.customSelPropertyVarName]
+  );
+
+  const onSelectionChanged = useCallback(
+    (objectData: ISelectionChangedEvent) => {
+      const anchorData =
+        objectData.additionalComponentData?.[
+          objectData.componentTypes.findIndex((type) => type === KnownComponentType.Tag)
+        ];
+
+      if (objectData.nodeRef && anchorData) {
+        const dashboardId = anchorData?.navLink?.params?.[MERGE_DASHBOARD_TARGET_ID_KEY];
+        mergeDashboard(dashboardId).then((options) => {
+          updateUrlParams(
+            options?.customSelEntityVarName || props.options.customSelEntityVarName,
+            options?.customSelCompVarName || props.options.customSelCompVarName,
+            options?.customSelPropertyVarName || props.options.customSelPropertyVarName,
+            anchorData
+          );
+        });
+      } else {
+        updateUrlParams(
+          props.options.customSelEntityVarName,
+          props.options.customSelCompVarName,
+          props.options.customSelPropertyVarName,
+          anchorData
+        );
       }
     },
     [props.options.customSelEntityVarName, props.options.customSelCompVarName, props.options.customSelPropertyVarName]
@@ -181,7 +190,8 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
         enable: true,
         path: `${window.location.origin}/${staticPluginPath}/static/draco/`,
       },
-      onTargetObjectChanged,
+      onSelectionChanged,
+      onWidgetClick,
       selectedDataBinding,
       dataInput,
       dataBindingTemplate,
