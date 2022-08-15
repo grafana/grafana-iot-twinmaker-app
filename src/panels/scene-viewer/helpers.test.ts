@@ -8,7 +8,7 @@ jest.doMock('@grafana/runtime', () => ({
   }),
 }));
 
-import { DataBindingLabelKeys, IAnchorEvent, INavLink, ITagData } from 'aws-iot-twinmaker-grafana-utils';
+import { DataBindingLabelKeys, INavLink, ITagData } from 'aws-iot-twinmaker-grafana-utils';
 import { TWINMAKER_PANEL_TYPE_ID } from 'common/constants';
 import { PanelModel } from 'common/dashboard';
 import { getValidHttpUrl, updateSceneViewerPanel, updateUrlParams } from './helpers';
@@ -170,7 +170,7 @@ describe('panel helpers', () => {
         'var-sel-bbb': undefined,
         random: undefined,
       };
-      updateUrlParams('sel-aaa', 'sel-bbb', 'sel-ccc', {  });
+      updateUrlParams('sel-aaa', 'sel-bbb', 'sel-ccc', {});
 
       expect(mockLocationSrv.update).toBeCalledTimes(1);
       expect(mockLocationSrv.update).toBeCalledWith({

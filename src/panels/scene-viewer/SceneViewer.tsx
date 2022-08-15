@@ -1,6 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { DataFrame } from '@grafana/data';
+import { v4 as uuid } from 'uuid';
+import { isEmpty } from 'lodash';
 
 import {
   ComponentName,
@@ -15,6 +17,7 @@ import {
   IWidgetClickEvent,
   ISelectionChangedEvent,
   KnownComponentType,
+  useSceneComposerApi,
 } from 'aws-iot-twinmaker-grafana-utils';
 import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
 import { SceneViewerPropsFromParent } from './interfaces';
@@ -27,6 +30,8 @@ import { getUrlTempVarName, undecorateName } from 'common/variables';
 
 export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const styles = getStyles(props.width, props.height);
+  const id = useMemo(() => uuid(), []);
+  const { getSceneNodeByRef, getSelectedSceneNodeRef } = useSceneComposerApi(id);
 
   const { search } = useLocation();
 
@@ -168,11 +173,32 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       dataBindingTemplate[undecoratedKey] = selectedPropertyValue;
     }
 
-    const selectedDataBinding = {
-      [DataBindingLabelKeys.entityId]: selectedEntityValue ?? '',
-      [DataBindingLabelKeys.componentName]: selectedComponentValue ?? '',
-      [DataBindingLabelKeys.propertyName]: selectedPropertyValue ?? '',
-    };
+    let selectedDataBinding: Record<string, string> | undefined =
+      selectedEntityValue && selectedComponentValue
+        ? {
+            [DataBindingLabelKeys.entityId]: selectedEntityValue,
+            [DataBindingLabelKeys.componentName]: selectedComponentValue,
+          }
+        : undefined;
+
+    const selectedNode = getSceneNodeByRef(getSelectedSceneNodeRef() || '');
+    const tag: any = selectedNode?.components.find((comp) => comp.type === KnownComponentType.Tag);
+    const binding = tag?.valueDataBinding?.dataBindingContext;
+
+    // Set the selectedDataBinding values to be empty strings when the currently selected node
+    // has tag component and selected entity/component is empty, so that the selected tag node
+    // will be deselected.
+    if (
+      (isEmpty(selectedEntityValue) || isEmpty(selectedComponentValue)) &&
+      binding &&
+      binding[DataBindingLabelKeys.entityId] &&
+      binding[DataBindingLabelKeys.componentName]
+    ) {
+      selectedDataBinding = {
+        [DataBindingLabelKeys.entityId]: '',
+        [DataBindingLabelKeys.componentName]: '',
+      };
+    }
 
     const staticPluginPath = `public/plugins/${plugin.id}`;
 
@@ -195,6 +221,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       selectedDataBinding,
       dataInput,
       dataBindingTemplate,
+      sceneComposerId: id,
     };
 
     console.log('webgl renderer props', webGlRendererProps);
