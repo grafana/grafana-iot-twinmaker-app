@@ -8,12 +8,9 @@ import {
   ComponentName,
   ComponentPropsType,
   IDataBindingTemplate,
-  IDataFrame,
-  IDataInput,
   TwinMakerApiModel,
   ValueType,
   DataBindingLabelKeys,
-  IDataField,
   IWidgetClickEvent,
   ISelectionChangedEvent,
   KnownComponentType,
@@ -27,30 +24,94 @@ import { MERGE_DASHBOARD_TARGET_ID_KEY } from 'common/constants';
 import plugin from '../../plugin.json';
 import { locationSearchToObject } from '@grafana/runtime';
 import { getUrlTempVarName, undecorateName } from 'common/variables';
+import { DataStream, DataType } from '@iot-app-kit/core';
+
+const valueTypeToDataType: Record<ValueType, DataType> = {
+  string: 'STRING',
+  boolean: 'BOOLEAN',
+  number: 'NUMBER',
+  time: 'STRING',
+};
+
+const mapDataFrame = (df: DataFrame): DataStream[] => {
+  // Map GetAlarms query dataFrame.
+  const componentNameField = df.fields.find((field) => field.name === 'alarmName')?.values.toArray();
+  const entityIdField = df.fields.find((field) => field.name === 'entityId')?.values.toArray();
+  const alarmStatusField = df.fields.find((field) => field.name === 'alarmStatus')?.values.toArray();
+  const timeField = df.fields.find((field) => field.name === 'Time')?.values.toArray();
+  const timeFieldIndex = df.fields.findIndex((field) => field.name === 'Time');
+
+  if (!timeField) {
+    return [];
+  }
+
+  if (componentNameField && entityIdField && alarmStatusField && timeField) {
+    const streams: DataStream[] = [];
+    alarmStatusField.forEach((status, index) => {
+      const labels = {
+        [DataBindingLabelKeys.entityId]: entityIdField[index],
+        [DataBindingLabelKeys.componentName]: componentNameField[index],
+        [DataBindingLabelKeys.propertyName]: TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmStatus,
+      };
+      streams.push({
+        id: JSON.stringify(labels),
+        name: TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmStatus,
+        dataType: 'STRING',
+        data: [{ x: timeField[index], y: status }],
+        resolution: 0,
+      });
+    });
+
+    return streams;
+  }
+
+  const streams: DataStream[] = [];
+  df.fields.forEach((f, index) => {
+    if (index !== timeFieldIndex) {
+      const labels = {
+        ...f.labels,
+        [DataBindingLabelKeys.propertyName]: f.name,
+      };
+
+      streams.push({
+        id: JSON.stringify(labels),
+        name: f.name,
+        dataType: valueTypeToDataType[f.type as ValueType],
+        data: f.values
+          .toArray()
+          .slice()
+          .map((value, index) => ({ x: timeField[index], y: value })),
+        resolution: 0,
+      });
+    }
+  });
+
+  return streams;
+};
 
 export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const styles = getStyles(props.width, props.height);
   const id = useMemo(() => uuid(), []);
   const { getSceneNodeByRef, getSelectedSceneNodeRef } = useSceneComposerApi(id);
+  const dataStreams = useMemo<DataStream[]>(() => {
+    return props.data.series.flatMap((df) => mapDataFrame(df));
+  }, [props.data.series]);
 
   const { search } = useLocation();
 
-  const onWidgetClick = useCallback(
-    (objectData: IWidgetClickEvent) => {
-      const anchorData =
-        objectData.additionalComponentData?.[
-          objectData.componentTypes.findIndex((type) => type === KnownComponentType.Tag)
-        ];
+  const onWidgetClick = useCallback((objectData: IWidgetClickEvent) => {
+    const anchorData =
+      objectData.additionalComponentData?.[
+        objectData.componentTypes.findIndex((type) => type === KnownComponentType.Tag)
+      ];
 
-      if (anchorData) {
-        const targetLink = getValidHttpUrl(anchorData.navLink);
-        if (targetLink) {
-          window.open(targetLink.toString());
-        }
+    if (anchorData) {
+      const targetLink = getValidHttpUrl(anchorData.navLink);
+      if (targetLink) {
+        window.open(targetLink.toString());
       }
-    },
-    [props.options.customSelEntityVarName, props.options.customSelCompVarName, props.options.customSelPropertyVarName]
-  );
+    }
+  }, []);
 
   const onSelectionChanged = useCallback(
     (objectData: ISelectionChangedEvent) => {
@@ -81,71 +142,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     [props.options.customSelEntityVarName, props.options.customSelCompVarName, props.options.customSelPropertyVarName]
   );
 
-  const mapDataFrame = (df: DataFrame): IDataFrame[] => {
-    // Map GetAlarms query dataFrame.
-    const componentNameField = df.fields.find((field) => field.name === 'alarmName')?.values.toArray();
-    const entityIdField = df.fields.find((field) => field.name === 'entityId')?.values.toArray();
-    const alarmStatusField = df.fields.find((field) => field.name === 'alarmStatus')?.values.toArray();
-    const timeField = df.fields.find((field) => field.name === 'Time')?.values.toArray();
-
-    if (componentNameField && entityIdField && alarmStatusField && timeField) {
-      const mappedFrames: IDataFrame[] = [];
-      alarmStatusField.forEach((status, index) => {
-        const labels = {
-          [DataBindingLabelKeys.entityId]: entityIdField[index],
-          [DataBindingLabelKeys.componentName]: componentNameField[index],
-        };
-        const mappedStatus: IDataField = {
-          name: TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmStatus,
-          valueType: 'string',
-          values: [status],
-          labels,
-        };
-        const mappedTime: IDataField = {
-          name: 'Time',
-          valueType: 'time',
-          values: [timeField[index]],
-          labels,
-        };
-        mappedFrames.push({
-          dataFrameId: df.refId ? `${df.refId}-${index}` : '',
-          fields: [mappedStatus, mappedTime],
-        });
-      });
-      return mappedFrames;
-    }
-
-    return [
-      {
-        dataFrameId: df.refId || '',
-        fields: df.fields.map((f) => {
-          return {
-            name: f.name,
-            labels: f.labels,
-            valueType: f.type as ValueType,
-            values: f.values.toArray().slice(),
-          };
-        }),
-      },
-    ];
-  };
-
-  const createDataInputFrames = (series: DataFrame[]) => {
-    const dataFrames: IDataFrame[] = [];
-    series.forEach((df) => dataFrames.push(...mapDataFrame(df)));
-
-    return dataFrames;
-  };
-
   const setRenderer = useCallback(() => {
-    const dataInput: IDataInput = {
-      dataFrames: createDataInputFrames(props.data.series),
-      timeRange: {
-        from: props.data.timeRange.from.valueOf(),
-        to: props.data.timeRange.to.valueOf(),
-      },
-    };
-
     // Get variables from the URL
     const queryParams = locationSearchToObject(search || '');
 
@@ -211,7 +208,6 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
           sceneId: props.options.sceneId!,
         },
       },
-      cdnPath: `${window.location.origin}/${staticPluginPath}/static`,
       dracoDecoder: {
         enable: true,
         path: `${window.location.origin}/${staticPluginPath}/static/draco/`,
@@ -219,7 +215,11 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       onSelectionChanged,
       onWidgetClick,
       selectedDataBinding,
-      dataInput,
+      dataStreams,
+      viewport: {
+        start: new Date(props.data.timeRange.from.valueOf()),
+        end: new Date(props.data.timeRange.to.valueOf()),
+      },
       dataBindingTemplate,
       sceneComposerId: id,
     };
