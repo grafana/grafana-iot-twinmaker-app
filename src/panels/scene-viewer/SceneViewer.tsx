@@ -48,7 +48,7 @@ const mapDataFrame = (df: DataFrame): DataStream[] => {
   if (componentNameField && entityIdField && alarmStatusField && timeField) {
     const streams: DataStream[] = [];
     alarmStatusField.forEach((status, index) => {
-      const labels = {
+      const labels: Record<string, string> = {
         [DataBindingLabelKeys.entityId]: entityIdField[index],
         [DataBindingLabelKeys.componentName]: componentNameField[index],
         [DataBindingLabelKeys.propertyName]: TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmStatus,
@@ -59,7 +59,8 @@ const mapDataFrame = (df: DataFrame): DataStream[] => {
         dataType: 'STRING',
         data: [{ x: timeField[index], y: status }],
         resolution: 0,
-      });
+        meta: labels,
+      } as any); // new change adding meta field to be released
     });
 
     return streams;
@@ -82,7 +83,8 @@ const mapDataFrame = (df: DataFrame): DataStream[] => {
           .slice()
           .map((value, index) => ({ x: timeField[index], y: value })),
         resolution: 0,
-      });
+        meta: labels,
+      } as any); // new change adding meta field to be released
     }
   });
 
