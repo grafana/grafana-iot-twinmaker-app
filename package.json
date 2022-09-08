@@ -3,16 +3,17 @@
   "version": "1.1.2",
   "description": "Grafana IoT TwinMaker App Plugin",
   "scripts": {
-    "build": "rm -rf dist && npx grafana-toolkit plugin:build && mage build:backend",
+    "build": "rm -rf dist && npm run copy-assets && npx grafana-toolkit plugin:build && mage build:backend",
+    "copy-assets": "copyfiles \"node_modules/aws-iot-twinmaker-grafana-utils/dist/**/*.hdr\" \"src/static/\" -u 3",
     "test": "grafana-toolkit plugin:test",
-    "dev": "grafana-toolkit plugin:dev",
-    "watch": "grafana-toolkit plugin:dev --watch",
+    "dev": "npm run copy-assets && grafana-toolkit plugin:dev",
+    "watch": "npm run dev -- --watch",
     "clean": "rm -rf node_modules/ dist/ build/*",
     "e2e": "grafana-e2e run",
     "e2e:open": "grafana-e2e open",
     "e2e:update": "grafana-e2e run --update-screenshots"
   },
-  "author": "IoT TwinMaker Frontend",
+  "author": "Amazon Web Services (AWS)",
   "devDependencies": {
     "@grafana/aws-sdk": "^0.0.3",
     "@grafana/data": "8.2.3",
@@ -25,6 +26,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/uuid": "^8.3.1",
     "copy-webpack-plugin": "6",
+    "copyfiles": "^2.4.1",
     "file-loader": "^6.2.0",
     "tslib": "2.3.1"
   },
