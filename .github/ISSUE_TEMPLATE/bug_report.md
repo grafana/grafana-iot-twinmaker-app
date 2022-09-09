@@ -1,38 +1,47 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Create an issue report to help us improve
 title: ''
-labels: ''
+labels: 'bug'
 assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+<!--
+Please use this template to create your bug report. By providing as much info as possible you help us understand the issue, reproduce it and resolve it for you quicker. Therefore, take a couple of extra minutes to make sure you have provided all info needed.
 
-**To Reproduce**
-Steps to reproduce the behavior:
+PROTIP: record your screen and attach it as a gif to showcase the issue.
+
+- Use query inspector to troubleshoot issues: https://bit.ly/2XNF6YS
+- How to record and attach gif: https://bit.ly/2Mi8T6K
+-->
+
+**What happened**:
+
+**What you expected to happen**:
+
+**How to reproduce it (as minimally and precisely as possible)**:
+
+<!--
+Example:
+
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
-
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+-->
 
 **Screenshots**
+
+<!--
 If applicable, add screenshots to help explain your problem.
+-->
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**Anything else we need to know?**:
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
-**Additional context**
-Add any other context about the problem here.
+**Environment**:
+- Grafana version:
+- Plugin version:
+- OS Grafana is installed on:
+- User OS & Browser:
+- Others:
