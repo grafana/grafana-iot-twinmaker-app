@@ -25,6 +25,7 @@ export interface TwinMakerDataSourceOptions extends AwsAuthDataSourceJsonData {
   workspaceId?: string;
 }
 export interface TwinMakerSecureJsonData extends AwsAuthDataSourceSecureJsonData {
-  // nothing for now
-  anythingSecure?: string;
+  mpClientId?: string;
+  mpClientSecret?: string;
+  mpAuthCode?: string;
 }
