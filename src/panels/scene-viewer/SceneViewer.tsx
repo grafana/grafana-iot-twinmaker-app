@@ -144,6 +144,10 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     const selectedPropertyValue = props.options.customSelPropertyVarName
       ? (queryParams[getUrlTempVarName(props.options.customSelPropertyVarName)] as string)
       : undefined;
+    const activeCamera =
+      (queryParams['DataBindingLabelKeys.activeCamera'] as string) ||
+      props.options.customInputActiveCamera ||
+      undefined;
 
     const dataBindingTemplate: IDataBindingTemplate = {};
     if (props.options.customSelEntityVarName && selectedEntityValue) {
@@ -163,6 +167,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       [DataBindingLabelKeys.entityId]: selectedEntityValue ?? '',
       [DataBindingLabelKeys.componentName]: selectedComponentValue ?? '',
       [DataBindingLabelKeys.propertyName]: selectedPropertyValue ?? '',
+      ['DataBindingLabelKeys.activeCamera']: activeCamera ?? '',
     };
 
     const staticPluginPath = `public/plugins/${plugin.id}`;
