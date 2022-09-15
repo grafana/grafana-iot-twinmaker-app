@@ -1,14 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import {
-  mockGrafanaUI,
-  mockTwinMakerPanelProps,
-  mockTimeRange,
-  mockKinesisVideoClient,
-  mockKinesisVideoArchivedMediaClient,
-  mockSiteWiseClient,
-  mockTwinMakerClient,
-} from '../tests/utils/__mocks__';
+import { mockGrafanaUI, mockTwinMakerPanelProps, mockTimeRange } from '../tests/utils/__mocks__';
 
 mockGrafanaUI();
 jest.doMock('react-router-dom', () => ({
@@ -25,7 +17,7 @@ jest.doMock('@grafana/runtime', () => ({
   locationSearchToObject: mockLocationSearchToObject,
 }));
 
-import { ComponentName, VideoData, VideoPlaybackMode } from 'aws-iot-twinmaker-grafana-utils';
+import { ComponentName } from 'aws-iot-twinmaker-grafana-utils';
 import { VideoPlayer } from './VideoPlayer';
 import { VideoPlayerPropsFromParent } from './interfaces';
 import { mockDisplayOptions } from './tests/common';
@@ -42,19 +34,12 @@ describe('VideoPlayer', () => {
     const mockEntityId = 'mockEntityId';
     const mockComponentName = 'mockComponentName';
     const mockWorkspaceId = 'MockWorkspaceId';
-    const mockVideoData = new VideoData({
+    const expectedComponentOptions = {
       workspaceId: mockWorkspaceId,
       entityId: mockEntityId,
       componentName: mockComponentName,
       kvsStreamName: mockKvsStream,
-      kinesisVideoArchivedMediaClient: mockKinesisVideoArchivedMediaClient,
-      kinesisVideoClient: mockKinesisVideoClient,
-      siteWiseClient: mockSiteWiseClient,
-      twinMakerClient: mockTwinMakerClient,
-    });
-    const expectedComponentOptions = {
-      videoData: mockVideoData,
-      playbackMode: VideoPlaybackMode.ON_DEMAND,
+      playbackMode: 'ON_DEMAND',
       startTime: mockTimeRange.from.toDate(),
       endTime: mockTimeRange.to.toDate(),
     };
