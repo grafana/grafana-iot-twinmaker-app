@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, ScopedVars } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 
-import { TwinMakerDataSourceOptions, AWSTokenInfo } from './types';
+import { TwinMakerDataSourceOptions, AWSTokenInfo, mpJsonData } from './types';
 import { Credentials } from 'aws-sdk/global';
 import { TwinMakerWorkspaceInfoSupplier } from 'common/info/types';
 import { getCachingWorkspaceInfoSupplier, getTwinMakerWorkspaceInfoSupplier } from 'common/info/info';
@@ -11,12 +11,14 @@ import { Credentials as CredentialsV3, CredentialProvider } from '@aws-sdk/types
 
 export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, TwinMakerDataSourceOptions> {
   private workspaceId: string;
+  private mpJsonData: mpJsonData;
   readonly info: TwinMakerWorkspaceInfoSupplier;
 
   constructor(public instanceSettings: DataSourceInstanceSettings<TwinMakerDataSourceOptions>) {
     super(instanceSettings);
 
     this.workspaceId = instanceSettings.jsonData.workspaceId!;
+    this.mpJsonData = instanceSettings.jsonData.mpJsonData!;
 
     // Load workspace info from resource calls
     this.info = getCachingWorkspaceInfoSupplier(
@@ -31,6 +33,10 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
 
   getWorkspaceId() {
     return this.workspaceId;
+  }
+
+  getMpJsonData() {
+    return this.mpJsonData;
   }
 
   async metricFindQuery(query: TwinMakerQuery) {

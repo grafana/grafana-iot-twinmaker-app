@@ -18,14 +18,19 @@ export interface TwinMakerCustomMeta {
   nextToken?: string;
 }
 
+export type mpJsonData = {
+  mpClientId?: string;
+  mpClientSecret?: string;
+  isMpRefreshTokenSet?: boolean;
+};
+
 /**
  * These are options configured for each DataSource instance
  */
 export interface TwinMakerDataSourceOptions extends AwsAuthDataSourceJsonData {
   workspaceId?: string;
+  mpJsonData?: mpJsonData;
 }
 export interface TwinMakerSecureJsonData extends AwsAuthDataSourceSecureJsonData {
-  mpClientId?: string;
-  mpClientSecret?: string;
-  mpAuthCode?: string;
+  mpRefreshToken?: string;
 }

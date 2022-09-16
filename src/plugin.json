@@ -26,6 +26,14 @@
     {
       "type": "datasource",
       "name": "Grafana IoT TwinMaker Datasource"
+    },
+    {
+      "type": "page",
+      "name": "redirect",
+      "path": "/a/grafana-iot-twinmaker-app/redirect",
+      "role": "Admin",
+      "addToNav": false,
+      "defaultNav": false
     }
   ],
 

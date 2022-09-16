@@ -1,37 +1,55 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect, useRef } from 'react';
 import { Button, Input, useStyles2, FieldSet, ButtonGroup, InlineField, ToolbarButton } from '@grafana/ui';
-import { PluginConfigPageProps, AppPluginMeta, PluginMeta, GrafanaTheme2 } from '@grafana/data';
+import { PluginConfigPageProps, AppPluginMeta, GrafanaTheme2 } from '@grafana/data';
 import { getBackendSrv, locationService } from '@grafana/runtime';
 import { css } from '@emotion/css';
 import MatterportLoginButton from './MatterportLoginButton';
-
-export type JsonData = {
-  mpClientId?: string;
-  isMpClientIdSet?: boolean;
-  isMpClientSecretSet?: boolean;
-  isMpAuthCodeSet?: boolean;
-};
+import { getTwinMakerDatasource } from 'common/datasourceSrv';
+import { TwinMakerDataSource } from 'datasource/datasource';
+import { getMPRefreshToken } from '../utils/tokenGeneratorUtils';
+import { mpJsonData } from 'datasource/types';
 
 type State = {
   mpClientId?: string;
   mpClientSecret?: string;
-  mpAuthCode?: string;
+  mpRefreshToken?: string;
   isMpClientIdSet: boolean;
   isMpClientSecretSet: boolean;
-  isMpAuthCodeSet: boolean;
+  isMpRefreshTokenSet: boolean;
 };
 
-interface Props extends PluginConfigPageProps<AppPluginMeta<JsonData>> {}
+interface Props extends PluginConfigPageProps<AppPluginMeta<mpJsonData>> {}
 
 export const AdditionalSettings = ({ plugin }: Props) => {
   const s = useStyles2(getStyles);
-  const { enabled, pinned, jsonData } = plugin.meta;
+  const twinmakerDatasource = useRef<TwinMakerDataSource | undefined>();
+  const jsonData = useRef<mpJsonData | undefined>();
+  const datasourceId = window.location.pathname.split('/')[3];
+
   const [state, setState] = useState<State>({
-    mpClientId: jsonData?.mpClientId || undefined,
-    isMpClientIdSet: Boolean(jsonData?.isMpClientIdSet),
-    isMpClientSecretSet: Boolean(jsonData?.isMpClientSecretSet),
-    isMpAuthCodeSet: Boolean(jsonData?.isMpAuthCodeSet),
+    mpClientId: jsonData.current?.mpClientId || undefined,
+    mpClientSecret: jsonData.current?.mpClientSecret || undefined,
+    isMpClientIdSet: jsonData.current?.mpClientId !== undefined,
+    isMpClientSecretSet: jsonData.current?.mpClientSecret !== undefined,
+    isMpRefreshTokenSet: Boolean(jsonData.current?.isMpRefreshTokenSet),
   });
+
+  useEffect(() => {
+    const getDatasource = async () => {
+      twinmakerDatasource.current = await getTwinMakerDatasource(datasourceId);
+      const temp = await twinmakerDatasource.current?.getTokensV3();
+      console.log(temp);
+      jsonData.current = twinmakerDatasource.current?.getMpJsonData();
+      setState({
+        mpClientId: jsonData.current?.mpClientId || undefined,
+        mpClientSecret: jsonData.current?.mpClientSecret || undefined,
+        isMpClientIdSet: jsonData.current?.mpClientId !== undefined,
+        isMpClientSecretSet: jsonData.current?.mpClientSecret !== undefined,
+        isMpRefreshTokenSet: Boolean(jsonData.current?.isMpRefreshTokenSet),
+      });
+    };
+    getDatasource();
+  }, [datasourceId]);
 
   const onResetClientID = () =>
     setState({
@@ -61,55 +79,46 @@ export const AdditionalSettings = ({ plugin }: Props) => {
     });
   };
 
-  const setAuthCodeCallback = (authCode: string) => {
-    setState({
-      ...state,
-      isMpAuthCodeSet: false,
-      mpAuthCode: authCode.trim(),
-    });
+  const setAuthCodeCallback = async (authCode: string) => {
+    if (state.mpClientId && state.mpClientSecret && authCode) {
+      const refresh_token = await getMPRefreshToken(state.mpClientId, state.mpClientSecret, authCode.trim());
+      if (refresh_token && refresh_token !== '') {
+        setState({
+          ...state,
+          isMpRefreshTokenSet: false,
+          mpRefreshToken: refresh_token.trim(),
+        });
+      }
+    }
   };
 
-  const onSaveClick = () => {
+  const onSaveClick = async () => {
     setState({
       ...state,
       isMpClientIdSet: true,
       isMpClientSecretSet: true,
-      isMpAuthCodeSet: true,
+      isMpRefreshTokenSet: true,
     });
-    updatePluginAndReload(plugin.meta.id, {
-      enabled,
-      pinned,
+    updateDatasourceAndReload(datasourceId, {
+      ...twinmakerDatasource.current?.instanceSettings,
+      url: '',
       jsonData: {
-        mpClientId: state.mpClientId,
-        isMpClientIdSet: true,
-        isMpClientSecretSet: true,
-        isMpAuthCodeSet: true,
+        ...twinmakerDatasource.current?.instanceSettings.jsonData,
+        mpJsonData: {
+          mpClientId: state.mpClientId,
+          mpClientSecret: state.mpClientSecret,
+          isMpRefreshTokenSet: true,
+        },
       },
       secureJsonData:
-        state.isMpClientIdSet && state.isMpClientSecretSet && state.isMpAuthCodeSet
+        state.isMpClientIdSet && state.isMpClientSecretSet && state.isMpRefreshTokenSet
           ? undefined
           : {
-              mpClientSecret: state.mpClientSecret,
-              mpAuthCode: state.mpAuthCode,
+              mpRefreshToken: state.mpRefreshToken,
             },
     });
+    twinmakerDatasource.current = await getTwinMakerDatasource(datasourceId);
   };
-
-  if (window.opener) {
-    // get the authorization code out of the current URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const authCode = urlParams.get('code');
-    if (authCode !== null) {
-      // post back to the app that opened this window
-      window.opener.postMessage(
-        {
-          type: 'auth_model',
-          authCode: authCode,
-        },
-        '*'
-      );
-    }
-  }
 
   return (
     <div>
@@ -161,8 +170,8 @@ export const AdditionalSettings = ({ plugin }: Props) => {
             disabled={Boolean(
               (!state.isMpClientIdSet && !state.mpClientId) ||
                 (!state.isMpClientSecretSet && !state.mpClientSecret) ||
-                state.isMpAuthCodeSet ||
-                !state.mpAuthCode
+                state.isMpRefreshTokenSet ||
+                !state.mpRefreshToken
             )}
           >
             Save
@@ -185,16 +194,16 @@ const getStyles = (theme: GrafanaTheme2) => ({
   `,
 });
 
-const updatePluginAndReload = async (pluginId: string, data: Partial<PluginMeta<JsonData>>) => {
+const updateDatasourceAndReload = async (datasourceId: string, data: any) => {
   try {
-    await updatePlugin(pluginId, data);
+    await updateDatasource(datasourceId, data);
     locationService.reload();
   } catch (e) {
-    console.error('Error while updating the plugin', e);
+    console.error('Error while updating the datasource', e);
   }
 };
 
-export const updatePlugin = async (pluginId: string, data: Partial<PluginMeta>) => {
-  const response = await getBackendSrv().post(`/api/plugins/${pluginId}/settings`, data);
+export const updateDatasource = async (datasourceId: string, data: any) => {
+  const response = await getBackendSrv().put(`/api/datasources/uid/${datasourceId}`, data);
   return response?.data;
 };
