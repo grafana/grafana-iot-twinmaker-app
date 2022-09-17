@@ -3,7 +3,7 @@ package twinmaker
 import (
 	"context"
 	"encoding/json"
-	"io/ioutil"
+	"os"
 	"time"
 
 	"github.com/aws/aws-sdk-go/service/iottwinmaker"
@@ -23,7 +23,7 @@ func NewTwinMakerMockClient(path string) (*twinMakerMockClient, error) {
 }
 
 func (c *twinMakerMockClient) loadSavedResponse(r interface{}) (interface{}, error) {
-	bs, err := ioutil.ReadFile("./testdata/" + c.path + ".json")
+	bs, err := os.ReadFile("./testdata/" + c.path + ".json")
 	if err != nil {
 		return nil, err
 	}

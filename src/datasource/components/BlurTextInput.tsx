@@ -7,6 +7,7 @@ interface Props {
   autoFocus?: boolean;
   onChange: (value?: string) => void;
   width?: number;
+  numeric?: boolean;
 }
 
 interface State {
@@ -39,9 +40,11 @@ export class BlurTextInput extends PureComponent<Props, State> {
   };
 
   onChange = (e: React.FocusEvent<HTMLInputElement>) => {
-    this.setState({
-      text: e.currentTarget.value,
-    });
+    const text = e.currentTarget.value;
+    if (this.props.numeric && isNaN(+text) && text !== '.') {
+      return; // skip it
+    }
+    this.setState({ text });
   };
 
   onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {

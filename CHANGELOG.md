@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.2.0
+
+- Live time series history streaming
+- Set max number of alarms to retrieve data for in the Get Alarms query
+- Set propertyName using a template variable 
+- Avoid unnecessary panel refreshes on the dashboard
+- Show Motion Indicator in the scene viewer
+- Fixed Model Shader functionality in the scene viewer
+
 ## v1.1.2
 
 - Increase the size and brightness of the tag selection graphic 

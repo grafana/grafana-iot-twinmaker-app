@@ -12,7 +12,7 @@
    2. The same credentials are used on the browser for our custom panels, so make sure your permissions are scoped down
    3. EC2 users: you can use “AWS SDK Default” to resolve credentials from your instance IAM role. It is a security risk to expose these credentials on your browser so you MUST set an additional IAM role with scoped down permissions. See [here](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) for information on setting up permissions to assume roles.
 
-4. We recommend to set an Assume Role ARN for any environment Grafana is running in. You can create an IAM role and policies for your TwinMaker workspace.
+4. You need to set an "Assume Role ARN" for any environment Grafana is running in. This is an [IAM role](https://docs.aws.amazon.com/iot-twinmaker/latest/guide/dashboard-IAM-role.html) you create for your TwinMaker workspace.
 
    a. This plugin assumes the role provided with an inline session policy to ensure the desired permission scope is used on the browser. We will only use permissions that intersect with the inline policy.
 
@@ -20,7 +20,7 @@
 
 6. (Optional) AWS developers may use a custom endpoint for testing
 
-   a. Note: You cannot currently set an Assume Role ARN and a custom endpoint together
+   a. Note: You cannot currently set an "Assume Role ARN" and a custom endpoint together
 
 7. Select your region
 
