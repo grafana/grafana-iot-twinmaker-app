@@ -1,0 +1,13 @@
+{
+  "type": "panel",
+  "name": "AWS IoT TwinMaker Query Editor",
+  "id": "grafana-iot-twinmaker-queryeditor-panel",
+  "skipDataQuery": true,
+  "info": {
+    "description": "Query your AWS IoT TwinMaker data against a specific Workspace.",
+    "logos": {
+      "small": "img/AWS-IoT-TwinMaker.svg",
+      "large": "img/AWS-IoT-TwinMaker.svg"
+    }
+  }
+}

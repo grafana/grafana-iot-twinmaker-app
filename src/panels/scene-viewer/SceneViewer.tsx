@@ -226,8 +226,6 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       sceneComposerId: id,
     };
 
-    console.log('webgl renderer props', webGlRendererProps);
-
     return props.twinMakerUxSdk.createComponentForReact(ComponentName.WebGLRenderer, webGlRendererProps);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.options.sceneId, props.width, props.height, props.twinMakerUxSdk, props.data.series, search]);

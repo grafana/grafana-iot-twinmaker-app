@@ -2,11 +2,13 @@ import { AnyAction, CombinedState, createStore, Store } from 'redux';
 import { TwinMakerUxSDK } from 'aws-iot-twinmaker-grafana-utils';
 import { OldDatasourceStuff } from './oldStuffFromDatasource';
 import { getTwinMakerDatasource } from 'common/datasourceSrv';
+import { TMQueryEditorAwsConfig } from 'panels/query-editor/types';
 
 export type DataSourceParams = {
   store: Store<CombinedState<any>, AnyAction>;
   twinMakerUxSdk: TwinMakerUxSDK;
   workspaceId: string;
+  awsTMQEConfig: TMQueryEditorAwsConfig;
 };
 
 const cache = new Map<string, OldDatasourceStuff>();
@@ -32,7 +34,11 @@ export async function configureSdkWithDataSource(uid?: string): Promise<DataSour
     return undefined;
   }
 
-  if (typeof twinMakerDataSource.getTwinMakerUxSdk === 'function' && twinMakerDataSource.getWorkspaceId) {
+  if (
+    typeof twinMakerDataSource.getTwinMakerUxSdk === 'function' &&
+    twinMakerDataSource.getWorkspaceId &&
+    twinMakerDataSource.getTMQEAwsConfig
+  ) {
     const twinMakerUxSdk = new TwinMakerUxSDK(twinMakerDataSource.getTwinMakerUxSdk());
 
     const store: Store<CombinedState<any>, AnyAction> = createStore(
@@ -41,8 +47,9 @@ export async function configureSdkWithDataSource(uid?: string): Promise<DataSour
     twinMakerUxSdk.awsStore.subscribeAwsStoreUpdate(store);
 
     const workspaceId: string = twinMakerDataSource.getWorkspaceId();
+    const awsTMQEConfig = twinMakerDataSource.getTMQEAwsConfig();
 
-    return { twinMakerUxSdk, store, workspaceId };
+    return { twinMakerUxSdk, store, workspaceId, awsTMQEConfig };
   }
   console.log('TwinMaker UX SDK not found');
   return undefined;

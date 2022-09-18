@@ -1,6 +1,7 @@
 import { UxSDKAwsConfig } from 'aws-iot-twinmaker-grafana-utils';
 import { Credentials } from 'aws-sdk/global';
 import { CredentialProvider } from '@aws-sdk/types';
+import { TMQueryEditorAwsConfig } from 'panels/query-editor/types';
 
 const defaultRegion = 'us-east-1';
 
@@ -48,6 +49,19 @@ export const getAwsConfig = (
       config: {
         region,
       },
+    },
+  };
+};
+
+export const getAwsTMQEConfig = (
+  credentialsProvider: CredentialProvider,
+  updatedRegion?: string
+): TMQueryEditorAwsConfig => {
+  const region = updatedRegion ? updatedRegion : defaultRegion;
+  return {
+    credentialsProvider,
+    iotTwinMaker: {
+      region,
     },
   };
 };
