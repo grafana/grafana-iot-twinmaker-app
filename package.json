@@ -44,8 +44,5 @@
   },
   "engines": {
     "node": ">=16"
-  },
-  "resolutions": {
-    "rxjs": "7.3.0"
   }
 }
