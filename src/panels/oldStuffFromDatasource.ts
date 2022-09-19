@@ -2,8 +2,6 @@ import { TwinMakerUxSDK } from 'aws-iot-twinmaker-grafana-utils';
 import { TwinMakerDataSource } from 'datasource/datasource';
 import { getAwsConfig, getAwsTMQEConfig } from './awsConfig';
 import { TMQueryEditorAwsConfig } from 'panels/query-editor/types';
-import { Credentials } from '@aws-sdk/types';
-import { threadId } from 'worker_threads';
 
 /**
  * The initalization process needs revisited here.  This simply moves things from

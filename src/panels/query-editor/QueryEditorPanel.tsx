@@ -1,7 +1,7 @@
 import React from 'react';
 import { LoadingPlaceholder } from '@grafana/ui';
 import { PanelProps } from '@grafana/data';
-import { QueryEditorPanelState, QueryEditorPropsFromParent } from './interfaces';
+import { QueryEditorPanelState } from './interfaces';
 
 import { QueryEditor } from './QueryEditor';
 import { configureSdkWithDataSource, DataSourceParams } from '../sdkInit';
@@ -9,7 +9,7 @@ import { PanelOptions } from './types';
 
 type Props = PanelProps<PanelOptions>;
 
-export class QueryEditorPanel extends React.Component<Props, QueryEditorPanelState, QueryEditorPropsFromParent> {
+export class QueryEditorPanel extends React.Component<Props, QueryEditorPanelState> {
   private dataSourceParams?: DataSourceParams;
 
   constructor(props: Props) {
@@ -32,15 +32,20 @@ export class QueryEditorPanel extends React.Component<Props, QueryEditorPanelSta
   private updateUxSdk = async (prevProps?: Props) => {
     configureSdkWithDataSource(this.props.options.datasource).then(async (result: DataSourceParams | undefined) => {
       this.dataSourceParams = result;
-      const awsCredentials = await this.dataSourceParams.awsTMQEConfig.credentialsProvider();
-      this.dataSourceParams.awsTMQEConfig.awsCredentials = awsCredentials;
+      if (this.dataSourceParams !== undefined) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const awsCredentials = await this.dataSourceParams.awsConfig.credentialsProvider();
+        this.dataSourceParams.awsConfig.awsCredentials = awsCredentials;
+      }
+
       this.setState({ configured: true });
     });
   };
 
   private renderContent = () => {
     return this.dataSourceParams ? (
-      <QueryEditor workspaceId={this.dataSourceParams.workspaceId} awsConfig={this.dataSourceParams.awsTMQEConfig} />
+      <QueryEditor {...this.props} {...this.dataSourceParams} />
     ) : (
       <div> No TwinMaker Data Source Connected </div>
     );
