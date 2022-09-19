@@ -8,7 +8,7 @@ export type DataSourceParams = {
   store: Store<CombinedState<any>, AnyAction>;
   twinMakerUxSdk: TwinMakerUxSDK;
   workspaceId: string;
-  awsTMQEConfig: TMQueryEditorAwsConfig;
+  awsConfig: TMQueryEditorAwsConfig;
 };
 
 const cache = new Map<string, OldDatasourceStuff>();
@@ -47,9 +47,9 @@ export async function configureSdkWithDataSource(uid?: string): Promise<DataSour
     twinMakerUxSdk.awsStore.subscribeAwsStoreUpdate(store);
 
     const workspaceId: string = twinMakerDataSource.getWorkspaceId();
-    const awsTMQEConfig = twinMakerDataSource.getTMQEAwsConfig();
+    const awsConfig = twinMakerDataSource.getTMQEAwsConfig();
 
-    return { twinMakerUxSdk, store, workspaceId, awsTMQEConfig };
+    return { twinMakerUxSdk, store, workspaceId, awsConfig };
   }
   console.log('TwinMaker UX SDK not found');
   return undefined;
