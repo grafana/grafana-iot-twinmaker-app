@@ -6,6 +6,7 @@ import { QueryEditorPanelState } from './interfaces';
 import { QueryEditor } from './QueryEditor';
 import { configureSdkWithDataSource, DataSourceParams } from '../sdkInit';
 import { PanelOptions } from './types';
+import './styles.css';
 
 type Props = PanelProps<PanelOptions>;
 
@@ -37,6 +38,9 @@ export class QueryEditorPanel extends React.Component<Props, QueryEditorPanelSta
         // @ts-ignore
         const awsCredentials = await this.dataSourceParams.awsConfig.credentialsProvider();
         this.dataSourceParams.awsConfig.awsCredentials = awsCredentials;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        this.dataSourceParams.awsConfig.iotTwinMaker.endpoint = 'https://beta.us-east-1.twinmaker.iot.aws.dev';
       }
 
       this.setState({ configured: true });
@@ -45,7 +49,11 @@ export class QueryEditorPanel extends React.Component<Props, QueryEditorPanelSta
 
   private renderContent = () => {
     return this.dataSourceParams ? (
-      <QueryEditor {...this.props} {...this.dataSourceParams} />
+      <div className="panel-container">
+        <div className="panel-content">
+          <QueryEditor {...this.props} {...this.dataSourceParams} />
+        </div>
+      </div>
     ) : (
       <div> No TwinMaker Data Source Connected </div>
     );
