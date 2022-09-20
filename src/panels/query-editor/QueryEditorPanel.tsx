@@ -38,9 +38,6 @@ export class QueryEditorPanel extends React.Component<Props, QueryEditorPanelSta
         // @ts-ignore
         const awsCredentials = await this.dataSourceParams.awsConfig.credentialsProvider();
         this.dataSourceParams.awsConfig.awsCredentials = awsCredentials;
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        this.dataSourceParams.awsConfig.iotTwinMaker.endpoint = 'https://beta.us-east-1.twinmaker.iot.aws.dev';
       }
 
       this.setState({ configured: true });
