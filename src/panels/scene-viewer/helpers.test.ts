@@ -8,7 +8,7 @@ jest.doMock('@grafana/runtime', () => ({
   }),
 }));
 
-import { DataBindingLabelKeys, IAnchorEvent, INavLink } from 'aws-iot-twinmaker-grafana-utils';
+import { DataBindingLabelKeys, INavLink, ITagData } from 'aws-iot-twinmaker-grafana-utils';
 import { TWINMAKER_PANEL_TYPE_ID } from 'common/constants';
 import { PanelModel } from 'common/dashboard';
 import { getValidHttpUrl, updateSceneViewerPanel, updateUrlParams } from './helpers';
@@ -131,10 +131,7 @@ describe('panel helpers', () => {
   });
 
   describe('updateUrlParams', () => {
-    const anchorData: IAnchorEvent = {
-      eventType: 'click',
-      anchorNodeRef: 'anchor-ref',
-      isSelected: true,
+    const anchorData: ITagData = {
       navLink: {
         params: {
           random: '123',
@@ -151,13 +148,7 @@ describe('panel helpers', () => {
       jest.clearAllMocks();
     });
 
-    it('should not call update url when anchorData is undefined', () => {
-      updateUrlParams('sel-entity', 'sel-comp');
-
-      expect(mockLocationSrv.update).not.toBeCalled();
-    });
-
-    it('should call update url with data when anchorData is selected', () => {
+    it('should call update url with data when anchorData has value', () => {
       const expectedParams = {
         'var-sel-aaa': (anchorData.dataBindingContext as any)[DataBindingLabelKeys.entityId],
         'var-sel-bbb': (anchorData.dataBindingContext as any)[DataBindingLabelKeys.componentName],
@@ -173,13 +164,13 @@ describe('panel helpers', () => {
       });
     });
 
-    it('should call update url with undefined when anchorData is selected', () => {
+    it('should call update url with undefined when anchorData is empty', () => {
       const expectedParams = {
         'var-sel-aaa': undefined,
         'var-sel-bbb': undefined,
         random: undefined,
       };
-      updateUrlParams('sel-aaa', 'sel-bbb', 'sel-ccc', { ...anchorData, isSelected: false });
+      updateUrlParams('sel-aaa', 'sel-bbb', 'sel-ccc', {});
 
       expect(mockLocationSrv.update).toBeCalledTimes(1);
       expect(mockLocationSrv.update).toBeCalledWith({

@@ -1,18 +1,20 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { DataFrame } from '@grafana/data';
+import { v4 as uuid } from 'uuid';
+import { isEmpty } from 'lodash';
 
 import {
   ComponentName,
   ComponentPropsType,
   IDataBindingTemplate,
-  IDataFrame,
-  IDataInput,
   TwinMakerApiModel,
-  TargetObjectData,
   ValueType,
   DataBindingLabelKeys,
-  IDataField,
+  IWidgetClickEvent,
+  ISelectionChangedEvent,
+  KnownComponentType,
+  useSceneComposerApi,
 } from 'aws-iot-twinmaker-grafana-utils';
 import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
 import { SceneViewerPropsFromParent } from './interfaces';
@@ -22,116 +24,127 @@ import { MERGE_DASHBOARD_TARGET_ID_KEY } from 'common/constants';
 import plugin from '../../plugin.json';
 import { locationSearchToObject } from '@grafana/runtime';
 import { getUrlTempVarName, undecorateName } from 'common/variables';
+import { DataStream, DataType } from '@iot-app-kit/core';
+
+const valueTypeToDataType: Record<ValueType, DataType> = {
+  string: 'STRING',
+  boolean: 'BOOLEAN',
+  number: 'NUMBER',
+  time: 'STRING',
+};
+
+const mapDataFrame = (df: DataFrame): DataStream[] => {
+  // Map GetAlarms query dataFrame.
+  const componentNameField = df.fields.find((field) => field.name === 'alarmName')?.values.toArray();
+  const entityIdField = df.fields.find((field) => field.name === 'entityId')?.values.toArray();
+  const alarmStatusField = df.fields.find((field) => field.name === 'alarmStatus')?.values.toArray();
+  const timeField = df.fields.find((field) => field.name === 'Time')?.values.toArray();
+  const timeFieldIndex = df.fields.findIndex((field) => field.name === 'Time');
+
+  if (!timeField) {
+    return [];
+  }
+
+  if (componentNameField && entityIdField && alarmStatusField && timeField) {
+    const streams: DataStream[] = [];
+    alarmStatusField.forEach((status, index) => {
+      const labels: Record<string, string> = {
+        [DataBindingLabelKeys.entityId]: entityIdField[index],
+        [DataBindingLabelKeys.componentName]: componentNameField[index],
+        [DataBindingLabelKeys.propertyName]: TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmStatus,
+      };
+      streams.push({
+        id: JSON.stringify(labels),
+        name: TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmStatus,
+        dataType: 'STRING',
+        data: [{ x: timeField[index], y: status }],
+        resolution: 0,
+        meta: labels,
+      } as any); // new change adding meta field to be released
+    });
+
+    return streams;
+  }
+
+  const streams: DataStream[] = [];
+  df.fields.forEach((f, index) => {
+    if (index !== timeFieldIndex) {
+      const labels = {
+        ...f.labels,
+        [DataBindingLabelKeys.propertyName]: f.name,
+      };
+
+      streams.push({
+        id: JSON.stringify(labels),
+        name: f.name,
+        dataType: valueTypeToDataType[f.type as ValueType],
+        data: f.values
+          .toArray()
+          .slice()
+          .map((value, index) => ({ x: timeField[index], y: value })),
+        resolution: 0,
+        meta: labels,
+      } as any); // new change adding meta field to be released
+    }
+  });
+
+  return streams;
+};
 
 export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const styles = getStyles(props.width, props.height);
-  const selectedNodeRef = useRef<string>();
+  const id = useMemo(() => uuid(), []);
+  const { getSceneNodeByRef, getSelectedSceneNodeRef } = useSceneComposerApi(id);
+  const dataStreams = useMemo<DataStream[]>(() => {
+    return props.data.series.flatMap((df) => mapDataFrame(df));
+  }, [props.data.series]);
 
   const { search } = useLocation();
 
-  const onTargetObjectChanged = useCallback(
-    (objectData: TargetObjectData) => {
-      const anchorData = objectData.data;
+  const onWidgetClick = useCallback((objectData: IWidgetClickEvent) => {
+    const anchorData =
+      objectData.additionalComponentData?.[
+        objectData.componentTypes.findIndex((type) => type === KnownComponentType.Tag)
+      ];
 
-      if (anchorData?.eventType === 'click') {
-        selectedNodeRef.current = anchorData.anchorNodeRef;
-        const targetLink = getValidHttpUrl(anchorData.navLink);
-        if (targetLink) {
-          window.open(targetLink.toString());
-        }
-      } else if (anchorData?.eventType === 'change') {
-        if (anchorData.isSelected) {
-          selectedNodeRef.current = anchorData.anchorNodeRef;
-          const dashboardId = anchorData.navLink?.params?.[MERGE_DASHBOARD_TARGET_ID_KEY];
-          mergeDashboard(dashboardId).then((options) => {
-            updateUrlParams(
-              options?.customSelEntityVarName || props.options.customSelEntityVarName,
-              options?.customSelCompVarName || props.options.customSelCompVarName,
-              options?.customSelPropertyVarName || props.options.customSelPropertyVarName,
-              anchorData
-            );
-          });
-        } else {
-          if (selectedNodeRef.current === anchorData.anchorNodeRef) {
-            selectedNodeRef.current = undefined;
-            updateUrlParams(
-              props.options.customSelEntityVarName,
-              props.options.customSelCompVarName,
-              props.options.customSelPropertyVarName,
-              anchorData
-            );
-          }
-        }
+    if (anchorData) {
+      const targetLink = getValidHttpUrl(anchorData.navLink);
+      if (targetLink) {
+        window.open(targetLink.toString());
+      }
+    }
+  }, []);
+
+  const onSelectionChanged = useCallback(
+    (objectData: ISelectionChangedEvent) => {
+      const anchorData =
+        objectData.additionalComponentData?.[
+          objectData.componentTypes.findIndex((type) => type === KnownComponentType.Tag)
+        ];
+
+      if (objectData.nodeRef && anchorData) {
+        const dashboardId = anchorData?.navLink?.params?.[MERGE_DASHBOARD_TARGET_ID_KEY];
+        mergeDashboard(dashboardId).then((options) => {
+          updateUrlParams(
+            options?.customSelEntityVarName || props.options.customSelEntityVarName,
+            options?.customSelCompVarName || props.options.customSelCompVarName,
+            options?.customSelPropertyVarName || props.options.customSelPropertyVarName,
+            anchorData
+          );
+        });
+      } else {
+        updateUrlParams(
+          props.options.customSelEntityVarName,
+          props.options.customSelCompVarName,
+          props.options.customSelPropertyVarName,
+          anchorData
+        );
       }
     },
     [props.options.customSelEntityVarName, props.options.customSelCompVarName, props.options.customSelPropertyVarName]
   );
 
-  const mapDataFrame = (df: DataFrame): IDataFrame[] => {
-    // Map GetAlarms query dataFrame.
-    const componentNameField = df.fields.find((field) => field.name === 'alarmName')?.values.toArray();
-    const entityIdField = df.fields.find((field) => field.name === 'entityId')?.values.toArray();
-    const alarmStatusField = df.fields.find((field) => field.name === 'alarmStatus')?.values.toArray();
-    const timeField = df.fields.find((field) => field.name === 'Time')?.values.toArray();
-
-    if (componentNameField && entityIdField && alarmStatusField && timeField) {
-      const mappedFrames: IDataFrame[] = [];
-      alarmStatusField.forEach((status, index) => {
-        const labels = {
-          [DataBindingLabelKeys.entityId]: entityIdField[index],
-          [DataBindingLabelKeys.componentName]: componentNameField[index],
-        };
-        const mappedStatus: IDataField = {
-          name: TwinMakerApiModel.ALARM_BASE_PROPERTY_NAMES.alarmStatus,
-          valueType: 'string',
-          values: [status],
-          labels,
-        };
-        const mappedTime: IDataField = {
-          name: 'Time',
-          valueType: 'time',
-          values: [timeField[index]],
-          labels,
-        };
-        mappedFrames.push({
-          dataFrameId: df.refId ? `${df.refId}-${index}` : '',
-          fields: [mappedStatus, mappedTime],
-        });
-      });
-      return mappedFrames;
-    }
-
-    return [
-      {
-        dataFrameId: df.refId || '',
-        fields: df.fields.map((f) => {
-          return {
-            name: f.name,
-            labels: f.labels,
-            valueType: f.type as ValueType,
-            values: f.values.toArray().slice(),
-          };
-        }),
-      },
-    ];
-  };
-
-  const createDataInputFrames = (series: DataFrame[]) => {
-    const dataFrames: IDataFrame[] = [];
-    series.forEach((df) => dataFrames.push(...mapDataFrame(df)));
-
-    return dataFrames;
-  };
-
   const setRenderer = useCallback(() => {
-    const dataInput: IDataInput = {
-      dataFrames: createDataInputFrames(props.data.series),
-      timeRange: {
-        from: props.data.timeRange.from.valueOf(),
-        to: props.data.timeRange.to.valueOf(),
-      },
-    };
-
     // Get variables from the URL
     const queryParams = locationSearchToObject(search || '');
 
@@ -159,11 +172,32 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       dataBindingTemplate[undecoratedKey] = selectedPropertyValue;
     }
 
-    const selectedDataBinding = {
-      [DataBindingLabelKeys.entityId]: selectedEntityValue ?? '',
-      [DataBindingLabelKeys.componentName]: selectedComponentValue ?? '',
-      [DataBindingLabelKeys.propertyName]: selectedPropertyValue ?? '',
-    };
+    let selectedDataBinding: Record<string, string> | undefined =
+      selectedEntityValue && selectedComponentValue
+        ? {
+            [DataBindingLabelKeys.entityId]: selectedEntityValue,
+            [DataBindingLabelKeys.componentName]: selectedComponentValue,
+          }
+        : undefined;
+
+    const selectedNode = getSceneNodeByRef(getSelectedSceneNodeRef() || '');
+    const tag: any = selectedNode?.components.find((comp) => comp.type === KnownComponentType.Tag);
+    const binding = tag?.valueDataBinding?.dataBindingContext;
+
+    // Set the selectedDataBinding values to be empty strings when the currently selected node
+    // has tag component and selected entity/component is empty, so that the selected tag node
+    // will be deselected.
+    if (
+      (isEmpty(selectedEntityValue) || isEmpty(selectedComponentValue)) &&
+      binding &&
+      binding[DataBindingLabelKeys.entityId] &&
+      binding[DataBindingLabelKeys.componentName]
+    ) {
+      selectedDataBinding = {
+        [DataBindingLabelKeys.entityId]: '',
+        [DataBindingLabelKeys.componentName]: '',
+      };
+    }
 
     const staticPluginPath = `public/plugins/${plugin.id}`;
 
@@ -176,15 +210,20 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
           sceneId: props.options.sceneId!,
         },
       },
-      cdnPath: `${window.location.origin}/${staticPluginPath}/static`,
       dracoDecoder: {
         enable: true,
         path: `${window.location.origin}/${staticPluginPath}/static/draco/`,
       },
-      onTargetObjectChanged,
+      onSelectionChanged,
+      onWidgetClick,
       selectedDataBinding,
-      dataInput,
+      dataStreams,
+      viewport: {
+        start: new Date(props.data.timeRange.from.valueOf()),
+        end: new Date(props.data.timeRange.to.valueOf()),
+      },
       dataBindingTemplate,
+      sceneComposerId: id,
     };
 
     console.log('webgl renderer props', webGlRendererProps);
