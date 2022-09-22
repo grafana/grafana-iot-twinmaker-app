@@ -49,7 +49,7 @@ export const plugin = new PanelPlugin<PanelOptions>(ScenePanel)
       })
       .addSelect({
         path: 'customInputActiveCamera',
-        name: 'Default Active Camera',
+        name: 'Active camera variable name',
         settings: {
           options: getVariableOptions({ hideValue: true }),
         },
