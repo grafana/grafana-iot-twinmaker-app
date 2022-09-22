@@ -46,5 +46,9 @@ export const plugin = new PanelPlugin<PanelOptions>(ScenePanel)
         settings: {
           options: getVariableOptions(),
         },
+      })
+      .addTextInput({
+        path: 'customInputActiveCamera',
+        name: 'Default Active Camera',
       });
   });
