@@ -157,6 +157,9 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     const selectedPropertyValue = props.options.customSelPropertyVarName
       ? (queryParams[getUrlTempVarName(props.options.customSelPropertyVarName)] as string)
       : undefined;
+    let activeCamera = props.options.customInputActiveCamera
+      ? (queryParams[getUrlTempVarName(props.options.customInputActiveCamera)] as string)
+      : undefined;
 
     const dataBindingTemplate: IDataBindingTemplate = {};
     if (props.options.customSelEntityVarName && selectedEntityValue) {
@@ -224,9 +227,8 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       },
       dataBindingTemplate,
       sceneComposerId: id,
+      activeCamera,
     };
-
-    console.log('webgl renderer props', webGlRendererProps);
 
     return props.twinMakerUxSdk.createComponentForReact(ComponentName.WebGLRenderer, webGlRendererProps);
     // eslint-disable-next-line react-hooks/exhaustive-deps
