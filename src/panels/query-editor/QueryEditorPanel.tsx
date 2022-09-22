@@ -33,7 +33,8 @@ export class QueryEditorPanel extends React.Component<Props, QueryEditorPanelSta
   private updateUxSdk = async (prevProps?: Props) => {
     configureSdkWithDataSource(this.props.options.datasource).then(async (result: DataSourceParams | undefined) => {
       this.dataSourceParams = result;
-      if (this.dataSourceParams !== undefined) {
+
+      if (this.dataSourceParams) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const awsCredentials = await this.dataSourceParams.awsConfig.credentialsProvider();
