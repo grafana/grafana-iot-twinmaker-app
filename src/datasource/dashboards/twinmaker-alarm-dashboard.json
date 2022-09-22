@@ -223,7 +223,7 @@
       "options": {
         "customSelCompVarName": "sel_comp",
         "customSelEntityVarName": "sel_entity",
-        "customInputActiveCamera": "${active_camera}",
+        "customInputActiveCamera": "active_camera",
         "datasource": "${DS_AWS_IOT TWINMAKER}",
         "sceneId": ""
       },

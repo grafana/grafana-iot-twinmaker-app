@@ -47,8 +47,11 @@ export const plugin = new PanelPlugin<PanelOptions>(ScenePanel)
           options: getVariableOptions(),
         },
       })
-      .addTextInput({
+      .addSelect({
         path: 'customInputActiveCamera',
         name: 'Default Active Camera',
+        settings: {
+          options: getVariableOptions({ hideValue: true }),
+        },
       });
   });

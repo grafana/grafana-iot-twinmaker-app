@@ -175,10 +175,6 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       dataBindingTemplate[undecoratedKey] = selectedPropertyValue;
     }
 
-    if (!activeCamera || activeCamera.trim().length === 0) {
-      activeCamera = props.options.customInputActiveCamera;
-    }
-
     let selectedDataBinding: Record<string, string> | undefined =
       selectedEntityValue && selectedComponentValue
         ? {
