@@ -5045,7 +5045,7 @@ autoprefixer@^9.6.1:
 
 "aws-iot-twinmaker-grafana-utils@file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz":
   version "1.0.0"
-  resolved "file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz#5e343e10173c6824450b2081bcb6aa7cd061dfd8"
+  resolved "file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz#af72d12200a40f877eac0306e1af461069ac27bf"
   dependencies:
     debug "^4.3.4"
 
