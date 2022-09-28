@@ -36,11 +36,10 @@ import {
   TwinMakerPropertyFilter,
   DEFAULT_PROPERTY_FILTER_OPERATOR,
 } from 'common/manager';
-import { getTemplateSrv, getGrafanaLiveSrv } from '@grafana/runtime';
+import { getTemplateSrv } from '@grafana/runtime';
 import { getVariableOptions } from 'common/variables';
 import FilterQueryEditor from './FilterQueryEditor';
 import { BlurTextInput } from './BlurTextInput';
-import { Subscription } from 'rxjs';
 
 export const firstLabelWidth = 18;
 
@@ -58,7 +57,6 @@ interface State {
 
 export class QueryEditor extends PureComponent<Props, State> {
   panels: Array<SelectableValue<number>>;
-  subs: Subscription | undefined;
 
   constructor(props: Props) {
     super(props);
@@ -73,19 +71,6 @@ export class QueryEditor extends PureComponent<Props, State> {
     this.loadEntityInfo(this.props.query);
     this.loadTopicInfo(this.props.query);
     this.setState({ templateVars: getVariableOptions({ keepVarSyntax: true }) });
-    this.subs = getGrafanaLiveSrv()
-      .getConnectionState()
-      .subscribe({
-        next: (v) => {
-          this.setState({ hasStreaming: v });
-        },
-      });
-  }
-
-  componentWillUnmount() {
-    if (this.subs) {
-      this.subs.unsubscribe();
-    }
   }
 
   loadWorkspaceInfo = async () => {
@@ -407,7 +392,7 @@ export class QueryEditor extends PureComponent<Props, State> {
   }
 
   renderStreamingInputs(query: TwinMakerQuery) {
-    if (!this.state.hasStreaming) {
+    if (!this.props.datasource.grafanaLiveEnabled) {
       return null;
     }
 
