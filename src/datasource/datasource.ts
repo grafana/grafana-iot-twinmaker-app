@@ -12,9 +12,8 @@ import { getRequestLooper, MultiRequestTracker } from './requestLooper';
 import { appendMatchingFrames } from './appendFrames';
 
 export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, TwinMakerDataSourceOptions> {
-  public grafanaLiveEnabled: boolean;
+  grafanaLiveEnabled: boolean;
   private workspaceId: string;
-  private liveConnectionSubscription: Subscription;
   readonly info: TwinMakerWorkspaceInfoSupplier;
 
   constructor(public instanceSettings: DataSourceInstanceSettings<TwinMakerDataSourceOptions>) {
@@ -22,15 +21,15 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
 
     this.workspaceId = instanceSettings.jsonData.workspaceId!;
     this.grafanaLiveEnabled = true;
-    
-    this.liveConnectionSubscription = getGrafanaLiveSrv()
+
+    getGrafanaLiveSrv()
       .getConnectionState()
       .subscribe({
         next: (v) => {
           this.grafanaLiveEnabled = v;
         },
-      })
-  
+      });
+
     // Load workspace info from resource calls
     this.info = getCachingWorkspaceInfoSupplier(
       getTwinMakerWorkspaceInfoSupplier((p, params) => {
@@ -81,10 +80,10 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
   }
 
   query(options: DataQueryRequest<TwinMakerQuery>): Observable<DataQueryResponse> {
-    options.targets = options.targets.map((t) => ({...t, grafanaLiveEnabled: this.grafanaLiveEnabled})); 
+    options.targets = options.targets.map((t) => ({ ...t, grafanaLiveEnabled: this.grafanaLiveEnabled }));
     if (this.grafanaLiveEnabled) {
       return super.query(options);
-    } 
+    }
 
     return getRequestLooper(options, {
       // Check for a "nextToken" in the response
@@ -138,7 +137,6 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
       onCancel: (tracker: MultiRequestTracker) => {},
     });
   }
-
 
   // Fetch temporary AWS tokens from the backend plugin and convert them into JS SDK Credentials
   getTokens = async (): Promise<Credentials> => {
