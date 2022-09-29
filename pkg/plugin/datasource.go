@@ -129,9 +129,9 @@ func (ds *TwinMakerDatasource) QueryData(ctx context.Context, req *backend.Query
 			query.NextToken = customMeta.NextToken
 		}
 
-		// we don't need to continue if the query is not a stream
+		// we don't need to continue if Live is disabled, the query is not streaming updates,
 		// or if the result is empty.
-		if (query.NextToken == "" && !query.IsStreaming) || len(res.Frames) == 0 {
+		if !query.GrafanaLiveEnabled || (query.NextToken == "" && !query.IsStreaming) || len(res.Frames) == 0 {
 			response.Responses[q.RefID] = res
 			continue
 		}
