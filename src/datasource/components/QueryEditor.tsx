@@ -435,10 +435,11 @@ export class QueryEditor extends PureComponent<Props, State> {
         >
           <Input
             className="width-15"
-            value={query.maxResults}
+            value={query.maxResults && query.maxResults > 0 ? query.maxResults : ''}
             type="number"
             onChange={this.onMaxResultsChange}
             placeholder="50"
+            min="1"
           />
         </InlineField>
       </InlineFieldRow>
