@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ComponentName, ComponentPropsType, VideoData, VideoPlaybackMode } from 'aws-iot-twinmaker-grafana-utils';
+import { ComponentName, ComponentPropsType } from 'aws-iot-twinmaker-grafana-utils';
 import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
 import { getStyles } from './styles';
 import { VideoPlayerPropsFromParent } from './interfaces';
@@ -21,6 +21,8 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
     componentName: '',
     kvsStreamName: '',
     search: search,
+    startTime: '',
+    endTime: '',
   });
 
   // Get the value from a template variable
@@ -41,13 +43,17 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
     const entityId = getDisplayOptionValue(queryParams, props.options.entityId);
     const componentName = getDisplayOptionValue(queryParams, props.options.componentName);
     const kvsStreamName = getDisplayOptionValue(queryParams, props.options.kvsStreamName);
+    const startTime = getDisplayOptionValue(queryParams, props.timeRange.from.toString());
+    const endTime = getDisplayOptionValue(queryParams, props.timeRange.to.toString());
 
     // Component should update if any display option values changed
     let shouldUpdate = false;
     if (
       entityId !== displayOptions.entityId ||
       componentName !== displayOptions.componentName ||
-      kvsStreamName !== displayOptions.kvsStreamName
+      kvsStreamName !== displayOptions.kvsStreamName ||
+      startTime !== displayOptions.startTime ||
+      endTime !== displayOptions.endTime
     ) {
       shouldUpdate = true;
       setDisplayOptions({
@@ -55,6 +61,8 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
         componentName,
         kvsStreamName,
         search,
+        startTime,
+        endTime,
       });
     } else if (search === displayOptions.search) {
       // If the URL didn't change then another field was updated and the video player should rerender
@@ -63,19 +71,12 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
 
     if (shouldUpdate) {
       // Load in VideoPlayer component
-      const videoData = new VideoData({
+      const videoPlayerProps: ComponentPropsType = {
         workspaceId: props.workspaceId,
         entityId,
         componentName,
         kvsStreamName,
-        kinesisVideoArchivedMediaClient: props.twinMakerUxSdk.awsClients.kinesisVideoArchivedMediaV3(),
-        kinesisVideoClient: props.twinMakerUxSdk.awsClients.kinesisVideoV3(),
-        siteWiseClient: props.twinMakerUxSdk.awsClients.siteWiseV3(),
-        twinMakerClient: props.twinMakerUxSdk.awsClients.iotTwinMakerV3(),
-      });
-      const videoPlayerProps: ComponentPropsType = {
-        videoData: videoData,
-        playbackMode: VideoPlaybackMode.ON_DEMAND,
+        playbackMode: 'ON_DEMAND',
         startTime: props.timeRange.from.toDate(),
         endTime: props.timeRange.to.toDate(),
       };

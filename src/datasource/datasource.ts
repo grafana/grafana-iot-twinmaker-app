@@ -1,15 +1,17 @@
-import { Observable } from 'rxjs';
-import { DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, ScopedVars } from '@grafana/data';
-import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
+import { DataFrame, DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, ScopedVars } from '@grafana/data';
+import { DataSourceWithBackend, getGrafanaLiveSrv, getTemplateSrv } from '@grafana/runtime';
 
-import { TwinMakerDataSourceOptions, AWSTokenInfo, mpJsonData } from './types';
+import { TwinMakerDataSourceOptions, AWSTokenInfo, TwinMakerCustomMeta, mpJsonData } from './types';
 import { Credentials } from 'aws-sdk/global';
 import { TwinMakerWorkspaceInfoSupplier } from 'common/info/types';
 import { getCachingWorkspaceInfoSupplier, getTwinMakerWorkspaceInfoSupplier } from 'common/info/info';
 import { TwinMakerQueryType, TwinMakerQuery } from 'common/manager';
 import { Credentials as CredentialsV3, CredentialProvider } from '@aws-sdk/types';
+import { getRequestLooper, MultiRequestTracker } from './requestLooper';
+import { appendMatchingFrames } from './appendFrames';
 
 export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, TwinMakerDataSourceOptions> {
+  grafanaLiveEnabled: boolean;
   private workspaceId: string;
   private mpJsonData: mpJsonData;
   readonly info: TwinMakerWorkspaceInfoSupplier;
@@ -19,6 +21,15 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
 
     this.workspaceId = instanceSettings.jsonData.workspaceId!;
     this.mpJsonData = instanceSettings.jsonData.mpJsonData!;
+    this.grafanaLiveEnabled = true;
+
+    getGrafanaLiveSrv()
+      .getConnectionState()
+      .subscribe({
+        next: (v) => {
+          this.grafanaLiveEnabled = v;
+        },
+      });
 
     // Load workspace info from resource calls
     this.info = getCachingWorkspaceInfoSupplier(
@@ -73,8 +84,61 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
     };
   }
 
-  query(request: DataQueryRequest<TwinMakerQuery>): Observable<DataQueryResponse> {
-    return super.query(request);
+  query(options: DataQueryRequest<TwinMakerQuery>) {
+    options.targets = options.targets.map((t) => ({ ...t, grafanaLiveEnabled: this.grafanaLiveEnabled }));
+    if (this.grafanaLiveEnabled) {
+      return super.query(options);
+    }
+
+    return getRequestLooper(options, {
+      // Check for a "nextToken" in the response
+      getNextQueries: (rsp: DataQueryResponse) => {
+        if (rsp.data?.length) {
+          const used = new Set<string>();
+          const next: TwinMakerQuery[] = [];
+          for (const frame of rsp.data as DataFrame[]) {
+            const meta = frame.meta?.custom as TwinMakerCustomMeta;
+            if (meta && meta.nextToken && !used.has(meta.nextToken)) {
+              const query = options.targets.find((t) => t.refId === frame.refId);
+              if (query) {
+                used.add(meta.nextToken);
+                next.push({
+                  ...query,
+                  nextToken: meta.nextToken,
+                });
+              }
+            }
+          }
+          if (next.length) {
+            return next;
+          }
+        }
+        return undefined;
+      },
+
+      /**
+       * The original request
+       */
+      query: (request: DataQueryRequest<TwinMakerQuery>) => super.query(request),
+
+      /**
+       * Process the results
+       */
+      process: (t: MultiRequestTracker, data: DataFrame[], isLast: boolean) => {
+        if (t.data) {
+          // append rows to fields with the same structure
+          t.data = appendMatchingFrames(t.data, data);
+        } else {
+          t.data = data; // hang on to the results from the last query
+        }
+        return t.data;
+      },
+
+      /**
+       * Callback that gets executed when unsubscribed
+       */
+      onCancel: (tracker: MultiRequestTracker) => {},
+    });
   }
 
   // Fetch temporary AWS tokens from the backend plugin and convert them into JS SDK Credentials

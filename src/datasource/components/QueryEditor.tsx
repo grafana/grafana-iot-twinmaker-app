@@ -52,6 +52,7 @@ interface State {
   entityLoading?: boolean;
   topics?: TwinMakerPanelTopicInfo[];
   invalidInterval?: boolean;
+  hasStreaming?: boolean;
 }
 
 export class QueryEditor extends PureComponent<Props, State> {
@@ -265,7 +266,7 @@ export class QueryEditor extends PureComponent<Props, State> {
   onIntervalChange = (value?: string) => {
     const { onChange, query, onRunQuery } = this.props;
     // not sending input less than 5 secs
-    if (Number(value) < 5) {
+    if (value?.length && +value < 5) {
       this.setState({ invalidInterval: true });
     } else {
       this.setState({ invalidInterval: false });
@@ -391,6 +392,10 @@ export class QueryEditor extends PureComponent<Props, State> {
   }
 
   renderStreamingInputs(query: TwinMakerQuery) {
+    if (!this.props.datasource.grafanaLiveEnabled) {
+      return null;
+    }
+
     return (
       <>
         <InlineField label="Stream" tooltip="Polling data in an interval">
@@ -408,6 +413,7 @@ export class QueryEditor extends PureComponent<Props, State> {
               placeholder="30"
               value={query.intervalStreaming ?? ''}
               onChange={this.onIntervalChange}
+              numeric={true}
             />
             {this.state.invalidInterval && (
               <FieldValidationMessage>Interval must be at least 5s</FieldValidationMessage>
@@ -429,10 +435,11 @@ export class QueryEditor extends PureComponent<Props, State> {
         >
           <Input
             className="width-15"
-            value={query.maxResults}
+            value={query.maxResults && query.maxResults > 0 ? query.maxResults : ''}
             type="number"
             onChange={this.onMaxResultsChange}
             placeholder="50"
+            min="1"
           />
         </InlineField>
       </InlineFieldRow>

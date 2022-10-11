@@ -6,6 +6,7 @@
 
   "metrics": true,
   "backend": true,
+  "alerting": true,
   "executable": "../gpx_twinmaker_app",
 
   "includes": [

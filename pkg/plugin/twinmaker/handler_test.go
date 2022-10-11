@@ -173,10 +173,7 @@ func TestHandleAWSData(t *testing.T) {
 }
 
 func runTest(t *testing.T, name string, dr *backend.DataResponse) *backend.DataResponse {
-	err := experimental.CheckGoldenDataResponse("./testdata/"+name+".golden.txt", dr, true)
-	if err != nil {
-		t.Errorf(err.Error())
-	}
+	experimental.CheckGoldenJSONResponse(t, "./testdata", name+".golden", dr, true)
 
 	return dr
 }

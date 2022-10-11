@@ -11,4 +11,5 @@ export interface PanelOptions {
   customSelEntityVarName?: string;
   customSelCompVarName?: string;
   customSelPropertyVarName?: string;
+  customInputActiveCamera?: string;
 }

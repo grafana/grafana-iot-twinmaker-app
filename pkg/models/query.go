@@ -55,6 +55,7 @@ func (f *TwinMakerPropertyFilter) ToTwinMakerFilter() *iottwinmaker.PropertyFilt
 
 // TwinMakerQuery model
 type TwinMakerQuery struct {
+	GrafanaLiveEnabled bool                          `json:"grafanaLiveEnabled,omitempty"`
 	IsStreaming        bool                          `json:"isStreaming,omitempty"`
 	WorkspaceId        string                        `json:"workspaceId,omitempty"`
 	EntityId           string                        `json:"entityId,omitempty"`
