@@ -105,3 +105,7 @@ func (s *cachingResource) ListEntity(ctx context.Context, id string) ([]models.S
 	}
 	return v, err
 }
+
+func (s *cachingResource) GetMatterportAccessToken(ctx context.Context, settings models.MatterportOAuthSettings) (*models.MatterportOAuthResponse, error) {
+	return s.res.GetMatterportAccessToken(ctx, settings)
+}

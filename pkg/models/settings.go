@@ -12,6 +12,8 @@ type TwinMakerDataSourceSetting struct {
 	awsds.AWSDatasourceSettings
 	WorkspaceID string `json:"workspaceId"`
 	UID         string `json:"uid"`
+
+	Matterport MatterportOAuthSettings `json:"mpJsonData"`
 }
 
 func (s *TwinMakerDataSourceSetting) Load(config backend.DataSourceInstanceSettings) error {
@@ -33,6 +35,7 @@ func (s *TwinMakerDataSourceSetting) Load(config backend.DataSourceInstanceSetti
 
 	s.AccessKey = config.DecryptedSecureJSONData["accessKey"]
 	s.SecretKey = config.DecryptedSecureJSONData["secretKey"]
+	s.Matterport.RefreshToken = config.DecryptedSecureJSONData["mpRefreshToken"]
 	return nil
 }
 
