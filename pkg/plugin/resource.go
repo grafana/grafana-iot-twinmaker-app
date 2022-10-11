@@ -9,7 +9,7 @@ import (
 
 func writeJsonResponse(w http.ResponseWriter, rsp interface{}, err error) {
 	w.Header().Add("Content-Type", "application/json")
-	
+
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write([]byte(fmt.Sprintf(`{"message": "%s"}`, err.Error())))
@@ -67,5 +67,10 @@ func (ds *TwinMakerDatasource) HandleListEntityOptions(w http.ResponseWriter, r 
 	}
 
 	rsp, err := ds.res.ListEntity(r.Context(), entityId)
+	writeJsonResponse(w, rsp, err)
+}
+
+func (ds *TwinMakerDatasource) HandleGetMatterportToken(w http.ResponseWriter, r *http.Request) {
+	rsp, err := ds.res.GetMatterportAccessToken(r.Context(), ds.settings.Matterport)
 	writeJsonResponse(w, rsp, err)
 }

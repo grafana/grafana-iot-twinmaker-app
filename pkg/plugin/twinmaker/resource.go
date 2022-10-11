@@ -18,17 +18,21 @@ type TwinMakerResources interface {
 	ListScenes(ctx context.Context) ([]models.SelectableString, error)
 	ListOptions(ctx context.Context) (models.OptionsInfo, error)
 	ListEntity(ctx context.Context, id string) ([]models.SelectableProps, error)
+
+	GetMatterportAccessToken(ctx context.Context, settings models.MatterportOAuthSettings) (*models.MatterportOAuthResponse, error)
 }
 
 type twinMakerResource struct {
-	workspaceId string
-	client      TwinMakerClient
+	workspaceId      string
+	client           TwinMakerClient
+	matterportClient MatterportClient
 }
 
-func NewTwinMakerResource(client TwinMakerClient, workspaceId string) TwinMakerResources {
+func NewTwinMakerResource(client TwinMakerClient, workspaceId string, matterportClient MatterportClient) TwinMakerResources {
 	return &twinMakerResource{
-		client:      client,
-		workspaceId: workspaceId,
+		client:           client,
+		workspaceId:      workspaceId,
+		matterportClient: matterportClient,
 	}
 }
 
@@ -238,6 +242,10 @@ func (r *twinMakerResource) ListEntity(ctx context.Context, entityId string) ([]
 	}
 
 	return results, err
+}
+
+func (r *twinMakerResource) GetMatterportAccessToken(ctx context.Context, settings models.MatterportOAuthSettings) (*models.MatterportOAuthResponse, error) {
+	return r.matterportClient.GetAccessToken(ctx, settings)
 }
 
 func toSelectableValues(def map[string]*iottwinmaker.PropertyDefinitionResponse, reg map[string]models.SelectableString) (timeseries []models.SelectableString, props []models.SelectableString) {

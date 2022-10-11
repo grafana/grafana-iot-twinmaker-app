@@ -13,6 +13,7 @@ import (
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/plugin/twinmaker"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/resource/httpadapter"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
@@ -71,6 +72,7 @@ func NewTwinMakerDatasource(settings models.TwinMakerDataSourceSetting) *TwinMak
 func newTwinMakerDatasource(settings models.TwinMakerDataSourceSetting, c twinmaker.TwinMakerClient) *TwinMakerDatasource {
 	ttl := 30 * time.Minute
 	cachingClient := twinmaker.NewCachingClient(c, ttl)
+	roundTripper, _ := httpclient.GetTransport()
 
 	r := mux.NewRouter()
 	ds := &TwinMakerDatasource{
@@ -82,7 +84,7 @@ func newTwinMakerDatasource(settings models.TwinMakerDataSourceSetting, c twinma
 
 		// Since the whole result is cached, this does not use the cached client
 		res: twinmaker.NewCachingResource(
-			twinmaker.NewTwinMakerResource(c, settings.WorkspaceID),
+			twinmaker.NewTwinMakerResource(c, settings.WorkspaceID, twinmaker.NewMatterportClient(roundTripper)),
 			ttl),
 	}
 	r.HandleFunc("/token", ds.HandleGetToken)
@@ -93,6 +95,7 @@ func newTwinMakerDatasource(settings models.TwinMakerDataSourceSetting, c twinma
 	r.HandleFunc("/list/scenes", ds.HandleListScenes)
 	r.HandleFunc("/list/options", ds.HandleListOptions)
 	r.HandleFunc("/list/entity", ds.HandleListEntityOptions)
+	r.HandleFunc("/matterport/token", ds.HandleGetMatterportToken)
 	return ds
 }
 
