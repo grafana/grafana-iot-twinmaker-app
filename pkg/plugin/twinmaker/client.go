@@ -28,6 +28,8 @@ type TwinMakerClient interface {
 	GetComponentType(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetComponentTypeOutput, error)
 	GetEntity(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetEntityOutput, error)
 
+	BatchPutPropertyValues(ctx context.Context, req *iottwinmaker.BatchPutPropertyValuesInput) (*iottwinmaker.BatchPutPropertyValuesOutput, error)
+
 	// NOTE: only works with non-timeseries data
 	GetPropertyValue(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetPropertyValueOutput, error)
 
@@ -440,6 +442,15 @@ func (c *twinMakerClient) GetSessionToken(ctx context.Context, duration time.Dur
 	} else {
 		return nil, fmt.Errorf("assume role ARN is missing in datasource configuration")
 	}
+}
+
+func (c *twinMakerClient) BatchPutPropertyValues(ctx context.Context, req *iottwinmaker.BatchPutPropertyValuesInput) (*iottwinmaker.BatchPutPropertyValuesOutput, error) {
+	client, err := c.twinMakerService()
+	if err != nil {
+		return nil, err
+	}
+
+	return client.BatchPutPropertyValuesWithContext(ctx, req)
 }
 
 // TODO, move to https://github.com/grafana/grafana-plugin-sdk-go

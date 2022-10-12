@@ -105,3 +105,7 @@ func (s *cachingResource) ListEntity(ctx context.Context, id string) ([]models.S
 	}
 	return v, err
 }
+
+func (s *cachingResource) BatchPutPropertyValues(ctx context.Context, request *iottwinmaker.BatchPutPropertyValuesInput) (*iottwinmaker.BatchPutPropertyValuesOutput, error) {
+	return s.res.BatchPutPropertyValues(ctx, request)
+}
