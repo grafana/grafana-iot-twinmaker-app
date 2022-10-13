@@ -52,8 +52,6 @@
     "node": ">=16"
   },
   "resolutions": {
-    "three-stdlib": "2.4.0",
-    "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "three-stdlib": "2.4.0"
   }
 }
