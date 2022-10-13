@@ -1,4 +1,4 @@
-import { DataBindingLabelKeys, ITagData, INavLink } from 'aws-iot-twinmaker-grafana-utils';
+import { DataBindingLabelKeys, ITagData, INavLink } from '@iot-app-kit/scene-composer';
 import { TWINMAKER_PANEL_TYPE_ID } from 'common/constants';
 import { getCurrentDashboard, getDashboardByUid, PanelModel } from 'common/dashboard';
 import { PanelOptions, PanelOptions as SceneViewerPanelOptions } from './types';
