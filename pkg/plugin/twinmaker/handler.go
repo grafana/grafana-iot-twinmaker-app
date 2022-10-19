@@ -469,7 +469,19 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 		dr.Error = fmt.Errorf("error loading componentTypes for GetAlarms query")
 		return
 	}
+
 	componentTypeSummaryResults := basicComponentTypes.ComponentTypeSummaries
+	//remove sitewise alarm as it has no data to be fetched
+	index := 0
+	for _, summary := range componentTypeSummaryResults {
+		if *summary.ComponentTypeId != sitewiseAlarmComponentType {
+			componentTypeSummaryResults[index] = summary
+			index++
+		}
+	}
+	//slice off the last element now
+	componentTypeSummaryResults = componentTypeSummaryResults[:index]
+
 	componentTypeSummaryResults = append(componentTypeSummaryResults, sitewiseComponentTypes.ComponentTypeSummaries...)
 
 	// Get the propertyValueHistory associated with all componentTypes from above
