@@ -21,4 +21,5 @@ export interface TwinMakerWorkspaceInfoSupplier {
   getEntity: (entityId: string) => Promise<any>;
   getWorkspace: () => Promise<any>;
   getToken: () => Promise<any>;
+  getMatterportToken: () => Promise<any>;
 }

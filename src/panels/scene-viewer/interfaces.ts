@@ -5,8 +5,10 @@ import { PanelOptions } from './types';
 export interface SceneViewerPropsFromParent extends PanelProps<PanelOptions> {
   twinMakerUxSdk: TwinMakerUxSDK;
   workspaceId: string;
+  mp_accessToken?: string;
 }
 
 export interface ScenePanelState {
   configured: boolean;
+  mp_accessToken?: string;
 }

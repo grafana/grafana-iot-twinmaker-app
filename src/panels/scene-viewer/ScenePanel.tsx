@@ -10,6 +10,7 @@ import { SceneViewer } from './SceneViewer';
 import { configureSdkWithDataSource, DataSourceParams } from '../sdkInit';
 import { PanelOptions } from './types';
 import { getTwinMakerDashboardManager } from 'common/manager';
+import { getTwinMakerDatasource } from 'common/datasourceSrv';
 
 type Props = PanelProps<PanelOptions>;
 
@@ -48,6 +49,24 @@ export class ScenePanel extends React.Component<Props, ScenePanelState> {
 
   private updateUxSdk = async () => {
     const uid = this.props.options.datasource;
+    const ds = await getTwinMakerDatasource(uid);
+    if (ds) {
+      try {
+        const mpToken = await ds.info.getMatterportToken();
+        if (mpToken) {
+          this.setState({
+            mp_accessToken: mpToken.access_token,
+          });
+        } else {
+          this.setState({
+            mp_accessToken: undefined,
+          });
+        }
+      } catch (err: any) {
+        err.isHandled = true;
+      }
+    }
+
     configureSdkWithDataSource(uid).then((result: DataSourceParams | undefined) => {
       this.dataSourceParams = result;
       this.setState({ configured: true });
@@ -59,7 +78,7 @@ export class ScenePanel extends React.Component<Props, ScenePanelState> {
     return this.dataSourceParams ? (
       hasSceneInput ? (
         <Provider store={this.dataSourceParams.store}>
-          <SceneViewer {...this.props} {...this.dataSourceParams} />
+          <SceneViewer {...this.props} {...this.dataSourceParams} mp_accessToken={this.state.mp_accessToken} />
         </Provider>
       ) : (
         <div> Missing TwinMaker scene in panel display options </div>

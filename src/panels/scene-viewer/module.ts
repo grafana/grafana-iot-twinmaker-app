@@ -26,6 +26,14 @@ export const plugin = new PanelPlugin<PanelOptions>(ScenePanel)
         path: 'sceneId',
         editor: ScenePicker,
       })
+      .addTextInput({
+        name: 'Matterport Space ID',
+        path: 'mp_spaceId',
+      })
+      .addTextInput({
+        name: 'Matterport Application Key',
+        path: 'mp_application_key',
+      })
       .addSelect({
         path: 'customSelEntityVarName',
         name: 'Selected entity variable name',

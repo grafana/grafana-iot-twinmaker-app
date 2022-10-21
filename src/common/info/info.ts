@@ -31,6 +31,7 @@ export function getTwinMakerWorkspaceInfoSupplier(
     listScenes: () => req('list/scenes'),
     getWorkspace: () => req('workspace'),
     getToken: () => req('token'),
+    getMatterportToken: () => req('matterport/token'),
   };
 }
 

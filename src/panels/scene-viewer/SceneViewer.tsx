@@ -204,6 +204,17 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
 
     const staticPluginPath = `public/plugins/${plugin.id}`;
 
+    let externalLibraryConfig = undefined;
+    if (props.options.mp_spaceId && props.mp_accessToken && props.options.mp_application_key) {
+      externalLibraryConfig = {
+        matterport: {
+          modelId: props.options.mp_spaceId,
+          accessToken: props.mp_accessToken,
+          applicationKey: props.options.mp_application_key,
+        },
+      };
+    }
+
     // Load in WebGLRenderer component
     const webGlRendererProps: ComponentPropsType = {
       mode: 'Viewing',
@@ -228,11 +239,22 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       dataBindingTemplate,
       sceneComposerId: id,
       activeCamera,
+      externalLibraryConfig,
     };
 
     return props.twinMakerUxSdk.createComponentForReact(ComponentName.WebGLRenderer, webGlRendererProps);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.options.sceneId, props.width, props.height, props.twinMakerUxSdk, props.data.series, search]);
+  }, [
+    props.options.sceneId,
+    props.options.mp_spaceId,
+    props.mp_accessToken,
+    props.options.mp_application_key,
+    props.width,
+    props.height,
+    props.twinMakerUxSdk,
+    props.data.series,
+    search,
+  ]);
 
   return (
     <div

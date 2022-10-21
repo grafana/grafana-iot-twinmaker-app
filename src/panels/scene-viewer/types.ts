@@ -7,6 +7,8 @@ export interface PanelOptions {
 
   // The actual scene to load
   sceneId: string;
+  mp_spaceId?: string;
+  mp_application_key?: string;
 
   customSelEntityVarName?: string;
   customSelCompVarName?: string;
