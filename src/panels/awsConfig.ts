@@ -2,7 +2,7 @@ import { UxSDKAwsConfig } from 'aws-iot-twinmaker-grafana-utils';
 import { Credentials } from 'aws-sdk/global';
 import { CredentialProvider } from '@aws-sdk/types';
 
-const defaultRegion = 'us-east-1';
+export const defaultRegion = 'us-east-1';
 
 export const getAwsConfig = (
   credentialsProvider: () => Promise<Credentials>,

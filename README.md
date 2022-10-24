@@ -43,3 +43,9 @@ docker run -d -p 3000:3000 --name=grafana -v ~/.aws:/usr/share/grafana/.aws -e "
 a. `-v ~/.aws:/usr/share/grafana/.aws` will mount a volume with the credentials you configured on your machine so you can use the “AWS SDK Default” authentication provider for the TwinMaker datasource
 
 4. Access from http://localhost:3000 on your browser. First time login will be username:`admin` password:`admin`.
+
+## Development Mode
+
+By default, the webpack mode is set to `production` to work with the released Grafana production build.
+
+To build the plugin with `development` mode, change the mode in [webpack.config.js](https://github.com/grafana/grafana-iot-twinmaker-app/blob/main/webpack.config.js) file to be `development`, and start the development mode local Grafana server following [Grafana Developer Guide](https://github.com/grafana/grafana/blob/main/contribute/developer-guide.md#build-grafana)

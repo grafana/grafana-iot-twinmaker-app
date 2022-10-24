@@ -4,19 +4,7 @@ import { DataFrame } from '@grafana/data';
 import { v4 as uuid } from 'uuid';
 import { isEmpty } from 'lodash';
 
-import {
-  ComponentName,
-  ComponentPropsType,
-  IDataBindingTemplate,
-  TwinMakerApiModel,
-  ValueType,
-  DataBindingLabelKeys,
-  IWidgetClickEvent,
-  ISelectionChangedEvent,
-  KnownComponentType,
-  useSceneComposerApi,
-} from 'aws-iot-twinmaker-grafana-utils';
-import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
+import { TwinMakerApiModel } from 'aws-iot-twinmaker-grafana-utils';
 import { SceneViewerPropsFromParent } from './interfaces';
 import { getStyles } from './styles';
 import { getValidHttpUrl, mergeDashboard, updateUrlParams } from './helpers';
@@ -24,7 +12,17 @@ import { MERGE_DASHBOARD_TARGET_ID_KEY } from 'common/constants';
 import plugin from '../../plugin.json';
 import { locationSearchToObject } from '@grafana/runtime';
 import { getUrlTempVarName, undecorateName } from 'common/variables';
-import { DataStream, DataType } from '@iot-app-kit/core';
+import { DataStream, DataType, Viewport } from '@iot-app-kit/core';
+import {
+  SceneViewer as SceneViewerComp,
+  ValueType,
+  DataBindingLabelKeys,
+  IDataBindingTemplate,
+  KnownComponentType,
+  IWidgetClickEvent,
+  ISelectionChangedEvent,
+  useSceneComposerApi,
+} from '@iot-app-kit/scene-composer';
 
 const valueTypeToDataType: Record<ValueType, DataType> = {
   string: 'STRING',
@@ -101,6 +99,12 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
 
   const { search } = useLocation();
 
+  const sceneLoader = useMemo(() => {
+    const loader = props.appKitTMDataSource.s3SceneLoader(props.options.sceneId);
+
+    return loader;
+  }, [props.appKitTMDataSource, props.options.sceneId]);
+
   const onWidgetClick = useCallback((objectData: IWidgetClickEvent) => {
     const anchorData =
       objectData.additionalComponentData?.[
@@ -144,7 +148,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     [props.options.customSelEntityVarName, props.options.customSelCompVarName, props.options.customSelPropertyVarName]
   );
 
-  const setRenderer = useCallback(() => {
+  const dataBindingTemplate: IDataBindingTemplate = useMemo(() => {
     // Get variables from the URL
     const queryParams = locationSearchToObject(search || '');
 
@@ -157,25 +161,41 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     const selectedPropertyValue = props.options.customSelPropertyVarName
       ? (queryParams[getUrlTempVarName(props.options.customSelPropertyVarName)] as string)
       : undefined;
-    let activeCamera = props.options.customInputActiveCamera
-      ? (queryParams[getUrlTempVarName(props.options.customInputActiveCamera)] as string)
-      : undefined;
 
-    const dataBindingTemplate: IDataBindingTemplate = {};
+    const template: IDataBindingTemplate = {};
     if (props.options.customSelEntityVarName && selectedEntityValue) {
       const undecoratedKey = undecorateName(props.options.customSelEntityVarName);
-      dataBindingTemplate[undecoratedKey] = selectedEntityValue;
+      template[undecoratedKey] = selectedEntityValue;
     }
     if (props.options.customSelCompVarName && selectedComponentValue) {
       const undecoratedKey = undecorateName(props.options.customSelCompVarName);
-      dataBindingTemplate[undecoratedKey] = selectedComponentValue;
+      template[undecoratedKey] = selectedComponentValue;
     }
     if (props.options.customSelPropertyVarName && selectedPropertyValue) {
       const undecoratedKey = undecorateName(props.options.customSelPropertyVarName);
-      dataBindingTemplate[undecoratedKey] = selectedPropertyValue;
+      template[undecoratedKey] = selectedPropertyValue;
     }
 
-    let selectedDataBinding: Record<string, string> | undefined =
+    return template;
+  }, [
+    props.options.customSelEntityVarName,
+    props.options.customSelCompVarName,
+    props.options.customSelPropertyVarName,
+    search,
+  ]);
+
+  const selectedDataBinding = useMemo(() => {
+    // Get variables from the URL
+    const queryParams = locationSearchToObject(search || '');
+
+    const selectedEntityValue = props.options.customSelEntityVarName
+      ? (queryParams[getUrlTempVarName(props.options.customSelEntityVarName)] as string)
+      : undefined;
+    const selectedComponentValue = props.options.customSelCompVarName
+      ? (queryParams[getUrlTempVarName(props.options.customSelCompVarName)] as string)
+      : undefined;
+
+    let selectedDataBindingResult: Record<string, string> | undefined =
       selectedEntityValue && selectedComponentValue
         ? {
             [DataBindingLabelKeys.entityId]: selectedEntityValue,
@@ -196,43 +216,46 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       binding[DataBindingLabelKeys.entityId] &&
       binding[DataBindingLabelKeys.componentName]
     ) {
-      selectedDataBinding = {
+      selectedDataBindingResult = {
         [DataBindingLabelKeys.entityId]: '',
         [DataBindingLabelKeys.componentName]: '',
       };
     }
 
-    const staticPluginPath = `public/plugins/${plugin.id}`;
+    return selectedDataBindingResult;
+  }, [
+    search,
+    getSceneNodeByRef,
+    getSelectedSceneNodeRef,
+    props.options.customSelCompVarName,
+    props.options.customSelEntityVarName,
+  ]);
 
-    // Load in WebGLRenderer component
-    const webGlRendererProps: ComponentPropsType = {
-      mode: 'Viewing',
-      sceneFileIdentifiers: {
-        workspaceScenePathProps: {
-          workspaceId: props.workspaceId!,
-          sceneId: props.options.sceneId!,
-        },
-      },
+  const staticPluginPath = useMemo(() => `public/plugins/${plugin.id}`, []);
+
+  const viewerConfig = useMemo(() => {
+    return {
       dracoDecoder: {
         enable: true,
         path: `${window.location.origin}/${staticPluginPath}/static/draco/`,
       },
-      onSelectionChanged,
-      onWidgetClick,
-      selectedDataBinding,
-      dataStreams,
-      viewport: {
-        start: new Date(props.data.timeRange.from.valueOf()),
-        end: new Date(props.data.timeRange.to.valueOf()),
-      },
-      dataBindingTemplate,
-      sceneComposerId: id,
-      activeCamera,
     };
+  }, [staticPluginPath]);
 
-    return props.twinMakerUxSdk.createComponentForReact(ComponentName.WebGLRenderer, webGlRendererProps);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.options.sceneId, props.width, props.height, props.twinMakerUxSdk, props.data.series, search]);
+  const viewport: Viewport = useMemo(() => {
+    return {
+      start: new Date(props.data.timeRange.from.valueOf()),
+      end: new Date(props.data.timeRange.to.valueOf()),
+    };
+  }, [props.data.timeRange.from, props.data.timeRange.to]);
+
+  const activeCamera = useMemo(() => {
+    const queryParams = locationSearchToObject(search || '');
+
+    return props.options.customInputActiveCamera
+      ? (queryParams[getUrlTempVarName(props.options.customInputActiveCamera)] as string)
+      : undefined;
+  }, [props.options.customInputActiveCamera, search]);
 
   return (
     <div
@@ -240,7 +263,18 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       // Fit canvas inside panel
       className={styles.wrapper}
     >
-      {setRenderer()}
+      <SceneViewerComp
+        sceneLoader={sceneLoader}
+        onSelectionChanged={onSelectionChanged}
+        selectedDataBinding={selectedDataBinding}
+        dataBindingTemplate={dataBindingTemplate}
+        sceneComposerId={id}
+        onWidgetClick={onWidgetClick}
+        config={viewerConfig}
+        dataStreams={dataStreams}
+        viewport={viewport}
+        activeCamera={activeCamera}
+      />
     </div>
   );
 };
