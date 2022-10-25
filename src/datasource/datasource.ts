@@ -1,16 +1,18 @@
 import { Observable } from 'rxjs';
 import { DataFrame, DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, ScopedVars } from '@grafana/data';
-import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
+import { DataSourceWithBackend, getGrafanaLiveSrv, getTemplateSrv } from '@grafana/runtime';
 
 import { TwinMakerDataSourceOptions, AWSTokenInfo, TwinMakerCustomMeta } from './types';
 import { Credentials } from 'aws-sdk/global';
 import { TwinMakerWorkspaceInfoSupplier } from 'common/info/types';
 import { getCachingWorkspaceInfoSupplier, getTwinMakerWorkspaceInfoSupplier } from 'common/info/info';
 import { TwinMakerQueryType, TwinMakerQuery } from 'common/manager';
+import { Credentials as CredentialsV3, CredentialProvider } from '@aws-sdk/types';
 import { getRequestLooper, MultiRequestTracker } from './requestLooper';
 import { appendMatchingFrames } from './appendFrames';
 
 export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, TwinMakerDataSourceOptions> {
+  grafanaLiveEnabled: boolean;
   private workspaceId: string;
   readonly info: TwinMakerWorkspaceInfoSupplier;
 
@@ -18,6 +20,15 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
     super(instanceSettings);
 
     this.workspaceId = instanceSettings.jsonData.workspaceId!;
+    this.grafanaLiveEnabled = true;
+
+    getGrafanaLiveSrv()
+      .getConnectionState()
+      .subscribe({
+        next: (v) => {
+          this.grafanaLiveEnabled = v;
+        },
+      });
 
     // Load workspace info from resource calls
     this.info = getCachingWorkspaceInfoSupplier(
@@ -69,6 +80,11 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
   }
 
   query(options: DataQueryRequest<TwinMakerQuery>): Observable<DataQueryResponse> {
+    options.targets = options.targets.map((t) => ({ ...t, grafanaLiveEnabled: this.grafanaLiveEnabled }));
+    if (this.grafanaLiveEnabled) {
+      return super.query(options);
+    }
+
     return getRequestLooper(options, {
       // Check for a "nextToken" in the response
       getNextQueries: (rsp: DataQueryResponse) => {
@@ -131,6 +147,18 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
       sessionToken: tokenInfo.sessionToken,
     });
     credentials.expireTime = new Date(tokenInfo.expiration);
+    return credentials;
+  };
+
+  // Support AWS SDK V3 Credentials
+  getTokensV3: CredentialProvider = async () => {
+    const tokenInfo = (await super.getResource('token')) as AWSTokenInfo;
+    const credentials: CredentialsV3 = {
+      accessKeyId: tokenInfo.accessKeyId,
+      secretAccessKey: tokenInfo.secretAccessKey,
+      sessionToken: tokenInfo.sessionToken,
+      expiration: new Date(tokenInfo.expiration),
+    };
     return credentials;
   };
 }

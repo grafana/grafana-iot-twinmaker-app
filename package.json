@@ -1,6 +1,6 @@
 {
   "name": "grafana-iot-twinmaker-app",
-  "version": "1.1.2",
+  "version": "1.2.1",
   "description": "Grafana IoT TwinMaker App Plugin",
   "scripts": {
     "build": "rm -rf dist && npx grafana-toolkit plugin:build && mage build:backend",
@@ -16,30 +16,34 @@
   "devDependencies": {
     "@grafana/aws-sdk": "^0.0.3",
     "@grafana/data": "8.2.3",
+    "@grafana/e2e": "8.2.0",
     "@grafana/runtime": "8.2.0",
     "@grafana/toolkit": "8.2.0",
-    "@grafana/e2e": "8.2.0",
     "@grafana/ui": "8.2.0",
     "@testing-library/react": "^11.2.2",
     "@types/lodash": "latest",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/uuid": "^8.3.1",
+    "file-loader": "^6.2.0",
+    "string-replace-loader": "^3.1.0",
     "tslib": "2.3.1"
   },
   "dependencies": {
-    "aws-iot-twinmaker-grafana-utils": "file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz",
-    "aws-sdk": "^2.833.0",
-    "@aws-sdk/client-kinesis-video": "^3.112.0",
-    "@aws-sdk/client-kinesis-video-archived-media": "^3.112.0",
     "@aws-sdk/client-iotsitewise": "^3.112.0",
     "@aws-sdk/client-iottwinmaker": "^3.112.0",
+    "@aws-sdk/client-kinesis-video": "^3.112.0",
+    "@aws-sdk/client-kinesis-video-archived-media": "^3.112.0",
     "@aws-sdk/client-s3": "^3.112.0",
+    "@iot-app-kit/core": "^1.5.0",
+    "aws-iot-twinmaker-grafana-utils": "file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz",
+    "aws-sdk": "^2.833.0",
     "query-string": "^7.0.1",
     "react-redux": "^7.2.3",
-    "react-use": "^17.3.1"
+    "react-use": "^17.3.1",
+    "rxjs": "7.3.0",
+    "uuid": "^8.3.2"
   },
   "engines": {
     "node": ">=16"
-  },
-  "resolutions": {
-    "rxjs": "7.3.0"
   }
 }

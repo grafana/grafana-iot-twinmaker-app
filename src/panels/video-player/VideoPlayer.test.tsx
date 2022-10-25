@@ -3,8 +3,21 @@ import { render } from '@testing-library/react';
 import { mockGrafanaUI, mockTwinMakerPanelProps, mockTimeRange } from '../tests/utils/__mocks__';
 
 mockGrafanaUI();
+jest.doMock('react-router-dom', () => ({
+  useLocation: () => {
+    return { search: '' };
+  },
+}));
 
-import { ComponentName, VideoData, VideoPlaybackMode } from 'aws-iot-twinmaker-grafana-utils';
+const mockLocationSearchToObject = jest.fn().mockImplementation(() => {
+  return {};
+});
+jest.doMock('@grafana/runtime', () => ({
+  ...(jest.requireActual('@grafana/runtime') as any),
+  locationSearchToObject: mockLocationSearchToObject,
+}));
+
+import { ComponentName } from 'aws-iot-twinmaker-grafana-utils';
 import { VideoPlayer } from './VideoPlayer';
 import { VideoPlayerPropsFromParent } from './interfaces';
 import { mockDisplayOptions } from './tests/common';
@@ -21,15 +34,12 @@ describe('VideoPlayer', () => {
     const mockEntityId = 'mockEntityId';
     const mockComponentName = 'mockComponentName';
     const mockWorkspaceId = 'MockWorkspaceId';
-    const mockVideoData = new VideoData({
+    const expectedComponentOptions = {
       workspaceId: mockWorkspaceId,
       entityId: mockEntityId,
       componentName: mockComponentName,
       kvsStreamName: mockKvsStream,
-    });
-    const expectedComponentOptions = {
-      videoData: mockVideoData,
-      playbackMode: VideoPlaybackMode.ON_DEMAND,
+      playbackMode: 'ON_DEMAND',
       startTime: mockTimeRange.from.toDate(),
       endTime: mockTimeRange.to.toDate(),
     };
@@ -44,9 +54,6 @@ describe('VideoPlayer', () => {
     const props: VideoPlayerPropsFromParent = {
       ...panelProps,
       options,
-      componentName: mockComponentName,
-      entityId: mockEntityId,
-      kvsStreamName: mockKvsStream,
     };
 
     render(<VideoPlayer {...props} />);

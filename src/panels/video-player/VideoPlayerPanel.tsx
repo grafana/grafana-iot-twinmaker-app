@@ -5,7 +5,6 @@ import { VideoPlayer } from './VideoPlayer';
 import { VideoPlayerPanelState } from './interfaces';
 import { configureSdkWithDataSource, DataSourceParams } from '../sdkInit';
 import { PanelOptions } from './types';
-import { getTemplateSrv } from '@grafana/runtime';
 
 type Props = PanelProps<PanelOptions>;
 export class VideoPlayerPanel extends React.Component<Props, VideoPlayerPanelState> {
@@ -36,18 +35,8 @@ export class VideoPlayerPanel extends React.Component<Props, VideoPlayerPanelSta
   };
 
   private renderContent = () => {
-    const templateSrv = getTemplateSrv();
-    const entityId = templateSrv.replace(this.props.options.entityId);
-    const componentName = templateSrv.replace(this.props.options.componentName);
-    const kvsStreamName = templateSrv.replace(this.props.options.kvsStreamName);
     return this.dataSourceParams ? (
-      <VideoPlayer
-        {...this.props}
-        {...this.dataSourceParams}
-        entityId={entityId}
-        componentName={componentName}
-        kvsStreamName={kvsStreamName}
-      />
+      <VideoPlayer {...this.props} {...this.dataSourceParams} />
     ) : (
       <div> No TwinMaker Data Source Connected </div>
     );

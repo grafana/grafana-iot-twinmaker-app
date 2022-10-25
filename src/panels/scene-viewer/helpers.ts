@@ -1,4 +1,4 @@
-import { DataBindingLabelKeys, IAnchorEvent, INavLink } from 'aws-iot-twinmaker-grafana-utils';
+import { DataBindingLabelKeys, ITagData, INavLink } from 'aws-iot-twinmaker-grafana-utils';
 import { TWINMAKER_PANEL_TYPE_ID } from 'common/constants';
 import { getCurrentDashboard, getDashboardByUid, PanelModel } from 'common/dashboard';
 import { PanelOptions, PanelOptions as SceneViewerPanelOptions } from './types';
@@ -14,9 +14,9 @@ export function mergeDashboard(targetDashboardId?: string): Promise<PanelOptions
     const dashboard = meta.dashboard;
     const currentDashboard = getCurrentDashboard();
 
-    const currentViewerOptions = updateSceneViewerPanel(currentDashboard.panels, dashboard.panels);
+    const currentViewerOptions = updateSceneViewerPanel(currentDashboard?.panels ?? [], dashboard.panels);
 
-    const info = currentDashboard.updatePanels(dashboard.panels);
+    const info = currentDashboard?.updatePanels(dashboard.panels);
     console.log('LOAD', info);
     return currentViewerOptions;
   });
@@ -81,51 +81,37 @@ export function updateUrlParams(
   selectedEntityVarName?: string,
   selectedComponentVarName?: string,
   selectedPropertyVarName?: string,
-  anchorData?: IAnchorEvent
+  anchorData?: ITagData
 ) {
-  if (anchorData && anchorData.dataBindingContext) {
-    const dataBinding: any = anchorData.dataBindingContext;
-    let actions: VariableAction[] = [];
+  const dataBinding: any = anchorData?.dataBindingContext || {};
+  let actions: VariableAction[] = [];
 
-    if (selectedEntityVarName) {
-      actions.push({
-        variable: selectedEntityVarName,
-        value: dataBinding[DataBindingLabelKeys.entityId],
-      });
-    }
-
-    if (selectedComponentVarName) {
-      actions.push({
-        variable: selectedComponentVarName,
-        value: dataBinding[DataBindingLabelKeys.componentName],
-      });
-    }
-
-    if (selectedPropertyVarName) {
-      actions.push({
-        variable: selectedPropertyVarName,
-        value: dataBinding[DataBindingLabelKeys.propertyName],
-      });
-    }
-
-    Object.keys(anchorData.navLink?.params || {}).forEach((key) => {
-      actions.push({
-        variable: key,
-        value: anchorData.navLink?.params?.[key],
-      });
+  if (selectedEntityVarName) {
+    actions.push({
+      variable: selectedEntityVarName,
+      value: dataBinding[DataBindingLabelKeys.entityId],
     });
-
-    actions = actions.map((action) => {
-      if (action.value && !anchorData.isSelected) {
-        const emptyAction: VariableAction = {
-          variable: action.variable,
-          value: undefined,
-        };
-        return emptyAction;
-      }
-      return action;
-    });
-
-    doQueryUpdate(actions);
   }
+
+  if (selectedComponentVarName) {
+    actions.push({
+      variable: selectedComponentVarName,
+      value: dataBinding[DataBindingLabelKeys.componentName],
+    });
+  }
+
+  if (selectedPropertyVarName) {
+    actions.push({
+      variable: selectedPropertyVarName,
+      value: dataBinding[DataBindingLabelKeys.propertyName],
+    });
+  }
+
+  Object.keys(anchorData?.navLink?.params || {}).forEach((key) => {
+    actions.push({
+      variable: key,
+      value: anchorData?.navLink?.params?.[key],
+    });
+  });
+  doQueryUpdate(actions);
 }

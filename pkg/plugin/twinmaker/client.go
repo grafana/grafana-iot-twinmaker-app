@@ -51,12 +51,22 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	noEndpointSettings := settings.AWSDatasourceSettings
 	noEndpointSettings.Endpoint = ""
 
+	noEndpointSessionConfig := awsds.SessionConfig{
+		Settings:      noEndpointSettings,
+		UserAgentName: &agent,
+	}
+
 	// STS client can not use scoped down role to generate tokens
 	stssettings := noEndpointSettings
 	stssettings.AssumeRoleARN = ""
 
+	stsSessionConfig := awsds.SessionConfig{
+		Settings:      stssettings,
+		UserAgentName: &agent,
+	}
+
 	twinMakerService := func() (*iottwinmaker.IoTTwinMaker, error) {
-		sess, err := sessions.GetSession("", noEndpointSettings)
+		sess, err := sessions.GetSession(noEndpointSessionConfig)
 		if err != nil {
 			return nil, err
 		}
@@ -71,7 +81,7 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	}
 
 	tokenService := func() (*sts.STS, error) {
-		sess, err := sessions.GetSession("", stssettings)
+		sess, err := sessions.GetSession(stsSessionConfig)
 		if err != nil {
 			return nil, err
 		}

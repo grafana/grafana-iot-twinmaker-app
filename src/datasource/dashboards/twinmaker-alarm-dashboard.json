@@ -117,11 +117,11 @@
             "vars": [
               {
                 "fieldName": "entityId",
-                "name": "${sel_entity}"
+                "name": "sel_entity"
               },
               {
                 "fieldName": "alarmName",
-                "name": "${sel_comp}"
+                "name": "sel_comp"
               }
             ]
           }
@@ -221,8 +221,9 @@
       },
       "id": 6,
       "options": {
-        "customSelCompVarName": "${sel_comp}",
-        "customSelEntityVarName": "${sel_entity}",
+        "customSelCompVarName": "sel_comp",
+        "customSelEntityVarName": "sel_entity",
+        "customInputActiveCamera": "active_camera",
         "datasource": "${DS_AWS_IOT TWINMAKER}",
         "sceneId": ""
       },
@@ -284,6 +285,27 @@
         "hide": 2,
         "label": null,
         "name": "sel_comp",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        },
+        "description": "Sets the default active camera for the scene",
+        "hide": 0,
+        "label": "Default Active Camera",
+        "name": "active_camera",
         "options": [
           {
             "selected": true,

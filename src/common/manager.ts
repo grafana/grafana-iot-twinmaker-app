@@ -46,6 +46,9 @@ export interface TwinMakerQuery extends DataQuery {
   filter?: TwinMakerPropertyFilter[];
   maxResults?: number;
   order?: TwinMakerResultOrder;
+  grafanaLiveEnabled: boolean;
+  isStreaming?: boolean;
+  intervalStreaming?: string;
 }
 
 export interface TwinMakerPanelQuery extends TwinMakerQuery {
