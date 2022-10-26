@@ -91,14 +91,6 @@ func LoadPolicy(workspace *iottwinmaker.GetWorkspaceOutput) (string, error) {
 					"{{.S3BucketArn}}", 
 					"{{.S3BucketArn}}/*"
 				]
-			},
-			{
-				"Effect": "Allow",
-				"Action": ["iottwinmaker:BatchPutPropertyValues"],
-				"Resource": [
-					"{{.WorkspaceArn}}",
-					"{{.WorkspaceArn}}/*"
-				]
 			}
 		]
 	}`
