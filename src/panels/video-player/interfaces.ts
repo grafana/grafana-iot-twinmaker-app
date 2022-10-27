@@ -1,5 +1,5 @@
-import { TwinMakerUxSDK } from 'aws-iot-twinmaker-grafana-utils';
 import { PanelProps } from '@grafana/data';
+import { initialize } from '@iot-app-kit/source-iottwinmaker';
 import { PanelOptions } from './types';
 
 export interface VideoPlayerPanelState {
@@ -7,6 +7,6 @@ export interface VideoPlayerPanelState {
 }
 
 export interface VideoPlayerPropsFromParent extends PanelProps<PanelOptions> {
-  twinMakerUxSdk: TwinMakerUxSDK;
+  appKitTMDataSource: ReturnType<typeof initialize>;
   workspaceId: string;
 }

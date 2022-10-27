@@ -2,10 +2,12 @@ import { AnyAction, CombinedState, createStore, Store } from 'redux';
 import { TwinMakerUxSDK } from 'aws-iot-twinmaker-grafana-utils';
 import { OldDatasourceStuff } from './oldStuffFromDatasource';
 import { getTwinMakerDatasource } from 'common/datasourceSrv';
+import { initialize } from '@iot-app-kit/source-iottwinmaker';
 
 export type DataSourceParams = {
   store: Store<CombinedState<any>, AnyAction>;
   twinMakerUxSdk: TwinMakerUxSDK;
+  appKitTMDataSource: ReturnType<typeof initialize>;
   workspaceId: string;
 };
 
@@ -42,7 +44,7 @@ export async function configureSdkWithDataSource(uid?: string): Promise<DataSour
 
     const workspaceId: string = twinMakerDataSource.getWorkspaceId();
 
-    return { twinMakerUxSdk, store, workspaceId };
+    return { twinMakerUxSdk, store, workspaceId, appKitTMDataSource: twinMakerDataSource.getAppKitTMDataSource() };
   }
   console.log('TwinMaker UX SDK not found');
   return undefined;

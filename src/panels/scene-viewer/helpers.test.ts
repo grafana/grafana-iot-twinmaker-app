@@ -1,3 +1,5 @@
+window.URL.createObjectURL = jest.fn();
+
 const mockLocationSrv = {
   update: jest.fn(),
 };
@@ -8,7 +10,7 @@ jest.doMock('@grafana/runtime', () => ({
   }),
 }));
 
-import { DataBindingLabelKeys, INavLink, ITagData } from 'aws-iot-twinmaker-grafana-utils';
+import { DataBindingLabelKeys, INavLink, ITagData } from '@iot-app-kit/scene-composer';
 import { TWINMAKER_PANEL_TYPE_ID } from 'common/constants';
 import { PanelModel } from 'common/dashboard';
 import { getValidHttpUrl, updateSceneViewerPanel, updateUrlParams } from './helpers';
