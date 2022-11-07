@@ -1,0 +1,20 @@
+.panel-content {
+  contain: content;
+  flex-grow: 1;
+  height: auto;
+  padding: 8px;
+  width: 100%;
+}
+
+.panel-container {
+  background-color: #181b1f;
+  border: 0px solid #ccccdc12;
+  border-radius: 3px;
+  box-shadow: none;
+  display: table;
+  flex: 1 1 0;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  width: 100%;
+}

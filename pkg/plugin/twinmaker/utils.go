@@ -48,7 +48,8 @@ func LoadPolicy(workspace *iottwinmaker.GetWorkspaceOutput) (string, error) {
 			{
 				"Action": [
 					"iottwinmaker:Get*",
-					"iottwinmaker:List*"
+					"iottwinmaker:List*",
+					"iottwinmaker:ExecuteQuery*"
 				],
 				"Resource": [
 					"{{.WorkspaceArn}}",
