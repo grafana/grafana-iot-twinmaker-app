@@ -1,0 +1,12 @@
+{
+  "type": "panel",
+  "name": "AWS IoT TwinMaker Alarm Configuration",
+  "id": "grafana-iot-twinmaker-alarm-configuration-panel",
+  "info": {
+    "description": "Interact with your AWS IoT TwinMaker Alarms",
+    "logos": {
+      "small": "img/AWS-IoT-TwinMaker.svg",
+      "large": "img/AWS-IoT-TwinMaker.svg"
+    }
+  }
+}

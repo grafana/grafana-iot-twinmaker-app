@@ -428,6 +428,7 @@ func (s *twinMakerHandler) GetEntityHistory(ctx context.Context, query models.Tw
 func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
 	failures := []data.Notice{}
 	alarmComponentType := "com.amazon.iottwinmaker.alarm.basic"
+	sitewiseAlarmComponentType := "com.amazon.iotsitewise.alarm"
 	externalIdKey := "alarm_key"
 	alarmProperty := "alarm_status"
 	isFiltered := len(query.PropertyFilter) > 0
@@ -446,20 +447,47 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 
 	// Get all componentTypes that extend from the base alarm type
 	query.ComponentTypeId = alarmComponentType
-	componentTypes, err := s.client.ListComponentTypes(ctx, query)
+	basicComponentTypes, err := s.client.ListComponentTypes(ctx, query)
 	dr.Error = err
 	if err != nil {
 		return
 	}
-	if componentTypes == nil {
+	if basicComponentTypes == nil {
 		dr.Error = fmt.Errorf("error loading componentTypes for GetAlarms query")
 		return
 	}
 
+	// Get all componentTypes that extend from the sitewise alarm type
+	// list-component-types only support direct child extend checks currently
+	query.ComponentTypeId = sitewiseAlarmComponentType
+	sitewiseComponentTypes, err := s.client.ListComponentTypes(ctx, query)
+	dr.Error = err
+	if err != nil {
+		return
+	}
+	if sitewiseComponentTypes == nil {
+		dr.Error = fmt.Errorf("error loading componentTypes for GetAlarms query")
+		return
+	}
+
+	componentTypeSummaryResults := basicComponentTypes.ComponentTypeSummaries
+	//remove sitewise alarm as it has no data to be fetched
+	index := 0
+	for _, summary := range componentTypeSummaryResults {
+		if *summary.ComponentTypeId != sitewiseAlarmComponentType {
+			componentTypeSummaryResults[index] = summary
+			index++
+		}
+	}
+	//slice off the last element now
+	componentTypeSummaryResults = componentTypeSummaryResults[:index]
+
+	componentTypeSummaryResults = append(componentTypeSummaryResults, sitewiseComponentTypes.ComponentTypeSummaries...)
+
 	// Get the propertyValueHistory associated with all componentTypes from above
 	var pValues []PropertyReference
 
-	for _, componentTypeSummary := range componentTypes.ComponentTypeSummaries {
+	for _, componentTypeSummary := range componentTypeSummaryResults {
 		// Set mapping of alarm component types for quick lookup later
 		query.EntityId = ""
 		query.Properties = []*string{aws.String(alarmProperty)}
@@ -477,11 +505,11 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 		failures = append(failures, newFailures...)
 		pValues = append(pValues, propertyReferences...)
 		if isLimited {
-		    // update the queries' maxResults so we ask for less on the next iteration
-		    query.MaxResults = maxNoOfAlarms - len(pValues)
-            if len(pValues) >= maxNoOfAlarms {
-                break
-            }
+			// update the queries' maxResults so we ask for less on the next iteration
+			query.MaxResults = maxNoOfAlarms - len(pValues)
+			if len(pValues) >= maxNoOfAlarms {
+				break
+			}
 		}
 	}
 
