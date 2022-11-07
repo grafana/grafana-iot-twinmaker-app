@@ -91,3 +91,9 @@ func (c *twinMakerMockClient) GetSessionToken(ctx context.Context, duration time
 	_, err := c.loadSavedResponse(r)
 	return r, err
 }
+
+func (c *twinMakerMockClient) BatchPutPropertyValues(ctx context.Context, request *iottwinmaker.BatchPutPropertyValuesInput) (*iottwinmaker.BatchPutPropertyValuesOutput, error) {
+	r := &iottwinmaker.BatchPutPropertyValuesOutput{}
+	_, err := c.loadSavedResponse(r)
+	return r, err
+}

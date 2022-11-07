@@ -13,7 +13,7 @@ type TwinMakerResources interface {
 	// Original model
 	GetEntity(ctx context.Context, id string) (*iottwinmaker.GetEntityOutput, error)
 
-	BatchPutPropertyValues(ctx context.Context, request *iottwinmaker.BatchPutPropertyValuesInput) (*iottwinmaker.BatchPutPropertyValuesOutput, error)
+	BatchPutPropertyValues(context.Context, []*iottwinmaker.PropertyValueEntry) (*iottwinmaker.BatchPutPropertyValuesOutput, error)
 
 	// Selectable values
 	ListWorkspaces(ctx context.Context) ([]models.SelectableString, error)
@@ -242,8 +242,12 @@ func (r *twinMakerResource) ListEntity(ctx context.Context, entityId string) ([]
 	return results, err
 }
 
-func (r *twinMakerResource) BatchPutPropertyValues(ctx context.Context, request *iottwinmaker.BatchPutPropertyValuesInput) (*iottwinmaker.BatchPutPropertyValuesOutput, error) {
-	return r.client.BatchPutPropertyValues(ctx, request)
+func (r *twinMakerResource) BatchPutPropertyValues(ctx context.Context, entries []*iottwinmaker.PropertyValueEntry) (*iottwinmaker.BatchPutPropertyValuesOutput, error) {
+	input := &iottwinmaker.BatchPutPropertyValuesInput{
+		WorkspaceId: &r.workspaceId,
+		Entries:     entries,
+	}
+	return r.client.BatchPutPropertyValues(ctx, input)
 }
 
 func toSelectableValues(def map[string]*iottwinmaker.PropertyDefinitionResponse, reg map[string]models.SelectableString) (timeseries []models.SelectableString, props []models.SelectableString) {
