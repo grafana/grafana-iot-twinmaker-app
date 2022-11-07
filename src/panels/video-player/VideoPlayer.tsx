@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { ComponentName, ComponentPropsType } from 'aws-iot-twinmaker-grafana-utils';
-import 'aws-iot-twinmaker-grafana-utils/dist/index.css';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { getStyles } from './styles';
 import { VideoPlayerPropsFromParent } from './interfaces';
 import { auto } from '@popperjs/core';
@@ -8,6 +6,9 @@ import { getTemplateSrv, locationSearchToObject } from '@grafana/runtime';
 import { getUrlTempVarName, tempVarSyntax } from 'common/variables';
 import { useLocation } from 'react-router-dom';
 import { UrlQueryMap } from '@grafana/data';
+import { Viewport } from '@iot-app-kit/core';
+import { VideoData } from '@iot-app-kit/source-iottwinmaker';
+import { RequestVideoUpload, VideoPlayer as VideoPlayerComp } from '@iot-app-kit/react-components';
 
 export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
   const styles = getStyles();
@@ -15,7 +16,7 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
 
   const { search } = useLocation();
 
-  const [videoPlayer, setVideoPlayer] = useState();
+  const [videoData, setVideoData] = useState<VideoData>();
   const [displayOptions, setDisplayOptions] = useState({
     entityId: '',
     componentName: '',
@@ -26,17 +27,30 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
   });
 
   // Get the value from a template variable
-  const checkTempVar = (displayOption: string) => {
-    const displayOptionVar = tempVarSyntax(displayOption);
-    const value = templateSrv.replace(displayOptionVar);
-    // Not a template var if templateSrv.replace returns the same value
-    return value === displayOptionVar ? displayOption : value;
-  };
+  const checkTempVar = useCallback(
+    (displayOption: string) => {
+      const displayOptionVar = tempVarSyntax(displayOption);
+      const value = templateSrv.replace(displayOptionVar);
+      // Not a template var if templateSrv.replace returns the same value
+      return value === displayOptionVar ? displayOption : value;
+    },
+    [templateSrv]
+  );
 
   // Get display option value from the URL, or check default variable values
-  const getDisplayOptionValue = (queryParams: UrlQueryMap, displayOption: string) => {
-    return (queryParams[getUrlTempVarName(displayOption)] as string) ?? checkTempVar(displayOption);
-  };
+  const getDisplayOptionValue = useCallback(
+    (queryParams: UrlQueryMap, displayOption: string) => {
+      return (queryParams[getUrlTempVarName(displayOption || '')] as string) ?? checkTempVar(displayOption);
+    },
+    [checkTempVar]
+  );
+
+  const viewport: Viewport = useMemo(() => {
+    return {
+      start: new Date(props.timeRange.from.valueOf()),
+      end: new Date(props.timeRange.to.valueOf()),
+    };
+  }, [props.timeRange.from, props.timeRange.to]);
 
   useEffect(() => {
     const queryParams = locationSearchToObject(search || '');
@@ -71,16 +85,13 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
 
     if (shouldUpdate) {
       // Load in VideoPlayer component
-      const videoPlayerProps: ComponentPropsType = {
-        workspaceId: props.workspaceId,
-        entityId,
-        componentName,
-        kvsStreamName,
-        playbackMode: 'ON_DEMAND',
-        startTime: props.timeRange.from.toDate(),
-        endTime: props.timeRange.to.toDate(),
-      };
-      setVideoPlayer(props.twinMakerUxSdk.createComponentForReact(ComponentName.VideoPlayer, videoPlayerProps));
+      setVideoData(
+        props.appKitTMDataSource.videoData({
+          entityId,
+          componentName,
+          kvsStreamName,
+        })
+      );
     }
   }, [
     props.options.kvsStreamName,
@@ -89,7 +100,8 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
     props.options.componentName,
     props.timeRange.from,
     props.timeRange.to,
-    props.twinMakerUxSdk,
+    props.appKitTMDataSource,
+    getDisplayOptionValue,
     search,
   ]);
 
@@ -101,7 +113,8 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
       className={styles.wrapper}
       style={{ width: props.width, height: props.height, overflow: auto }}
     >
-      {videoPlayer}
+      {videoData && <VideoPlayerComp videoData={videoData} viewport={viewport} />}
+      {videoData && <RequestVideoUpload videoData={videoData} />}
     </div>
   );
 };

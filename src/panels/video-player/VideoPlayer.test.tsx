@@ -17,11 +17,18 @@ jest.doMock('@grafana/runtime', () => ({
   locationSearchToObject: mockLocationSearchToObject,
 }));
 
-import { ComponentName } from 'aws-iot-twinmaker-grafana-utils';
+const videoPlayerMock = jest.fn();
+const requestUploadMock = jest.fn();
+jest.doMock('@iot-app-kit/react-components', () => ({
+  VideoPlayer: videoPlayerMock,
+  RequestVideoUpload: requestUploadMock,
+}));
+
 import { VideoPlayer } from './VideoPlayer';
 import { VideoPlayerPropsFromParent } from './interfaces';
 import { mockDisplayOptions } from './tests/common';
 import { setTemplateSrv } from '@grafana/runtime';
+import { Viewport } from '@iot-app-kit/core';
 
 setTemplateSrv({
   getVariables: () => [],
@@ -30,18 +37,23 @@ setTemplateSrv({
 
 describe('VideoPlayer', () => {
   it('should load VideoPlayer component when providing kvsStreamName', () => {
+    let videoPlayProp: any;
+    videoPlayerMock.mockImplementation((p) => {
+      videoPlayProp = p;
+      return (<div>VideoPlayer</div>) as any;
+    });
+    let requestUploadProp: any;
+    requestUploadMock.mockImplementation((p) => {
+      requestUploadProp = p;
+      return (<div>RequestVideoUpload</div>) as any;
+    });
+
     const mockKvsStream = 'mockKvsStream';
     const mockEntityId = 'mockEntityId';
     const mockComponentName = 'mockComponentName';
-    const mockWorkspaceId = 'MockWorkspaceId';
-    const expectedComponentOptions = {
-      workspaceId: mockWorkspaceId,
-      entityId: mockEntityId,
-      componentName: mockComponentName,
-      kvsStreamName: mockKvsStream,
-      playbackMode: 'ON_DEMAND',
-      startTime: mockTimeRange.from.toDate(),
-      endTime: mockTimeRange.to.toDate(),
+    const viewport: Viewport = {
+      start: mockTimeRange.from.toDate(),
+      end: mockTimeRange.to.toDate(),
     };
 
     const options = {
@@ -54,12 +66,16 @@ describe('VideoPlayer', () => {
     const props: VideoPlayerPropsFromParent = {
       ...panelProps,
       options,
+      timeRange: mockTimeRange,
     };
+    const mockVideoDate = { random: jest.fn() };
+    panelProps.appKitTMDataSource.videoData.mockReturnValue(mockVideoDate);
 
     render(<VideoPlayer {...props} />);
-    expect(panelProps.twinMakerUxSdk.createComponentForReact).toHaveBeenCalledWith(
-      ComponentName.VideoPlayer,
-      expectedComponentOptions
-    );
+
+    expect(panelProps.appKitTMDataSource.videoData).toBeCalledTimes(1);
+    expect(panelProps.appKitTMDataSource.videoData).toBeCalledWith(options);
+    expect(videoPlayProp).toEqual({ videoData: mockVideoDate, viewport });
+    expect(requestUploadProp).toEqual({ videoData: mockVideoDate });
   });
 });

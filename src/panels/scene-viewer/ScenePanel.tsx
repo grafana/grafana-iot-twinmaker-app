@@ -1,5 +1,4 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { Unsubscribable, throwError } from 'rxjs';
 import { PanelProps } from '@grafana/data';
 import { LoadingPlaceholder } from '@grafana/ui';
@@ -58,9 +57,7 @@ export class ScenePanel extends React.Component<Props, ScenePanelState> {
     const hasSceneInput = !!this.props.options.sceneId;
     return this.dataSourceParams ? (
       hasSceneInput ? (
-        <Provider store={this.dataSourceParams.store}>
-          <SceneViewer {...this.props} {...this.dataSourceParams} />
-        </Provider>
+        <SceneViewer {...this.props} {...this.dataSourceParams} />
       ) : (
         <div> Missing TwinMaker scene in panel display options </div>
       )

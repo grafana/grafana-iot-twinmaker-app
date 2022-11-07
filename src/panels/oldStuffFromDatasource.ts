@@ -1,6 +1,7 @@
 import { TwinMakerUxSDK } from 'aws-iot-twinmaker-grafana-utils';
 import { TwinMakerDataSource } from 'datasource/datasource';
-import { getAwsConfig } from './awsConfig';
+import { defaultRegion, getAwsConfig } from './awsConfig';
+import { initialize } from '@iot-app-kit/source-iottwinmaker';
 
 /**
  * The initalization process needs revisited here.  This simply moves things from
@@ -8,6 +9,8 @@ import { getAwsConfig } from './awsConfig';
  */
 export class OldDatasourceStuff {
   private twinMakerUxSDK = new TwinMakerUxSDK();
+  private appKitTMDataSource: ReturnType<typeof initialize>;
+
   private workspaceId: string;
 
   constructor(ds: TwinMakerDataSource) {
@@ -19,6 +22,12 @@ export class OldDatasourceStuff {
       awsConfig.iotTwinMaker.endpoint = endpoint;
     }
     this.twinMakerUxSDK.setAwsConfig(awsConfig);
+
+    this.appKitTMDataSource = initialize(this.workspaceId, {
+      awsCredentials: ds.getTokensV3,
+      awsRegion: ds.instanceSettings.jsonData.defaultRegion || defaultRegion,
+      tmEndpoint: endpoint,
+    });
   }
 
   getWorkspaceId() {
@@ -27,5 +36,9 @@ export class OldDatasourceStuff {
 
   getTwinMakerUxSdk() {
     return this.twinMakerUxSDK;
+  }
+
+  getAppKitTMDataSource() {
+    return this.appKitTMDataSource;
   }
 }

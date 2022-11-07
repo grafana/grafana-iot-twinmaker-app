@@ -110,10 +110,17 @@ export const mockPanelProps = (mockDisplayOptions: any): PanelProps => {
   };
 };
 
+const mockAppKitTMDataSource = {
+  videoData: jest.fn(),
+  s3SceneLoader: jest.fn(),
+  query: { timeSeriesData: jest.fn() },
+};
+
 export const mockTwinMakerPanelProps = (mockDisplayOptions: any) => {
   return {
     ...mockPanelProps(mockDisplayOptions),
     twinMakerUxSdk: mockTwinMakerUxSdk,
+    appKitTMDataSource: mockAppKitTMDataSource,
     workspaceId: mockWorkspaceId,
   };
 };
