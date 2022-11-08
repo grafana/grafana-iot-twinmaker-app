@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/aws/aws-sdk-go/service/iottwinmaker"
 )
 
 func writeJsonResponse(w http.ResponseWriter, rsp interface{}, err error) {
 	w.Header().Add("Content-Type", "application/json")
-	
+
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write([]byte(fmt.Sprintf(`{"message": "%s"}`, err.Error())))
@@ -67,5 +69,18 @@ func (ds *TwinMakerDatasource) HandleListEntityOptions(w http.ResponseWriter, r 
 	}
 
 	rsp, err := ds.res.ListEntity(r.Context(), entityId)
+	writeJsonResponse(w, rsp, err)
+}
+
+func (ds *TwinMakerDatasource) HandleBatchPutPropertyValues(w http.ResponseWriter, r *http.Request) {
+	entries := make([]*iottwinmaker.PropertyValueEntry, 0)
+
+	err := json.NewDecoder(r.Body).Decode(&entries)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		_, _ = w.Write([]byte(`{"message": "unable to parse request body"}`))
+		return
+	}
+	rsp, err := ds.res.BatchPutPropertyValues(r.Context(), entries)
 	writeJsonResponse(w, rsp, err)
 }

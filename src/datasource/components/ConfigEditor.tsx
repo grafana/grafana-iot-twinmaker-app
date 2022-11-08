@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { SelectableValue, updateDatasourcePluginJsonDataOption } from '@grafana/data';
+import { onUpdateDatasourceJsonDataOption, SelectableValue, updateDatasourcePluginJsonDataOption } from '@grafana/data';
 import { ConnectionConfig, ConnectionConfigProps } from '@grafana/aws-sdk';
 import { FieldSet, InlineField, InlineFieldRow, Select, Input, Alert } from '@grafana/ui';
 import { standardRegions } from '../regions';
@@ -58,6 +58,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
     const workspaces = getSelectionInfo(this.props.options.jsonData.workspaceId, this.state.workspaces);
     const hasWorkspaces = Boolean(this.state.workspaces?.length);
     const arn = this.props.options.jsonData.assumeRoleArn;
+    const arnWriter = this.props.options.jsonData.assumeRoleArnWriter;
 
     return (
       <>
@@ -79,7 +80,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
 
         <FieldSet label={'TwinMaker settings'} data-testid="twinmaker-settings">
           <InlineFieldRow>
-            <InlineField label="Workspace" labelWidth={16}>
+            <InlineField label="Workspace" labelWidth={28}>
               <>
                 {hasWorkspaces && (
                   <Select
@@ -103,6 +104,21 @@ export class ConfigEditor extends PureComponent<Props, State> {
                   />
                 )}
               </>
+            </InlineField>
+          </InlineFieldRow>
+          <InlineFieldRow>
+            <InlineField
+              label="Assume Role ARN Write"
+              labelWidth={28}
+              tooltip="Optionally, specify the ARN of a role to assume when writing values. Leave blank if you don't need to assume a role at all"
+            >
+              <Input
+                aria-label="Assume Role ARN Write"
+                className="width-30"
+                placeholder="arn:aws:iam:*"
+                value={arnWriter || ''}
+                onChange={onUpdateDatasourceJsonDataOption(this.props, 'assumeRoleArnWriter')}
+              />
             </InlineField>
           </InlineFieldRow>
         </FieldSet>

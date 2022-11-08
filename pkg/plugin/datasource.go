@@ -86,6 +86,7 @@ func newTwinMakerDatasource(settings models.TwinMakerDataSourceSetting, c twinma
 			ttl),
 	}
 	r.HandleFunc("/token", ds.HandleGetToken)
+	r.HandleFunc("/entity-properties", ds.HandleBatchPutPropertyValues)
 
 	// they are now cached depending on the res set in the ds above
 	r.HandleFunc("/entity", ds.HandleGetEntity)

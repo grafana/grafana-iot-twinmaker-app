@@ -165,3 +165,8 @@ func (c *cachingClient) GetSessionToken(ctx context.Context, duration time.Durat
 	// not cached
 	return c.client.GetSessionToken(ctx, duration, workspaceId)
 }
+
+func (c *cachingClient) BatchPutPropertyValues(ctx context.Context, request *iottwinmaker.BatchPutPropertyValuesInput) (*iottwinmaker.BatchPutPropertyValuesOutput, error) {
+	// not cached
+	return c.client.BatchPutPropertyValues(ctx, request)
+}
