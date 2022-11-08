@@ -80,21 +80,6 @@ export class ConfigEditor extends PureComponent<Props, State> {
 
         <FieldSet label={'TwinMaker settings'} data-testid="twinmaker-settings">
           <InlineFieldRow>
-            <InlineField
-              label="Assume Role ARN Write"
-              labelWidth={28}
-              tooltip="Optionally, specify the ARN of a role to assume when writing values. Leave blank if you don't need to assume a role at all"
-            >
-              <Input
-                aria-label="Assume Role ARN Write"
-                className="width-30"
-                placeholder="arn:aws:iam:*"
-                value={arnWriter || ''}
-                onChange={onUpdateDatasourceJsonDataOption(this.props, 'assumeRoleArnWriter')}
-              />
-            </InlineField>
-          </InlineFieldRow>
-          <InlineFieldRow>
             <InlineField label="Workspace" labelWidth={28}>
               <>
                 {hasWorkspaces && (
@@ -119,6 +104,21 @@ export class ConfigEditor extends PureComponent<Props, State> {
                   />
                 )}
               </>
+            </InlineField>
+          </InlineFieldRow>
+          <InlineFieldRow>
+            <InlineField
+              label="Assume Role ARN Write"
+              labelWidth={28}
+              tooltip="Optionally, specify the ARN of a role to assume when writing values. Leave blank if you don't need to assume a role at all"
+            >
+              <Input
+                aria-label="Assume Role ARN Write"
+                className="width-30"
+                placeholder="arn:aws:iam:*"
+                value={arnWriter || ''}
+                onChange={onUpdateDatasourceJsonDataOption(this.props, 'assumeRoleArnWriter')}
+              />
             </InlineField>
           </InlineFieldRow>
         </FieldSet>
