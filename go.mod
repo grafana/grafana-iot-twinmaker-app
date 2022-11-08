@@ -12,5 +12,3 @@ require (
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/stretchr/testify v1.7.2
 )
-
-replace github.com/aws/aws-sdk-go v1.44.112 => /Users/divyasr/Downloads/apollo/env/AWSGoSDK-Release/var/tmp/release-automation/staging-sdk1116900199/sdk/src/github.com/aws/aws-sdk-go

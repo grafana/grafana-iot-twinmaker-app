@@ -330,9 +330,38 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 		ComponentName:      &query.ComponentName,
 		SelectedProperties: query.Properties,
 		WorkspaceId:        &query.WorkspaceId,
+		PropertyGroupName: 	&query.PropertyGroupName,
+		MaxResults:			aws.Int64(200),
 	}
 
-	return client.GetPropertyValueWithContext(ctx, params)
+	// Parse Athena Data Connector fields
+	if query.PropertyGroupName != "" {
+		params.PropertyGroupName = &query.PropertyGroupName
+	}
+
+	if len(query.TabularConditions.OrderBy) > 0 || len(query.TabularConditions.PropertyFilter) > 0 {
+		params.TabularConditions = query.TabularConditions.ToTwinMakerTabularConditions()
+	}
+
+	propertyValues, err := client.GetPropertyValueWithContext(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	cPropertyValues := propertyValues
+	for cPropertyValues.NextToken != nil {
+		params.NextToken = cPropertyValues.NextToken
+
+		cPropertyValues, err := client.GetPropertyValueWithContext(ctx, params)
+		if err != nil {
+			return nil, err
+		}
+
+		propertyValues.TabularPropertyValues = append(propertyValues.TabularPropertyValues, cPropertyValues.TabularPropertyValues...)
+		propertyValues.NextToken = cPropertyValues.NextToken
+	}
+
+	return propertyValues, nil
 }
 
 func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {

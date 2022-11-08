@@ -595,7 +595,16 @@ export class QueryEditor extends PureComponent<Props, State> {
       case TwinMakerQueryType.GetPropertyValue:
         if (query.entityId) {
           const compName = getSelectionInfo(query.componentName, entityInfo, this.state.templateVars);
-          const propOpts = resolvePropsFromComponentSel(compName, ComponentFieldName.props, entityInfo);
+          const propOpts = resolvePropsFromComponentSel(
+            compName,
+            ComponentFieldName.props,
+            entityInfo,
+            this.state.workspace?.components
+          );
+          console.log(this.state);
+          console.log(query);
+          console.log(compName);
+          console.log(propOpts);
           return (
             <>
               {this.renderEntitySelector(query, true)}

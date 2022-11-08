@@ -58,7 +58,8 @@ export enum ComponentFieldName {
 export function resolvePropsFromComponentSel(
   compName: SelectionInfo<string>,
   field: ComponentFieldName,
-  entityInfo: SelectableComponentInfo[] | undefined
+  entityInfo: SelectableComponentInfo[] | undefined,
+  componentInfo?: SelectableComponentInfo[]
 ) {
   let resolvedCompName: string | undefined;
   if (compName.current && compName.current.value && compName.current.value.indexOf('$') >= 0) {
@@ -68,7 +69,10 @@ export function resolvePropsFromComponentSel(
   if (!propOpts && resolvedCompName) {
     const comp = entityInfo?.find((item) => item.value === resolvedCompName);
     propOpts = comp?.[field] as SelectableQueryResults;
+    console.log('ASDFASDFADSFADSFASDFASDFASDFASDF');
   }
+  console.log(propOpts);
+  console.log(componentInfo);
   return propOpts;
 }
 

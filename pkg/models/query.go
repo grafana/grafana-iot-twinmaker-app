@@ -53,6 +53,46 @@ func (f *TwinMakerPropertyFilter) ToTwinMakerFilter() *iottwinmaker.PropertyFilt
 	return filter
 }
 
+type TwinMakerOrderBy struct{
+	Order 		 TwinMakerResultOrder
+	PropertyName string
+}
+
+func (orderBy *TwinMakerOrderBy) ToTwinMakerOrderBy() *iottwinmaker.OrderBy {
+	o := &iottwinmaker.OrderBy{
+		Order: 		  &orderBy.Order,
+		PropertyName: &orderBy.PropertyName,
+	}
+	return o;
+}
+
+type TwinMakerTabularConditions struct {
+	OrderBy 		[]TwinMakerOrderBy 
+	PropertyFilter	[]TwinMakerPropertyFilter
+}
+
+func (tabularConditions *TwinMakerTabularConditions) ToTwinMakerTabularConditions() *iottwinmaker.TabularConditions {
+	var orders []*iottwinmaker.OrderBy
+	for _, o := range tabularConditions.OrderBy {
+		orders = append(orders, o.ToTwinMakerOrderBy())
+	}
+	
+	var filters []*iottwinmaker.PropertyFilter
+	for _, pf := range tabularConditions.PropertyFilter {
+		filters = append(filters, pf.ToTwinMakerFilter())
+	}
+
+	tabularCondition := &iottwinmaker.TabularConditions{}
+	if len(orders) > 0 {
+		tabularCondition.OrderBy = orders
+	}
+	if len(filters) > 0 {
+		tabularCondition.PropertyFilters = filters
+	}
+
+	return tabularCondition
+}
+
 // TwinMakerQuery model
 type TwinMakerQuery struct {
 	GrafanaLiveEnabled bool                          `json:"grafanaLiveEnabled,omitempty"`
@@ -67,6 +107,10 @@ type TwinMakerQuery struct {
 	ListEntitiesFilter []TwinMakerListEntitiesFilter `json:"listEntitiesFilter,omitempty"`
 	Order              TwinMakerResultOrder          `json:"order,omitempty"`
 	MaxResults         int                           `json:"maxResults,omitempty"`
+
+	// Athena Data Connector parameters for iottwinmaker.GetPropertyValue
+	TabularConditions  TwinMakerTabularConditions	 `json:"tabularConditions,omitempty"`
+	PropertyGroupName  string						 `json:"propertyGroupName,omitempty"`
 
 	IntervalStreamingSeconds int           `json:"intervalStreaming,string,omitempty"`
 	IntervalStreaming        time.Duration `json:"_"`

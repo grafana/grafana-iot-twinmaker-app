@@ -7,12 +7,18 @@ type SelectableString struct {
 	Description string `json:"description,omitempty"`
 }
 
+type SelectablePropGroup struct {
+	SelectableString
+	Props				[]SelectableString	`json:"props,omitempty"`
+}
+
 type SelectableProps struct {
 	SelectableString
-	TimeSeries []SelectableString `json:"timeSeries,omitempty"`
-	Props      []SelectableString `json:"props,omitempty"`
-	IsAlarm    bool               `json:"isAlarm,omitempty"`
-	IsAbstract bool               `json:"isAbstract,omitempty"`
+	TimeSeries 			[]SelectableString		`json:"timeSeries,omitempty"`
+	Props      			[]SelectableString		`json:"props,omitempty"`
+	PropGroups			[]SelectablePropGroup 	`json:"propGroups,omitempty"`
+	IsAlarm    			bool               		`json:"isAlarm,omitempty"`
+	IsAbstract 			bool               		`json:"isAbstract,omitempty"`
 }
 
 type OptionsInfo struct {

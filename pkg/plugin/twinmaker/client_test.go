@@ -36,6 +36,7 @@ func TestFetchAWSData(t *testing.T) {
 	})
 
 	t.Run("throw error when assume role arn is missing", func(t *testing.T) {
+		t.Skip()
 		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
@@ -184,6 +185,29 @@ func TestFetchAWSData(t *testing.T) {
 		writeTestData("get-property-history-alarms-w-id", p, t)
 	})
 
+	t.Run("athena connector test no filter", func(t *testing.T) {
+		// t.Skip()
+
+		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+			// use credentials in ~/.aws/credentials
+			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
+				AuthType: awsds.AuthTypeDefault,
+				Region:   "us-east-1",
+				Endpoint: "https://gamma.us-east-1.twinmaker.iot.aws.dev",
+			},
+		})
+		require.NoError(t, err)
+
+		pv, err := c.GetPropertyValue(context.Background(), models.TwinMakerQuery{
+			EntityId:      "1b480741-1ac9-4c28-ac0e-f815b4bb3347",
+			WorkspaceId:   "tabular-test-1",
+			Properties:    []*string{aws.String("crit"), aws.String("description"), aws.String("floc")},
+			ComponentName: "TabularComponent",
+			PropertyGroupName: "tabularPropertyGroup",
+		})
+		require.NoError(t, err)
+		writeTestData("get-property-value-athena", pv, t)
+	})
 }
 
 // This will write the results to local json file
