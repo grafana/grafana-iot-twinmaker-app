@@ -69,10 +69,7 @@ export function resolvePropsFromComponentSel(
   if (!propOpts && resolvedCompName) {
     const comp = entityInfo?.find((item) => item.value === resolvedCompName);
     propOpts = comp?.[field] as SelectableQueryResults;
-    console.log('ASDFASDFADSFADSFASDFASDFASDFASDF');
   }
-  console.log(propOpts);
-  console.log(componentInfo);
   return propOpts;
 }
 
