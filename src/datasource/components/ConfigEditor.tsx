@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { onUpdateDatasourceJsonDataOption, SelectableValue, updateDatasourcePluginJsonDataOption } from '@grafana/data';
 import { ConnectionConfig, ConnectionConfigProps } from '@grafana/aws-sdk';
-import { FieldSet, InlineField, InlineFieldRow, Select, Input, Alert } from '@grafana/ui';
+import { FieldSet, InlineField, InlineFieldRow, Select, Input, Alert, Checkbox } from '@grafana/ui';
 import { standardRegions } from '../regions';
 import { TwinMakerDataSourceOptions, TwinMakerSecureJsonData } from '../types';
 import { getTwinMakerDatasource } from 'common/datasourceSrv';
@@ -12,12 +12,13 @@ type Props = ConnectionConfigProps<TwinMakerDataSourceOptions, TwinMakerSecureJs
 
 interface State {
   workspaces?: SelectableQueryResults;
+  alarmConfigChecked?: boolean;
 }
 
 export class ConfigEditor extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {};
+    this.state = { alarmConfigChecked: !!this.props.options.jsonData.assumeRoleArnWriter };
     this.loadWorkspaces();
   }
 
@@ -33,7 +34,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
     if (ds) {
       try {
         const workspaces = await ds.info.listWorkspaces();
-        this.setState({ workspaces });
+        this.setState({ ...this.state, workspaces });
       } catch (err) {
         console.log('Error listing workspaces....', err);
       }
@@ -52,6 +53,10 @@ export class ConfigEditor extends PureComponent<Props, State> {
 
   onUnknownWorkspaceChange = (event: string) => {
     updateDatasourcePluginJsonDataOption(this.props, 'workspaceId', event);
+  };
+
+  onAlarmCheckChange = (event: boolean) => {
+    this.setState({ ...this.state, alarmConfigChecked: event });
   };
 
   render() {
@@ -106,21 +111,28 @@ export class ConfigEditor extends PureComponent<Props, State> {
               </>
             </InlineField>
           </InlineFieldRow>
-          <InlineFieldRow>
-            <InlineField
-              label="Assume Role ARN Write"
-              labelWidth={28}
-              tooltip="Optionally, specify the ARN of a role to assume when writing values. Leave blank if you don't need to assume a role at all"
-            >
-              <Input
-                aria-label="Assume Role ARN Write"
-                className="width-30"
-                placeholder="arn:aws:iam:*"
-                value={arnWriter || ''}
-                onChange={onUpdateDatasourceJsonDataOption(this.props, 'assumeRoleArnWriter')}
-              />
-            </InlineField>
-          </InlineFieldRow>
+          <Checkbox
+            label={'Define write permissions for Alarm Configuration Panel'}
+            value={this.state.alarmConfigChecked}
+            onChange={(e) => this.onAlarmCheckChange(e.currentTarget.checked)}
+          />
+          {this.state.alarmConfigChecked && (
+            <InlineFieldRow>
+              <InlineField
+                label="Assume Role ARN Write"
+                labelWidth={28}
+                tooltip="Specify the ARN of a role to assume when writing property values in IoT TwinMaker"
+              >
+                <Input
+                  aria-label="Assume Role ARN Write"
+                  className="width-30"
+                  placeholder="arn:aws:iam:*"
+                  value={arnWriter || ''}
+                  onChange={onUpdateDatasourceJsonDataOption(this.props, 'assumeRoleArnWriter')}
+                />
+              </InlineField>
+            </InlineFieldRow>
+          )}
         </FieldSet>
       </>
     );
