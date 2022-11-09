@@ -40,7 +40,7 @@ export async function configureSdkWithDataSource(uid?: string): Promise<DataSour
     typeof twinMakerDataSource.getTwinMakerUxSdk === 'function' &&
     twinMakerDataSource.getWorkspaceId &&
     twinMakerDataSource.getTMQEAwsConfig
-  ) { 
+  ) {
     const twinMakerUxSdk = new TwinMakerUxSDK(twinMakerDataSource.getTwinMakerUxSdk());
 
     const store: Store<CombinedState<any>, AnyAction> = createStore(
@@ -51,7 +51,13 @@ export async function configureSdkWithDataSource(uid?: string): Promise<DataSour
     const workspaceId: string = twinMakerDataSource.getWorkspaceId();
     const awsConfig = twinMakerDataSource.getTMQEAwsConfig();
 
-    return { twinMakerUxSdk, store, workspaceId, awsConfig, appKitTMDataSource: twinMakerDataSource.getAppKitTMDataSource() };
+    return {
+      twinMakerUxSdk,
+      store,
+      workspaceId,
+      awsConfig,
+      appKitTMDataSource: twinMakerDataSource.getAppKitTMDataSource(),
+    };
   }
   console.log('TwinMaker UX SDK not found');
   return undefined;
