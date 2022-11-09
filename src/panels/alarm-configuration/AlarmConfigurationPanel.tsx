@@ -18,7 +18,6 @@ import { TwinMakerDataSource } from 'datasource/datasource';
 
 type Props = PanelProps<PanelOptions>;
 
-const NO_CLIENT = 'TwinMaker client not defined';
 const LOADING = 'Loading...';
 
 export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, data, options }) => {
@@ -41,12 +40,12 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
   usePanelRegisteration(id);
 
   useEffect(() => {
-    const doAsync = async() => {
+    const doAsync = async () => {
       const ds = await getTwinMakerDatasource(options.datasource);
       setDataSource(ds);
-    }
+    };
     doAsync();
-  }, [options.datasource])
+  }, [options.datasource]);
 
   useEffect(() => {
     let warning = '';
@@ -71,8 +70,8 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
   }, [results, queryInfo]);
 
   const updateAlarmThreshold = useCallback(
-    (newThreshold: string) => {
-      const entries: Entries= [
+    (newThreshold: number) => {
+      const entries: Entries = [
         {
           entityPropertyReference: {
             componentName: alarmName,
@@ -83,23 +82,21 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
             {
               timestamp: new Date(),
               value: {
-                doubleValue: parseFloat(newThreshold),
+                doubleValue: newThreshold,
               },
             },
           ],
-        }
+        },
       ];
-      console.log('as is: ', entries);
-      console.log('to json stringify: ', JSON.stringify(entries));
-      if ( dataSource ) {
-        console.log('try set new threshold', newThreshold);
+      if (dataSource) {
         const doAsync = async () => {
           await dataSource.batchPutPropertyValues(entries);
-        }
+        };
         doAsync();
         setAlarmThreshold(newThreshold);
       }
-    },[alarmName, dataSource, entityId, setAlarmThreshold]
+    },
+    [alarmName, dataSource, entityId, setAlarmThreshold]
   );
 
   const toggleModal = useCallback(() => {
