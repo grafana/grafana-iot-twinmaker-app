@@ -140,7 +140,7 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
   }
 
   batchPutPropertyValues = async (entries: Entries): Promise<BatchPutPropertyValuesResponse> => {
-    return super.postResource('entity-properties', entries);
+    return super.postResource('entity-properties', { entries });
   };
 
   // Fetch temporary AWS tokens from the backend plugin and convert them into JS SDK Credentials

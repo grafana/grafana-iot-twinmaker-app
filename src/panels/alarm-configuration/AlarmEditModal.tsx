@@ -17,7 +17,13 @@ export const AlarmEditModal: React.FunctionComponent<AlarmEditProps> = ({
   const [thresholdValue, setThresholdValue] = useState(currentThreshold);
 
   const handleThresholdInputChange = useCallback((event: any) => {
-    setThresholdValue(event.target.value);
+    if (typeof event.target.value === 'string') {
+      setThresholdValue(parseFloat(event.target.value));
+    } else if (typeof event.target.value === 'number') {
+      setThresholdValue(event.target.value);
+    } else {
+      console.error('unknown data type for new threshold');
+    }
   }, []);
 
   const handleSaveClick = useCallback(() => {

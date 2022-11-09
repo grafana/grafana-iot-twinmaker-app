@@ -1,24 +1,23 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { DataQueryRequest, PanelProps } from '@grafana/data';
+import { getTemplateSrv } from '@grafana/runtime';
 import { Button, LoadingPlaceholder } from '@grafana/ui';
 
-import { PanelOptions } from './types';
+import { Entries } from 'aws-sdk/clients/iottwinmaker';
+
+import { getTwinMakerDatasource } from 'common/datasourceSrv';
 import { TwinMakerQuery } from 'common/manager';
-import { processAlarmQueryInput, processAlarmResult } from './alarmParser';
-
-import { BatchPutPropertyValuesRequest } from 'aws-sdk/clients/iottwinmaker';
-
-import { AlarmEditModal } from './AlarmEditModal';
-
-import { getTemplateSrv } from '@grafana/runtime';
-
 import { usePanelRegisteration } from 'hooks/usePanelRegistration';
 import { useTwinMakerClient } from 'hooks/useTwinMakerClient';
 
+import { AlarmEditModal } from './AlarmEditModal';
+import { processAlarmQueryInput, processAlarmResult } from './alarmParser';
+import { PanelOptions } from './types';
+import { TwinMakerDataSource } from 'datasource/datasource';
+
 type Props = PanelProps<PanelOptions>;
 
-const NO_CLIENT = 'TwinMaker client not defined';
 const LOADING = 'Loading...';
 
 export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, data, options }) => {
@@ -29,6 +28,8 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
   const [alarmNotificationRecipient, setAlarmNotificationRecipient] = useState('');
   const [warnings, setWarnings] = useState('');
   const [twinMakerClient, dataSourceParams] = useTwinMakerClient(options.datasource);
+  const [dataSource, setDataSource] = useState<TwinMakerDataSource>();
+
   const configured = !!twinMakerClient;
 
   const results = useMemo(() => processAlarmResult(data.series), [data.series]);
@@ -37,6 +38,14 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
     [data.request]
   );
   usePanelRegisteration(id);
+
+  useEffect(() => {
+    const doAsync = async () => {
+      const ds = await getTwinMakerDatasource(options.datasource);
+      setDataSource(ds);
+    };
+    doAsync();
+  }, [options.datasource]);
 
   useEffect(() => {
     let warning = '';
@@ -62,41 +71,32 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
 
   const updateAlarmThreshold = useCallback(
     (newThreshold: number) => {
-      const request: BatchPutPropertyValuesRequest = {
-        workspaceId: dataSourceParams!.workspaceId,
-        entries: [
-          {
-            entityPropertyReference: {
-              componentName: alarmName,
-              entityId: entityId,
-              propertyName: 'alarm_threshold',
-            },
-            propertyValues: [
-              {
-                timestamp: new Date(),
-                value: {
-                  doubleValue: newThreshold,
-                },
-              },
-            ],
+      const entries: Entries = [
+        {
+          entityPropertyReference: {
+            componentName: alarmName,
+            entityId: entityId,
+            propertyName: 'alarm_threshold',
           },
-        ],
-      };
-      if (twinMakerClient) {
-        twinMakerClient
-          .batchPutPropertyValues(request)
-          .promise()
-          .then(() => {
-            setAlarmThreshold(newThreshold);
-          })
-          .catch((error: any) => {
-            setWarnings(error.message);
-          });
-      } else {
-        console.error(NO_CLIENT);
+          propertyValues: [
+            {
+              timestamp: new Date(),
+              value: {
+                doubleValue: newThreshold,
+              },
+            },
+          ],
+        },
+      ];
+      if (dataSource) {
+        const doAsync = async () => {
+          await dataSource.batchPutPropertyValues(entries);
+        };
+        doAsync();
+        setAlarmThreshold(newThreshold);
       }
     },
-    [dataSourceParams, alarmName, entityId, twinMakerClient, setAlarmThreshold, setWarnings]
+    [alarmName, dataSource, entityId, setAlarmThreshold]
   );
 
   const toggleModal = useCallback(() => {
