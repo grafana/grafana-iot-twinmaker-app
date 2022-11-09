@@ -281,8 +281,13 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 		converterList := make([]func(v *iottwinmaker.DataValue) interface{}, 0, len(tabularValuesList[0]))
 
 		for valIdx, propList := range tabularValuesList {
-			propIdx := 0
-			for propName, propVal := range propList {
+			keys := make([]string, 0, len(propList))
+			for k := range propList {
+				keys = append(keys, k)
+			}
+			sort.Strings(keys)
+			for propIdx, propName := range keys {
+				propVal := propList[propName]
 				// First iteration initialize the fields
 				if valIdx == 0 {
 					f, converter := newDataValueField(propVal, len(tabularValuesList))
@@ -297,11 +302,10 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 				}
 				// Save the property value in the respective field
 				fieldsList[propIdx].Set(valIdx, converterList[propIdx](propVal))
-				propIdx += 1
 			}
 		}
 	}
-	
+
 	dr.Frames = append(dr.Frames, frame)
 	return
 }
@@ -505,11 +509,11 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 		failures = append(failures, newFailures...)
 		pValues = append(pValues, propertyReferences...)
 		if isLimited {
-		    // update the queries' maxResults so we ask for less on the next iteration
-		    query.MaxResults = maxNoOfAlarms - len(pValues)
-            if len(pValues) >= maxNoOfAlarms {
-                break
-            }
+			// update the queries' maxResults so we ask for less on the next iteration
+			query.MaxResults = maxNoOfAlarms - len(pValues)
+			if len(pValues) >= maxNoOfAlarms {
+				break
+			}
 		}
 	}
 
