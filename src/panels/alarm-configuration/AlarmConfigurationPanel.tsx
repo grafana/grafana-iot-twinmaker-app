@@ -9,7 +9,6 @@ import { Entries } from 'aws-sdk/clients/iottwinmaker';
 import { getTwinMakerDatasource } from 'common/datasourceSrv';
 import { TwinMakerQuery } from 'common/manager';
 import { usePanelRegisteration } from 'hooks/usePanelRegistration';
-import { useTwinMakerClient } from 'hooks/useTwinMakerClient';
 
 import { AlarmEditModal } from './AlarmEditModal';
 import { processAlarmQueryInput, processAlarmResult } from './alarmParser';
@@ -27,10 +26,9 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
   const [alarmThreshold, setAlarmThreshold] = useState<number | undefined>();
   const [alarmNotificationRecipient, setAlarmNotificationRecipient] = useState('');
   const [warnings, setWarnings] = useState('');
-  const [twinMakerClient, dataSourceParams] = useTwinMakerClient(options.datasource);
   const [dataSource, setDataSource] = useState<TwinMakerDataSource>();
 
-  const configured = !!twinMakerClient;
+  const configured = !!dataSource;
 
   const results = useMemo(() => processAlarmResult(data.series), [data.series]);
   const queryInfo = useMemo(
@@ -105,8 +103,6 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
 
   if (!configured) {
     return <LoadingPlaceholder text={LOADING} />;
-  } else if (!dataSourceParams) {
-    return <div> No TwinMaker Data Source Connected: ${options.datasource} </div>;
   } else if (warnings) {
     return (
       <div>
