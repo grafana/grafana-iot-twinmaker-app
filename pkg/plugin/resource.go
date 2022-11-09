@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/service/iottwinmaker"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 )
 
 func writeJsonResponse(w http.ResponseWriter, rsp interface{}, err error) {
@@ -78,6 +79,7 @@ func (ds *TwinMakerDatasource) HandleBatchPutPropertyValues(w http.ResponseWrite
 	}{}
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
+		log.DefaultLogger.Error("failed to decode request", "error", err)
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write([]byte(`{"message": "unable to parse request body"}`))
 		return

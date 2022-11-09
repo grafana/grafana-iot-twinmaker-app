@@ -71,7 +71,7 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
   }, [results, queryInfo]);
 
   const updateAlarmThreshold = useCallback(
-    (newThreshold: number) => {
+    (newThreshold: string) => {
       const entries: Entries= [
         {
           entityPropertyReference: {
@@ -83,7 +83,7 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
             {
               timestamp: new Date(),
               value: {
-                doubleValue: newThreshold,
+                doubleValue: parseFloat(newThreshold),
               },
             },
           ],
