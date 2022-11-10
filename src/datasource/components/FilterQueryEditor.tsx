@@ -1,53 +1,79 @@
 import React from 'react';
-import { Button, InlineField, InlineFieldRow } from '@grafana/ui';
+import { Button, InlineField, InlineFieldRow, Select } from '@grafana/ui';
 import { DEFAULT_PROPERTY_FILTER_OPERATOR, TwinMakerPropertyFilter } from 'common/manager';
 import { firstLabelWidth } from '.';
 import { BlurTextInput } from './BlurTextInput';
+import { SelectableValue } from '@grafana/data';
 
-export interface Props {
-  index: number;
-  filter: TwinMakerPropertyFilter;
-  last: boolean;
+export interface FilterQueryEditorProps {
+  filters: TwinMakerPropertyFilter[];
+  properties: Array<SelectableValue<string>>;
   onChange: (index: number, filter?: TwinMakerPropertyFilter) => void;
   onAdd: () => void;
 }
 
-export default function FilterQueryEditor(props: Props) {
-  const { index, filter, last, onChange } = props;
+export default function FilterQueryEditor(props: FilterQueryEditorProps) {
+  const { filters, properties, onChange } = props;
 
-  const onNameChange = (v?: string) => {
-    onChange(index, { ...filter, name: v! });
+  const onNameChange = (v: SelectableValue<string>, index: number) => {
+    onChange(index, { ...filters[index], name: v.value! });
   };
 
-  const onValueChange = (v?: string) => {
-    onChange(index, { ...filter, value: v! });
+  const onValueChange = (v: string, index: number) => {
+    onChange(index, { ...filters[index], value: v });
   };
 
-  const onOpChange = (v?: string) => {
-    onChange(index, { ...filter, op: v ?? DEFAULT_PROPERTY_FILTER_OPERATOR });
+  const onOpChange = (v: string, index: number) => {
+    onChange(index, { ...filters[index], op: v ?? DEFAULT_PROPERTY_FILTER_OPERATOR });
   };
 
   return (
     <InlineFieldRow>
-      <InlineField
-        label={index === 0 ? 'Filter' : ' (and)'}
-        grow={true}
-        labelWidth={firstLabelWidth}
-        tooltip="currently only string fields are supported"
-      >
-        <>
-          <BlurTextInput value={filter.name ?? ''} onChange={onNameChange} placeholder="name" />
-          <BlurTextInput
-            width={14}
-            value={filter.op ?? DEFAULT_PROPERTY_FILTER_OPERATOR}
-            onChange={onOpChange}
-            placeholder={DEFAULT_PROPERTY_FILTER_OPERATOR}
-          />
-          <BlurTextInput value={filter.value ?? ''} onChange={onValueChange} placeholder="value" />
-          {!last && <Button icon="trash-alt" variant="secondary" onClick={() => onChange(index)} />}
-          {last && <Button icon="plus-circle" variant="secondary" onClick={props.onAdd} />}
-        </>
-      </InlineField>
+      {filters.map((f, index) => (
+        <InlineField
+          key={`${index}/${f.name}`}
+          label={'Filter'}
+          grow={true}
+          labelWidth={firstLabelWidth}
+          tooltip="currently only '=' op is supported"
+        >
+          <>
+            <Select
+              menuShouldPortal={true}
+              options={properties}
+              value={properties.find((v) => v.value === f.name)}
+              onChange={(v) => onNameChange(v, index)}
+              placeholder="Select a property"
+              isClearable={false}
+              width={40}
+            />
+            <BlurTextInput
+              width={14}
+              value={f.op ?? DEFAULT_PROPERTY_FILTER_OPERATOR}
+              onChange={(v) => {
+                if (v) {
+                  onOpChange(v, index);
+                }
+              }}
+              placeholder={DEFAULT_PROPERTY_FILTER_OPERATOR}
+            />
+            <BlurTextInput
+              value={filters[index].value ?? ''}
+              onChange={(v) => {
+                if (v) {
+                  onValueChange(v, index);
+                }
+              }}
+              placeholder="value"
+              width={40}
+            />
+            {index !== filters.length - 1 && (
+              <Button icon="trash-alt" variant="secondary" onClick={() => onChange(index)} />
+            )}
+            {index === filters.length - 1 && <Button icon="plus-circle" variant="secondary" onClick={props.onAdd} />}
+          </>
+        </InlineField>
+      ))}
     </InlineFieldRow>
   );
 }

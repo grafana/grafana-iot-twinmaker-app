@@ -54,8 +54,8 @@ func (f *TwinMakerPropertyFilter) ToTwinMakerFilter() *iottwinmaker.PropertyFilt
 }
 
 type TwinMakerOrderBy struct{
-	Order 		 TwinMakerResultOrder
-	PropertyName string
+	Order 		 TwinMakerResultOrder	`json:"order,omitempty"`
+	PropertyName string					`json:"propertyName,omitempty"`
 }
 
 func (orderBy *TwinMakerOrderBy) ToTwinMakerOrderBy() *iottwinmaker.OrderBy {

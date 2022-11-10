@@ -35,11 +35,13 @@ import {
   TwinMakerResultOrder,
   TwinMakerPropertyFilter,
   DEFAULT_PROPERTY_FILTER_OPERATOR,
+  TwinMakerOrderBy,
 } from 'common/manager';
 import { getTemplateSrv } from '@grafana/runtime';
 import { getVariableOptions } from 'common/variables';
 import FilterQueryEditor from './FilterQueryEditor';
 import { BlurTextInput } from './BlurTextInput';
+import OrderByEditor from './OrderByEditor';
 
 export const firstLabelWidth = 18;
 
@@ -129,7 +131,13 @@ export class QueryEditor extends PureComponent<Props, State> {
   onAlarmFilterChange = (event: SelectableValue<string>) => {
     const { onChange, query, onRunQuery } = this.props;
     const filter = event?.value
-      ? [{ name: 'alarm_status', value: event.value, op: DEFAULT_PROPERTY_FILTER_OPERATOR }]
+      ? [
+          {
+            name: 'alarm_status',
+            value: event.value,
+            op: DEFAULT_PROPERTY_FILTER_OPERATOR,
+          },
+        ]
       : undefined;
     onChange({ ...query, filter });
     onRunQuery();
@@ -277,6 +285,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     });
     onRunQuery();
   };
+
   renderEntitySelector(query: TwinMakerQuery, isClearable: boolean) {
     const entity = getSelectionInfo(query.entityId, this.state.workspace?.entities, this.state.templateVars);
     return (
@@ -301,7 +310,8 @@ export class QueryEditor extends PureComponent<Props, State> {
   renderComponentTypeSelector(
     query: TwinMakerQuery,
     compType: SelectionInfo<string>,
-    filter?: keyof SelectableComponentInfo
+    filter?: keyof SelectableComponentInfo,
+    isStreaming?: boolean
   ) {
     // Limit to things with `timeSeries` properties
 
@@ -328,12 +338,17 @@ export class QueryEditor extends PureComponent<Props, State> {
             placeholder={placeholder}
           />
         </InlineField>
-        {this.renderStreamingInputs(query)}
+        {isStreaming && this.renderStreamingInputs(query)}
       </InlineFieldRow>
     );
   }
 
-  renderComponentNameSelector(query: TwinMakerQuery, compName: SelectionInfo<string>, isClearable: boolean) {
+  renderComponentNameSelector(
+    query: TwinMakerQuery,
+    compName: SelectionInfo<string>,
+    isClearable: boolean,
+    isStreaming?: boolean
+  ) {
     return (
       <InlineFieldRow>
         <InlineField label={'Component Name'} grow={true} labelWidth={firstLabelWidth}>
@@ -349,7 +364,7 @@ export class QueryEditor extends PureComponent<Props, State> {
             formatCreateLabel={(v) => `Component Name: ${v}`}
           />
         </InlineField>
-        {this.renderStreamingInputs(query)}
+        {isStreaming && this.renderStreamingInputs(query)}
       </InlineFieldRow>
     );
   }
@@ -446,6 +461,50 @@ export class QueryEditor extends PureComponent<Props, State> {
     );
   }
 
+  getPropertiesMultiSelectionInfo(query: TwinMakerQuery, propOpts?: Array<SelectableValue<string>>) {
+    if (!propOpts) {
+      propOpts = [];
+    }
+    // make sure all selected properties are visible
+    if (query.properties) {
+      const all = new Set(propOpts.map((v) => v.value));
+      for (const p of query.properties) {
+        if (!all.has(p)) {
+          propOpts = [
+            ...propOpts,
+            {
+              value: p,
+              label: `${p} (?)`,
+            },
+          ];
+        }
+      }
+    }
+
+    return getMultiSelectionInfo(query.properties, propOpts, this.state.templateVars);
+  }
+
+  renderPropsSelector(query: TwinMakerQuery, propOpts?: Array<SelectableValue<string>>, isLoading?: boolean) {
+    const properties = this.getPropertiesMultiSelectionInfo(query, propOpts);
+    return (
+      <InlineFieldRow>
+        <InlineField label={'Selected Properties'} grow={true} labelWidth={firstLabelWidth}>
+          <MultiSelect
+            menuShouldPortal={true}
+            value={properties.current}
+            options={properties.options}
+            onChange={this.onPropertiesSelected}
+            isLoading={isLoading}
+            allowCustomValue={true}
+            onCreateOption={this.onCustomPropertyAdded}
+            formatCreateLabel={(v) => `Property: ${v}`}
+            placeholder="Type or select properties"
+          />
+        </InlineField>
+      </InlineFieldRow>
+    );
+  }
+
   onFilterChanged = (index: number, evt?: TwinMakerPropertyFilter) => {
     const { onChange, query } = this.props;
     const filter = query.filter ? query.filter.slice() : [];
@@ -470,60 +529,65 @@ export class QueryEditor extends PureComponent<Props, State> {
     onChange({ ...query, filter });
   };
 
-  renderPropsFilterSelector(query: TwinMakerQuery) {
-    let filter = query.filter ?? [];
-    if (!filter.length) {
-      filter = [{ name: '', op: DEFAULT_PROPERTY_FILTER_OPERATOR, value: '' }];
+  renderPropsFilterSelector(query: TwinMakerQuery, propOpts?: Array<SelectableValue<string>>) {
+    let filters = query.filter ?? [];
+    if (!filters.length) {
+      filters = [{ name: '', op: DEFAULT_PROPERTY_FILTER_OPERATOR, value: '' }];
     }
 
-    return filter.map((f, index) => (
+    // TODO filter properties in propertyGroup
+    const properties = this.getPropertiesMultiSelectionInfo(query, propOpts);
+
+    return (
       <FilterQueryEditor
-        key={`${index}/${f.name}`}
-        index={index}
-        filter={f}
-        last={index >= filter.length - 1}
+        filters={filters}
+        properties={properties.options}
         onAdd={this.onAddFilter}
         onChange={this.onFilterChanged}
       />
-    ));
+    );
   }
 
-  renderPropsSelector(query: TwinMakerQuery, propOpts?: Array<SelectableValue<string>>, isLoading?: boolean) {
-    if (!propOpts) {
-      propOpts = [];
-    }
-    // make sure all selected properties are visible
-    if (query.properties) {
-      const all = new Set(propOpts.map((v) => v.value));
-      for (const p of query.properties) {
-        if (!all.has(p)) {
-          propOpts = [
-            ...propOpts,
-            {
-              value: p,
-              label: `${p} (?)`,
-            },
-          ];
-        }
+  onOrderByChanged = (index: number, evt?: TwinMakerOrderBy) => {
+    const { onChange, query } = this.props;
+    const orderBy = query.orderBy ? query.orderBy.slice() : [];
+    if (!evt) {
+      if (query.orderBy) {
+        orderBy.splice(index, 1);
+        onChange({ ...query, orderBy });
+        this.props.onRunQuery();
       }
+      return;
     }
-    const properties = getMultiSelectionInfo(query.properties, propOpts, this.state.templateVars);
+
+    // don't run the query -- this will fire often!
+    orderBy[index] = evt;
+    onChange({ ...query, orderBy });
+  };
+
+  onAddOrderBy = () => {
+    const { onChange, query } = this.props;
+    const orderBy = query.orderBy ? query.orderBy.slice() : [];
+    orderBy.push({ propertyName: '' });
+    onChange({ ...query, orderBy });
+  };
+
+  renderOrderBySelector(query: TwinMakerQuery, propOpts?: Array<SelectableValue<string>>) {
+    let orderBy = query.orderBy ?? [];
+    if (!orderBy.length) {
+      orderBy = [{ propertyName: '' }];
+    }
+
+    // TODO filter properties in propertyGroup
+    const properties = this.getPropertiesMultiSelectionInfo(query, propOpts);
+
     return (
-      <InlineFieldRow>
-        <InlineField label={'Selected Properties'} grow={true} labelWidth={firstLabelWidth}>
-          <MultiSelect
-            menuShouldPortal={true}
-            value={properties.current}
-            options={properties.options}
-            onChange={this.onPropertiesSelected}
-            isLoading={isLoading}
-            allowCustomValue={true}
-            onCreateOption={this.onCustomPropertyAdded}
-            formatCreateLabel={(v) => `Property: ${v}`}
-            placeholder="Type or select properties"
-          />
-        </InlineField>
-      </InlineFieldRow>
+      <OrderByEditor
+        orderBy={orderBy}
+        properties={properties.options}
+        onAdd={this.onAddOrderBy}
+        onChange={this.onOrderByChanged}
+      />
     );
   }
 
@@ -601,15 +665,15 @@ export class QueryEditor extends PureComponent<Props, State> {
             entityInfo,
             this.state.workspace?.components
           );
-          console.log(this.state);
-          console.log(query);
-          console.log(compName);
-          console.log(propOpts);
+          // TODO: check if athena connector based on selected component's componentType
+          const isAthenaConnector = compName.current?.label === 'TabularComponent';
           return (
             <>
               {this.renderEntitySelector(query, true)}
               {this.renderComponentNameSelector(query, compName, true)}
               {this.renderPropsSelector(query, propOpts)}
+              {isAthenaConnector && this.renderPropsFilterSelector(query, propOpts)}
+              {isAthenaConnector && this.renderOrderBySelector(query, propOpts)}
             </>
           );
         }
@@ -620,7 +684,7 @@ export class QueryEditor extends PureComponent<Props, State> {
         return (
           <>
             {this.renderEntitySelector(query, true)}
-            {this.renderComponentNameSelector(query, compName, true)}
+            {this.renderComponentNameSelector(query, compName, true, true)}
             {this.renderPropsSelector(query, propOpts)}
             {this.renderPropsFilterSelector(query)}
           </>
@@ -630,7 +694,7 @@ export class QueryEditor extends PureComponent<Props, State> {
         const propOpts = compType.current?.timeSeries as SelectableQueryResults;
         return (
           <>
-            {this.renderComponentTypeSelector(query, compType, 'timeSeries')}
+            {this.renderComponentTypeSelector(query, compType, 'timeSeries', true)}
             {this.renderPropsSelector(query, propOpts)}
             {this.renderPropsFilterSelector(query)}
           </>

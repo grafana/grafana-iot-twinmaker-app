@@ -26,6 +26,11 @@ export enum TwinMakerResultOrder {
   DESCENDING = 'DESCENDING',
 }
 
+export interface TwinMakerOrderBy {
+  propertyName: string;
+  order?: TwinMakerResultOrder;
+}
+
 export const DEFAULT_PROPERTY_FILTER_OPERATOR = '='; // real value depends on lambda configuration
 
 export interface TwinMakerPropertyFilter {
@@ -44,6 +49,7 @@ export interface TwinMakerQuery extends DataQuery {
   componentTypeId?: string;
   properties?: string[];
   filter?: TwinMakerPropertyFilter[];
+  orderBy?: TwinMakerOrderBy[];
   maxResults?: number;
   order?: TwinMakerResultOrder;
   grafanaLiveEnabled: boolean;

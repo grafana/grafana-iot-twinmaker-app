@@ -62,12 +62,6 @@ export const twinMakerQueryTypes: QueryTypeInfo[] = [
     description: `Gets an entity within a workspace.`,
     defaultQuery: {},
   },
-  {
-    label: 'Get Property Value by Athena connector',
-    value: TwinMakerQueryType.GetPropertyValue,
-    description: `Gets the value of a non-time series property within an Athena component.`,
-    defaultQuery: {},
-  },
 ];
 
 export function changeQueryType(q: TwinMakerQuery, info: QueryTypeInfo): TwinMakerQuery {
