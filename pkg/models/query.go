@@ -67,8 +67,8 @@ func (orderBy *TwinMakerOrderBy) ToTwinMakerOrderBy() *iottwinmaker.OrderBy {
 }
 
 type TwinMakerTabularConditions struct {
-	OrderBy 		[]TwinMakerOrderBy 
-	PropertyFilter	[]TwinMakerPropertyFilter
+	OrderBy 		[]TwinMakerOrderBy 			`json:"orderBy,omitempty"`
+	PropertyFilter	[]TwinMakerPropertyFilter	`json:"propertyFilter,omitempty"`
 }
 
 func (tabularConditions *TwinMakerTabularConditions) ToTwinMakerTabularConditions() *iottwinmaker.TabularConditions {

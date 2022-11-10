@@ -591,6 +591,39 @@ export class QueryEditor extends PureComponent<Props, State> {
     );
   }
 
+  onPropertyGroupChange = (event: SelectableValue<string>) => {
+    this.onPropertyGroupTextChange(event?.value);
+  };
+
+  onPropertyGroupTextChange = (propertyGroupName?: string) => {
+    const { onChange, query, onRunQuery } = this.props;
+    onChange({
+      ...query,
+      propertyGroupName,
+    });
+    onRunQuery();
+  };
+
+  renderPropertyGroupSelector(propertyGroup: SelectionInfo<string>) {
+    return (
+      <InlineFieldRow>
+        <InlineField label={'Property Group'} grow={true} labelWidth={firstLabelWidth}>
+          <Select
+            menuShouldPortal={true}
+            value={propertyGroup.current}
+            options={propertyGroup.options}
+            onChange={this.onPropertyGroupChange}
+            isClearable={true}
+            isLoading={this.state.workspaceLoading}
+            allowCustomValue={true}
+            onCreateOption={this.onPropertyGroupTextChange}
+            formatCreateLabel={(v) => `Property Group: ${v}`}
+          />
+        </InlineField>
+      </InlineFieldRow>
+    );
+  }
+
   renderQuery(query: TwinMakerQuery) {
     if (isTwinMakerPanelQuery(query)) {
       if (!this.panels.length) {
@@ -667,11 +700,18 @@ export class QueryEditor extends PureComponent<Props, State> {
           );
           // TODO: check if athena connector based on selected component's componentType
           const isAthenaConnector = compName.current?.label === 'TabularComponent';
+          // TODO: get propertyGroups from backend
+          const propertyGroups = {
+            current: { label: 'tabularPropertyGroup', value: 'tabularPropertyGroup' },
+            options: [{ label: 'tabularPropertyGroup', value: 'tabularPropertyGroup' }],
+          };
+
           return (
             <>
               {this.renderEntitySelector(query, true)}
               {this.renderComponentNameSelector(query, compName, true)}
               {this.renderPropsSelector(query, propOpts)}
+              {isAthenaConnector && this.renderPropertyGroupSelector(propertyGroups)}
               {isAthenaConnector && this.renderPropsFilterSelector(query, propOpts)}
               {isAthenaConnector && this.renderOrderBySelector(query, propOpts)}
             </>
