@@ -17,7 +17,12 @@ import { TwinMakerDataSource } from '../datasource';
 import { defaultQuery, TwinMakerDataSourceOptions } from '../types';
 import { TwinMakerApiModel } from 'aws-iot-twinmaker-grafana-utils';
 import { changeQueryType, QueryTypeInfo, twinMakerOrderOptions, twinMakerQueryTypes } from 'datasource/queryInfo';
-import { WorkspaceSelectionInfo, SelectableComponentInfo, SelectableQueryResults, SelectablePropGroupsInfo } from 'common/info/types';
+import {
+  WorkspaceSelectionInfo,
+  SelectableComponentInfo,
+  SelectableQueryResults,
+  SelectablePropGroupsInfo,
+} from 'common/info/types';
 import {
   ComponentFieldName,
   getMultiSelectionInfo,
@@ -178,7 +183,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     this.onComponentNameTextChange(event?.value);
   };
 
-  onPropertyGroupChange= (event: SelectableValue<string>) => {
+  onPropertyGroupChange = (event: SelectableValue<string>) => {
     this.onPropertyGroupTextChange(event?.value);
   };
 
@@ -691,27 +696,25 @@ export class QueryEditor extends PureComponent<Props, State> {
       case TwinMakerQueryType.GetPropertyValue:
         if (query.entityId) {
           const compName = getSelectionInfo(query.componentName, entityInfo, this.state.templateVars);
-          const propGroups= resolvePropsFromComponentSel(
-            compName,
-            ComponentFieldName.propGroups,
-            entityInfo,
-          );
-          const propOpts = resolvePropsFromComponentSel(
-            compName,
-            ComponentFieldName.props,
-            entityInfo,
-          );
-          // TODO: check if athena connector based on selected component's componentType
-          const isAthenaConnector = compName.current?.label === 'TabularComponent';
+          const propGroups = resolvePropsFromComponentSel(compName, ComponentFieldName.propGroups, entityInfo);
+          let propOpts;
+          const isAthenaConnector = propGroups?.length ?? 0 > 0;
+          if (isAthenaConnector) {
+            if (query.propertyGroupName) {
+              propOpts = propGroups?.find((g) => g.value === query.propertyGroupName)?.props;
+            }
+          } else {
+            propOpts = resolvePropsFromComponentSel(compName, ComponentFieldName.props, entityInfo);
+          }
 
           return (
             <>
               {this.renderEntitySelector(query, true)}
               {this.renderComponentNameSelector(query, compName, true)}
               {isAthenaConnector && this.renderPropGroupSelector(query.propertyGroupName, propGroups)}
-              {this.renderPropsSelector(query, propOpts)}
-              {isAthenaConnector && this.renderPropsFilterSelector(query, propOpts)}
-              {isAthenaConnector && this.renderOrderBySelector(query, propOpts)}
+              {(!isAthenaConnector || query.propertyGroupName) && this.renderPropsSelector(query, propOpts)}
+              {query.propertyGroupName && this.renderPropsFilterSelector(query, propOpts)}
+              {query.propertyGroupName && this.renderOrderBySelector(query, propOpts)}
             </>
           );
         }
