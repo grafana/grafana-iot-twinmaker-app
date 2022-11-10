@@ -325,13 +325,38 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 		return nil, fmt.Errorf("missing property")
 	}
 
+	tabularConditions := iottwinmaker.TabularConditions{
+		OrderBy:         make([]*iottwinmaker.OrderBy, 0),
+		PropertyFilters: make([]*iottwinmaker.PropertyFilter, 0),
+	}
+
+	if query.TabularConditions.OrderBy != nil {
+		for _, property := range query.TabularConditions.OrderBy {
+			tabularConditions.OrderBy = append(tabularConditions.OrderBy, &iottwinmaker.OrderBy{
+				PropertyName: &property.PropertyName,
+				Order:        &property.Order,
+			})
+		}
+	}
+
+	if query.TabularConditions.PropertyFilter != nil {
+		for _, property := range query.TabularConditions.PropertyFilter {
+			tabularConditions.PropertyFilters = append(tabularConditions.PropertyFilters, &iottwinmaker.PropertyFilter{
+				PropertyName: &property.Name,
+				Operator:     &property.Op,
+				Value:        &iottwinmaker.DataValue{StringValue: &property.Value},
+			})
+		}
+	}
+
 	params := &iottwinmaker.GetPropertyValueInput{
 		EntityId:           &query.EntityId,
 		ComponentName:      &query.ComponentName,
 		SelectedProperties: query.Properties,
+		TabularConditions:  &tabularConditions,
 		WorkspaceId:        &query.WorkspaceId,
-		PropertyGroupName: 	&query.PropertyGroupName,
-		MaxResults:			aws.Int64(200),
+		PropertyGroupName:  &query.PropertyGroupName,
+		MaxResults:         aws.Int64(200),
 	}
 
 	// Parse Athena Data Connector fields

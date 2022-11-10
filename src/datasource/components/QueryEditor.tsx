@@ -695,13 +695,15 @@ export class QueryEditor extends PureComponent<Props, State> {
         return this.renderEntitySelector(query, false);
       case TwinMakerQueryType.GetPropertyValue:
         if (query.entityId) {
+          let propOpts;
           const compName = getSelectionInfo(query.componentName, entityInfo, this.state.templateVars);
           const propGroups = resolvePropsFromComponentSel(compName, ComponentFieldName.propGroups, entityInfo);
-          let propOpts;
           const isAthenaConnector = propGroups?.length ?? 0 > 0;
+          const propGroup = query.propertyGroupName;
+
           if (isAthenaConnector) {
-            if (query.propertyGroupName) {
-              propOpts = propGroups?.find((g) => g.value === query.propertyGroupName)?.props;
+            if (propGroup) {
+              propOpts = propGroups?.find((g) => g.value === propGroup)?.props;
             }
           } else {
             propOpts = resolvePropsFromComponentSel(compName, ComponentFieldName.props, entityInfo);
@@ -712,9 +714,9 @@ export class QueryEditor extends PureComponent<Props, State> {
               {this.renderEntitySelector(query, true)}
               {this.renderComponentNameSelector(query, compName, true)}
               {isAthenaConnector && this.renderPropGroupSelector(query.propertyGroupName, propGroups)}
-              {(!isAthenaConnector || query.propertyGroupName) && this.renderPropsSelector(query, propOpts)}
-              {query.propertyGroupName && this.renderPropsFilterSelector(query, propOpts)}
-              {query.propertyGroupName && this.renderOrderBySelector(query, propOpts)}
+              {(!isAthenaConnector || propGroup) && this.renderPropsSelector(query, propOpts)}
+              {propGroup && this.renderPropsFilterSelector(query, propOpts)}
+              {propGroup && this.renderOrderBySelector(query, propOpts)}
             </>
           );
         }
