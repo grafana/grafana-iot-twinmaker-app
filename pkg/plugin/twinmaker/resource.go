@@ -6,7 +6,6 @@ import (
 
 	"github.com/aws/aws-sdk-go/service/iottwinmaker"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
-	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 )
 
 // Resource requests
@@ -230,10 +229,8 @@ func (r *twinMakerResource) ListEntity(ctx context.Context, entityId string) ([]
 		ts, p := toPropertiesSelectableValues(def, nil)
 		info.TimeSeries = ts
 		info.Props = p
-		log.DefaultLogger.Debug("ListEntity", "info", info)
 
 		if comp.PropertyGroups != nil {
-
 			// List PropertyGroups with each associated property name list
 			propGroups, propNames := toPropertyGroupsSelectableValues(comp.PropertyGroups)
 

@@ -22,7 +22,6 @@ import {
   ComponentFieldName,
   getMultiSelectionInfo,
   getSelectionInfo,
-  resolvePropGroups,
   resolvePropsFromComponentSel,
   SelectionInfo,
 } from 'common/info/info';
@@ -177,6 +176,19 @@ export class QueryEditor extends PureComponent<Props, State> {
 
   onComponentNameChange = (event: SelectableValue<string>) => {
     this.onComponentNameTextChange(event?.value);
+  };
+
+  onPropertyGroupChange= (event: SelectableValue<string>) => {
+    this.onPropertyGroupTextChange(event?.value);
+  };
+
+  onPropertyGroupTextChange = (propertyGroupName?: string) => {
+    const { onChange, query, onRunQuery } = this.props;
+    onChange({
+      ...query,
+      propertyGroupName,
+    });
+    onRunQuery();
   };
 
   onComponentNameTextChange = (componentName?: string) => {
@@ -378,7 +390,7 @@ export class QueryEditor extends PureComponent<Props, State> {
             menuShouldPortal={true}
             value={propertyGroupName}
             options={propGroups}
-            onChange={this.onComponentNameChange}
+            onChange={this.onPropertyGroupChange}
             isClearable={true}
             isLoading={this.state.workspaceLoading}
             allowCustomValue={false}
@@ -611,19 +623,6 @@ export class QueryEditor extends PureComponent<Props, State> {
     );
   }
 
-  onPropertyGroupChange = (event: SelectableValue<string>) => {
-    this.onPropertyGroupTextChange(event?.value);
-  };
-
-  onPropertyGroupTextChange = (propertyGroupName?: string) => {
-    const { onChange, query, onRunQuery } = this.props;
-    onChange({
-      ...query,
-      propertyGroupName,
-    });
-    onRunQuery();
-  };
-
   renderQuery(query: TwinMakerQuery) {
     if (isTwinMakerPanelQuery(query)) {
       if (!this.panels.length) {
@@ -691,11 +690,11 @@ export class QueryEditor extends PureComponent<Props, State> {
         return this.renderEntitySelector(query, false);
       case TwinMakerQueryType.GetPropertyValue:
         if (query.entityId) {
-          console.log('compType', compType);
           const compName = getSelectionInfo(query.componentName, entityInfo, this.state.templateVars);
-          const propGroups = resolvePropGroups(
-            compType.current?.value,
-            this.state.workspace?.components
+          const propGroups= resolvePropsFromComponentSel(
+            compName,
+            ComponentFieldName.propGroups,
+            entityInfo,
           );
           const propOpts = resolvePropsFromComponentSel(
             compName,
