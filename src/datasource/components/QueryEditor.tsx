@@ -17,11 +17,12 @@ import { TwinMakerDataSource } from '../datasource';
 import { defaultQuery, TwinMakerDataSourceOptions } from '../types';
 import { TwinMakerApiModel } from 'aws-iot-twinmaker-grafana-utils';
 import { changeQueryType, QueryTypeInfo, twinMakerOrderOptions, twinMakerQueryTypes } from 'datasource/queryInfo';
-import { WorkspaceSelectionInfo, SelectableComponentInfo, SelectableQueryResults } from 'common/info/types';
+import { WorkspaceSelectionInfo, SelectableComponentInfo, SelectableQueryResults, SelectablePropGroupsInfo } from 'common/info/types';
 import {
   ComponentFieldName,
   getMultiSelectionInfo,
   getSelectionInfo,
+  resolvePropGroups,
   resolvePropsFromComponentSel,
   SelectionInfo,
 } from 'common/info/info';
@@ -369,6 +370,25 @@ export class QueryEditor extends PureComponent<Props, State> {
     );
   }
 
+  renderPropGroupSelector(propertyGroupName: string | undefined, propGroups?: SelectablePropGroupsInfo[]) {
+    return (
+      <InlineFieldRow>
+        <InlineField label={'Property Group'} grow={true} labelWidth={firstLabelWidth}>
+          <Select
+            menuShouldPortal={true}
+            value={propertyGroupName}
+            options={propGroups}
+            onChange={this.onComponentNameChange}
+            isClearable={true}
+            isLoading={this.state.workspaceLoading}
+            allowCustomValue={false}
+            formatCreateLabel={(v) => `Property Group: ${v}`}
+          />
+        </InlineField>
+      </InlineFieldRow>
+    );
+  }
+
   renderAlarmFilterSelector(query: TwinMakerQuery, isClearable: boolean) {
     const alarmStatuses: Array<SelectableValue<string>> = [
       {
@@ -604,26 +624,6 @@ export class QueryEditor extends PureComponent<Props, State> {
     onRunQuery();
   };
 
-  renderPropertyGroupSelector(propertyGroup: SelectionInfo<string>) {
-    return (
-      <InlineFieldRow>
-        <InlineField label={'Property Group'} grow={true} labelWidth={firstLabelWidth}>
-          <Select
-            menuShouldPortal={true}
-            value={propertyGroup.current}
-            options={propertyGroup.options}
-            onChange={this.onPropertyGroupChange}
-            isClearable={true}
-            isLoading={this.state.workspaceLoading}
-            allowCustomValue={true}
-            onCreateOption={this.onPropertyGroupTextChange}
-            formatCreateLabel={(v) => `Property Group: ${v}`}
-          />
-        </InlineField>
-      </InlineFieldRow>
-    );
-  }
-
   renderQuery(query: TwinMakerQuery) {
     if (isTwinMakerPanelQuery(query)) {
       if (!this.panels.length) {
@@ -692,26 +692,22 @@ export class QueryEditor extends PureComponent<Props, State> {
       case TwinMakerQueryType.GetPropertyValue:
         if (query.entityId) {
           const compName = getSelectionInfo(query.componentName, entityInfo, this.state.templateVars);
+          const propGroups = resolvePropGroups(
+            query.componentTypeId,
+            this.state.workspace?.components
+          );
           const propOpts = resolvePropsFromComponentSel(
             compName,
             ComponentFieldName.props,
             entityInfo,
-            this.state.workspace?.components
           );
-          // TODO: check if athena connector based on selected component's componentType
-          const isAthenaConnector = compName.current?.label === 'TabularComponent';
-          // TODO: get propertyGroups from backend
-          const propertyGroups = {
-            current: { label: 'tabularPropertyGroup', value: 'tabularPropertyGroup' },
-            options: [{ label: 'tabularPropertyGroup', value: 'tabularPropertyGroup' }],
-          };
-
+          const isAthenaConnector = propGroups.length > 0;
           return (
             <>
               {this.renderEntitySelector(query, true)}
               {this.renderComponentNameSelector(query, compName, true)}
+              {isAthenaConnector && this.renderPropGroupSelector(query.propertyGroupName, propGroups)}
               {this.renderPropsSelector(query, propOpts)}
-              {isAthenaConnector && this.renderPropertyGroupSelector(propertyGroups)}
               {isAthenaConnector && this.renderPropsFilterSelector(query, propOpts)}
               {isAthenaConnector && this.renderOrderBySelector(query, propOpts)}
             </>

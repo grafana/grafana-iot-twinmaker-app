@@ -9,7 +9,7 @@ export interface SelectablePropGroupsInfo extends SelectableValue<string> {
 export interface SelectableComponentInfo extends SelectableValue<string> {
   timeSeries?: SelectableQueryResults;
   props?: SelectableQueryResults;
-  propGroups?: SelectablePropGroupsInfo;
+  propGroups?: SelectablePropGroupsInfo[];
 }
 export type SelectableComponents = SelectableComponentInfo[];
 

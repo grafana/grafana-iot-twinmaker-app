@@ -173,14 +173,10 @@ func (r *twinMakerResource) ListOptions(ctx context.Context) (models.OptionsInfo
 			if err != nil {
 				return results, err
 			}
-			// // Don't show abstract types in the list
-			// if *v.IsAbstract {
-			// 	continue
-			// }
 			info.IsAbstract = *v.IsAbstract
 			log.DefaultLogger.Warn("component type", "v", v)
 
-			if v.PropertyGroups != nil {
+			if v.PropertyGroups == nil {
 				ts, p := toPropertiesSelectableValues(v.PropertyDefinitions, props)
 				info.TimeSeries = ts
 				info.Props = p
