@@ -691,9 +691,10 @@ export class QueryEditor extends PureComponent<Props, State> {
         return this.renderEntitySelector(query, false);
       case TwinMakerQueryType.GetPropertyValue:
         if (query.entityId) {
+          console.log('compType', compType);
           const compName = getSelectionInfo(query.componentName, entityInfo, this.state.templateVars);
           const propGroups = resolvePropGroups(
-            query.componentTypeId,
+            compType.current?.value,
             this.state.workspace?.components
           );
           const propOpts = resolvePropsFromComponentSel(
@@ -701,7 +702,9 @@ export class QueryEditor extends PureComponent<Props, State> {
             ComponentFieldName.props,
             entityInfo,
           );
-          const isAthenaConnector = propGroups.length > 0;
+          // TODO: check if athena connector based on selected component's componentType
+          const isAthenaConnector = compName.current?.label === 'TabularComponent';
+
           return (
             <>
               {this.renderEntitySelector(query, true)}

@@ -174,40 +174,18 @@ func (r *twinMakerResource) ListOptions(ctx context.Context) (models.OptionsInfo
 				return results, err
 			}
 			info.IsAbstract = *v.IsAbstract
-			log.DefaultLogger.Warn("component type", "v", v)
 
-			if v.PropertyGroups == nil {
-				ts, p := toPropertiesSelectableValues(v.PropertyDefinitions, props)
-				info.TimeSeries = ts
-				info.Props = p
-				for _, ex := range v.ExtendsFrom {
-					if *ex == "com.amazon.iottwinmaker.alarm.basic" {
-						info.IsAlarm = true
-						break
-					}
+			ts, p := toPropertiesSelectableValues(v.PropertyDefinitions, props)
+			info.TimeSeries = ts
+			info.Props = p
+			for _, ex := range v.ExtendsFrom {
+				if *ex == "com.amazon.iottwinmaker.alarm.basic" {
+					info.IsAlarm = true
+					break
 				}
-				continue
 			}
+			continue
 
-			// List PropertyGroups with each associated property name list
-			propGroups, propNames := toPropertyGroupsSelectableValues(v.PropertyGroups)
-
-			for i, propList := range propNames {
-				// Filter properties that are in PropertyGroups
-				selectableProperties := make(map[string]*iottwinmaker.PropertyDefinitionResponse)
-				for name, def := range v.PropertyDefinitions {
-					if stringInSlice(name, propList) {
-						selectableProperties[name] = def
-					}
-				}
-				propGroupProps := make(map[string]models.SelectableString)
-				_, props := toPropertiesSelectableValues(selectableProperties, propGroupProps)
-				propGroups[i].Props = props
-			}
-			info.PropGroups = propGroups
-			if w.Description != nil {
-				info.Description = *w.Description
-			}
 			results.Components = append(results.Components, info)
 		}
 
@@ -252,6 +230,25 @@ func (r *twinMakerResource) ListEntity(ctx context.Context, entityId string) ([]
 		ts, p := toPropertiesSelectableValues(def, nil)
 		info.TimeSeries = ts
 		info.Props = p
+		log.DefaultLogger.Debug("ListEntity", "info", info)
+
+		if comp.PropertyGroups != nil {
+
+			// List PropertyGroups with each associated property name list
+			propGroups, propNames := toPropertyGroupsSelectableValues(comp.PropertyGroups)
+
+			for i, propList := range propNames {
+				// Filter properties that are in PropertyGroups
+				propGroupProps := make([]models.SelectableString, 0)
+				for _, def := range p {
+					if stringInSlice(def.Value, propList) {
+						propGroupProps = append(propGroupProps, def)
+					}
+				}
+				propGroups[i].Props = propGroupProps
+			}
+			info.PropGroups = propGroups
+		}
 
 		results = append(results, info)
 	}
@@ -284,7 +281,7 @@ func toPropertiesSelectableValues(def map[string]*iottwinmaker.PropertyDefinitio
 	return
 }
 
-func toPropertyGroupsSelectableValues(def map[string]*iottwinmaker.PropertyGroupResponse) (propGroups []models.SelectablePropGroup, propNames [][]*string) {
+func toPropertyGroupsSelectableValues(def map[string]*iottwinmaker.ComponentPropertyGroupResponse) (propGroups []models.SelectablePropGroup, propNames [][]*string) {
 	for key, element := range def {
 		p := models.SelectablePropGroup{
 			SelectableString: models.SelectableString{
