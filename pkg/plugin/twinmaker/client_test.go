@@ -183,10 +183,10 @@ func TestFetchAWSData(t *testing.T) {
 		require.NoError(t, err)
 		writeTestData("get-property-history-alarms-w-id", p, t)
 	})
-
 }
 
 // This will write the results to local json file
+//
 //nolint:golint,unused
 func writeTestData(filename string, res interface{}, t *testing.T) {
 	json, err := json.MarshalIndent(res, "", "    ")

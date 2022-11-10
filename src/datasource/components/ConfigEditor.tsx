@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-import { SelectableValue, updateDatasourcePluginJsonDataOption } from '@grafana/data';
+import { onUpdateDatasourceJsonDataOption, SelectableValue, updateDatasourcePluginJsonDataOption } from '@grafana/data';
 import { ConnectionConfig, ConnectionConfigProps } from '@grafana/aws-sdk';
-import { FieldSet, InlineField, InlineFieldRow, Select, Input, Alert } from '@grafana/ui';
+import { FieldSet, InlineField, InlineFieldRow, Select, Input, Alert, Checkbox } from '@grafana/ui';
 import { standardRegions } from '../regions';
 import { TwinMakerDataSourceOptions, TwinMakerSecureJsonData } from '../types';
 import { getTwinMakerDatasource } from 'common/datasourceSrv';
@@ -12,12 +12,13 @@ type Props = ConnectionConfigProps<TwinMakerDataSourceOptions, TwinMakerSecureJs
 
 interface State {
   workspaces?: SelectableQueryResults;
+  alarmConfigChecked?: boolean;
 }
 
 export class ConfigEditor extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {};
+    this.state = { alarmConfigChecked: !!this.props.options.jsonData.assumeRoleArnWriter };
     this.loadWorkspaces();
   }
 
@@ -33,7 +34,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
     if (ds) {
       try {
         const workspaces = await ds.info.listWorkspaces();
-        this.setState({ workspaces });
+        this.setState({ ...this.state, workspaces });
       } catch (err) {
         console.log('Error listing workspaces....', err);
       }
@@ -54,10 +55,15 @@ export class ConfigEditor extends PureComponent<Props, State> {
     updateDatasourcePluginJsonDataOption(this.props, 'workspaceId', event);
   };
 
+  onAlarmCheckChange = (event: boolean) => {
+    this.setState({ ...this.state, alarmConfigChecked: event });
+  };
+
   render() {
     const workspaces = getSelectionInfo(this.props.options.jsonData.workspaceId, this.state.workspaces);
     const hasWorkspaces = Boolean(this.state.workspaces?.length);
     const arn = this.props.options.jsonData.assumeRoleArn;
+    const arnWriter = this.props.options.jsonData.assumeRoleArnWriter;
 
     return (
       <>
@@ -79,7 +85,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
 
         <FieldSet label={'TwinMaker settings'} data-testid="twinmaker-settings">
           <InlineFieldRow>
-            <InlineField label="Workspace" labelWidth={16}>
+            <InlineField label="Workspace" labelWidth={28}>
               <>
                 {hasWorkspaces && (
                   <Select
@@ -105,6 +111,28 @@ export class ConfigEditor extends PureComponent<Props, State> {
               </>
             </InlineField>
           </InlineFieldRow>
+          <Checkbox
+            label={'Define write permissions for Alarm Configuration Panel'}
+            value={this.state.alarmConfigChecked}
+            onChange={(e) => this.onAlarmCheckChange(e.currentTarget.checked)}
+          />
+          {this.state.alarmConfigChecked && (
+            <InlineFieldRow>
+              <InlineField
+                label="Assume Role ARN Write"
+                labelWidth={28}
+                tooltip="Specify the ARN of a role to assume when writing property values in IoT TwinMaker"
+              >
+                <Input
+                  aria-label="Assume Role ARN Write"
+                  className="width-30"
+                  placeholder="arn:aws:iam:*"
+                  value={arnWriter || ''}
+                  onChange={onUpdateDatasourceJsonDataOption(this.props, 'assumeRoleArnWriter')}
+                />
+              </InlineField>
+            </InlineFieldRow>
+          )}
         </FieldSet>
       </>
     );

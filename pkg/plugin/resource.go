@@ -5,11 +5,14 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/aws/aws-sdk-go/service/iottwinmaker"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 )
 
 func writeJsonResponse(w http.ResponseWriter, rsp interface{}, err error) {
 	w.Header().Add("Content-Type", "application/json")
-	
+
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write([]byte(fmt.Sprintf(`{"message": "%s"}`, err.Error())))
@@ -67,5 +70,20 @@ func (ds *TwinMakerDatasource) HandleListEntityOptions(w http.ResponseWriter, r 
 	}
 
 	rsp, err := ds.res.ListEntity(r.Context(), entityId)
+	writeJsonResponse(w, rsp, err)
+}
+
+func (ds *TwinMakerDatasource) HandleBatchPutPropertyValues(w http.ResponseWriter, r *http.Request) {
+	req := struct {
+		Entries []*iottwinmaker.PropertyValueEntry `json:"entries"`
+	}{}
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		log.DefaultLogger.Error("failed to decode request", "error", err)
+		w.WriteHeader(http.StatusBadRequest)
+		_, _ = w.Write([]byte(`{"message": "unable to parse request body"}`))
+		return
+	}
+	rsp, err := ds.res.BatchPutPropertyValues(r.Context(), req.Entries)
 	writeJsonResponse(w, rsp, err)
 }

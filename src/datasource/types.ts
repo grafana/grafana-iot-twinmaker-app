@@ -23,6 +23,7 @@ export interface TwinMakerCustomMeta {
  */
 export interface TwinMakerDataSourceOptions extends AwsAuthDataSourceJsonData {
   workspaceId?: string;
+  assumeRoleArnWriter?: string;
 }
 export interface TwinMakerSecureJsonData extends AwsAuthDataSourceSecureJsonData {
   // nothing for now

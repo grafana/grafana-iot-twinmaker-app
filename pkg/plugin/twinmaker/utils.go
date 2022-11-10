@@ -169,70 +169,70 @@ func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmaker.EntityP
 /*
 * This function returns the latest value for each entity property.
 * Assumes that the Roci Api query returns data from latest to oldest.
-*/
+ */
 func (s *twinMakerHandler) GetLatestPropertyValueHistoryPaginated(ctx context.Context, query models.TwinMakerQuery, propertyDefinitions map[string]*iottwinmaker.PropertyDefinitionResponse) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
-        var maxPropertyValues int
-        isLimited := false
-        if query.MaxResults > 0 {
-            isLimited = true
-            maxPropertyValues = query.MaxResults
-            query.MaxResults = 0
-        }
+	var maxPropertyValues int
+	isLimited := false
+	if query.MaxResults > 0 {
+		isLimited = true
+		maxPropertyValues = query.MaxResults
+		query.MaxResults = 0
+	}
 
-        propertyValueHistories, err := s.client.GetPropertyValueHistory(ctx, query)
-        if err != nil {
-            return nil, err
-        }
+	propertyValueHistories, err := s.client.GetPropertyValueHistory(ctx, query)
+	if err != nil {
+		return nil, err
+	}
 
-        // Keep mapping of entityPropertyReferences to its index in the result's propertyValues
-        entityPropertyReferenceMapping := map[string]int{}
-        for i, propertyValue := range propertyValueHistories.PropertyValues {
-            refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference, propertyDefinitions)
-            entityPropertyReferenceMapping[refKey] = i
-		    values := propertyValueHistories.PropertyValues[i].Values
-            // only save 1 value
-            if len(values) > 0 {
-                propertyValueHistories.PropertyValues[i].Values = values[0:1]
-            }
-            // if we have max results, return
-            if isLimited && len(entityPropertyReferenceMapping) >= maxPropertyValues {
-                if len(propertyValueHistories.PropertyValues) > maxPropertyValues {
-                    propertyValueHistories.PropertyValues = propertyValueHistories.PropertyValues[:maxPropertyValues]
-                }
-                return propertyValueHistories, nil
-            }
-        }
+	// Keep mapping of entityPropertyReferences to its index in the result's propertyValues
+	entityPropertyReferenceMapping := map[string]int{}
+	for i, propertyValue := range propertyValueHistories.PropertyValues {
+		refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference, propertyDefinitions)
+		entityPropertyReferenceMapping[refKey] = i
+		values := propertyValueHistories.PropertyValues[i].Values
+		// only save 1 value
+		if len(values) > 0 {
+			propertyValueHistories.PropertyValues[i].Values = values[0:1]
+		}
+		// if we have max results, return
+		if isLimited && len(entityPropertyReferenceMapping) >= maxPropertyValues {
+			if len(propertyValueHistories.PropertyValues) > maxPropertyValues {
+				propertyValueHistories.PropertyValues = propertyValueHistories.PropertyValues[:maxPropertyValues]
+			}
+			return propertyValueHistories, nil
+		}
+	}
 
-        cPropertyValuesHistories := propertyValueHistories
-        for cPropertyValuesHistories.NextToken != nil {
-            query.NextToken = *cPropertyValuesHistories.NextToken
-            cPropertyValuesHistories, err := s.client.GetPropertyValueHistory(ctx, query)
-            if err != nil {
-                return nil, err
-            }
+	cPropertyValuesHistories := propertyValueHistories
+	for cPropertyValuesHistories.NextToken != nil {
+		query.NextToken = *cPropertyValuesHistories.NextToken
+		cPropertyValuesHistories, err := s.client.GetPropertyValueHistory(ctx, query)
+		if err != nil {
+			return nil, err
+		}
 
-            for _, propertyValue := range cPropertyValuesHistories.PropertyValues {
-                refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference, propertyDefinitions)
-                if _, ok := entityPropertyReferenceMapping[refKey]; !ok {
-                    entityPropertyReferenceMapping[refKey] = len(propertyValueHistories.PropertyValues)
-                    // only save 1 value
-                    if len(propertyValue.Values) > 0 {
-                        propertyValue.Values = propertyValue.Values[0:1]
-                    }
-                    propertyValueHistories.PropertyValues = append(propertyValueHistories.PropertyValues, propertyValue)
+		for _, propertyValue := range cPropertyValuesHistories.PropertyValues {
+			refKey := GetEntityPropertyReferenceKey(propertyValue.EntityPropertyReference, propertyDefinitions)
+			if _, ok := entityPropertyReferenceMapping[refKey]; !ok {
+				entityPropertyReferenceMapping[refKey] = len(propertyValueHistories.PropertyValues)
+				// only save 1 value
+				if len(propertyValue.Values) > 0 {
+					propertyValue.Values = propertyValue.Values[0:1]
+				}
+				propertyValueHistories.PropertyValues = append(propertyValueHistories.PropertyValues, propertyValue)
 
-                    // if we have max results, return
-                    if isLimited && len(entityPropertyReferenceMapping) >= maxPropertyValues {
-                        return propertyValueHistories, nil
-                    }
-                }
-            }
+				// if we have max results, return
+				if isLimited && len(entityPropertyReferenceMapping) >= maxPropertyValues {
+					return propertyValueHistories, nil
+				}
+			}
+		}
 
-            propertyValueHistories.NextToken = cPropertyValuesHistories.NextToken
-        }
+		propertyValueHistories.NextToken = cPropertyValuesHistories.NextToken
+	}
 
-        return propertyValueHistories, nil
-     }
+	return propertyValueHistories, nil
+}
 
 func (s *twinMakerHandler) GetPropertyValueHistoryPaginated(ctx context.Context, query models.TwinMakerQuery, propertyDefinitions map[string]*iottwinmaker.PropertyDefinitionResponse) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
 	propertyValueHistories, err := s.client.GetPropertyValueHistory(ctx, query)
@@ -354,7 +354,6 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookupHelper(ctx context.Conte
 								}
 							}
 						}
-						break
 					}
 				}
 
@@ -377,11 +376,11 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookupHelper(ctx context.Conte
 }
 
 func (s *twinMakerHandler) GetLatestComponentHistoryWithLookup(ctx context.Context, query models.TwinMakerQuery) (p []PropertyReference, n []data.Notice, err error) {
-    return s.GetComponentHistoryWithLookupHelper(ctx, query, s.GetLatestPropertyValueHistoryPaginated)
+	return s.GetComponentHistoryWithLookupHelper(ctx, query, s.GetLatestPropertyValueHistoryPaginated)
 }
 
 func (s *twinMakerHandler) GetComponentHistoryWithLookup(ctx context.Context, query models.TwinMakerQuery) (p []PropertyReference, n []data.Notice, err error) {
-    return s.GetComponentHistoryWithLookupHelper(ctx, query, s.GetPropertyValueHistoryPaginated)
+	return s.GetComponentHistoryWithLookupHelper(ctx, query, s.GetPropertyValueHistoryPaginated)
 }
 
 func getTimeObjectFromStringTime(timeString *string) (*time.Time, error) {
