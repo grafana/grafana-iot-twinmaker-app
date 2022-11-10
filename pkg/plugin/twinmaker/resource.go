@@ -6,6 +6,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/service/iottwinmaker"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 )
 
 // Resource requests
@@ -169,42 +170,45 @@ func (r *twinMakerResource) ListOptions(ctx context.Context) (models.OptionsInfo
 			// nested query!
 			query.ComponentTypeId = typeId
 			v, err := r.client.GetComponentType(ctx, query)
-			if err == nil {
-				// // Don't show abstract types in the list
-				// if *v.IsAbstract {
-				// 	continue
-				// }
-				info.IsAbstract = *v.IsAbstract
+			if err != nil {
+				return results, err
+			}
+			// // Don't show abstract types in the list
+			// if *v.IsAbstract {
+			// 	continue
+			// }
+			info.IsAbstract = *v.IsAbstract
+			log.DefaultLogger.Warn("component type", "v", v)
 
-				// List PropertyGroups with each associated property name list
-				if v.PropertyGroups != nil {
-					propGroups, propNames := toPropertyGroupsSelectableValues(v.PropertyGroups)
-
-					for i, propList := range propNames {
-						// Filter properties that are in PropertyGroups
-						selectableProperties := make(map[string]*iottwinmaker.PropertyDefinitionResponse)
-						for name, def := range v.PropertyDefinitions {
-							if stringInSlice(name, propList) {
-								selectableProperties[name] = def
-							}
-						}
-						propGroupProps := make(map[string]models.SelectableString)
-						_, props := toPropertiesSelectableValues(selectableProperties, propGroupProps)
-						propGroups[i].Props = props
-					}
-					info.PropGroups = propGroups
-				} else {
-					ts, p := toPropertiesSelectableValues(v.PropertyDefinitions, props)
-					info.TimeSeries = ts
-					info.Props = p
-					for _, ex := range v.ExtendsFrom {
-						if *ex == "com.amazon.iottwinmaker.alarm.basic" {
-							info.IsAlarm = true
-							break
-						}
+			if v.PropertyGroups != nil {
+				ts, p := toPropertiesSelectableValues(v.PropertyDefinitions, props)
+				info.TimeSeries = ts
+				info.Props = p
+				for _, ex := range v.ExtendsFrom {
+					if *ex == "com.amazon.iottwinmaker.alarm.basic" {
+						info.IsAlarm = true
+						break
 					}
 				}
+				continue
 			}
+
+			// List PropertyGroups with each associated property name list
+			propGroups, propNames := toPropertyGroupsSelectableValues(v.PropertyGroups)
+
+			for i, propList := range propNames {
+				// Filter properties that are in PropertyGroups
+				selectableProperties := make(map[string]*iottwinmaker.PropertyDefinitionResponse)
+				for name, def := range v.PropertyDefinitions {
+					if stringInSlice(name, propList) {
+						selectableProperties[name] = def
+					}
+				}
+				propGroupProps := make(map[string]models.SelectableString)
+				_, props := toPropertiesSelectableValues(selectableProperties, propGroupProps)
+				propGroups[i].Props = props
+			}
+			info.PropGroups = propGroups
 			if w.Description != nil {
 				info.Description = *w.Description
 			}
@@ -299,10 +303,10 @@ func toPropertyGroupsSelectableValues(def map[string]*iottwinmaker.PropertyGroup
 }
 
 func stringInSlice(a string, list []*string) bool {
-    for _, b := range list {
-        if *b == a {
-            return true
-        }
-    }
-    return false
+	for _, b := range list {
+		if *b == a {
+			return true
+		}
+	}
+	return false
 }
