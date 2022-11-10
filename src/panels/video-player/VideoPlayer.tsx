@@ -93,6 +93,7 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
         })
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     props.options.kvsStreamName,
     props.workspaceId,

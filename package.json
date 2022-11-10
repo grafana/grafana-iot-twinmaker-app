@@ -16,17 +16,19 @@
   "devDependencies": {
     "@babel/preset-env": "^7.19.4",
     "@grafana/aws-sdk": "^0.0.3",
-    "@grafana/data": "8.2.3",
-    "@grafana/e2e": "8.2.0",
-    "@grafana/runtime": "8.2.0",
-    "@grafana/toolkit": "8.2.0",
-    "@grafana/ui": "8.2.0",
+    "@grafana/data": "8.4.11",
+    "@grafana/e2e": "8.4.11",
+    "@grafana/runtime": "8.4.11",
+    "@grafana/toolkit": "8.4.11",
+    "@grafana/ui": "8.4.11",
     "@testing-library/react": "^11.2.2",
+    "@types/jest": "^29.2.2",
     "@types/lodash": "latest",
     "@types/react-router-dom": "^5.3.3",
     "@types/three": "0.131.0",
     "@types/uuid": "^8.3.1",
     "file-loader": "^6.2.0",
+    "ts-jest": "26.4.4",
     "tslib": "2.3.1"
   },
   "dependencies": {
@@ -44,7 +46,6 @@
     "query-string": "^7.0.1",
     "react-redux": "^7.2.3",
     "react-use": "^17.3.1",
-    "rxjs": "7.3.0",
     "url-loader": "^4.1.1",
     "uuid": "^8.3.2"
   },
@@ -52,6 +53,7 @@
     "node": ">=16"
   },
   "resolutions": {
-    "three-stdlib": "2.4.0"
+    "three-stdlib": "2.4.0",
+    "rxjs": "7.5.1"
   }
 }

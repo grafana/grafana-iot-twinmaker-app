@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.3.0 (not released)
+
+- Upgraded Go AWS SDK
+- The minimum grafana version is now >=8.4
+
 ## v1.2.1
 
 - Fix for paginaton issue that lead to partial data on the dashboard
