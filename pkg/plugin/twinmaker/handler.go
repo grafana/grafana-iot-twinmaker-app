@@ -19,6 +19,7 @@ import (
 // TwinMakerHandler uses a client to create grafana response objects
 type TwinMakerHandler interface {
 	GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (models.TokenInfo, error)
+	GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (models.TokenInfo, error)
 	ListWorkspaces(ctx context.Context, query models.TwinMakerQuery) backend.DataResponse
 	ListScenes(ctx context.Context, query models.TwinMakerQuery) backend.DataResponse
 	ListEntities(ctx context.Context, query models.TwinMakerQuery) backend.DataResponse
@@ -579,6 +580,35 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 func (s *twinMakerHandler) GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (models.TokenInfo, error) {
 	info := models.TokenInfo{}
 	credentials, err := s.client.GetSessionToken(ctx, duration, workspaceId)
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			switch aerr.Code() {
+			case sts.ErrCodeRegionDisabledException:
+				fmt.Println(sts.ErrCodeRegionDisabledException, aerr.Error())
+			default:
+				fmt.Println(aerr.Error())
+			}
+		} else {
+			// Print the error, cast err to awserr.Error to get the Code and
+			// Message from an error.
+			fmt.Println(err.Error())
+		}
+		return info, err
+	}
+
+	info.AccessKeyId = credentials.AccessKeyId
+	info.SecretAccessKey = credentials.SecretAccessKey
+	info.SessionToken = credentials.SessionToken
+	if credentials.Expiration != nil {
+		info.Expiration = credentials.Expiration.UnixNano() / int64(time.Millisecond)
+	}
+
+	return info, err
+}
+
+func (s *twinMakerHandler) GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (models.TokenInfo, error) {
+	info := models.TokenInfo{}
+	credentials, err := s.client.GetWriteSessionToken(ctx, duration, workspaceId)
 	if err != nil {
 		if aerr, ok := err.(awserr.Error); ok {
 			switch aerr.Code() {

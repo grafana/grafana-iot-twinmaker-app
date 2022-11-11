@@ -92,6 +92,12 @@ func (c *twinMakerMockClient) GetSessionToken(ctx context.Context, duration time
 	return r, err
 }
 
+func (c *twinMakerMockClient) GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*sts.Credentials, error) {
+	r := &sts.Credentials{}
+	_, err := c.loadSavedResponse(r)
+	return r, err
+}
+
 func (c *twinMakerMockClient) BatchPutPropertyValues(ctx context.Context, request *iottwinmaker.BatchPutPropertyValuesInput) (*iottwinmaker.BatchPutPropertyValuesOutput, error) {
 	r := &iottwinmaker.BatchPutPropertyValuesOutput{}
 	_, err := c.loadSavedResponse(r)
