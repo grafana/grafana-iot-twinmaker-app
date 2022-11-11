@@ -395,7 +395,8 @@ export class QueryEditor extends PureComponent<Props, State> {
     if (!this.props.datasource.grafanaLiveEnabled) {
       return null;
     }
-
+    // Fixing weird typing issue
+    const FVM = FieldValidationMessage as any;
     return (
       <>
         <InlineField label="Stream" tooltip="Polling data in an interval">
@@ -415,9 +416,7 @@ export class QueryEditor extends PureComponent<Props, State> {
               onChange={this.onIntervalChange}
               numeric={true}
             />
-            {this.state.invalidInterval && (
-              <FieldValidationMessage>Interval must be at least 5s</FieldValidationMessage>
-            )}
+            {this.state.invalidInterval && <FVM>Interval must be at least 5s</FVM>}
           </>
         </InlineField>
       </>
