@@ -325,14 +325,12 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 		return nil, fmt.Errorf("missing property")
 	}
 
-	tabularConditions := &iottwinmaker.TabularConditions{
-		OrderBy:         make([]*iottwinmaker.OrderBy, 0),
-		PropertyFilters: make([]*iottwinmaker.PropertyFilter, 0),
-	}
+	orderByList := make([]*iottwinmaker.OrderBy, 0)
+	propertyFiltersList := make([]*iottwinmaker.PropertyFilter, 0)
 
 	if query.TabularConditions.OrderBy != nil {
 		for _, orderBy := range query.TabularConditions.OrderBy {
-			tabularConditions.OrderBy = append(tabularConditions.OrderBy, &iottwinmaker.OrderBy{
+			orderByList = append(orderByList, &iottwinmaker.OrderBy{
 				PropertyName: &orderBy.PropertyName,
 				Order:        &orderBy.Order,
 			})
@@ -341,7 +339,7 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 
 	if query.TabularConditions.PropertyFilter != nil {
 		for _, propertyFilter := range query.TabularConditions.PropertyFilter {
-			tabularConditions.PropertyFilters = append(tabularConditions.PropertyFilters, &iottwinmaker.PropertyFilter{
+			propertyFiltersList = append(propertyFiltersList, &iottwinmaker.PropertyFilter{
 				PropertyName: &propertyFilter.Name,
 				Operator:     &propertyFilter.Op,
 				Value:        propertyFilter.Value.ToTwinMakerDataValue(),
@@ -361,8 +359,15 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 	if query.PropertyGroupName != "" {
 		params.PropertyGroupName = &query.PropertyGroupName
 	}
-
-	if len(tabularConditions.OrderBy) > 0 && len(tabularConditions.PropertyFilters) > 0 {
+	
+	tabularConditions := &iottwinmaker.TabularConditions{}
+	if len(orderByList) > 0 {
+		tabularConditions.OrderBy = orderByList
+	}
+	if len(propertyFiltersList) > 0 {
+		tabularConditions.PropertyFilters = propertyFiltersList
+	}
+	if len(tabularConditions.OrderBy) > 0 || len(tabularConditions.PropertyFilters) > 0 {
 		params.TabularConditions = tabularConditions
 	}
 
