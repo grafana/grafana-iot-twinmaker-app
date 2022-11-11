@@ -31,7 +31,7 @@ export default function OrderByEditor(props: OrderByEditorProps) {
           label={'OrderBy'}
           grow={true}
           labelWidth={firstLabelWidth}
-          tooltip="currently only string fields are supported"
+          tooltip="enter the order of property values"
         >
           <>
             <Select
@@ -52,9 +52,7 @@ export default function OrderByEditor(props: OrderByEditorProps) {
               isClearable={false}
               width={40}
             />
-            {index !== orderBy.length - 1 && (
-              <Button icon="trash-alt" variant="secondary" onClick={() => onChange(index)} />
-            )}
+            <Button icon="trash-alt" variant="secondary" onClick={() => onChange(index)} />
             {index === orderBy.length - 1 && <Button icon="plus-circle" variant="secondary" onClick={props.onAdd} />}
           </>
         </InlineField>

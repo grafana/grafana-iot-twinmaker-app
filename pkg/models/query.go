@@ -3,6 +3,7 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/aws/aws-sdk-go/service/iottwinmaker"
@@ -29,10 +30,49 @@ const (
 	ResultOrderDesc TwinMakerResultOrder = "DESCENDING"
 )
 
+type TwinMakerFilterValue struct {
+	BooleanValue *bool 		`json:"booleanValue,omitempty"`
+	DoubleValue *float64 	`json:"doubleValue,omitempty"`
+	IntegerValue *int64 	`json:"integerValue,omitempty"`
+	LongValue *int64 		`json:"longValue,omitempty"`
+	StringValue *string 	`json:"stringValue,omitempty"`
+}
+
 type TwinMakerPropertyFilter struct {
-	Name  string `json:"name"`
-	Value string `json:"value"` // only string for now can switch to interface later
-	Op    string `json:"op,omitempty"`
+	Name  string 				`json:"name"`
+	Value TwinMakerFilterValue 	`json:"value"`
+	Op    string 				`json:"op,omitempty"`
+}
+
+func (v *TwinMakerFilterValue) ToTwinMakerDataValue() *iottwinmaker.DataValue {
+	if v.BooleanValue != nil {
+		return &iottwinmaker.DataValue{BooleanValue: v.BooleanValue}
+	} else if v.DoubleValue != nil {
+		return &iottwinmaker.DataValue{DoubleValue: v.DoubleValue}
+	} else if v.IntegerValue != nil {
+		return &iottwinmaker.DataValue{IntegerValue: v.IntegerValue}
+	} else if v.LongValue != nil {
+		return &iottwinmaker.DataValue{LongValue: v.LongValue}
+	} else if v.StringValue != nil {
+		return &iottwinmaker.DataValue{StringValue: v.StringValue}
+	}
+	return &iottwinmaker.DataValue{}
+}
+
+func (v *TwinMakerFilterValue) DataValueToString() string {
+	str := ""
+	if v.BooleanValue != nil {
+		str = strconv.FormatBool(*v.BooleanValue)
+	} else if v.DoubleValue != nil {
+		str = strconv.FormatFloat(*v.DoubleValue, 'f', -1, 64)
+	} else if v.IntegerValue != nil {
+		str = strconv.FormatInt(*v.IntegerValue, 10)
+	} else if v.LongValue != nil {
+		str = strconv.FormatInt(*v.LongValue, 10)
+	} else if v.StringValue != nil {
+		str = *v.StringValue
+	}
+	return str
 }
 
 type TwinMakerListEntitiesFilter struct {
@@ -44,12 +84,11 @@ type TwinMakerListEntitiesFilter struct {
 func (f *TwinMakerPropertyFilter) ToTwinMakerFilter() *iottwinmaker.PropertyFilter {
 	filter := &iottwinmaker.PropertyFilter{
 		PropertyName: &f.Name,
-		Value:        &iottwinmaker.DataValue{},
+		Value:        f.Value.ToTwinMakerDataValue(),
 	}
 	if f.Op != "" {
 		filter.SetOperator(f.Op) // ???
 	}
-	filter.Value.SetStringValue(f.Value)
 	return filter
 }
 
@@ -134,7 +173,7 @@ func (q *TwinMakerQuery) CacheKey(pfix string) string {
 	}
 
 	for _, f := range q.PropertyFilter {
-		key += "!" + f.Name + f.Op + f.Value
+		key += "!" + f.Name + f.Op + f.Value.DataValueToString()
 	}
 	// TODO: does it break the filter?
 	for _, ef := range q.ListEntitiesFilter {

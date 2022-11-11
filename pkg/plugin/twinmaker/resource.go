@@ -183,7 +183,6 @@ func (r *twinMakerResource) ListOptions(ctx context.Context) (models.OptionsInfo
 					break
 				}
 			}
-			continue
 
 			results.Components = append(results.Components, info)
 		}

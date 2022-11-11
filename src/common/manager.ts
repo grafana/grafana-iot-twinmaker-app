@@ -33,9 +33,17 @@ export interface TwinMakerOrderBy {
 
 export const DEFAULT_PROPERTY_FILTER_OPERATOR = '='; // real value depends on lambda configuration
 
+export interface TwinMakerFilterValue {
+  booleanValue?: boolean;
+  doubleValue?: number;
+  integerValue?: number;
+  longValue?: number;
+  stringValue?: string;
+}
+
 export interface TwinMakerPropertyFilter {
   name: string;
-  value: string;
+  value: TwinMakerFilterValue;
   op: string;
 }
 
@@ -54,7 +62,6 @@ export interface TwinMakerQuery extends DataQuery {
   componentTypeId?: string;
   properties?: string[];
   filter?: TwinMakerPropertyFilter[];
-  orderBy?: TwinMakerOrderBy[];
   maxResults?: number;
   order?: TwinMakerResultOrder;
   grafanaLiveEnabled: boolean;

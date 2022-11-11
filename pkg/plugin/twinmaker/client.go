@@ -331,20 +331,20 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 	}
 
 	if query.TabularConditions.OrderBy != nil {
-		for _, property := range query.TabularConditions.OrderBy {
+		for _, orderBy := range query.TabularConditions.OrderBy {
 			tabularConditions.OrderBy = append(tabularConditions.OrderBy, &iottwinmaker.OrderBy{
-				PropertyName: &property.PropertyName,
-				Order:        &property.Order,
+				PropertyName: &orderBy.PropertyName,
+				Order:        &orderBy.Order,
 			})
 		}
 	}
 
 	if query.TabularConditions.PropertyFilter != nil {
-		for _, property := range query.TabularConditions.PropertyFilter {
+		for _, propertyFilter := range query.TabularConditions.PropertyFilter {
 			tabularConditions.PropertyFilters = append(tabularConditions.PropertyFilters, &iottwinmaker.PropertyFilter{
-				PropertyName: &property.Name,
-				Operator:     &property.Op,
-				Value:        &iottwinmaker.DataValue{StringValue: &property.Value},
+				PropertyName: &propertyFilter.Name,
+				Operator:     &propertyFilter.Op,
+				Value:        propertyFilter.Value.ToTwinMakerDataValue(),
 			})
 		}
 	}
@@ -436,7 +436,7 @@ func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query mod
 	if len(query.PropertyFilter) > 0 {
 		var filter []*iottwinmaker.PropertyFilter
 		for _, fq := range query.PropertyFilter {
-			if fq.Name != "" && fq.Value != "" {
+			if fq.Name != "" && fq.Value.DataValueToString() != "" {
 				if fq.Op == "" {
 					fq.Op = "=" // matches the placeholder text in the frontend
 				}
