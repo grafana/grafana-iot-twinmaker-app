@@ -56,18 +56,14 @@ export enum ComponentFieldName {
   propGroups = 'propGroups',
 }
 
-export function resolvePropGroups(
-  componentTypeId: string | undefined,
-  components: SelectableComponentInfo[] | undefined,
-) {
-  console.log('resolvePropGroups', componentTypeId, components);
-    return components?.find((item) => item.value === componentTypeId)?.propGroups ?? [];
+export function resolvePropGroups(compName: SelectionInfo<string>, entityInfo: SelectableComponentInfo[] | undefined) {
+  return entityInfo?.find((item) => item.value === compName.current?.value)?.propGroups ?? [];
 }
 
 export function resolvePropsFromComponentSel(
   compName: SelectionInfo<string>,
   field: ComponentFieldName,
-  entityInfo: SelectableComponentInfo[] | undefined,
+  entityInfo: SelectableComponentInfo[] | undefined
 ) {
   let resolvedCompName: string | undefined;
   if (compName.current && compName.current.value && compName.current.value.indexOf('$') >= 0) {

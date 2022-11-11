@@ -27,6 +27,7 @@ import {
   ComponentFieldName,
   getMultiSelectionInfo,
   getSelectionInfo,
+  resolvePropGroups,
   resolvePropsFromComponentSel,
   SelectionInfo,
 } from 'common/info/info';
@@ -181,19 +182,6 @@ export class QueryEditor extends PureComponent<Props, State> {
 
   onComponentNameChange = (event: SelectableValue<string>) => {
     this.onComponentNameTextChange(event?.value);
-  };
-
-  onPropertyGroupChange = (event: SelectableValue<string>) => {
-    this.onPropertyGroupTextChange(event?.value);
-  };
-
-  onPropertyGroupTextChange = (propertyGroupName?: string) => {
-    const { onChange, query, onRunQuery } = this.props;
-    onChange({
-      ...query,
-      propertyGroupName,
-    });
-    onRunQuery();
   };
 
   onComponentNameTextChange = (componentName?: string) => {
@@ -387,25 +375,6 @@ export class QueryEditor extends PureComponent<Props, State> {
     );
   }
 
-  renderPropGroupSelector(propertyGroupName: string | undefined, propGroups?: SelectablePropGroupsInfo[]) {
-    return (
-      <InlineFieldRow>
-        <InlineField label={'Property Group'} grow={true} labelWidth={firstLabelWidth}>
-          <Select
-            menuShouldPortal={true}
-            value={propertyGroupName}
-            options={propGroups}
-            onChange={this.onPropertyGroupChange}
-            isClearable={true}
-            isLoading={this.state.workspaceLoading}
-            allowCustomValue={false}
-            formatCreateLabel={(v) => `Property Group: ${v}`}
-          />
-        </InlineField>
-      </InlineFieldRow>
-    );
-  }
-
   renderAlarmFilterSelector(query: TwinMakerQuery, isClearable: boolean) {
     const alarmStatuses: Array<SelectableValue<string>> = [
       {
@@ -572,7 +541,6 @@ export class QueryEditor extends PureComponent<Props, State> {
       filters = [{ name: '', op: DEFAULT_PROPERTY_FILTER_OPERATOR, value: '' }];
     }
 
-    // TODO filter properties in propertyGroup
     const properties = this.getPropertiesMultiSelectionInfo(query, propOpts);
 
     return (
@@ -615,7 +583,6 @@ export class QueryEditor extends PureComponent<Props, State> {
       orderBy = [{ propertyName: '' }];
     }
 
-    // TODO filter properties in propertyGroup
     const properties = this.getPropertiesMultiSelectionInfo(query, propOpts);
 
     return (
@@ -625,6 +592,39 @@ export class QueryEditor extends PureComponent<Props, State> {
         onAdd={this.onAddOrderBy}
         onChange={this.onOrderByChanged}
       />
+    );
+  }
+
+  onPropertyGroupChange = (event: SelectableValue<string>) => {
+    this.onPropertyGroupTextChange(event?.value);
+  };
+
+  onPropertyGroupTextChange = (propertyGroupName?: string) => {
+    const { onChange, query, onRunQuery } = this.props;
+    onChange({
+      ...query,
+      propertyGroupName,
+    });
+    onRunQuery();
+  };
+
+  renderPropGroupSelector(propertyGroupName: string | undefined, propGroups?: SelectablePropGroupsInfo[]) {
+    return (
+      <InlineFieldRow>
+        <InlineField label={'Property Group'} grow={true} labelWidth={firstLabelWidth}>
+          <Select
+            menuShouldPortal={true}
+            value={propertyGroupName}
+            options={propGroups}
+            onChange={this.onPropertyGroupChange}
+            isClearable={true}
+            isLoading={this.state.workspaceLoading}
+            allowCustomValue={true}
+            onCreateOption={this.onPropertyGroupTextChange}
+            formatCreateLabel={(v) => `Property Group: ${v}`}
+          />
+        </InlineField>
+      </InlineFieldRow>
     );
   }
 
@@ -678,6 +678,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     const compType = getSelectionInfo(query.componentTypeId, this.state.workspace?.components, this.state.templateVars);
 
     const { entity: entityInfo } = this.state;
+    console.log(this.state);
     switch (query.queryType) {
       case TwinMakerQueryType.ListWorkspace:
       case TwinMakerQueryType.ListScenes:
@@ -695,10 +696,10 @@ export class QueryEditor extends PureComponent<Props, State> {
         return this.renderEntitySelector(query, false);
       case TwinMakerQueryType.GetPropertyValue:
         if (query.entityId) {
-          let propOpts;
           const compName = getSelectionInfo(query.componentName, entityInfo, this.state.templateVars);
-          const propGroups = resolvePropsFromComponentSel(compName, ComponentFieldName.propGroups, entityInfo);
-          const isAthenaConnector = propGroups?.length ?? 0 > 0;
+          const propGroups = resolvePropGroups(compName, entityInfo);
+          const isAthenaConnector = propGroups.length > 0;
+          let propOpts: Array<SelectableValue<string>> | undefined = [];
           const propGroup = query.propertyGroupName;
 
           if (isAthenaConnector) {
@@ -708,7 +709,6 @@ export class QueryEditor extends PureComponent<Props, State> {
           } else {
             propOpts = resolvePropsFromComponentSel(compName, ComponentFieldName.props, entityInfo);
           }
-
           return (
             <>
               {this.renderEntitySelector(query, true)}

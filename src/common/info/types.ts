@@ -11,6 +11,7 @@ export interface SelectableComponentInfo extends SelectableValue<string> {
   props?: SelectableQueryResults;
   propGroups?: SelectablePropGroupsInfo[];
 }
+
 export type SelectableComponents = SelectableComponentInfo[];
 
 export interface WorkspaceSelectionInfo {
