@@ -581,35 +581,49 @@ func (s *twinMakerHandler) GetSessionToken(ctx context.Context, duration time.Du
 	info := models.TokenInfo{}
 	credentials, err := s.client.GetSessionToken(ctx, duration, workspaceId)
 	if err != nil {
-		if aerr, ok := err.(awserr.Error); ok {
-			switch aerr.Code() {
-			case sts.ErrCodeRegionDisabledException:
-				fmt.Println(sts.ErrCodeRegionDisabledException, aerr.Error())
-			default:
-				fmt.Println(aerr.Error())
-			}
-		} else {
-			// Print the error, cast err to awserr.Error to get the Code and
-			// Message from an error.
-			fmt.Println(err.Error())
-		}
+		HandleGetTokenError(err)
 		return info, err
 	}
+	/*
+		if err != nil {
+			if aerr, ok := err.(awserr.Error); ok {
+				switch aerr.Code() {
+				case sts.ErrCodeRegionDisabledException:
+					fmt.Println(sts.ErrCodeRegionDisabledException, aerr.Error())
+				default:
+					fmt.Println(aerr.Error())
+				}
+			} else {
+				// Print the error, cast err to awserr.Error to get the Code and
+				// Message from an error.
+				fmt.Println(err.Error())
+			}
+			return info, err
+		}
 
-	info.AccessKeyId = credentials.AccessKeyId
-	info.SecretAccessKey = credentials.SecretAccessKey
-	info.SessionToken = credentials.SessionToken
-	if credentials.Expiration != nil {
-		info.Expiration = credentials.Expiration.UnixNano() / int64(time.Millisecond)
-	}
+		info.AccessKeyId = credentials.AccessKeyId
+		info.SecretAccessKey = credentials.SecretAccessKey
+		info.SessionToken = credentials.SessionToken
+		if credentials.Expiration != nil {
+			info.Expiration = credentials.Expiration.UnixNano() / int64(time.Millisecond)
+		}
 
-	return info, err
+		return info, err
+	*/
+	return SetInfo(credentials, info), err
 }
 
 func (s *twinMakerHandler) GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (models.TokenInfo, error) {
 	info := models.TokenInfo{}
 	credentials, err := s.client.GetWriteSessionToken(ctx, duration, workspaceId)
 	if err != nil {
+		HandleGetTokenError(err)
+		return info, err
+	}
+	/*info := models.TokenInfo{}
+	credentials, err := s.client.GetWriteSessionToken(ctx, duration, workspaceId)
+	if err != nil {
+		HandleGetTokenError(err)
 		if aerr, ok := err.(awserr.Error); ok {
 			switch aerr.Code() {
 			case sts.ErrCodeRegionDisabledException:
@@ -632,5 +646,31 @@ func (s *twinMakerHandler) GetWriteSessionToken(ctx context.Context, duration ti
 		info.Expiration = credentials.Expiration.UnixNano() / int64(time.Millisecond)
 	}
 
-	return info, err
+	return info, err*/
+	return SetInfo(credentials, info), err
+}
+
+func HandleGetTokenError(err error) {
+	if aerr, ok := err.(awserr.Error); ok {
+		switch aerr.Code() {
+		case sts.ErrCodeRegionDisabledException:
+			fmt.Println(sts.ErrCodeRegionDisabledException, aerr.Error())
+		default:
+			fmt.Println(aerr.Error())
+		}
+	} else {
+		// Print the error, cast err to awserr.Error to get the Code and
+		// Message from an error.
+		fmt.Println(err.Error())
+	}
+}
+
+func SetInfo(credentials *sts.Credentials, info models.TokenInfo) models.TokenInfo {
+	info.AccessKeyId = credentials.AccessKeyId
+	info.SecretAccessKey = credentials.SecretAccessKey
+	info.SessionToken = credentials.SessionToken
+	if credentials.Expiration != nil {
+		info.Expiration = credentials.Expiration.UnixNano() / int64(time.Millisecond)
+	}
+	return info
 }
