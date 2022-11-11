@@ -216,6 +216,23 @@ func (ds *TwinMakerDatasource) CheckHealth(ctx context.Context, _ *backend.Check
 		workspace = *res.WorkspaceId
 	}
 
+	if ds.settings.AssumeRoleARNWriter != "" {
+		_, err := ds.handler.GetWriteSessionToken(ctx, time.Second*3600, ds.settings.WorkspaceID)
+		if err != nil {
+			awsErr, ok := err.(awserr.Error)
+			if ok {
+				return &backend.CheckHealthResult{
+					Status:  backend.HealthStatusError,
+					Message: awsErr.Error(),
+				}, nil
+			}
+			return &backend.CheckHealthResult{
+				Status:  backend.HealthStatusError,
+				Message: "Failed to get session token",
+			}, nil
+		}
+	}
+
 	return &backend.CheckHealthResult{
 		Status:  backend.HealthStatusOk,
 		Message: fmt.Sprintf("TwinMaker datasource successfully configured (%s)", workspace),
