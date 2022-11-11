@@ -325,7 +325,7 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 		return nil, fmt.Errorf("missing property")
 	}
 
-	tabularConditions := iottwinmaker.TabularConditions{
+	tabularConditions := &iottwinmaker.TabularConditions{
 		OrderBy:         make([]*iottwinmaker.OrderBy, 0),
 		PropertyFilters: make([]*iottwinmaker.PropertyFilter, 0),
 	}
@@ -353,9 +353,7 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 		EntityId:           &query.EntityId,
 		ComponentName:      &query.ComponentName,
 		SelectedProperties: query.Properties,
-		TabularConditions:  &tabularConditions,
 		WorkspaceId:        &query.WorkspaceId,
-		PropertyGroupName:  &query.PropertyGroupName,
 		MaxResults:         aws.Int64(200),
 	}
 
@@ -364,8 +362,8 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 		params.PropertyGroupName = &query.PropertyGroupName
 	}
 
-	if len(query.TabularConditions.OrderBy) > 0 || len(query.TabularConditions.PropertyFilter) > 0 {
-		params.TabularConditions = query.TabularConditions.ToTwinMakerTabularConditions()
+	if len(tabularConditions.OrderBy) > 0 && len(tabularConditions.PropertyFilters) > 0 {
+		params.TabularConditions = tabularConditions
 	}
 
 	propertyValues, err := client.GetPropertyValueWithContext(ctx, params)
