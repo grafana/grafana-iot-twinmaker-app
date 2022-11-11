@@ -437,6 +437,18 @@ func (c *twinMakerClient) GetSessionToken(ctx context.Context, duration time.Dur
 	if err != nil {
 		return nil, err
 	}
+	if c.tokenRoleWriter != "" {
+		input := &sts.AssumeRoleInput{
+			RoleArn:         &c.tokenRoleWriter,
+			DurationSeconds: aws.Int64(int64(duration.Seconds())),
+			RoleSessionName: aws.String("grafana"),
+		}
+
+		_, err := tokenService.AssumeRoleWithContext(ctx, input)
+		if err != nil {
+			return nil, err
+		}
+	}
 
 	// always call AssumeRole with an inline session policy if a role is provided
 	if c.tokenRole != "" {
