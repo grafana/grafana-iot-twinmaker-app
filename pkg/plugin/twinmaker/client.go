@@ -20,6 +20,7 @@ import (
 // TwinMakerClient calls AWS services and returns the raw results
 type TwinMakerClient interface {
 	GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*sts.Credentials, error)
+	GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*sts.Credentials, error)
 	ListWorkspaces(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.ListWorkspacesOutput, error)
 	GetWorkspace(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetWorkspaceOutput, error)
 	ListScenes(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.ListScenesOutput, error)
@@ -494,18 +495,6 @@ func (c *twinMakerClient) GetSessionToken(ctx context.Context, duration time.Dur
 	if err != nil {
 		return nil, err
 	}
-	if c.tokenRoleWriter != "" {
-		input := &sts.AssumeRoleInput{
-			RoleArn:         &c.tokenRoleWriter,
-			DurationSeconds: aws.Int64(int64(duration.Seconds())),
-			RoleSessionName: aws.String("grafana"),
-		}
-
-		_, err := tokenService.AssumeRoleWithContext(ctx, input)
-		if err != nil {
-			return nil, err
-		}
-	}
 
 	// always call AssumeRole with an inline session policy if a role is provided
 	if c.tokenRole != "" {
@@ -538,6 +527,34 @@ func (c *twinMakerClient) GetSessionToken(ctx context.Context, duration time.Dur
 		return out.Credentials, err
 	} else {
 		return nil, fmt.Errorf("assume role ARN is missing in datasource configuration")
+	}
+}
+
+func (c *twinMakerClient) GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*sts.Credentials, error) {
+	_, err := c.writerService()
+	if err != nil {
+		return nil, err
+	}
+
+	tokenService, err := c.tokenService()
+	if err != nil {
+		return nil, err
+	}
+
+	if c.tokenRoleWriter != "" {
+		input := &sts.AssumeRoleInput{
+			RoleArn:         &c.tokenRoleWriter,
+			DurationSeconds: aws.Int64(int64(duration.Seconds())),
+			RoleSessionName: aws.String("grafana"),
+		}
+
+		out, err := tokenService.AssumeRoleWithContext(ctx, input)
+		if err != nil {
+			return nil, err
+		}
+		return out.Credentials, err
+	} else {
+		return nil, fmt.Errorf("assume role ARN Write is missing in datasource configuration")
 	}
 }
 

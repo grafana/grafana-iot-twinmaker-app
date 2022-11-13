@@ -8662,7 +8662,7 @@ available-typed-arrays@^1.0.5:
 
 "aws-iot-twinmaker-grafana-utils@file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz":
   version "1.0.0"
-  resolved "file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz#b08d9147389efc74e2c779c2c02cecfa0e341336"
+  resolved "file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz#69c55b6138d8f6478b0f761d4aeb8f66017d62fe"
   dependencies:
     debug "^4.3.4"
 

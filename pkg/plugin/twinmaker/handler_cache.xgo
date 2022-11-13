@@ -85,3 +85,7 @@ func (s *cachingHandler) GetAlarms(ctx context.Context, query models.TwinMakerQu
 func (s *cachingHandler) GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (models.TokenInfo, error) {
 	return s.handler.GetSessionToken(ctx, duration, workspaceId)
 }
+
+func (s *cachingHandler) GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (models.TokenInfo, error) {
+	return s.handler.GetWriteSessionToken(ctx, duration, workspaceId)
+}

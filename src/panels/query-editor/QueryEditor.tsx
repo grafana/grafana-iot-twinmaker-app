@@ -5,8 +5,7 @@ import { QueryEditorPropsFromParent } from './interfaces';
 import { QueryEditorWrapper } from 'aws-iot-twinmaker-grafana-utils';
 
 export const QueryEditor = (props: QueryEditorPropsFromParent) => {
-  const styles = getStyles();
-
+  const styles = getStyles(props.width);
   return (
     <div data-testid={'QueryEditor'} className={styles.wrapper}>
       <QueryEditorWrapper workspaceId={props.workspaceId} awsConfig={props.awsConfig} />
