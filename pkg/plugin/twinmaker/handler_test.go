@@ -81,6 +81,24 @@ func TestHandleAWSData(t *testing.T) {
 		runTest(t, client.path, &resp)
 	})
 
+	t.Run("run GetPropertyValue handler for athena connector", func(t *testing.T) {
+		client.path = "get-property-value-athena"
+		resp := handler.GetPropertyValue(context.Background(), models.TwinMakerQuery{
+			WorkspaceId:       "tabular-test-1",
+			EntityId:          "1b480741-1ac9-4c28-ac0e-f815b4bb3347",
+			ComponentName:     "TabularComponent",
+			Properties:        []*string{aws.String("crit"), aws.String("description"), aws.String("floc")},
+			PropertyGroupName: "tabularPropertyGroup",
+		})
+		dr := runTest(t, client.path, &resp)
+		labels := data.Labels{
+			"componentName": "TabularComponent",
+			"entityId":      "1b480741-1ac9-4c28-ac0e-f815b4bb3347",
+		}
+		require.Equal(t, labels, dr.Frames[0].Fields[1].Labels)
+		require.Equal(t, labels, dr.Frames[0].Fields[0].Labels)
+	})
+
 	t.Run("run GetEntityHistory handler", func(t *testing.T) {
 		client.path = "get-property-history-alarms"
 		resp := handler.GetEntityHistory(context.Background(), models.TwinMakerQuery{
@@ -120,7 +138,9 @@ func TestHandleAWSData(t *testing.T) {
 			PropertyFilter: []models.TwinMakerPropertyFilter{
 				{
 					Name:  "alarm_status",
-					Value: "ACTIVE",
+					Value: models.TwinMakerFilterValue{
+						StringValue: aws.String("ACTIVE"),
+					},
 					Op:    "=",
 				},
 			},
@@ -163,7 +183,9 @@ func TestHandleAWSData(t *testing.T) {
 			PropertyFilter: []models.TwinMakerPropertyFilter{
 				{
 					Name:  "alarm_status",
-					Value: "ACTIVE",
+					Value: models.TwinMakerFilterValue{
+						StringValue: aws.String("ACTIVE"),
+					},
 					Op:    "=",
 				},
 			},

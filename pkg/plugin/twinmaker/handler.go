@@ -245,36 +245,68 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 	}
 
 	frame := data.NewFrame("")
-	propVals := make([]string, 0, len(results.PropertyValues))
-	for k := range results.PropertyValues {
-		propVals = append(propVals, k)
-	}
-	sort.Strings(propVals)
 
-	for _, propVal := range propVals {
-		prop := results.PropertyValues[propVal]
-		if v := prop.PropertyValue.ListValue; v != nil {
-			fr := s.processListValue(v, propVal)
-			frame.Fields = append(frame.Fields, fr.Fields...)
-			continue
+	if len(results.PropertyValues) > 0 {
+		propVals := make([]string, 0, len(results.PropertyValues))
+		for k := range results.PropertyValues {
+			propVals = append(propVals, k)
 		}
-		if v := prop.PropertyValue.MapValue; v != nil {
-			fr := s.processMapValue(v)
-			frame.Fields = append(frame.Fields, fr.Fields...)
-			continue
-		}
-		f, converter := newDataValueField(prop.PropertyValue, 1)
-		f.Set(0, converter(prop.PropertyValue))
+		sort.Strings(propVals)
 
-		f.Name = *prop.PropertyReference.PropertyName
-		f.Labels = data.Labels{
-			"entityId":      *prop.PropertyReference.EntityId,
-			"componentName": *prop.PropertyReference.ComponentName,
+		for _, propVal := range propVals {
+			prop := results.PropertyValues[propVal]
+			if v := prop.PropertyValue.ListValue; v != nil {
+				fr := s.processListValue(v, propVal)
+				frame.Fields = append(frame.Fields, fr.Fields...)
+				continue
+			}
+			if v := prop.PropertyValue.MapValue; v != nil {
+				fr := s.processMapValue(v)
+				frame.Fields = append(frame.Fields, fr.Fields...)
+				continue
+			}
+			f, converter := newDataValueField(prop.PropertyValue, 1)
+			f.Set(0, converter(prop.PropertyValue))
+
+			f.Name = *prop.PropertyReference.PropertyName
+			f.Labels = data.Labels{
+				"entityId":      *prop.PropertyReference.EntityId,
+				"componentName": *prop.PropertyReference.ComponentName,
+			}
+			frame.Fields = append(frame.Fields, f)
 		}
-		frame.Fields = append(frame.Fields, f)
+	} else if len(results.TabularPropertyValues) > 0 && len(results.TabularPropertyValues[0]) > 0 {
+		tabularValuesList := results.TabularPropertyValues[0]
+		fieldsList := make([]*data.Field, 0, len(tabularValuesList[0]))
+		converterList := make([]func(v *iottwinmaker.DataValue) interface{}, 0, len(tabularValuesList[0]))
+
+		for valIdx, propList := range tabularValuesList {
+			keys := make([]string, 0, len(propList))
+			for k := range propList {
+				keys = append(keys, k)
+			}
+			sort.Strings(keys)
+			for propIdx, propName := range keys {
+				propVal := propList[propName]
+				// First iteration initialize the fields
+				if valIdx == 0 {
+					f, converter := newDataValueField(propVal, len(tabularValuesList))
+					f.Name = propName
+					f.Labels = data.Labels{
+						"entityId":      query.EntityId,
+						"componentName": query.ComponentName,
+					}
+					fieldsList = append(fieldsList, f)
+					converterList = append(converterList, converter)
+					frame.Fields = append(frame.Fields, f)
+				}
+				// Save the property value in the respective field
+				fieldsList[propIdx].Set(valIdx, converterList[propIdx](propVal))
+			}
+		}
 	}
+
 	dr.Frames = append(dr.Frames, frame)
-
 	return
 }
 

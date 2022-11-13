@@ -1,0 +1,1443 @@
+{
+    "NextToken": null,
+    "PropertyValues": {},
+    "TabularPropertyValues": [
+        [
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "BYTN-02-SDV-09186 does not open"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "BYTN-03-TV-05319 does not open"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Cable Dmg on SDV"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown vlv inspection"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown valve inspection PM"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Valve faulted @119%"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown vlv inspection"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Cable corrosion, SDV"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown valve inspection PM"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Valve faulted @102%"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Cable corrosion on SDV"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "PM Valve Shutdown"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Damaged cable on SDV"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "PM Valve Shutdown"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown vlv inspection PM"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Damaged cable on SDV"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown valve  PM"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown vlv inspection"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "PM Valve Shutdown"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown valve  PM"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Damaged cable on SDV"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Damaged cable on SDV"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown vlv inspection PM"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown vlv inspection PM"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Cable corrosion on SDV"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown vlv inspection"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "BYTN-01-SDV-06327 does not open"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Damaged cable on SDV"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown vlv inspection"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Damaged cable on SDV"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Valve faulted @119%"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown vlv inspection"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "BYTN-04-TV-02385 does not open"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Cable corrosion"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Cable Dmg on SDV"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Shutdown valve inspection PM"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "BYTN-02-XV-06517 does not open"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "BYTN-04-XV-05623 does not open"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 5,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Cable Dmg on SDV"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "BYTN-01-XV-01447 does not open"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            },
+            {
+                "crit": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": 4,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": null
+                },
+                "description": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "Cable corrosion"
+                },
+                "floc": {
+                    "BooleanValue": null,
+                    "DoubleValue": null,
+                    "Expression": null,
+                    "IntegerValue": null,
+                    "ListValue": null,
+                    "LongValue": null,
+                    "MapValue": null,
+                    "RelationshipValue": null,
+                    "StringValue": "P-268"
+                }
+            }
+        ]
+    ]
+}

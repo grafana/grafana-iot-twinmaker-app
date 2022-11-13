@@ -1,10 +1,17 @@
 import { SelectableValue } from '@grafana/data';
 
 export type SelectableQueryResults = Array<SelectableValue<string>>;
+
+export interface SelectablePropGroupsInfo extends SelectableValue<string> {
+  props?: SelectableQueryResults;
+}
+
 export interface SelectableComponentInfo extends SelectableValue<string> {
   timeSeries?: SelectableQueryResults;
   props?: SelectableQueryResults;
+  propGroups?: SelectablePropGroupsInfo[];
 }
+
 export type SelectableComponents = SelectableComponentInfo[];
 
 export interface WorkspaceSelectionInfo {

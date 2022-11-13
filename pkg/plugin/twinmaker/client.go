@@ -355,14 +355,71 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 		return nil, fmt.Errorf("missing property")
 	}
 
+	orderByList := make([]*iottwinmaker.OrderBy, 0)
+	propertyFiltersList := make([]*iottwinmaker.PropertyFilter, 0)
+
+	if query.TabularConditions.OrderBy != nil {
+		for _, orderBy := range query.TabularConditions.OrderBy {
+			orderByList = append(orderByList, &iottwinmaker.OrderBy{
+				PropertyName: &orderBy.PropertyName,
+				Order:        &orderBy.Order,
+			})
+		}
+	}
+
+	if query.TabularConditions.PropertyFilter != nil {
+		for _, propertyFilter := range query.TabularConditions.PropertyFilter {
+			propertyFiltersList = append(propertyFiltersList, &iottwinmaker.PropertyFilter{
+				PropertyName: &propertyFilter.Name,
+				Operator:     &propertyFilter.Op,
+				Value:        propertyFilter.Value.ToTwinMakerDataValue(),
+			})
+		}
+	}
+
 	params := &iottwinmaker.GetPropertyValueInput{
 		EntityId:           &query.EntityId,
 		ComponentName:      &query.ComponentName,
 		SelectedProperties: query.Properties,
 		WorkspaceId:        &query.WorkspaceId,
+		MaxResults:         aws.Int64(200),
 	}
 
-	return client.GetPropertyValueWithContext(ctx, params)
+	// Parse Athena Data Connector fields
+	if query.PropertyGroupName != "" {
+		params.PropertyGroupName = &query.PropertyGroupName
+	}
+	
+	tabularConditions := &iottwinmaker.TabularConditions{}
+	if len(orderByList) > 0 {
+		tabularConditions.OrderBy = orderByList
+	}
+	if len(propertyFiltersList) > 0 {
+		tabularConditions.PropertyFilters = propertyFiltersList
+	}
+	if len(tabularConditions.OrderBy) > 0 || len(tabularConditions.PropertyFilters) > 0 {
+		params.TabularConditions = tabularConditions
+	}
+
+	propertyValues, err := client.GetPropertyValueWithContext(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	cPropertyValues := propertyValues
+	for cPropertyValues.NextToken != nil {
+		params.NextToken = cPropertyValues.NextToken
+
+		cPropertyValues, err := client.GetPropertyValueWithContext(ctx, params)
+		if err != nil {
+			return nil, err
+		}
+
+		propertyValues.TabularPropertyValues = append(propertyValues.TabularPropertyValues, cPropertyValues.TabularPropertyValues...)
+		propertyValues.NextToken = cPropertyValues.NextToken
+	}
+
+	return propertyValues, nil
 }
 
 func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
@@ -414,7 +471,7 @@ func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query mod
 	if len(query.PropertyFilter) > 0 {
 		var filter []*iottwinmaker.PropertyFilter
 		for _, fq := range query.PropertyFilter {
-			if fq.Name != "" && fq.Value != "" {
+			if fq.Name != "" && fq.Value.DataValueToString() != "" {
 				if fq.Op == "" {
 					fq.Op = "=" // matches the placeholder text in the frontend
 				}

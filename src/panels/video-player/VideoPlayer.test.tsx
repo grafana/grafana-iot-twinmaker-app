@@ -33,7 +33,7 @@ import { Viewport } from '@iot-app-kit/core';
 setTemplateSrv({
   getVariables: () => [],
   replace: (v: string) => v,
-});
+} as any);
 
 describe('VideoPlayer', () => {
   it('should load VideoPlayer component when providing kvsStreamName', () => {

@@ -53,6 +53,11 @@ export function getCachingWorkspaceInfoSupplier(supplier: TwinMakerWorkspaceInfo
 export enum ComponentFieldName {
   timeSeries = 'timeSeries',
   props = 'props',
+  propGroups = 'propGroups',
+}
+
+export function resolvePropGroups(compName: SelectionInfo<string>, entityInfo: SelectableComponentInfo[] | undefined) {
+  return entityInfo?.find((item) => item.value === compName.current?.value)?.propGroups ?? [];
 }
 
 export function resolvePropsFromComponentSel(
