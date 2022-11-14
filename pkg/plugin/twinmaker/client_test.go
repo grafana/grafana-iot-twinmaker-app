@@ -176,7 +176,7 @@ func TestFetchAWSData(t *testing.T) {
 			PropertyFilter: []models.TwinMakerPropertyFilter{
 				{
 					Name:  "alarm_status",
-					Value: "ACTIVE",
+					Value: models.TwinMakerFilterValue{StringValue: aws.String("ACTIVE")},
 					Op:    "=",
 				},
 			},
@@ -186,7 +186,7 @@ func TestFetchAWSData(t *testing.T) {
 	})
 
 	t.Run("athena connector test no filter", func(t *testing.T) {
-		// t.Skip()
+		t.Skip()
 
 		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
@@ -199,10 +199,10 @@ func TestFetchAWSData(t *testing.T) {
 		require.NoError(t, err)
 
 		pv, err := c.GetPropertyValue(context.Background(), models.TwinMakerQuery{
-			EntityId:      "1b480741-1ac9-4c28-ac0e-f815b4bb3347",
-			WorkspaceId:   "tabular-test-1",
-			Properties:    []*string{aws.String("crit"), aws.String("description"), aws.String("floc")},
-			ComponentName: "TabularComponent",
+			EntityId:          "1b480741-1ac9-4c28-ac0e-f815b4bb3347",
+			WorkspaceId:       "tabular-test-1",
+			Properties:        []*string{aws.String("crit"), aws.String("description"), aws.String("floc")},
+			ComponentName:     "TabularComponent",
 			PropertyGroupName: "tabularPropertyGroup",
 		})
 		require.NoError(t, err)
