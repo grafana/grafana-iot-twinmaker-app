@@ -95,6 +95,9 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	}
 
 	writerService := func() (*iottwinmaker.IoTTwinMaker, error) {
+		if writerSessionConfig.Settings.AssumeRoleARN == "" {
+			return nil, fmt.Errorf("writer role not configured")
+		}
 		sess, err := sessions.GetSession(writerSessionConfig)
 		if err != nil {
 			return nil, err
@@ -390,7 +393,7 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 	if query.PropertyGroupName != "" {
 		params.PropertyGroupName = &query.PropertyGroupName
 	}
-	
+
 	tabularConditions := &iottwinmaker.TabularConditions{}
 	if len(orderByList) > 0 {
 		tabularConditions.OrderBy = orderByList
