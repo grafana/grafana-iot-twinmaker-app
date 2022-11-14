@@ -57,6 +57,9 @@ export class ConfigEditor extends PureComponent<Props, State> {
 
   onAlarmCheckChange = (event: boolean) => {
     this.setState({ ...this.state, alarmConfigChecked: event });
+    if (!event) {
+      updateDatasourcePluginJsonDataOption(this.props, 'assumeRoleArnWriter', undefined);
+    }
   };
 
   render() {
