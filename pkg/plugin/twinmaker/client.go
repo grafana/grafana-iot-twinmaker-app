@@ -534,9 +534,8 @@ func (c *twinMakerClient) GetSessionToken(ctx context.Context, duration time.Dur
 }
 
 func (c *twinMakerClient) GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*sts.Credentials, error) {
-	_, err := c.writerService()
-	if err != nil {
-		return nil, err
+	if c.tokenRoleWriter != "" {
+		return nil, fmt.Errorf("assume role ARN Write is missing in datasource configuration")
 	}
 
 	tokenService, err := c.tokenService()
@@ -544,21 +543,17 @@ func (c *twinMakerClient) GetWriteSessionToken(ctx context.Context, duration tim
 		return nil, err
 	}
 
-	if c.tokenRoleWriter != "" {
-		input := &sts.AssumeRoleInput{
-			RoleArn:         &c.tokenRoleWriter,
-			DurationSeconds: aws.Int64(int64(duration.Seconds())),
-			RoleSessionName: aws.String("grafana"),
-		}
-
-		out, err := tokenService.AssumeRoleWithContext(ctx, input)
-		if err != nil {
-			return nil, err
-		}
-		return out.Credentials, err
-	} else {
-		return nil, fmt.Errorf("assume role ARN Write is missing in datasource configuration")
+	input := &sts.AssumeRoleInput{
+		RoleArn:         &c.tokenRoleWriter,
+		DurationSeconds: aws.Int64(int64(duration.Seconds())),
+		RoleSessionName: aws.String("grafana"),
 	}
+
+	out, err := tokenService.AssumeRoleWithContext(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+	return out.Credentials, err
 }
 
 func (c *twinMakerClient) BatchPutPropertyValues(ctx context.Context, req *iottwinmaker.BatchPutPropertyValuesInput) (*iottwinmaker.BatchPutPropertyValuesOutput, error) {

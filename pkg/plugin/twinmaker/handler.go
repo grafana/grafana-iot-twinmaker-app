@@ -13,6 +13,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/sts"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
@@ -613,8 +614,7 @@ func (s *twinMakerHandler) GetSessionToken(ctx context.Context, duration time.Du
 	info := models.TokenInfo{}
 	credentials, err := s.client.GetSessionToken(ctx, duration, workspaceId)
 	if err != nil {
-		HandleGetTokenError(err)
-		return info, err
+		return info, HandleGetTokenError(err)
 	}
 	return SetInfo(credentials, info), err
 }
@@ -623,25 +623,18 @@ func (s *twinMakerHandler) GetWriteSessionToken(ctx context.Context, duration ti
 	info := models.TokenInfo{}
 	credentials, err := s.client.GetWriteSessionToken(ctx, duration, workspaceId)
 	if err != nil {
-		HandleGetTokenError(err)
-		return info, err
+		return info, HandleGetTokenError(err)
 	}
 	return SetInfo(credentials, info), err
 }
 
-func HandleGetTokenError(err error) {
+func HandleGetTokenError(err error) error {
 	if aerr, ok := err.(awserr.Error); ok {
-		switch aerr.Code() {
-		case sts.ErrCodeRegionDisabledException:
-			fmt.Println(sts.ErrCodeRegionDisabledException, aerr.Error())
-		default:
-			fmt.Println(aerr.Error())
-		}
-	} else {
-		// Print the error, cast err to awserr.Error to get the Code and
-		// Message from an error.
-		fmt.Println(err.Error())
+		log.DefaultLogger.Error("error getting session token", "code", aerr.Code(), "error", aerr)
+		return err
 	}
+	log.DefaultLogger.Error("error getting session token", "error", err)
+	return err
 }
 
 func SetInfo(credentials *sts.Credentials, info models.TokenInfo) models.TokenInfo {
