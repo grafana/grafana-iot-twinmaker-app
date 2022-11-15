@@ -771,7 +771,7 @@ export class QueryEditor extends PureComponent<Props, State> {
             {this.renderEntitySelector(query, true)}
             {this.renderComponentNameSelector(query, compName, true, true)}
             {this.renderPropsSelector(query, propOpts)}
-            {this.renderPropsFilterSelector(query)}
+            {this.renderPropsFilterSelector(query, propOpts)}
           </>
         );
       }
@@ -781,7 +781,7 @@ export class QueryEditor extends PureComponent<Props, State> {
           <>
             {this.renderComponentTypeSelector(query, compType, 'timeSeries', true)}
             {this.renderPropsSelector(query, propOpts)}
-            {this.renderPropsFilterSelector(query)}
+            {this.renderPropsFilterSelector(query, propOpts)}
           </>
         );
       }
