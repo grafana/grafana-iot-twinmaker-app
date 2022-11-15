@@ -520,7 +520,7 @@ func (c *twinMakerClient) GetSessionToken(ctx context.Context, duration time.Dur
 }
 
 func (c *twinMakerClient) GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*sts.Credentials, error) {
-	if c.tokenRoleWriter != "" {
+	if c.tokenRoleWriter == "" {
 		return nil, fmt.Errorf("assume role ARN Write is missing in datasource configuration")
 	}
 
