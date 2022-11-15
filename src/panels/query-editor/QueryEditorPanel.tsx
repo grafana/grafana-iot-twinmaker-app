@@ -30,7 +30,7 @@ export class QueryEditorPanel extends React.Component<Props, QueryEditorPanelSta
     }
   }
 
-  private updateUxSdk = async (prevProps?: Props) => {
+  private updateUxSdk = async () => {
     configureSdkWithDataSource(this.props.options.datasource).then(async (result: DataSourceParams | undefined) => {
       this.dataSourceParams = result;
 
