@@ -14,7 +14,9 @@ import (
 	"github.com/aws/aws-sdk-go/service/sts"
 	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/grafana/grafana-plugin-sdk-go/build"
+	httplogger "github.com/grafana/grafana-plugin-sdk-go/experimental/http_logger"
 )
 
 // TwinMakerClient calls AWS services and returns the raw results
@@ -49,6 +51,15 @@ type twinMakerClient struct {
 
 // NewTwinMakerClient provides a twinMakerClient for the session and associated calls
 func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerClient, error) {
+	httpClient, err := httpclient.New()
+	if err != nil {
+		return nil, err
+	}
+	transport, err := httpclient.GetTransport()
+	if err != nil {
+		return nil, err
+	}
+	httpClient.Transport = httplogger.NewHTTPLogger("grafana-iot-twinmaker-datasource", transport)
 	sessions := awsds.NewSessionCache()
 	agent := userAgentString("grafana-iot-twinmaker-app")
 
@@ -58,6 +69,7 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 
 	noEndpointSessionConfig := awsds.SessionConfig{
 		Settings:      noEndpointSettings,
+		HTTPClient:    httpClient,
 		UserAgentName: &agent,
 	}
 
@@ -67,6 +79,7 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 
 	writerSessionConfig := awsds.SessionConfig{
 		Settings:      writerSettings,
+		HTTPClient:    httpClient,
 		UserAgentName: &agent,
 	}
 
@@ -76,6 +89,7 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 
 	stsSessionConfig := awsds.SessionConfig{
 		Settings:      stssettings,
+		HTTPClient:    httpClient,
 		UserAgentName: &agent,
 	}
 
@@ -359,28 +373,6 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 		return nil, fmt.Errorf("missing property")
 	}
 
-	orderByList := make([]*iottwinmaker.OrderBy, 0)
-	propertyFiltersList := make([]*iottwinmaker.PropertyFilter, 0)
-
-	if query.TabularConditions.OrderBy != nil {
-		for _, orderBy := range query.TabularConditions.OrderBy {
-			orderByList = append(orderByList, &iottwinmaker.OrderBy{
-				PropertyName: &orderBy.PropertyName,
-				Order:        &orderBy.Order,
-			})
-		}
-	}
-
-	if query.TabularConditions.PropertyFilter != nil {
-		for _, propertyFilter := range query.TabularConditions.PropertyFilter {
-			propertyFiltersList = append(propertyFiltersList, &iottwinmaker.PropertyFilter{
-				PropertyName: &propertyFilter.Name,
-				Operator:     &propertyFilter.Op,
-				Value:        propertyFilter.Value.ToTwinMakerDataValue(),
-			})
-		}
-	}
-
 	params := &iottwinmaker.GetPropertyValueInput{
 		EntityId:           &query.EntityId,
 		ComponentName:      &query.ComponentName,
@@ -394,13 +386,7 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 		params.PropertyGroupName = &query.PropertyGroupName
 	}
 
-	tabularConditions := &iottwinmaker.TabularConditions{}
-	if len(orderByList) > 0 {
-		tabularConditions.OrderBy = orderByList
-	}
-	if len(propertyFiltersList) > 0 {
-		tabularConditions.PropertyFilters = propertyFiltersList
-	}
+	tabularConditions := query.TabularConditions.ToTwinMakerTabularConditions()
 	if len(tabularConditions.OrderBy) > 0 || len(tabularConditions.PropertyFilters) > 0 {
 		params.TabularConditions = tabularConditions
 	}
