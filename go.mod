@@ -2,10 +2,8 @@ module github.com/grafana/grafana-iot-twinmaker-app
 
 go 1.18
 
-replace github.com/aws/aws-sdk-go => ./aws-sdk-go
-
 require (
-	github.com/aws/aws-sdk-go v1.44.134
+	github.com/aws/aws-sdk-go v1.44.139
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	github.com/grafana/grafana-aws-sdk v0.11.1
