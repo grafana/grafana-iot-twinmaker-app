@@ -1,9 +1,14 @@
 # Changelog
 
-## v1.3.0 (not released)
+## v1.3.0
 
+- Launch Alarm Configuration Panel
+- Launch Query Editor Panel
+- Support querying Athena tabular connector through TwinMaker with Get Property Value
+- Launch Scene Viewer features: camera view, scene hierarchy search, opacity shader, and sub-model selection
+- Bug fixes in Scene Viewer and Video Player panels
 - Upgraded Go AWS SDK
-- The minimum grafana version is now >=8.4
+- The minimum Grafana version is now >=8.4
 
 ## v1.2.1
 
