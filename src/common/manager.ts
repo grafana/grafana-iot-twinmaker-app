@@ -26,12 +26,30 @@ export enum TwinMakerResultOrder {
   DESCENDING = 'DESCENDING',
 }
 
+export interface TwinMakerOrderBy {
+  propertyName: string;
+  order?: TwinMakerResultOrder;
+}
+
 export const DEFAULT_PROPERTY_FILTER_OPERATOR = '='; // real value depends on lambda configuration
+
+export interface TwinMakerFilterValue {
+  booleanValue?: boolean;
+  doubleValue?: number;
+  integerValue?: number;
+  longValue?: number;
+  stringValue?: string;
+}
 
 export interface TwinMakerPropertyFilter {
   name: string;
-  value: string;
+  value: TwinMakerFilterValue;
   op: string;
+}
+
+export interface TwinMakerTabularConditions {
+  orderBy: TwinMakerOrderBy[];
+  propertyFilter: TwinMakerPropertyFilter[];
 }
 
 export interface TwinMakerQuery extends DataQuery {
@@ -49,6 +67,10 @@ export interface TwinMakerQuery extends DataQuery {
   grafanaLiveEnabled: boolean;
   isStreaming?: boolean;
   intervalStreaming?: string;
+
+  // Athena Data Connector parameters for GetPropertyValue query
+  tabularConditions?: TwinMakerTabularConditions;
+  propertyGroupName?: string;
 }
 
 export interface TwinMakerPanelQuery extends TwinMakerQuery {

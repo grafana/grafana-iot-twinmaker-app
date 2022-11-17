@@ -13,6 +13,8 @@ type TwinMakerResources interface {
 	// Original model
 	GetEntity(ctx context.Context, id string) (*iottwinmaker.GetEntityOutput, error)
 
+	BatchPutPropertyValues(context.Context, []*iottwinmaker.PropertyValueEntry) (*iottwinmaker.BatchPutPropertyValuesOutput, error)
+
 	// Selectable values
 	ListWorkspaces(ctx context.Context) ([]models.SelectableString, error)
 	ListScenes(ctx context.Context) ([]models.SelectableString, error)
@@ -169,26 +171,21 @@ func (r *twinMakerResource) ListOptions(ctx context.Context) (models.OptionsInfo
 			// nested query!
 			query.ComponentTypeId = typeId
 			v, err := r.client.GetComponentType(ctx, query)
-			if err == nil {
-				// // Don't show abstract types in the list
-				// if *v.IsAbstract {
-				// 	continue
-				// }
-				info.IsAbstract = *v.IsAbstract
+			if err != nil {
+				return results, err
+			}
+			info.IsAbstract = *v.IsAbstract
 
-				ts, p := toSelectableValues(v.PropertyDefinitions, props)
-				info.TimeSeries = ts
-				info.Props = p
-				for _, ex := range v.ExtendsFrom {
-					if *ex == "com.amazon.iottwinmaker.alarm.basic" {
-						info.IsAlarm = true
-						break
-					}
+			ts, p := toPropertiesSelectableValues(v.PropertyDefinitions, props)
+			info.TimeSeries = ts
+			info.Props = p
+			for _, ex := range v.ExtendsFrom {
+				if *ex == "com.amazon.iottwinmaker.alarm.basic" {
+					info.IsAlarm = true
+					break
 				}
 			}
-			if w.Description != nil {
-				info.Description = *w.Description
-			}
+
 			results.Components = append(results.Components, info)
 		}
 
@@ -230,9 +227,26 @@ func (r *twinMakerResource) ListEntity(ctx context.Context, entityId string) ([]
 		for k, v := range comp.Properties {
 			def[k] = v.Definition
 		}
-		ts, p := toSelectableValues(def, nil)
+		ts, p := toPropertiesSelectableValues(def, nil)
 		info.TimeSeries = ts
 		info.Props = p
+
+		if comp.PropertyGroups != nil {
+			// List PropertyGroups with each associated property name list
+			propGroups, propNames := toPropertyGroupsSelectableValues(comp.PropertyGroups)
+
+			for i, propList := range propNames {
+				// Filter properties that are in PropertyGroups
+				propGroupProps := make([]models.SelectableString, 0)
+				for _, def := range p {
+					if stringInSlice(def.Value, propList) {
+						propGroupProps = append(propGroupProps, def)
+					}
+				}
+				propGroups[i].Props = propGroupProps
+			}
+			info.PropGroups = propGroups
+		}
 
 		results = append(results, info)
 	}
@@ -240,7 +254,15 @@ func (r *twinMakerResource) ListEntity(ctx context.Context, entityId string) ([]
 	return results, err
 }
 
-func toSelectableValues(def map[string]*iottwinmaker.PropertyDefinitionResponse, reg map[string]models.SelectableString) (timeseries []models.SelectableString, props []models.SelectableString) {
+func (r *twinMakerResource) BatchPutPropertyValues(ctx context.Context, entries []*iottwinmaker.PropertyValueEntry) (*iottwinmaker.BatchPutPropertyValuesOutput, error) {
+	input := &iottwinmaker.BatchPutPropertyValuesInput{
+		WorkspaceId: &r.workspaceId,
+		Entries:     entries,
+	}
+	return r.client.BatchPutPropertyValues(ctx, input)
+}
+
+func toPropertiesSelectableValues(def map[string]*iottwinmaker.PropertyDefinitionResponse, reg map[string]models.SelectableString) (timeseries []models.SelectableString, props []models.SelectableString) {
 	for key, element := range def {
 		if element.DataType == nil {
 			continue
@@ -263,4 +285,27 @@ func toSelectableValues(def map[string]*iottwinmaker.PropertyDefinitionResponse,
 		}
 	}
 	return
+}
+
+func toPropertyGroupsSelectableValues(def map[string]*iottwinmaker.ComponentPropertyGroupResponse) (propGroups []models.SelectablePropGroup, propNames [][]*string) {
+	for key, element := range def {
+		p := models.SelectablePropGroup{
+			SelectableString: models.SelectableString{
+				Value: key,
+				Label: fmt.Sprintf("%s (%s)", key, *element.GroupType),
+			},
+		}
+		propNames = append(propNames, [][]*string{element.PropertyNames}...)
+		propGroups = append(propGroups, p)
+	}
+	return
+}
+
+func stringInSlice(a string, list []*string) bool {
+	for _, b := range list {
+		if *b == a {
+			return true
+		}
+	}
+	return false
 }

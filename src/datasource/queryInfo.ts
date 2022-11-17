@@ -87,7 +87,9 @@ export function changeQueryType(q: TwinMakerQuery, info: QueryTypeInfo): TwinMak
       copy.filter = [
         {
           name: 'alarm_status',
-          value: 'ACTIVE',
+          value: {
+            stringValue: 'ACTIVE',
+          },
           op: '=',
         },
       ];

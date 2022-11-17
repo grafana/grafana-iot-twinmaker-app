@@ -86,6 +86,7 @@ func newTwinMakerDatasource(settings models.TwinMakerDataSourceSetting, c twinma
 			ttl),
 	}
 	r.HandleFunc("/token", ds.HandleGetToken)
+	r.HandleFunc("/entity-properties", ds.HandleBatchPutPropertyValues)
 
 	// they are now cached depending on the res set in the ds above
 	r.HandleFunc("/entity", ds.HandleGetEntity)
@@ -213,6 +214,23 @@ func (ds *TwinMakerDatasource) CheckHealth(ctx context.Context, _ *backend.Check
 		workspace = *res.Description
 	} else {
 		workspace = *res.WorkspaceId
+	}
+
+	if ds.settings.AssumeRoleARNWriter != "" {
+		_, err := ds.handler.GetWriteSessionToken(ctx, time.Second*3600, ds.settings.WorkspaceID)
+		if err != nil {
+			awsErr, ok := err.(awserr.Error)
+			if ok {
+				return &backend.CheckHealthResult{
+					Status:  backend.HealthStatusError,
+					Message: awsErr.Error(),
+				}, nil
+			}
+			return &backend.CheckHealthResult{
+				Status:  backend.HealthStatusError,
+				Message: "Failed to get session token",
+			}, nil
+		}
 	}
 
 	return &backend.CheckHealthResult{

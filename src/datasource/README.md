@@ -21,6 +21,7 @@
 6. (Optional) AWS developers may use a custom endpoint for testing
 
    a. Note: You cannot currently set an "Assume Role ARN" and a custom endpoint together
+   b. Note: Gamma endpoint : https://gamma.us-east-1.twinmaker.iot.aws.dev to test console local changes.
 
 7. Select your region
 

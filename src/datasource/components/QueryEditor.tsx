@@ -17,11 +17,17 @@ import { TwinMakerDataSource } from '../datasource';
 import { defaultQuery, TwinMakerDataSourceOptions } from '../types';
 import { TwinMakerApiModel } from 'aws-iot-twinmaker-grafana-utils';
 import { changeQueryType, QueryTypeInfo, twinMakerOrderOptions, twinMakerQueryTypes } from 'datasource/queryInfo';
-import { WorkspaceSelectionInfo, SelectableComponentInfo, SelectableQueryResults } from 'common/info/types';
+import {
+  WorkspaceSelectionInfo,
+  SelectableComponentInfo,
+  SelectableQueryResults,
+  SelectablePropGroupsInfo,
+} from 'common/info/types';
 import {
   ComponentFieldName,
   getMultiSelectionInfo,
   getSelectionInfo,
+  resolvePropGroups,
   resolvePropsFromComponentSel,
   SelectionInfo,
 } from 'common/info/info';
@@ -35,11 +41,13 @@ import {
   TwinMakerResultOrder,
   TwinMakerPropertyFilter,
   DEFAULT_PROPERTY_FILTER_OPERATOR,
+  TwinMakerOrderBy,
 } from 'common/manager';
 import { getTemplateSrv } from '@grafana/runtime';
 import { getVariableOptions } from 'common/variables';
 import FilterQueryEditor from './FilterQueryEditor';
 import { BlurTextInput } from './BlurTextInput';
+import OrderByEditor from './OrderByEditor';
 
 export const firstLabelWidth = 18;
 
@@ -129,7 +137,15 @@ export class QueryEditor extends PureComponent<Props, State> {
   onAlarmFilterChange = (event: SelectableValue<string>) => {
     const { onChange, query, onRunQuery } = this.props;
     const filter = event?.value
-      ? [{ name: 'alarm_status', value: event.value, op: DEFAULT_PROPERTY_FILTER_OPERATOR }]
+      ? [
+          {
+            name: 'alarm_status',
+            value: {
+              stringValue: event.value,
+            },
+            op: DEFAULT_PROPERTY_FILTER_OPERATOR,
+          },
+        ]
       : undefined;
     onChange({ ...query, filter });
     onRunQuery();
@@ -277,6 +293,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     });
     onRunQuery();
   };
+
   renderEntitySelector(query: TwinMakerQuery, isClearable: boolean) {
     const entity = getSelectionInfo(query.entityId, this.state.workspace?.entities, this.state.templateVars);
     return (
@@ -301,7 +318,8 @@ export class QueryEditor extends PureComponent<Props, State> {
   renderComponentTypeSelector(
     query: TwinMakerQuery,
     compType: SelectionInfo<string>,
-    filter?: keyof SelectableComponentInfo
+    filter?: keyof SelectableComponentInfo,
+    isStreaming?: boolean
   ) {
     // Limit to things with `timeSeries` properties
 
@@ -328,12 +346,17 @@ export class QueryEditor extends PureComponent<Props, State> {
             placeholder={placeholder}
           />
         </InlineField>
-        {this.renderStreamingInputs(query)}
+        {isStreaming && this.renderStreamingInputs(query)}
       </InlineFieldRow>
     );
   }
 
-  renderComponentNameSelector(query: TwinMakerQuery, compName: SelectionInfo<string>, isClearable: boolean) {
+  renderComponentNameSelector(
+    query: TwinMakerQuery,
+    compName: SelectionInfo<string>,
+    isClearable: boolean,
+    isStreaming?: boolean
+  ) {
     return (
       <InlineFieldRow>
         <InlineField label={'Component Name'} grow={true} labelWidth={firstLabelWidth}>
@@ -349,7 +372,7 @@ export class QueryEditor extends PureComponent<Props, State> {
             formatCreateLabel={(v) => `Component Name: ${v}`}
           />
         </InlineField>
-        {this.renderStreamingInputs(query)}
+        {isStreaming && this.renderStreamingInputs(query)}
       </InlineFieldRow>
     );
   }
@@ -373,7 +396,7 @@ export class QueryEditor extends PureComponent<Props, State> {
         value: TwinMakerApiModel.AlarmStatus.NORMAL,
       },
     ];
-    const current = query.filter?.length ? query.filter[0].value : undefined;
+    const current = query.filter?.length ? query.filter[0].value.stringValue : undefined;
     const filter = getSelectionInfo(current, alarmStatuses);
     return (
       <InlineFieldRow>
@@ -445,49 +468,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     );
   }
 
-  onFilterChanged = (index: number, evt?: TwinMakerPropertyFilter) => {
-    const { onChange, query } = this.props;
-    const filter = query.filter ? query.filter.slice() : [];
-    if (!evt) {
-      if (query.filter) {
-        filter.splice(index, 1);
-        onChange({ ...query, filter });
-        this.props.onRunQuery();
-      }
-      return;
-    }
-
-    // don't run the query -- this will fire often!
-    filter[index] = evt;
-    onChange({ ...query, filter });
-  };
-
-  onAddFilter = () => {
-    const { onChange, query } = this.props;
-    const filter = query.filter ? query.filter.slice() : [];
-    filter.push({ name: '', op: DEFAULT_PROPERTY_FILTER_OPERATOR, value: '' });
-    onChange({ ...query, filter });
-  };
-
-  renderPropsFilterSelector(query: TwinMakerQuery) {
-    let filter = query.filter ?? [];
-    if (!filter.length) {
-      filter = [{ name: '', op: DEFAULT_PROPERTY_FILTER_OPERATOR, value: '' }];
-    }
-
-    return filter.map((f, index) => (
-      <FilterQueryEditor
-        key={`${index}/${f.name}`}
-        index={index}
-        filter={f}
-        last={index >= filter.length - 1}
-        onAdd={this.onAddFilter}
-        onChange={this.onFilterChanged}
-      />
-    ));
-  }
-
-  renderPropsSelector(query: TwinMakerQuery, propOpts?: Array<SelectableValue<string>>, isLoading?: boolean) {
+  getPropertiesMultiSelectionInfo(query: TwinMakerQuery, propOpts?: Array<SelectableValue<string>>) {
     if (!propOpts) {
       propOpts = [];
     }
@@ -506,7 +487,12 @@ export class QueryEditor extends PureComponent<Props, State> {
         }
       }
     }
-    const properties = getMultiSelectionInfo(query.properties, propOpts, this.state.templateVars);
+
+    return getMultiSelectionInfo(query.properties, propOpts, this.state.templateVars);
+  }
+
+  renderPropsSelector(query: TwinMakerQuery, propOpts?: Array<SelectableValue<string>>, isLoading?: boolean) {
+    const properties = this.getPropertiesMultiSelectionInfo(query, propOpts);
     return (
       <InlineFieldRow>
         <InlineField label={'Selected Properties'} grow={true} labelWidth={firstLabelWidth}>
@@ -520,6 +506,165 @@ export class QueryEditor extends PureComponent<Props, State> {
             onCreateOption={this.onCustomPropertyAdded}
             formatCreateLabel={(v) => `Property: ${v}`}
             placeholder="Type or select properties"
+          />
+        </InlineField>
+      </InlineFieldRow>
+    );
+  }
+
+  changeFilter(query: TwinMakerQuery, filter: TwinMakerPropertyFilter[], isTabularCondition?: boolean) {
+    return isTabularCondition
+      ? {
+          ...query,
+          tabularConditions: {
+            propertyFilter: filter,
+            orderBy: query.tabularConditions?.orderBy ?? [],
+          },
+        }
+      : {
+          ...query,
+          filter,
+        };
+  }
+
+  onFilterChanged = (index: number, evt?: TwinMakerPropertyFilter, isTabularCondition?: boolean) => {
+    const { onChange, query } = this.props;
+    const filters = isTabularCondition ? query.tabularConditions?.propertyFilter : query.filter;
+    const filterList = filters ? filters.slice() : [];
+
+    if (!evt) {
+      if (filters) {
+        filterList.splice(index, 1);
+        onChange(this.changeFilter(query, filterList, isTabularCondition));
+        this.props.onRunQuery();
+      }
+      return;
+    }
+
+    // don't run the query -- this will fire often!
+    filterList[index] = evt;
+    onChange(this.changeFilter(query, filterList, isTabularCondition));
+  };
+
+  onAddFilter = (isTabularCondition?: boolean) => {
+    const { onChange, query } = this.props;
+    let filters = isTabularCondition ? query.tabularConditions?.propertyFilter : query.filter;
+    filters = filters ? filters.slice() : [];
+    filters.push({ name: '', op: DEFAULT_PROPERTY_FILTER_OPERATOR, value: {} });
+    onChange(this.changeFilter(query, filters, isTabularCondition));
+  };
+
+  renderPropsFilterSelector(
+    query: TwinMakerQuery,
+    propOpts?: Array<SelectableValue<string>>,
+    isTabularCondition?: boolean
+  ) {
+    let filters = isTabularCondition ? query.tabularConditions?.propertyFilter : query.filter;
+    filters = filters ?? [];
+    if (!filters.length) {
+      filters = [{ name: '', op: DEFAULT_PROPERTY_FILTER_OPERATOR, value: {} }];
+    }
+
+    const properties = this.getPropertiesMultiSelectionInfo(query, propOpts);
+
+    return (
+      <FilterQueryEditor
+        filters={filters}
+        properties={properties.options}
+        onAdd={this.onAddFilter}
+        onChange={this.onFilterChanged}
+        isTabularCondition={isTabularCondition}
+      />
+    );
+  }
+
+  onOrderByChanged = (index: number, evt?: TwinMakerOrderBy) => {
+    const { onChange, query, onRunQuery } = this.props;
+    const orderBy = query.tabularConditions?.orderBy ? query.tabularConditions?.orderBy.slice() : [];
+    if (!evt) {
+      if (query.tabularConditions?.orderBy) {
+        orderBy.splice(index, 1);
+        onChange({
+          ...query,
+          tabularConditions: {
+            propertyFilter: query.tabularConditions?.propertyFilter ?? [],
+            orderBy,
+          },
+        });
+        this.props.onRunQuery();
+      }
+      return;
+    }
+
+    orderBy[index] = evt;
+    onChange({
+      ...query,
+      tabularConditions: {
+        propertyFilter: query.tabularConditions?.propertyFilter ?? [],
+        orderBy,
+      },
+    });
+    onRunQuery();
+  };
+
+  onAddOrderBy = () => {
+    const { onChange, query } = this.props;
+    const orderBy = query.tabularConditions?.orderBy ? query.tabularConditions?.orderBy.slice() : [];
+    orderBy.push({ propertyName: '' });
+    onChange({
+      ...query,
+      tabularConditions: {
+        propertyFilter: query.tabularConditions?.propertyFilter ?? [],
+        orderBy,
+      },
+    });
+  };
+
+  renderOrderBySelector(query: TwinMakerQuery, propOpts?: Array<SelectableValue<string>>) {
+    let orderBy = query.tabularConditions?.orderBy ?? [];
+    if (!orderBy.length) {
+      orderBy = [{ propertyName: '' }];
+    }
+
+    const properties = this.getPropertiesMultiSelectionInfo(query, propOpts);
+
+    return (
+      <OrderByEditor
+        orderBy={orderBy}
+        properties={properties.options}
+        onAdd={this.onAddOrderBy}
+        onChange={this.onOrderByChanged}
+      />
+    );
+  }
+
+  onPropertyGroupChange = (event: SelectableValue<string>) => {
+    this.onPropertyGroupTextChange(event?.value);
+  };
+
+  onPropertyGroupTextChange = (propertyGroupName?: string) => {
+    const { onChange, query, onRunQuery } = this.props;
+    onChange({
+      ...query,
+      propertyGroupName,
+    });
+    onRunQuery();
+  };
+
+  renderPropGroupSelector(propertyGroupName: string | undefined, propGroups?: SelectablePropGroupsInfo[]) {
+    return (
+      <InlineFieldRow>
+        <InlineField label={'Property Group'} grow={true} labelWidth={firstLabelWidth}>
+          <Select
+            menuShouldPortal={true}
+            value={propertyGroupName}
+            options={propGroups}
+            onChange={this.onPropertyGroupChange}
+            isClearable={true}
+            isLoading={this.state.workspaceLoading}
+            allowCustomValue={true}
+            onCreateOption={this.onPropertyGroupTextChange}
+            formatCreateLabel={(v) => `Property Group: ${v}`}
           />
         </InlineField>
       </InlineFieldRow>
@@ -594,12 +739,26 @@ export class QueryEditor extends PureComponent<Props, State> {
       case TwinMakerQueryType.GetPropertyValue:
         if (query.entityId) {
           const compName = getSelectionInfo(query.componentName, entityInfo, this.state.templateVars);
-          const propOpts = resolvePropsFromComponentSel(compName, ComponentFieldName.props, entityInfo);
+          const propGroups: SelectablePropGroupsInfo[] = resolvePropGroups(compName, entityInfo);
+          const isAthenaConnector = propGroups.length > 0;
+          let propOpts: Array<SelectableValue<string>> | undefined = [];
+          const propGroup = query.propertyGroupName;
+
+          if (isAthenaConnector) {
+            if (propGroup) {
+              propOpts = propGroups?.find((g) => g.value === propGroup)?.props;
+            }
+          } else {
+            propOpts = resolvePropsFromComponentSel(compName, ComponentFieldName.props, entityInfo);
+          }
           return (
             <>
               {this.renderEntitySelector(query, true)}
               {this.renderComponentNameSelector(query, compName, true)}
-              {this.renderPropsSelector(query, propOpts)}
+              {isAthenaConnector && this.renderPropGroupSelector(query.propertyGroupName, propGroups)}
+              {(!isAthenaConnector || propGroup) && this.renderPropsSelector(query, propOpts)}
+              {propGroup && this.renderPropsFilterSelector(query, propOpts, isAthenaConnector)}
+              {propGroup && this.renderOrderBySelector(query, propOpts)}
             </>
           );
         }
@@ -610,9 +769,9 @@ export class QueryEditor extends PureComponent<Props, State> {
         return (
           <>
             {this.renderEntitySelector(query, true)}
-            {this.renderComponentNameSelector(query, compName, true)}
+            {this.renderComponentNameSelector(query, compName, true, true)}
             {this.renderPropsSelector(query, propOpts)}
-            {this.renderPropsFilterSelector(query)}
+            {this.renderPropsFilterSelector(query, propOpts)}
           </>
         );
       }
@@ -620,9 +779,9 @@ export class QueryEditor extends PureComponent<Props, State> {
         const propOpts = compType.current?.timeSeries as SelectableQueryResults;
         return (
           <>
-            {this.renderComponentTypeSelector(query, compType, 'timeSeries')}
+            {this.renderComponentTypeSelector(query, compType, 'timeSeries', true)}
             {this.renderPropsSelector(query, propOpts)}
-            {this.renderPropsFilterSelector(query)}
+            {this.renderPropsFilterSelector(query, propOpts)}
           </>
         );
       }

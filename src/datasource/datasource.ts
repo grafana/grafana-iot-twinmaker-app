@@ -10,6 +10,7 @@ import { TwinMakerQueryType, TwinMakerQuery } from 'common/manager';
 import { Credentials as CredentialsV3, CredentialProvider } from '@aws-sdk/types';
 import { getRequestLooper, MultiRequestTracker } from './requestLooper';
 import { appendMatchingFrames } from './appendFrames';
+import { BatchPutPropertyValuesResponse, Entries } from 'aws-sdk/clients/iottwinmaker';
 
 export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, TwinMakerDataSourceOptions> {
   grafanaLiveEnabled: boolean;
@@ -137,6 +138,10 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
       onCancel: (tracker: MultiRequestTracker) => {},
     });
   }
+
+  batchPutPropertyValues = async (entries: Entries): Promise<BatchPutPropertyValuesResponse> => {
+    return super.postResource('entity-properties', { entries });
+  };
 
   // Fetch temporary AWS tokens from the backend plugin and convert them into JS SDK Credentials
   getTokens = async (): Promise<Credentials> => {

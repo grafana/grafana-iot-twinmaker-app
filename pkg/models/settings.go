@@ -10,8 +10,9 @@ import (
 
 type TwinMakerDataSourceSetting struct {
 	awsds.AWSDatasourceSettings
-	WorkspaceID string `json:"workspaceId"`
-	UID         string `json:"uid"`
+	AssumeRoleARNWriter string `json:"assumeRoleArnWriter"`
+	WorkspaceID         string `json:"workspaceId"`
+	UID                 string `json:"uid"`
 }
 
 func (s *TwinMakerDataSourceSetting) Load(config backend.DataSourceInstanceSettings) error {
@@ -54,5 +55,11 @@ func (s *TwinMakerDataSourceSetting) ToAWSDatasourceSettings() awsds.AWSDatasour
 		SecretKey:     s.SecretKey,
 		SessionToken:  s.SessionToken,
 	}
+	return cfg
+}
+
+func (s *TwinMakerDataSourceSetting) ToAWSDatasourceSettingsWriter() awsds.AWSDatasourceSettings {
+	cfg := s.ToAWSDatasourceSettings()
+	cfg.AssumeRoleARN = s.AssumeRoleARNWriter
 	return cfg
 }

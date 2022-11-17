@@ -13,12 +13,14 @@ import (
 	"github.com/aws/aws-sdk-go/service/sts"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
 // TwinMakerHandler uses a client to create grafana response objects
 type TwinMakerHandler interface {
 	GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (models.TokenInfo, error)
+	GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (models.TokenInfo, error)
 	ListWorkspaces(ctx context.Context, query models.TwinMakerQuery) backend.DataResponse
 	ListScenes(ctx context.Context, query models.TwinMakerQuery) backend.DataResponse
 	ListEntities(ctx context.Context, query models.TwinMakerQuery) backend.DataResponse
@@ -245,36 +247,68 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 	}
 
 	frame := data.NewFrame("")
-	propVals := make([]string, 0, len(results.PropertyValues))
-	for k := range results.PropertyValues {
-		propVals = append(propVals, k)
-	}
-	sort.Strings(propVals)
 
-	for _, propVal := range propVals {
-		prop := results.PropertyValues[propVal]
-		if v := prop.PropertyValue.ListValue; v != nil {
-			fr := s.processListValue(v, propVal)
-			frame.Fields = append(frame.Fields, fr.Fields...)
-			continue
+	if len(results.PropertyValues) > 0 {
+		propVals := make([]string, 0, len(results.PropertyValues))
+		for k := range results.PropertyValues {
+			propVals = append(propVals, k)
 		}
-		if v := prop.PropertyValue.MapValue; v != nil {
-			fr := s.processMapValue(v)
-			frame.Fields = append(frame.Fields, fr.Fields...)
-			continue
-		}
-		f, converter := newDataValueField(prop.PropertyValue, 1)
-		f.Set(0, converter(prop.PropertyValue))
+		sort.Strings(propVals)
 
-		f.Name = *prop.PropertyReference.PropertyName
-		f.Labels = data.Labels{
-			"entityId":      *prop.PropertyReference.EntityId,
-			"componentName": *prop.PropertyReference.ComponentName,
+		for _, propVal := range propVals {
+			prop := results.PropertyValues[propVal]
+			if v := prop.PropertyValue.ListValue; v != nil {
+				fr := s.processListValue(v, propVal)
+				frame.Fields = append(frame.Fields, fr.Fields...)
+				continue
+			}
+			if v := prop.PropertyValue.MapValue; v != nil {
+				fr := s.processMapValue(v)
+				frame.Fields = append(frame.Fields, fr.Fields...)
+				continue
+			}
+			f, converter := newDataValueField(prop.PropertyValue, 1)
+			f.Set(0, converter(prop.PropertyValue))
+
+			f.Name = *prop.PropertyReference.PropertyName
+			f.Labels = data.Labels{
+				"entityId":      *prop.PropertyReference.EntityId,
+				"componentName": *prop.PropertyReference.ComponentName,
+			}
+			frame.Fields = append(frame.Fields, f)
 		}
-		frame.Fields = append(frame.Fields, f)
+	} else if len(results.TabularPropertyValues) > 0 && len(results.TabularPropertyValues[0]) > 0 {
+		tabularValuesList := results.TabularPropertyValues[0]
+		fieldsList := make([]*data.Field, 0, len(tabularValuesList[0]))
+		converterList := make([]func(v *iottwinmaker.DataValue) interface{}, 0, len(tabularValuesList[0]))
+
+		for valIdx, propList := range tabularValuesList {
+			keys := make([]string, 0, len(propList))
+			for k := range propList {
+				keys = append(keys, k)
+			}
+			sort.Strings(keys)
+			for propIdx, propName := range keys {
+				propVal := propList[propName]
+				// First iteration initialize the fields
+				if valIdx == 0 {
+					f, converter := newDataValueField(propVal, len(tabularValuesList))
+					f.Name = propName
+					f.Labels = data.Labels{
+						"entityId":      query.EntityId,
+						"componentName": query.ComponentName,
+					}
+					fieldsList = append(fieldsList, f)
+					converterList = append(converterList, converter)
+					frame.Fields = append(frame.Fields, f)
+				}
+				// Save the property value in the respective field
+				fieldsList[propIdx].Set(valIdx, converterList[propIdx](propVal))
+			}
+		}
 	}
+
 	dr.Frames = append(dr.Frames, frame)
-
 	return
 }
 
@@ -428,6 +462,7 @@ func (s *twinMakerHandler) GetEntityHistory(ctx context.Context, query models.Tw
 func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
 	failures := []data.Notice{}
 	alarmComponentType := "com.amazon.iottwinmaker.alarm.basic"
+	sitewiseAlarmComponentType := "com.amazon.iotsitewise.alarm"
 	externalIdKey := "alarm_key"
 	alarmProperty := "alarm_status"
 	isFiltered := len(query.PropertyFilter) > 0
@@ -446,20 +481,47 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 
 	// Get all componentTypes that extend from the base alarm type
 	query.ComponentTypeId = alarmComponentType
-	componentTypes, err := s.client.ListComponentTypes(ctx, query)
+	basicComponentTypes, err := s.client.ListComponentTypes(ctx, query)
 	dr.Error = err
 	if err != nil {
 		return
 	}
-	if componentTypes == nil {
+	if basicComponentTypes == nil {
 		dr.Error = fmt.Errorf("error loading componentTypes for GetAlarms query")
 		return
 	}
 
+	// Get all componentTypes that extend from the sitewise alarm type
+	// list-component-types only support direct child extend checks currently
+	query.ComponentTypeId = sitewiseAlarmComponentType
+	sitewiseComponentTypes, err := s.client.ListComponentTypes(ctx, query)
+	dr.Error = err
+	if err != nil {
+		return
+	}
+	if sitewiseComponentTypes == nil {
+		dr.Error = fmt.Errorf("error loading componentTypes for GetAlarms query")
+		return
+	}
+
+	componentTypeSummaryResults := basicComponentTypes.ComponentTypeSummaries
+	//remove sitewise alarm as it has no data to be fetched
+	index := 0
+	for _, summary := range componentTypeSummaryResults {
+		if *summary.ComponentTypeId != sitewiseAlarmComponentType {
+			componentTypeSummaryResults[index] = summary
+			index++
+		}
+	}
+	//slice off the last element now
+	componentTypeSummaryResults = componentTypeSummaryResults[:index]
+
+	componentTypeSummaryResults = append(componentTypeSummaryResults, sitewiseComponentTypes.ComponentTypeSummaries...)
+
 	// Get the propertyValueHistory associated with all componentTypes from above
 	var pValues []PropertyReference
 
-	for _, componentTypeSummary := range componentTypes.ComponentTypeSummaries {
+	for _, componentTypeSummary := range componentTypeSummaryResults {
 		// Set mapping of alarm component types for quick lookup later
 		query.EntityId = ""
 		query.Properties = []*string{aws.String(alarmProperty)}
@@ -477,11 +539,11 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 		failures = append(failures, newFailures...)
 		pValues = append(pValues, propertyReferences...)
 		if isLimited {
-		    // update the queries' maxResults so we ask for less on the next iteration
-		    query.MaxResults = maxNoOfAlarms - len(pValues)
-            if len(pValues) >= maxNoOfAlarms {
-                break
-            }
+			// update the queries' maxResults so we ask for less on the next iteration
+			query.MaxResults = maxNoOfAlarms - len(pValues)
+			if len(pValues) >= maxNoOfAlarms {
+				break
+			}
 		}
 	}
 
@@ -552,27 +614,35 @@ func (s *twinMakerHandler) GetSessionToken(ctx context.Context, duration time.Du
 	info := models.TokenInfo{}
 	credentials, err := s.client.GetSessionToken(ctx, duration, workspaceId)
 	if err != nil {
-		if aerr, ok := err.(awserr.Error); ok {
-			switch aerr.Code() {
-			case sts.ErrCodeRegionDisabledException:
-				fmt.Println(sts.ErrCodeRegionDisabledException, aerr.Error())
-			default:
-				fmt.Println(aerr.Error())
-			}
-		} else {
-			// Print the error, cast err to awserr.Error to get the Code and
-			// Message from an error.
-			fmt.Println(err.Error())
-		}
-		return info, err
+		return info, HandleGetTokenError(err)
 	}
+	return SetInfo(credentials, info), err
+}
 
+func (s *twinMakerHandler) GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (models.TokenInfo, error) {
+	info := models.TokenInfo{}
+	credentials, err := s.client.GetWriteSessionToken(ctx, duration, workspaceId)
+	if err != nil {
+		return info, HandleGetTokenError(err)
+	}
+	return SetInfo(credentials, info), err
+}
+
+func HandleGetTokenError(err error) error {
+	if aerr, ok := err.(awserr.Error); ok {
+		log.DefaultLogger.Error("error getting session token", "code", aerr.Code(), "error", aerr)
+		return err
+	}
+	log.DefaultLogger.Error("error getting session token", "error", err)
+	return err
+}
+
+func SetInfo(credentials *sts.Credentials, info models.TokenInfo) models.TokenInfo {
 	info.AccessKeyId = credentials.AccessKeyId
 	info.SecretAccessKey = credentials.SecretAccessKey
 	info.SessionToken = credentials.SessionToken
 	if credentials.Expiration != nil {
 		info.Expiration = credentials.Expiration.UnixNano() / int64(time.Millisecond)
 	}
-
-	return info, err
+	return info
 }
