@@ -270,7 +270,15 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 			f, converter := newDataValueField(prop.PropertyValue, 1)
 			f.Set(0, converter(prop.PropertyValue))
 
-			f.Name = *prop.PropertyReference.PropertyName
+			if prop.PropertyReference.PropertyName != nil {
+				f.Name = *prop.PropertyReference.PropertyName
+				for _, val := range query.Properties {
+					if val.PropertyName == *prop.PropertyReference.PropertyName && &val.PropertyDisplayName != nil {
+						f.Name = val.PropertyDisplayName
+					}
+				}
+			}
+
 			f.Labels = data.Labels{
 				"entityId":      *prop.PropertyReference.EntityId,
 				"componentName": *prop.PropertyReference.ComponentName,
@@ -404,6 +412,11 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 		}
 		if ref.PropertyName != nil {
 			v.Name = *ref.PropertyName
+			for _, val := range query.Properties {
+				if val.PropertyName == *ref.PropertyName && &val.PropertyDisplayName != nil {
+					v.Name = val.PropertyDisplayName
+				}
+			}
 		}
 		if ref.ComponentName == nil || ref.EntityId == nil {
 			v.Labels["componentTypeId"] = query.ComponentTypeId
@@ -524,7 +537,7 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 	for _, componentTypeSummary := range componentTypeSummaryResults {
 		// Set mapping of alarm component types for quick lookup later
 		query.EntityId = ""
-		query.Properties = []*string{aws.String(alarmProperty)}
+		query.Properties = []*models.TwinmakerPropertyInfo{{PropertyName: *aws.String(alarmProperty)}}
 		query.ComponentTypeId = *componentTypeSummary.ComponentTypeId
 		query.Order = models.ResultOrderDesc
 		if isFiltered {

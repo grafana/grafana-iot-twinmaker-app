@@ -163,10 +163,15 @@ func (r *twinMakerResource) ListOptions(ctx context.Context) (models.OptionsInfo
 			}
 
 			typeId := *w.ComponentTypeId
+			label := typeId
+			if w.ComponentTypeName != nil {
+				label = *w.ComponentTypeName
+			}
 
 			info := models.SelectableProps{}
-			info.Label = typeId
+			info.Label = label
 			info.Value = typeId
+			info.Description = typeId
 
 			// nested query!
 			query.ComponentTypeId = typeId
@@ -271,9 +276,15 @@ func toPropertiesSelectableValues(def map[string]*iottwinmaker.PropertyDefinitio
 			continue
 		}
 
+		label := key
+		if element.DisplayName != nil {
+			label = *element.DisplayName
+		}
+
 		p := models.SelectableString{
-			Value: key,
-			Label: fmt.Sprintf("%s (%s)", key, *element.DataType.Type),
+			Value:       key,
+			Label:       label,
+			Description: fmt.Sprintf("%s (%s)", key, *element.DataType.Type),
 		}
 		if *element.IsTimeSeries {
 			timeseries = append(timeseries, p)

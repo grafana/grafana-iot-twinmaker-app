@@ -75,7 +75,11 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
       ...query,
       entityId: templateSrv.replace(query.entityId || '', scopedVars),
       componentName: templateSrv.replace(query.componentName || '', scopedVars),
-      properties: query.properties?.map((p) => templateSrv.replace(p || '', scopedVars)) || [],
+      properties:
+        query.properties?.map((p) => ({
+          propertyName: templateSrv.replace(p.propertyName || '', scopedVars),
+          propertyDisplayName: p.propertyDisplayName,
+        })) || [],
       componentTypeId: templateSrv.replace(query.componentTypeId || '', scopedVars),
     };
   }

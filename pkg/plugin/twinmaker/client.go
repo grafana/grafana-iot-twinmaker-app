@@ -373,10 +373,15 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 		return nil, fmt.Errorf("missing property")
 	}
 
+	var queryProperties []*string
+	for _, x := range query.Properties {
+		queryProperties = append(queryProperties, &x.PropertyName)
+	}
+
 	params := &iottwinmaker.GetPropertyValueInput{
 		EntityId:           &query.EntityId,
 		ComponentName:      &query.ComponentName,
-		SelectedProperties: query.Properties,
+		SelectedProperties: queryProperties,
 		WorkspaceId:        &query.WorkspaceId,
 		MaxResults:         aws.Int64(200),
 	}
@@ -423,9 +428,14 @@ func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query mod
 	}
 	maxR := int64(query.MaxResults)
 
+	var queryProperties []*string
+	for _, x := range query.Properties {
+		queryProperties = append(queryProperties, &x.PropertyName)
+	}
+
 	params := &iottwinmaker.GetPropertyValueHistoryInput{
 		EndTime:            getTimeStringFromTimeObject(&query.TimeRange.To),
-		SelectedProperties: query.Properties,
+		SelectedProperties: queryProperties,
 		StartTime:          getTimeStringFromTimeObject(&query.TimeRange.From),
 		WorkspaceId:        &query.WorkspaceId,
 	}

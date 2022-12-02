@@ -132,13 +132,18 @@ func (tabularConditions *TwinMakerTabularConditions) ToTwinMakerTabularCondition
 	return tabularCondition
 }
 
+type TwinmakerPropertyInfo struct {
+	PropertyName        string `json:"propertyName,omitempty"`
+	PropertyDisplayName string `json:"propertyDisplayName,omitempty"`
+}
+
 // TwinMakerQuery model
 type TwinMakerQuery struct {
 	GrafanaLiveEnabled bool                          `json:"grafanaLiveEnabled,omitempty"`
 	IsStreaming        bool                          `json:"isStreaming,omitempty"`
 	WorkspaceId        string                        `json:"workspaceId,omitempty"`
 	EntityId           string                        `json:"entityId,omitempty"`
-	Properties         []*string                     `json:"properties,omitempty"`
+	Properties         []*TwinmakerPropertyInfo      `json:"properties,omitempty"`
 	NextToken          string                        `json:"nextToken,omitempty"`
 	ComponentName      string                        `json:"componentName,omitempty"`
 	ComponentTypeId    string                        `json:"componentTypeId,omitempty"`
@@ -167,8 +172,8 @@ func (q *TwinMakerQuery) CacheKey(pfix string) string {
 	key := pfix + "~" + q.WorkspaceId + "/" + q.EntityId + "/" + q.ComponentName + "/" + q.ComponentTypeId
 
 	for _, p := range q.Properties {
-		if p != nil {
-			key += "#" + *p
+		if &p.PropertyName != nil {
+			key += "#" + *&p.PropertyName
 		}
 	}
 
