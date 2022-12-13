@@ -14,6 +14,7 @@ import { AlarmEditModal } from './AlarmEditModal';
 import { processAlarmQueryInput, processAlarmResult } from './alarmParser';
 import { PanelOptions } from './types';
 import { TwinMakerDataSource } from 'datasource/datasource';
+import { getCurrentDashboard } from 'common/dashboard';
 
 type Props = PanelProps<PanelOptions>;
 
@@ -89,9 +90,10 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
       if (dataSource) {
         const doAsync = async () => {
           await dataSource.batchPutPropertyValues(entries);
+          setAlarmThreshold(newThreshold);
+          getCurrentDashboard()?.panels?.forEach((panel) => panel.refresh());
         };
         doAsync();
-        setAlarmThreshold(newThreshold);
       }
     },
     [alarmName, dataSource, entityId, setAlarmThreshold]

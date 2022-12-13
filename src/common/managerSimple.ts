@@ -15,7 +15,7 @@ export class SimpleTwinMakerDashboardManager implements TwinMakerDashboardManage
 
   /** A list of the scene viewer panels on the dashboard */
   listTwinMakerPanels() {
-    const keep = new Set(Object.values(TWINMAKER_PANEL_TYPE_ID));
+    const keep: Set<string> = new Set(Object.values(TWINMAKER_PANEL_TYPE_ID));
     const dash = getCurrentDashboard();
     // dashboard is not available in explore view
     if (!dash) {
