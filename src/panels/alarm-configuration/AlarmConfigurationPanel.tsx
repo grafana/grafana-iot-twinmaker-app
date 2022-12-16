@@ -36,7 +36,7 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
   const toField: string | undefined = useMemo(() => {
     // Get variables from the URL
     const queryParams = locationSearchToObject(search || '');
-    return queryParams['to'] ? queryParams['to'] as string : undefined;
+    return queryParams['to'] ? (queryParams['to'] as string) : undefined;
   }, [search]);
 
   const results = useMemo(() => processAlarmResult(data.series), [data.series]);
