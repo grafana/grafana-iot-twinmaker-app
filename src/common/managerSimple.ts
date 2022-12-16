@@ -86,7 +86,7 @@ export class SimpleTwinMakerDashboardManager implements TwinMakerDashboardManage
     return panelTopicInfo;
   }
 
-  /** Called when a scene panel initalizes */
+  /** Called when a scene panel initializes */
   registerTwinMakerPanel(panelId: number, panel: TwinMakerPanelInstance) {
     const subj = this.getTwinMakerPanelInstance(panelId);
     subj.next(panel);

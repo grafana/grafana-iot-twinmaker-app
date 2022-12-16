@@ -19,7 +19,7 @@ To set up your Dashboard Layout panel (numbers reference the image above):
 3. Select the template variables that store the most recently selected entityId and componentName on your dashboard. Template variables can be automatically set by the [Scene Viewer panel](https://github.com/grafana/grafana-iot-twinmaker-app/tree/main/src/panels/scene-viewer/README.md).
 
 4. Define rules that perform an action when a componentTypeId is matched with the selected entityId and componentName.
-   a. Set the value of tempate variables
+   a. Set the value of template variables
    b. Merge the panels of another Grafana dashboard with the current dashboard
 
 ## Panel visuals

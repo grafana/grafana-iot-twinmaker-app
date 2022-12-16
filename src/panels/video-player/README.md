@@ -26,7 +26,7 @@ To set up your Video Player panel (numbers reference the image above):
 
 Click "Apply" then save your dashboard.
 
-## Custom time scubber
+## Custom time scrubber
 
 Available video:
 

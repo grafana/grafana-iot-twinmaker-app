@@ -54,9 +54,9 @@ export function applyTwinMakerLinks(
             if (rowIndex != null) {
               for (const v of options.vars) {
                 if (v.fieldName && v.name) {
-                  const vname = 'var-' + v.name.replace('${', '').replace('}', '');
+                  const vName = 'var-' + v.name.replace('${', '').replace('}', '');
                   const f = data.fields.find((f) => f.name === v.fieldName);
-                  query[vname] = f?.values.get(rowIndex);
+                  query[vName] = f?.values.get(rowIndex);
                 }
               }
             }

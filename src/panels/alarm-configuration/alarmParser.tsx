@@ -31,7 +31,7 @@ export function processAlarmResult(data: DataFrame[]): AlarmInfo {
     return info;
   }
 
-  // latest only verison
+  // latest only version
   for (const frame of data) {
     const cache = new FieldCache(frame);
     if (!frame.length) {

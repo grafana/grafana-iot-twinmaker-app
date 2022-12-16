@@ -52,8 +52,8 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
         return []; // nothing
       }
       const entityId = getTemplateSrv().replace(query.entityId || '');
-      const einf = await this.info.getEntityInfo(entityId);
-      return einf.map((t) => ({ text: t.label!, value: t.value! }));
+      const eInf = await this.info.getEntityInfo(entityId);
+      return eInf.map((t) => ({ text: t.label!, value: t.value! }));
     }
 
     // put a small cache on this?

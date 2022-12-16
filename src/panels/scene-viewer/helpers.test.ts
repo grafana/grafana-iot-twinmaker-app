@@ -63,7 +63,7 @@ describe('panel helpers', () => {
       // should use panel gridPos from new panel
       expect(mockNewPanels[0].gridPos).toEqual({ h: 4, w: 4, x: 4, y: 4 });
       expect(mockCurrentPanels[0].gridPos).toEqual({ h: 4, w: 4, x: 4, y: 4 });
-      // should keep ther panels
+      // should keep the panels
       expect((mockNewPanels[1] as any).type).toEqual('random-panel');
     });
 

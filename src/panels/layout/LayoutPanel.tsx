@@ -172,7 +172,7 @@ export class LayoutPanel extends Component<Props, State> {
   }
 
   /**
-   * Example implementaiton within a panel
+   * Example implementation within a panel
    */
   twinMakerPanelQueryRunner = (query: TwinMakerPanelQuery, options: BaseDataQueryOptions) => {
     if (!query.topic) {

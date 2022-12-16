@@ -23,7 +23,7 @@ export const twinMakerQueryTypes: QueryTypeInfo[] = [
   {
     label: 'Get Property Value History by Component Type',
     value: TwinMakerQueryType.ComponentHistory,
-    description: `Gets the history of a property within a componet of a specific componentType.`,
+    description: `Gets the history of a property within a component of a specific componentType.`,
     defaultQuery: {},
   },
   {

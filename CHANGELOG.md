@@ -12,7 +12,7 @@
 
 ## v1.2.1
 
-- Fix for paginaton issue that lead to partial data on the dashboard
+- Fix for pagination issue that lead to partial data on the dashboard
 - Fix minor bugs with the Scene Viewer and Video Player panels
 
 ## v1.2.0

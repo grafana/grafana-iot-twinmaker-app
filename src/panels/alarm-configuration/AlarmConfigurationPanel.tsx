@@ -8,7 +8,7 @@ import { Entries } from 'aws-sdk/clients/iottwinmaker';
 
 import { getTwinMakerDatasource } from 'common/datasourceSrv';
 import { TwinMakerQuery } from 'common/manager';
-import { usePanelRegisteration } from 'hooks/usePanelRegistration';
+import { usePanelRegistration } from 'hooks/usePanelRegistration';
 
 import { AlarmEditModal } from './AlarmEditModal';
 import { processAlarmQueryInput, processAlarmResult } from './alarmParser';
@@ -35,7 +35,7 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
     () => processAlarmQueryInput(data.request as DataQueryRequest<TwinMakerQuery>),
     [data.request]
   );
-  usePanelRegisteration(id);
+  usePanelRegistration(id);
 
   useEffect(() => {
     const doAsync = async () => {
@@ -116,7 +116,7 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
         <dl>
           <dt>Alarm ID</dt>
           <dd>{alarmName}</dd>
-          <dt>Thresold</dt>
+          <dt>Threshold</dt>
           <dd>{alarmThreshold}</dd>
           <dt>Notifications</dt>
           <dd>{alarmNotificationRecipient}</dd>
