@@ -84,23 +84,23 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	}
 
 	// STS client can not use scoped down role to generate tokens
-	stssettings := noEndpointSettings
-	stssettings.AssumeRoleARN = ""
+	stsSettings := noEndpointSettings
+	stsSettings.AssumeRoleARN = ""
 
 	stsSessionConfig := awsds.SessionConfig{
-		Settings:      stssettings,
+		Settings:      stsSettings,
 		HTTPClient:    httpClient,
 		UserAgentName: &agent,
 	}
 
 	twinMakerService := func() (*iottwinmaker.IoTTwinMaker, error) {
-		sess, err := sessions.GetSession(noEndpointSessionConfig)
+		session, err := sessions.GetSession(noEndpointSessionConfig)
 		if err != nil {
 			return nil, err
 		}
-		sess.Config.Endpoint = &settings.AWSDatasourceSettings.Endpoint
+		session.Config.Endpoint = &settings.AWSDatasourceSettings.Endpoint
 
-		svc := iottwinmaker.New(sess, aws.NewConfig())
+		svc := iottwinmaker.New(session, aws.NewConfig())
 		svc.Handlers.Send.PushFront(func(r *request.Request) {
 			r.HTTPRequest.Header.Set("User-Agent", agent)
 
@@ -112,13 +112,13 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 		if writerSessionConfig.Settings.AssumeRoleARN == "" {
 			return nil, fmt.Errorf("writer role not configured")
 		}
-		sess, err := sessions.GetSession(writerSessionConfig)
+		session, err := sessions.GetSession(writerSessionConfig)
 		if err != nil {
 			return nil, err
 		}
-		sess.Config.Endpoint = &settings.AWSDatasourceSettings.Endpoint
+		session.Config.Endpoint = &settings.AWSDatasourceSettings.Endpoint
 
-		svc := iottwinmaker.New(sess, aws.NewConfig())
+		svc := iottwinmaker.New(session, aws.NewConfig())
 		svc.Handlers.Send.PushFront(func(r *request.Request) {
 			r.HTTPRequest.Header.Set("User-Agent", agent)
 
@@ -127,11 +127,11 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	}
 
 	tokenService := func() (*sts.STS, error) {
-		sess, err := sessions.GetSession(stsSessionConfig)
+		session, err := sessions.GetSession(stsSessionConfig)
 		if err != nil {
 			return nil, err
 		}
-		svc := sts.New(sess, aws.NewConfig())
+		svc := sts.New(session, aws.NewConfig())
 		svc.Handlers.Send.PushFront(func(r *request.Request) {
 			r.HTTPRequest.Header.Set("User-Agent", agent)
 		})

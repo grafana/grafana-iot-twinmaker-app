@@ -159,12 +159,12 @@ type TwinMakerQuery struct {
 	TimeRange backend.TimeRange  `json:"-"`
 }
 
-func (q *TwinMakerQuery) CacheKey(pfix string) string {
+func (q *TwinMakerQuery) CacheKey(prefix string) string {
 	if q.NextToken != "" {
 		return "" // not cacheable
 	}
 
-	key := pfix + "~" + q.WorkspaceId + "/" + q.EntityId + "/" + q.ComponentName + "/" + q.ComponentTypeId
+	key := prefix + "~" + q.WorkspaceId + "/" + q.EntityId + "/" + q.ComponentName + "/" + q.ComponentTypeId
 
 	for _, p := range q.Properties {
 		if p != nil {

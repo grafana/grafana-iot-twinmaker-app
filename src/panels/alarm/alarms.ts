@@ -9,15 +9,15 @@ export interface AlarmState {
   entityName: string;
 }
 
-export interface AlaramInfo {
+export interface AlarmInfo {
   invalidFormat?: boolean;
   warning?: string;
   status: Record<string, number>;
   alarms: AlarmState[];
 }
 
-export function processAlarmResult(data: DataFrame[]): AlaramInfo {
-  const info: AlaramInfo = { status: {}, alarms: [] };
+export function processAlarmResult(data: DataFrame[]): AlarmInfo {
+  const info: AlarmInfo = { status: {}, alarms: [] };
   if (!data?.length) {
     info.invalidFormat = true;
     info.warning = 'missing data';

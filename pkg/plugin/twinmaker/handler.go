@@ -249,13 +249,13 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 	frame := data.NewFrame("")
 
 	if len(results.PropertyValues) > 0 {
-		propVals := make([]string, 0, len(results.PropertyValues))
+		propValues := make([]string, 0, len(results.PropertyValues))
 		for k := range results.PropertyValues {
-			propVals = append(propVals, k)
+			propValues = append(propValues, k)
 		}
-		sort.Strings(propVals)
+		sort.Strings(propValues)
 
-		for _, propVal := range propVals {
+		for _, propVal := range propValues {
 			prop := results.PropertyValues[propVal]
 			if v := prop.PropertyValue.ListValue; v != nil {
 				fr := s.processListValue(v, propVal)
@@ -382,13 +382,13 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 		}
 		fields := newTwinMakerFrameBuilder(len(prop.Values))
 		// Must return value field first so its labels can be used for the Time field
-		v, conv := fields.Value(prop.Values[0].Value)
+		v, conv := fields.Value(prop.Values[0].Value) // cspell:disable-line
 		t := fields.Time()
 		v.Name = "" // filled in with value below
 		for i, history := range prop.Values {
 			if timeValue, err := getTimeObjectFromStringTime(history.Time); err == nil {
 				t.Set(i, timeValue)
-				v.Set(i, conv(history.Value))
+				v.Set(i, conv(history.Value)) // cspell:disable-line
 			} else {
 				dr.Error = fmt.Errorf("error parsing timestamp while loading propertyValueHistory")
 			}
@@ -629,8 +629,8 @@ func (s *twinMakerHandler) GetWriteSessionToken(ctx context.Context, duration ti
 }
 
 func HandleGetTokenError(err error) error {
-	if aerr, ok := err.(awserr.Error); ok {
-		log.DefaultLogger.Error("error getting session token", "code", aerr.Code(), "error", aerr)
+	if aErr, ok := err.(awserr.Error); ok {
+		log.DefaultLogger.Error("error getting session token", "code", aErr.Code(), "error", aErr)
 		return err
 	}
 	log.DefaultLogger.Error("error getting session token", "error", err)

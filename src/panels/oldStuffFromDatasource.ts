@@ -5,7 +5,7 @@ import { initialize } from '@iot-app-kit/source-iottwinmaker';
 import { TMQueryEditorAwsConfig } from 'panels/query-editor/types';
 
 /**
- * The initalization process needs revisited here.  This simply moves things from
+ * The initialization process needs revisited here.  This simply moves things from
  * The Datasource into this temporary file.
  */
 export class OldDatasourceStuff {

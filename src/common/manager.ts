@@ -143,7 +143,7 @@ export interface TwinMakerPanelInstance {
 
   /**
    * TODO?
-   * callback when the dashbaord manager discovers an event
+   * callback when the dashboard manager discovers an event
    */
   onDashboardAction: (cmd: any) => void;
 }
@@ -164,7 +164,7 @@ export interface TwinMakerDashboardManager {
    */
   getQueryTopics: (panelId?: number) => TwinMakerPanelTopicInfo[];
 
-  /** Called when a scene panel initalizes */
+  /** Called when a scene panel initializes */
   registerTwinMakerPanel: (panelId: number, panel: TwinMakerPanelInstance) => void;
 
   /** Called when a scene panel is unmounted */

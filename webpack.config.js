@@ -1,6 +1,6 @@
 const getWebpackConfig = (defaultConfig, options) => {
   if (!defaultConfig.module) {
-    defaultConfig.module = { rules: []};
+    defaultConfig.module = { rules: [] };
   }
 
   // Long term solution to load hdr
@@ -16,11 +16,11 @@ const getWebpackConfig = (defaultConfig, options) => {
 
   // For grafana server started from public build, react is built with production mode
   // Setting the plugin mode to be production as well to avoid page freeze issue caused
-  // by react and reactt-reconciler running is different mode.
-  // If you are running grafana server from github with developmenet, change this mode
+  // by react and react-reconciler running is different mode.
+  // If you are running grafana server from github with development, change this mode
   // to match with it.
   defaultConfig.mode = 'production';
 
   return defaultConfig;
-}
-module.exports = { getWebpackConfig }
+};
+module.exports = { getWebpackConfig };
