@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { DataQueryRequest, PanelProps } from '@grafana/data';
-import { getTemplateSrv } from '@grafana/runtime';
+import { getTemplateSrv, locationSearchToObject } from '@grafana/runtime';
 import { Button, LoadingPlaceholder } from '@grafana/ui';
 
 import { Entries } from 'aws-sdk/clients/iottwinmaker';
@@ -14,6 +15,7 @@ import { AlarmEditModal } from './AlarmEditModal';
 import { processAlarmQueryInput, processAlarmResult } from './alarmParser';
 import { PanelOptions } from './types';
 import { TwinMakerDataSource } from 'datasource/datasource';
+import { getCurrentDashboard } from 'common/dashboard';
 
 type Props = PanelProps<PanelOptions>;
 
@@ -27,8 +29,15 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
   const [alarmNotificationRecipient, setAlarmNotificationRecipient] = useState('');
   const [warnings, setWarnings] = useState('');
   const [dataSource, setDataSource] = useState<TwinMakerDataSource>();
+  const { search } = useLocation();
 
   const configured = !!dataSource;
+
+  const toField: string | undefined = useMemo(() => {
+    // Get variables from the URL
+    const queryParams = locationSearchToObject(search || '');
+    return queryParams['to'] ? (queryParams['to'] as string) : undefined;
+  }, [search]);
 
   const results = useMemo(() => processAlarmResult(data.series), [data.series]);
   const queryInfo = useMemo(
@@ -89,12 +98,15 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
       if (dataSource) {
         const doAsync = async () => {
           await dataSource.batchPutPropertyValues(entries);
+          if (toField && toField === 'now') {
+            setAlarmThreshold(newThreshold);
+          }
+          getCurrentDashboard()?.panels?.forEach((panel) => panel.refresh());
         };
         doAsync();
-        setAlarmThreshold(newThreshold);
       }
     },
-    [alarmName, dataSource, entityId, setAlarmThreshold]
+    [alarmName, dataSource, entityId, toField, setAlarmThreshold]
   );
 
   const toggleModal = useCallback(() => {
