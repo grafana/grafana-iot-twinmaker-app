@@ -87,7 +87,7 @@ func TestHandleAWSData(t *testing.T) {
 			WorkspaceId:       "tabular-test-1",
 			EntityId:          "1b480741-1ac9-4c28-ac0e-f815b4bb3347",
 			ComponentName:     "TabularComponent",
-			Properties:        []*models.TwinmakerPropertyInfo{{PropertyName: *aws.String("crit")}, {PropertyName: *aws.String("description")}, {PropertyName: *aws.String("floc")}},
+			Properties:        []*string{aws.String("crit"), aws.String("description"), aws.String("floc")},
 			PropertyGroupName: "tabularPropertyGroup",
 		})
 		dr := runTest(t, client.path, &resp)
@@ -134,7 +134,7 @@ func TestHandleAWSData(t *testing.T) {
 				To:   time.Date(2022, 4, 27, 23, 0, 0, 0, time.UTC),
 			},
 			ComponentTypeId: "com.example.cookiefactory.alarm",
-			Properties:      []*models.TwinmakerPropertyInfo{{PropertyName: *aws.String("alarm_status")}},
+			Properties:      []*string{aws.String("alarm_status")},
 			PropertyFilter: []models.TwinMakerPropertyFilter{
 				{
 					Name: "alarm_status",

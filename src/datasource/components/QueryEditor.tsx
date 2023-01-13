@@ -42,7 +42,6 @@ import {
   TwinMakerPropertyFilter,
   DEFAULT_PROPERTY_FILTER_OPERATOR,
   TwinMakerOrderBy,
-  TwinmakerPropertyInfo,
 } from 'common/manager';
 import { getTemplateSrv } from '@grafana/runtime';
 import { getVariableOptions } from 'common/variables';
@@ -218,7 +217,7 @@ export class QueryEditor extends PureComponent<Props, State> {
       if (componentTypeId && opts) {
         const match = opts.find((v) => v.value === componentTypeId);
         if (match?.timeSeries?.length === 1) {
-          copy.properties = [{ propertyName: match.timeSeries[0].value! }];
+          copy.properties = [match.timeSeries[0].value!];
         }
       }
     }
@@ -252,7 +251,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     if (prop?.length) {
       const { onChange, query, onRunQuery } = this.props;
       const properties = query.properties ? [...query.properties] : [];
-      properties.push({ propertyName: prop });
+      properties.push(prop);
       onChange({
         ...query,
         properties,
@@ -263,13 +262,21 @@ export class QueryEditor extends PureComponent<Props, State> {
 
   onPropertiesSelected = (sel: Array<SelectableValue<string>>) => {
     const { onChange, query, onRunQuery } = this.props;
-    let properties: TwinmakerPropertyInfo[] = [];
+    let properties: string[] = [];
+    let propertyDisplayNames: { [key: string]: string } = {};
     if (sel?.length) {
-      properties = sel.map((v) => ({ propertyName: v.value as string, propertyDisplayName: v.label }));
+      sel.forEach((v) => {
+        const propertyName = v.value as string;
+        properties.push(propertyName);
+        if (v.label && v.label !== v.value) {
+          propertyDisplayNames[propertyName] = v.label;
+        }
+      });
     }
     onChange({
       ...query,
       properties,
+      propertyDisplayNames,
     });
     onRunQuery();
   };
@@ -476,7 +483,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     // make sure all selected properties are visible
     if (query.properties) {
       const all = new Set(propOpts.map((v) => v.value));
-      for (const { propertyName: p } of query.properties) {
+      for (const p of query.properties) {
         if (!all.has(p)) {
           propOpts = [
             ...propOpts,
@@ -489,11 +496,7 @@ export class QueryEditor extends PureComponent<Props, State> {
       }
     }
 
-    return getMultiSelectionInfo(
-      query.properties?.map((v) => v.propertyName),
-      propOpts,
-      this.state.templateVars
-    );
+    return getMultiSelectionInfo(query.properties, propOpts, this.state.templateVars);
   }
 
   renderPropsSelector(query: TwinMakerQuery, propOpts?: Array<SelectableValue<string>>, isLoading?: boolean) {

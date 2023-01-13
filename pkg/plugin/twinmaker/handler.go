@@ -272,10 +272,9 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 
 			if prop.PropertyReference.PropertyName != nil {
 				f.Name = *prop.PropertyReference.PropertyName
-				for _, val := range query.Properties {
-					if val.PropertyName == *prop.PropertyReference.PropertyName && &val.PropertyDisplayName != nil {
-						f.Name = val.PropertyDisplayName
-					}
+				var name, ok = query.PropertyDisplayNames[*prop.PropertyReference.PropertyName]
+				if ok {
+					f.Name = name
 				}
 			}
 
@@ -412,9 +411,11 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 		}
 		if ref.PropertyName != nil {
 			v.Name = *ref.PropertyName
-			for _, val := range query.Properties {
-				if val.PropertyName == *ref.PropertyName && &val.PropertyDisplayName != nil {
-					v.Name = val.PropertyDisplayName
+			if ref.PropertyName != nil {
+				v.Name = *ref.PropertyName
+				var name, ok = query.PropertyDisplayNames[*ref.PropertyName]
+				if ok {
+					v.Name = name
 				}
 			}
 		}
@@ -537,7 +538,7 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 	for _, componentTypeSummary := range componentTypeSummaryResults {
 		// Set mapping of alarm component types for quick lookup later
 		query.EntityId = ""
-		query.Properties = []*models.TwinmakerPropertyInfo{{PropertyName: *aws.String(alarmProperty)}}
+		query.Properties = []*string{aws.String(alarmProperty)}
 		query.ComponentTypeId = *componentTypeSummary.ComponentTypeId
 		query.Order = models.ResultOrderDesc
 		if isFiltered {

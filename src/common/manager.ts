@@ -52,11 +52,6 @@ export interface TwinMakerTabularConditions {
   propertyFilter: TwinMakerPropertyFilter[];
 }
 
-export interface TwinmakerPropertyInfo {
-  propertyName: string;
-  propertyDisplayName?: string;
-}
-
 export interface TwinMakerQuery extends DataQuery {
   queryType?: TwinMakerQueryType;
   nextToken?: string;
@@ -65,13 +60,14 @@ export interface TwinMakerQuery extends DataQuery {
   entityId?: string;
   componentName?: string;
   componentTypeId?: string;
-  properties?: TwinmakerPropertyInfo[];
+  properties?: string[];
   filter?: TwinMakerPropertyFilter[];
   maxResults?: number;
   order?: TwinMakerResultOrder;
   grafanaLiveEnabled: boolean;
   isStreaming?: boolean;
   intervalStreaming?: string;
+  propertyDisplayNames: { [key: string]: string };
 
   // Athena Data Connector parameters for GetPropertyValue query
   tabularConditions?: TwinMakerTabularConditions;
