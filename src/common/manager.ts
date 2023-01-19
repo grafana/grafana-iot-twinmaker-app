@@ -67,6 +67,7 @@ export interface TwinMakerQuery extends DataQuery {
   grafanaLiveEnabled: boolean;
   isStreaming?: boolean;
   intervalStreaming?: string;
+  propertyDisplayNames: { [key: string]: string };
 
   // Athena Data Connector parameters for GetPropertyValue query
   tabularConditions?: TwinMakerTabularConditions;

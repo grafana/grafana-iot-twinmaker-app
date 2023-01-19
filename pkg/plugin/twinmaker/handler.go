@@ -270,7 +270,14 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 			f, converter := newDataValueField(prop.PropertyValue, 1)
 			f.Set(0, converter(prop.PropertyValue))
 
-			f.Name = *prop.PropertyReference.PropertyName
+			if prop.PropertyReference.PropertyName != nil {
+				f.Name = *prop.PropertyReference.PropertyName
+				var name, ok = query.PropertyDisplayNames[*prop.PropertyReference.PropertyName]
+				if ok {
+					f.Name = name
+				}
+			}
+
 			f.Labels = data.Labels{
 				"entityId":      *prop.PropertyReference.EntityId,
 				"componentName": *prop.PropertyReference.ComponentName,
@@ -404,6 +411,13 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 		}
 		if ref.PropertyName != nil {
 			v.Name = *ref.PropertyName
+			if ref.PropertyName != nil {
+				v.Name = *ref.PropertyName
+				var name, ok = query.PropertyDisplayNames[*ref.PropertyName]
+				if ok {
+					v.Name = name
+				}
+			}
 		}
 		if ref.ComponentName == nil || ref.EntityId == nil {
 			v.Labels["componentTypeId"] = query.ComponentTypeId

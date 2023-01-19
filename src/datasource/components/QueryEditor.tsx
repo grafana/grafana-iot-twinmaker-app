@@ -263,12 +263,20 @@ export class QueryEditor extends PureComponent<Props, State> {
   onPropertiesSelected = (sel: Array<SelectableValue<string>>) => {
     const { onChange, query, onRunQuery } = this.props;
     let properties: string[] = [];
+    let propertyDisplayNames: { [key: string]: string } = {};
     if (sel?.length) {
-      properties = sel.map((v) => v.value as string);
+      sel.forEach((v) => {
+        const propertyName = v.value as string;
+        properties.push(propertyName);
+        if (v.label && v.label !== v.value) {
+          propertyDisplayNames[propertyName] = v.label;
+        }
+      });
     }
     onChange({
       ...query,
       properties,
+      propertyDisplayNames,
     });
     onRunQuery();
   };

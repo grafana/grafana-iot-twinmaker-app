@@ -134,18 +134,21 @@ func (tabularConditions *TwinMakerTabularConditions) ToTwinMakerTabularCondition
 
 // TwinMakerQuery model
 type TwinMakerQuery struct {
-	GrafanaLiveEnabled bool                          `json:"grafanaLiveEnabled,omitempty"`
-	IsStreaming        bool                          `json:"isStreaming,omitempty"`
-	WorkspaceId        string                        `json:"workspaceId,omitempty"`
-	EntityId           string                        `json:"entityId,omitempty"`
-	Properties         []*string                     `json:"properties,omitempty"`
-	NextToken          string                        `json:"nextToken,omitempty"`
-	ComponentName      string                        `json:"componentName,omitempty"`
-	ComponentTypeId    string                        `json:"componentTypeId,omitempty"`
-	PropertyFilter     []TwinMakerPropertyFilter     `json:"filter,omitempty"`
-	ListEntitiesFilter []TwinMakerListEntitiesFilter `json:"listEntitiesFilter,omitempty"`
-	Order              TwinMakerResultOrder          `json:"order,omitempty"`
-	MaxResults         int                           `json:"maxResults,omitempty"`
+	GrafanaLiveEnabled   bool                          `json:"grafanaLiveEnabled,omitempty"`
+	IsStreaming          bool                          `json:"isStreaming,omitempty"`
+	WorkspaceId          string                        `json:"workspaceId,omitempty"`
+	EntityId             string                        `json:"entityId,omitempty"`
+	Properties           []*string                     `json:"properties,omitempty"`
+        // Optional metadata saved with the query.  When this matches properties used in the results, it will
+        // replace the display name
+	PropertyDisplayNames map[string]string             `json:"propertyDisplayNames,omitempty"`
+	NextToken            string                        `json:"nextToken,omitempty"`
+	ComponentName        string                        `json:"componentName,omitempty"`
+	ComponentTypeId      string                        `json:"componentTypeId,omitempty"`
+	PropertyFilter       []TwinMakerPropertyFilter     `json:"filter,omitempty"`
+	ListEntitiesFilter   []TwinMakerListEntitiesFilter `json:"listEntitiesFilter,omitempty"`
+	Order                TwinMakerResultOrder          `json:"order,omitempty"`
+	MaxResults           int                           `json:"maxResults,omitempty"`
 
 	// Athena Data Connector parameters for iottwinmaker.GetPropertyValue
 	TabularConditions TwinMakerTabularConditions `json:"tabularConditions,omitempty"`
@@ -167,7 +170,7 @@ func (q *TwinMakerQuery) CacheKey(prefix string) string {
 	key := prefix + "~" + q.WorkspaceId + "/" + q.EntityId + "/" + q.ComponentName + "/" + q.ComponentTypeId
 
 	for _, p := range q.Properties {
-		if p != nil {
+		if &p != nil {
 			key += "#" + *p
 		}
 	}

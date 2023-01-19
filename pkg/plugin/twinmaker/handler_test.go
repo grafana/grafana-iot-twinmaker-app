@@ -137,11 +137,11 @@ func TestHandleAWSData(t *testing.T) {
 			Properties:      []*string{aws.String("alarm_status")},
 			PropertyFilter: []models.TwinMakerPropertyFilter{
 				{
-					Name:  "alarm_status",
+					Name: "alarm_status",
 					Value: models.TwinMakerFilterValue{
 						StringValue: aws.String("ACTIVE"),
 					},
-					Op:    "=",
+					Op: "=",
 				},
 			},
 			Order: "DESCENDING",
@@ -182,11 +182,11 @@ func TestHandleAWSData(t *testing.T) {
 			},
 			PropertyFilter: []models.TwinMakerPropertyFilter{
 				{
-					Name:  "alarm_status",
+					Name: "alarm_status",
 					Value: models.TwinMakerFilterValue{
 						StringValue: aws.String("ACTIVE"),
 					},
-					Op:    "=",
+					Op: "=",
 				},
 			},
 		})
