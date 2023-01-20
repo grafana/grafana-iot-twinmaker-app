@@ -66,15 +66,14 @@ const mapDataFrame = (df: DataFrame): DataStream[] => {
 
   const streams: DataStream[] = [];
   df.fields.forEach((f, index) => {
-    if (index !== timeFieldIndex) {
+    if (index !== timeFieldIndex && f.labels) {
       const labels = {
         ...f.labels,
-        [DataBindingLabelKeys.propertyName]: f.name,
       };
 
       streams.push({
         id: JSON.stringify(labels),
-        name: f.name,
+        name: f.labels.propertyName,
         dataType: valueTypeToDataType[f.type as ValueType],
         data: f.values
           .toArray()
