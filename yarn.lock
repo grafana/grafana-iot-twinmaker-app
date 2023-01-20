@@ -6217,31 +6217,31 @@
   dependencies:
     "@babel/runtime" "^7.6.2"
 
-"@iot-app-kit/components@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@iot-app-kit/components/-/components-2.5.1.tgz#c96aacbbc9ac7cb47d362ed5c05f12767655f66e"
-  integrity sha512-IjJ/wC6yb/EhnCV+M5X5rxgfKJBwcEKlu1qrJQs7MKGeNpCKjZ7mrABEraKQ0llqHXEZsR+Wpyq32O8Z3JROUg==
+"@iot-app-kit/components@^2.6.3":
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/components/-/components-2.6.3.tgz#957e9bb0f1d5373c6b1aa2678c23edeb3347426a"
+  integrity sha512-msHXnRFDTbj501XLmr+IDvLJLcSIW3G+pipq084Aou8cVv6Dmou8ei57oQ93wP83VyMcCxQHg2WoocUfFU0fzA==
   dependencies:
     "@awsui/collection-hooks" "^1.0.0"
     "@awsui/components-react" "^3.0.0"
     "@awsui/design-tokens" "^3.0.0"
-    "@iot-app-kit/core" "^2.5.1"
-    "@iot-app-kit/related-table" "^2.5.1"
-    "@iot-app-kit/source-iotsitewise" "^2.5.1"
-    "@iot-app-kit/table" "^2.5.1"
+    "@iot-app-kit/core" "^2.6.3"
+    "@iot-app-kit/related-table" "^2.6.3"
+    "@iot-app-kit/source-iotsitewise" "^2.6.3"
+    "@iot-app-kit/table" "^2.6.3"
     "@stencil/core" "^2.7.0"
-    "@synchro-charts/core" "^6.0.4"
+    "@synchro-charts/core" "^7.0.0"
     styled-components "^5.3.0"
 
-"@iot-app-kit/core@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@iot-app-kit/core/-/core-2.5.1.tgz#dde0e129d7aee670c97193756288a3b2be5a911f"
-  integrity sha512-skwhUDR90E4pqzgk6T/LnmC3V5F3XyEm7QaUhOVOqUDE5v0JLPUNkF6ZUpqxTt7TpOGviys4i60fFiph5H0PPA==
+"@iot-app-kit/core@^2.6.3":
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/core/-/core-2.6.3.tgz#32251e199b3d034f9571cbb2f1c5df0c9cd89ccb"
+  integrity sha512-1Jn2JTsS9GThJx3gcFxwr9+bSco3CTHrpoftWr7GCJ2sJ1zr8/8n7iGR7W0CKEICLuAgS0f3zS+QgLJhMcpvdg==
   dependencies:
     "@aws-sdk/client-iotsitewise" "^3.87.0"
     "@aws-sdk/credential-providers" "^3.39.0"
     "@rollup/plugin-typescript" "^8.3.0"
-    "@synchro-charts/core" "^6.0.4"
+    "@synchro-charts/core" "^7.0.0"
     d3-array "^2.3.2"
     flush-promises "^1.0.2"
     intervals-fn "^3.0.3"
@@ -6257,31 +6257,31 @@
     typescript "4.4.4"
     uuid "^3.3.2"
 
-"@iot-app-kit/react-components@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@iot-app-kit/react-components/-/react-components-2.5.1.tgz#00e47c946b38f178800e4953dcbcb1eebbf5c4f5"
-  integrity sha512-mOSxX6MV/ut9i0aM9Mdld2f1RSDz5rWI+orbnUAYD5dP3pCJRT//V6uwhKquEPZoTIZ3lKSyxtTX4nKMC9Sajg==
+"@iot-app-kit/react-components@^2.6.3":
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/react-components/-/react-components-2.6.3.tgz#10873d9dc89f0b37f0bf12cadef056a502768269"
+  integrity sha512-EXsgPYLCHxvMFPtJy6Ja9Ce/WogFHd7J6J3mZgFnmN4sE3ktWC+tOHZjKWJJ4IbREAc46xaugV49dCI5J9jfiQ==
   dependencies:
     "@awsui/components-react" "^3.0.0"
-    "@iot-app-kit/components" "^2.5.1"
-    "@iot-app-kit/core" "^2.5.1"
-    "@iot-app-kit/source-iottwinmaker" "^2.5.1"
+    "@iot-app-kit/components" "^2.6.3"
+    "@iot-app-kit/core" "^2.6.3"
+    "@iot-app-kit/source-iottwinmaker" "^2.6.3"
     dompurify "2.3.4"
     uuid "^8.3.2"
-    video.js "7.14.3"
+    video.js "7.20.3"
 
-"@iot-app-kit/related-table@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@iot-app-kit/related-table/-/related-table-2.5.1.tgz#00dabde6503797539667a76a7bf43aeb3a91a651"
-  integrity sha512-7MllkprdOnMddNdgxMsQhxDgZS9cUUpndkotv8Z6qSJtIcywRmFwbKP/irvBtN3kMqvab+M470I7Gcjc/fKFvA==
+"@iot-app-kit/related-table@^2.6.3":
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/related-table/-/related-table-2.6.3.tgz#46570a048e4498b19873c808fa41c502e8b30c4a"
+  integrity sha512-8IEBSByWIY6jNdOXbaTmvPvpcuk9e2fNosCyRpE5ixqYV/4slbYBWwn33LhbL2x+rhB78W/6jP2VslBIppc7Cw==
   dependencies:
     mutationobserver-shim "^0.3.7"
     uuid "^8.3.2"
 
-"@iot-app-kit/scene-composer@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@iot-app-kit/scene-composer/-/scene-composer-2.5.1.tgz#3acefdffe4e0944fec176467fd4523620f4f9357"
-  integrity sha512-fBF5cLS13BEUbI0IV0WE9PBNq+6zEDe+5UlwKg1YnMNSVNmVHekU+VqgQJp2qazIGPwtJuDU3W6Gu+PsGhxR8Q==
+"@iot-app-kit/scene-composer@^2.6.3":
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/scene-composer/-/scene-composer-2.6.3.tgz#b0eda890f659f51a59beb263a4fed1f933c90409"
+  integrity sha512-nEVdC3RmgmTLr/pwjSW0dViFoSctPsZvw3lPyLKPRmW8ev6XHA9qEFD2GpPOibRD8QQAvi+H6ARipWM72OwLCA==
   dependencies:
     "3d-tiles-renderer" "0.3.9"
     "@awsui/collection-hooks" "^1.0.0"
@@ -6289,8 +6289,8 @@
     "@awsui/design-tokens" "^3.0.19"
     "@awsui/global-styles" "^1.0.12"
     "@formatjs/ts-transformer" "3.9.11"
-    "@iot-app-kit/core" "^2.5.1"
-    "@iot-app-kit/related-table" "^2.5.1"
+    "@iot-app-kit/core" "^2.6.3"
+    "@iot-app-kit/related-table" "^2.6.3"
     "@react-three/drei" "7.10.1"
     "@react-three/fiber" "7.0.6"
     "@react-three/postprocessing" "2.0.5"
@@ -6320,47 +6320,47 @@
     zundo "1.1.0"
     zustand "3.5.14"
 
-"@iot-app-kit/source-iotsitewise@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@iot-app-kit/source-iotsitewise/-/source-iotsitewise-2.5.1.tgz#05e726501448dfe81584aa8bf5058f103fe69e3e"
-  integrity sha512-HfHr2he+X3M0i1R/mhaJLRJMpO0VRn9JeB6WXQ7iYytjfaeLSSHG4sMLYoaxd5X7Gjptp7tX1nyAHrIHZCdFJw==
+"@iot-app-kit/source-iotsitewise@^2.6.3":
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/source-iotsitewise/-/source-iotsitewise-2.6.3.tgz#5bfb01216b096fff496e014c1d5012ada171974d"
+  integrity sha512-V4Cgp3eKZeHaRAmtnVi/pVt8Sj9SysZd92EydMugP89lQYIV7GYTYK811yHx7HuYCXONpE8iI/N26FeXYBwtnA==
   dependencies:
     "@aws-sdk/client-iot-events" "^3.118.1"
     "@aws-sdk/client-iotsitewise" "^3.87.0"
-    "@iot-app-kit/core" "^2.5.1"
+    "@iot-app-kit/core" "^2.6.3"
     "@rollup/plugin-typescript" "^8.3.0"
-    "@synchro-charts/core" "^6.0.4"
+    "@synchro-charts/core" "^7.0.0"
     dataloader "^2.1.0"
     flush-promises "^1.0.2"
     lodash.merge "^4.6.2"
     rxjs "^7.4.0"
     typescript "4.4.4"
 
-"@iot-app-kit/source-iottwinmaker@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@iot-app-kit/source-iottwinmaker/-/source-iottwinmaker-2.5.1.tgz#ceea69e7efec30921405fe117a23de6953ff5812"
-  integrity sha512-rQl9DurGtAyOm8qASwg3RbrNtoeZSgJZnYf3hAliEd2t7oHfR/+KEfgMgGAnJnDd3I4SnsM9c+SoBtpUL1d8og==
+"@iot-app-kit/source-iottwinmaker@^2.6.3":
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/source-iottwinmaker/-/source-iottwinmaker-2.6.3.tgz#1d8a1d71664b1439d9cfc6dc1d0b88edffdaac10"
+  integrity sha512-TD8Xf+MEwlcTFWXZGRDZtTjHsgUmySX/JM5XoDHq4uFPQf6MKfTtAqJsELcvtEy6YF0eYfsuZsDr61t0EG7HSQ==
   dependencies:
     "@aws-sdk/client-iotsitewise" "^3.131.0"
     "@aws-sdk/client-iottwinmaker" "^3.131.0"
     "@aws-sdk/client-kinesis-video" "^3.131.0"
     "@aws-sdk/client-kinesis-video-archived-media" "^3.131.0"
     "@aws-sdk/client-s3" "^3.72.0"
-    "@iot-app-kit/core" "^2.5.1"
-    "@synchro-charts/core" "^6.0.4"
+    "@iot-app-kit/core" "^2.6.3"
+    "@synchro-charts/core" "^7.0.0"
     flush-promises "^1.0.2"
     rxjs "^7.4.0"
     typescript "4.4.4"
 
-"@iot-app-kit/table@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@iot-app-kit/table/-/table-2.5.1.tgz#f8e6d88141184d475eb0c290e595f77c5d180740"
-  integrity sha512-n490xD6Eam4keymO/yU2ZO23VbnJw+k5SG0XLBJ6AJoUFwYqdDsTntB7GJIqyP3VsB6nIQjPVlWVwSsw1s6OAg==
+"@iot-app-kit/table@^2.6.3":
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/table/-/table-2.6.3.tgz#49f1a2614953ea8935f3667e881f8ac0241cab49"
+  integrity sha512-E1p/8GcbJXQQ5L3GXy6lBn3FRmJFix6Os7YJAtdBVZOPf/EMB6Me1Cwv6dUxc6AIa7vMb6mVAPK/d0PlEwo27g==
   dependencies:
     "@awsui/collection-hooks" "^1.0.0"
     "@awsui/components-react" "^3.0.0"
-    "@iot-app-kit/core" "^2.5.1"
-    "@synchro-charts/core" "^6.0.4"
+    "@iot-app-kit/core" "^2.6.3"
+    "@synchro-charts/core" "^7.0.0"
     d3-array "^3.1.6"
     react "^17.0.2"
     react-dom "^17.0.2"
@@ -7236,10 +7236,10 @@
   resolved "https://registry.yarnpkg.com/@stencil/redux/-/redux-0.1.2.tgz#e60eae0286b9012e63ce4d332d0400e525f71754"
   integrity sha512-HLASGyE7BJX/hJUatXBKjeHxH8EGh9M5U6FpCUiIkxWuBXdEVL2oQOwOgm7QPe3yRgN6i8dEKVXD5Vv4ZnNZ1Q==
 
-"@synchro-charts/core@^6.0.4":
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/@synchro-charts/core/-/core-6.0.5.tgz#539d453a23f31ca771308c2d31f72c1b68d54b67"
-  integrity sha512-F8XCqDnrgkKF65SN75A1+k1yl8g7UTNIdG/pnKWxJuN4BHF4jlLMSuw2lX3/9SQc0dglPG9LotZV5WpjZO7dQA==
+"@synchro-charts/core@^7.0.0":
+  version "7.1.5"
+  resolved "https://registry.yarnpkg.com/@synchro-charts/core/-/core-7.1.5.tgz#70a9c092cfce6f8430c9655e9d7beb5aafc180df"
+  integrity sha512-0WiBhRfxKLKYc3jwa1mg0h/pTLTUHuLTYy/VFrxuQGQnmGVKl0iy694EuhEOI0tTNKMf6SAML89wH4Ek2RUSow==
   dependencies:
     "@stencil/redux" "^0.1.1"
     "@types/d3" "^5.16.4"
@@ -8257,21 +8257,7 @@
     mux.js "6.0.1"
     video.js "^6 || ^7"
 
-"@videojs/http-streaming@2.9.2":
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/@videojs/http-streaming/-/http-streaming-2.9.2.tgz#47d33bb02bd9c1287200398b1e85d213dee814d0"
-  integrity sha512-2ZsxJn4/nZZ6k6jIhic2l9ynGmKwprtuI5b3+M6JgqOSLvQQ/ah+heVs/0g2Ze7qJxodqR+aSY948JwJIz1gCw==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-    "@videojs/vhs-utils" "^3.0.2"
-    aes-decrypter "3.1.2"
-    global "^4.4.0"
-    m3u8-parser "4.7.0"
-    mpd-parser "0.17.0"
-    mux.js "5.12.2"
-    video.js "^6 || ^7"
-
-"@videojs/vhs-utils@3.0.5", "@videojs/vhs-utils@^3.0.0", "@videojs/vhs-utils@^3.0.2", "@videojs/vhs-utils@^3.0.4", "@videojs/vhs-utils@^3.0.5":
+"@videojs/vhs-utils@3.0.5", "@videojs/vhs-utils@^3.0.4", "@videojs/vhs-utils@^3.0.5":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@videojs/vhs-utils/-/vhs-utils-3.0.5.tgz#665ba70d78258ba1ab977364e2fe9f4d4799c46c"
   integrity sha512-PKVgdo8/GReqdx512F+ombhS+Bzogiofy1LgAj4tN8PfdBx3HSS7V5WfJotKTqtOWGwVfSWsrYN/t09/DSryrw==
@@ -8279,15 +8265,6 @@
     "@babel/runtime" "^7.12.5"
     global "^4.4.0"
     url-toolkit "^2.2.1"
-
-"@videojs/xhr@2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@videojs/xhr/-/xhr-2.5.1.tgz#26bc5a79dbb3b03bfb13742c6ce559f89e90719e"
-  integrity sha512-wV9nGESHseSK+S9ePEru2+OJZ1jq/ZbbzniGQ4weAmTIepuBMSYPx5zrxxQA0E786T5ykpO8ts+LayV+3/oI2w==
-  dependencies:
-    "@babel/runtime" "^7.5.5"
-    global "~4.4.0"
-    is-function "^1.0.1"
 
 "@videojs/xhr@2.6.0":
   version "2.6.0"
@@ -8556,16 +8533,6 @@ address@^1.1.2:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/address/-/address-1.2.1.tgz#25bb61095b7522d65b357baa11bc05492d4c8acd"
   integrity sha512-B+6bi5D34+fDYENiH5qOlA0cV2rAGKuWZ9LeyUUehbXy8e0VS9e498yO0Jeeh+iM+6KbfudHTFjXw2MmJD4QRA==
-
-aes-decrypter@3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/aes-decrypter/-/aes-decrypter-3.1.2.tgz#3545546f8e9f6b878640339a242efe221ba7a7cb"
-  integrity sha512-42nRwfQuPRj9R1zqZBdoxnaAmnIFyDi0MNyTVhjdFOd8fifXKKRfwIHIZ6AMn1or4x5WONzjwRTbTWcsIQ0O4A==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-    "@videojs/vhs-utils" "^3.0.0"
-    global "^4.4.0"
-    pkcs7 "^1.0.4"
 
 aes-decrypter@3.1.3:
   version "3.1.3"
@@ -8941,7 +8908,7 @@ available-typed-arrays@^1.0.5:
 
 "aws-iot-twinmaker-grafana-utils@file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz":
   version "1.0.0"
-  resolved "file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz#13690661150dd7fe408638b4a6a3fda4657bbaf8"
+  resolved "file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz#29d6f9550ee18519bbcc85abdac5493d8a546281"
   dependencies:
     debug "^4.3.4"
 
@@ -15019,15 +14986,6 @@ lz-string@^1.4.4:
   resolved "https://registry.npmjs.org/lz-string/-/lz-string-1.4.4.tgz"
   integrity sha512-0ckx7ZHRPqb0oUm8zNr+90mtf9DQB60H1wMCjBtfi62Kl3a7JbHob6gA2bC+xRvZoOL+1hzUK8jeuEIQE8svEQ==
 
-m3u8-parser@4.7.0:
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/m3u8-parser/-/m3u8-parser-4.7.0.tgz#e01e8ce136098ade1b14ee691ea20fc4dc60abf6"
-  integrity sha512-48l/OwRyjBm+QhNNigEEcRcgbRvnUjL7rxs597HmW9QSNbyNvt+RcZ9T/d9vxi9A9z7EZrB1POtZYhdRlwYQkQ==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-    "@videojs/vhs-utils" "^3.0.0"
-    global "^4.4.0"
-
 m3u8-parser@4.7.1:
   version "4.7.1"
   resolved "https://registry.yarnpkg.com/m3u8-parser/-/m3u8-parser-4.7.1.tgz#d6df2c940bb19a01112a04ccc4ff44886a945305"
@@ -15467,16 +15425,6 @@ move-concurrently@^1.0.1:
     rimraf "^2.5.4"
     run-queue "^1.0.3"
 
-mpd-parser@0.17.0:
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/mpd-parser/-/mpd-parser-0.17.0.tgz#d7f3002edcb706f98993ef75846a713d056d3332"
-  integrity sha512-oKS5G0jCcHHJ3sHYlcLeM9Xcbuixl08eAx7QW0Th7ChlZiI0YvLtGaHE/L0aKUBJFNvtkeksIr8XgJgSBBsS4g==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-    "@videojs/vhs-utils" "^3.0.2"
-    global "^4.4.0"
-    xmldom "^0.5.0"
-
 mpd-parser@0.21.1:
   version "0.21.1"
   resolved "https://registry.yarnpkg.com/mpd-parser/-/mpd-parser-0.21.1.tgz#4f4834074ed0a8e265d8b04a5d2d7b5045a4fa55"
@@ -15511,13 +15459,6 @@ mute-stream@0.0.8:
   version "0.0.8"
   resolved "https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.8.tgz"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
-
-mux.js@5.12.2:
-  version "5.12.2"
-  resolved "https://registry.yarnpkg.com/mux.js/-/mux.js-5.12.2.tgz#cd823312f4bb69adb8b9c5f45635b4451066d6e6"
-  integrity sha512-9OY1lrFIo7FxMeIC6aLUftiNv97AztufDfi30N7qDll1Pcy7bCxlHztyHp1Ce0KQwy2XqchGeENPS4v1NJngHQ==
-  dependencies:
-    "@babel/runtime" "^7.11.2"
 
 mux.js@6.0.1:
   version "6.0.1"
@@ -20202,26 +20143,7 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-video.js@7.14.3:
-  version "7.14.3"
-  resolved "https://registry.yarnpkg.com/video.js/-/video.js-7.14.3.tgz#0b612c09a0a81ef9bce65c710e73291cb06dc32c"
-  integrity sha512-6avCdSIfn5ss5NOgoQfY/xEfPNcz9DXSw+ZN80NwPguCdRd4VL4y40b/d7osYJwyCdF+YkvhqAW7dw4s0vBigg==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-    "@videojs/http-streaming" "2.9.2"
-    "@videojs/vhs-utils" "^3.0.2"
-    "@videojs/xhr" "2.5.1"
-    aes-decrypter "3.1.2"
-    global "^4.4.0"
-    keycode "^2.2.0"
-    m3u8-parser "4.7.0"
-    mpd-parser "0.17.0"
-    mux.js "5.12.2"
-    safe-json-parse "4.0.0"
-    videojs-font "3.2.0"
-    videojs-vtt.js "^0.15.3"
-
-"video.js@^6 || ^7":
+video.js@7.20.3, "video.js@^6 || ^7":
   version "7.20.3"
   resolved "https://registry.yarnpkg.com/video.js/-/video.js-7.20.3.tgz#5694741346dc683255993e5069daa15d4bacb646"
   integrity sha512-JMspxaK74LdfWcv69XWhX4rILywz/eInOVPdKefpQiZJSMD5O8xXYueqACP2Q5yqKstycgmmEKlJzZ+kVmDciw==
@@ -20245,7 +20167,7 @@ videojs-font@3.2.0:
   resolved "https://registry.yarnpkg.com/videojs-font/-/videojs-font-3.2.0.tgz#212c9d3f4e4ec3fa7345167d64316add35e92232"
   integrity sha512-g8vHMKK2/JGorSfqAZQUmYYNnXmfec4MLhwtEFS+mMs2IDY398GLysy6BH6K+aS1KMNu/xWZ8Sue/X/mdQPliA==
 
-videojs-vtt.js@^0.15.3, videojs-vtt.js@^0.15.4:
+videojs-vtt.js@^0.15.4:
   version "0.15.4"
   resolved "https://registry.yarnpkg.com/videojs-vtt.js/-/videojs-vtt.js-0.15.4.tgz#5dc5aabcd82ba40c5595469bd855ea8230ca152c"
   integrity sha512-r6IhM325fcLb1D6pgsMkTQT1PpFdUdYZa1iqk7wJEu+QlibBwATPfPc9Bg8Jiym0GE5yP1AG2rMLu+QMVWkYtA==
@@ -20605,11 +20527,6 @@ xmlchars@^2.1.1, xmlchars@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/xmlchars/-/xmlchars-2.2.0.tgz"
   integrity sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==
-
-xmldom@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.5.0.tgz#193cb96b84aa3486127ea6272c4596354cb4962e"
-  integrity sha512-Foaj5FXVzgn7xFzsKeNIde9g6aFBxTPi37iwsno8QvApmtg7KYrr+OPyRHcJF7dud2a5nGRBXK3n0dL62Gf7PA==
 
 xss@1.0.10:
   version "1.0.10"
