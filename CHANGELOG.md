@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.3.1
+
+- Bug fixes in Scene Viewer and Alarm panel.
+- Support for displaying property name.
+
 ## v1.3.0
 
 - Launch Alarm Configuration Panel
