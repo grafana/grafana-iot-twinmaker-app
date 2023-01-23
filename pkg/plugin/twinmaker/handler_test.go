@@ -64,8 +64,14 @@ func TestHandleAWSData(t *testing.T) {
 		labels := data.Labels{
 			"componentName": "AlarmComponent",
 			"entityId":      "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
+			"propertyName":  "telemetryAssetType",
 		}
 		require.Equal(t, labels, dr.Frames[0].Fields[1].Labels)
+		labels = data.Labels{
+			"componentName": "AlarmComponent",
+			"entityId":      "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
+			"propertyName":  "alarm_key",
+		}
 		require.Equal(t, labels, dr.Frames[0].Fields[0].Labels)
 	})
 
@@ -94,8 +100,14 @@ func TestHandleAWSData(t *testing.T) {
 		labels := data.Labels{
 			"componentName": "TabularComponent",
 			"entityId":      "1b480741-1ac9-4c28-ac0e-f815b4bb3347",
+			"propertyName":  "description",
 		}
 		require.Equal(t, labels, dr.Frames[0].Fields[1].Labels)
+		labels = data.Labels{
+			"componentName": "TabularComponent",
+			"entityId":      "1b480741-1ac9-4c28-ac0e-f815b4bb3347",
+			"propertyName":  "crit",
+		}
 		require.Equal(t, labels, dr.Frames[0].Fields[0].Labels)
 	})
 
@@ -109,6 +121,7 @@ func TestHandleAWSData(t *testing.T) {
 		labels := data.Labels{
 			"componentName": "AlarmComponent",
 			"entityId":      "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
+			"propertyName":  "alarm_status",
 		}
 		require.Equal(t, labels, dr.Frames[0].Fields[0].Labels)
 	})
