@@ -31,15 +31,15 @@ export default function FilterQueryEditor(props: FilterQueryEditorProps) {
   const stringToFilterValue = (v: string, index: number): TwinMakerFilterValue => {
     const filterVal: TwinMakerFilterValue = {};
     const propSel: SelectableValue<string> | undefined = properties.find((v) => v.value === filters[index].name);
-    if (propSel?.label?.includes('(BOOLEAN)')) {
+    if (propSel?.description?.includes('(BOOLEAN)')) {
       filterVal.booleanValue = v === 'true';
-    } else if (propSel?.label?.includes('(INTEGER)')) {
+    } else if (propSel?.description?.includes('(INTEGER)')) {
       filterVal.integerValue = parseInt(v, 10);
-    } else if (propSel?.label?.includes('(DOUBLE)')) {
+    } else if (propSel?.description?.includes('(DOUBLE)')) {
       filterVal.doubleValue = parseFloat(v);
-    } else if (propSel?.label?.includes('(LONG)')) {
+    } else if (propSel?.description?.includes('(LONG)')) {
       filterVal.longValue = parseFloat(v);
-    } else if (propSel?.label?.includes('(STRING)')) {
+    } else if (propSel?.description?.includes('(STRING)')) {
       filterVal.stringValue = v;
     }
     return filterVal;

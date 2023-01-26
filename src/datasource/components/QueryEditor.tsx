@@ -554,7 +554,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     onChange(this.changeFilter(query, filterList, isTabularCondition));
   };
 
-  onAddFilter = (isTabularCondition?: boolean) => {
+  onAddFilter = (isTabularCondition?: boolean) => () => {
     const { onChange, query } = this.props;
     let filters = isTabularCondition ? query.tabularConditions?.propertyFilter : query.filter;
     filters = filters ? filters.slice() : [];
@@ -579,7 +579,7 @@ export class QueryEditor extends PureComponent<Props, State> {
       <FilterQueryEditor
         filters={filters}
         properties={properties.options}
-        onAdd={this.onAddFilter}
+        onAdd={this.onAddFilter(isTabularCondition)}
         onChange={this.onFilterChanged}
         isTabularCondition={isTabularCondition}
       />
