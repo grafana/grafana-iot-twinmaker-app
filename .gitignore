@@ -37,3 +37,6 @@ build/
 cypress/videos
 cypress/report.json
 cypress/screenshots/actual
+
+# Editor
+.idea
