@@ -42,7 +42,7 @@
     "@aws-sdk/client-s3": "^3.112.0",
     "@iot-app-kit/core": "^2.6.4",
     "@iot-app-kit/react-components": "^2.6.4",
-    "@iot-app-kit/scene-composer": "^2.6.4",
+    "@iot-app-kit/scene-composer": "file:libs/iot-app-kit-scene-composer-2.5.1.tgz",
     "@iot-app-kit/source-iottwinmaker": "^2.6.4",
     "aws-iot-twinmaker-grafana-utils": "file:libs/aws-iot-twinmaker-grafana-utils-1.0.0.tgz",
     "aws-sdk": "^2.833.0",

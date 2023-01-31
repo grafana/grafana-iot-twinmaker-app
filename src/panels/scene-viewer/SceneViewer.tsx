@@ -22,6 +22,8 @@ import {
   IWidgetClickEvent,
   ISelectionChangedEvent,
   useSceneComposerApi,
+  PropertyDecoderFunction,
+  PropertyDecoderFunctionMap,
 } from '@iot-app-kit/scene-composer';
 
 const valueTypeToDataType: Record<ValueType, DataType> = {
@@ -86,6 +88,22 @@ const mapDataFrame = (df: DataFrame): DataStream[] => {
   });
 
   return streams;
+};
+
+const locationStringDecoder: PropertyDecoderFunction = (locationString: string) => {
+  const newLocationValues = locationString.split(',');
+  return {
+    positionX: Number(newLocationValues[0]),
+    positionY: Number(newLocationValues[1]),
+    positionZ: Number(newLocationValues[2]),
+    rotationDegX: Number(newLocationValues[3]),
+    rotationDegY: Number(newLocationValues[4]),
+    rotationDegZ: Number(newLocationValues[5]),
+  };
+};
+
+const propertyDecoders: PropertyDecoderFunctionMap = {
+  locationString: locationStringDecoder,
 };
 
 export const SceneViewer = (props: SceneViewerPropsFromParent) => {
@@ -273,6 +291,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
         dataStreams={dataStreams}
         viewport={viewport}
         activeCamera={activeCamera}
+        propertyDecoders={propertyDecoders}
       />
     </div>
   );

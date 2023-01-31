@@ -6233,7 +6233,7 @@
     "@synchro-charts/core" "^7.0.0"
     styled-components "^5.3.0"
 
-"@iot-app-kit/core@^2.6.4":
+"@iot-app-kit/core@^2.5.1", "@iot-app-kit/core@^2.6.4":
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/@iot-app-kit/core/-/core-2.6.4.tgz#3543b2f829a1d44f4e01ee31beec1e85920b7739"
   integrity sha512-/1of3bOilk0YGeu4IdwxOqzaxciwm3OlKqR21B3iscHEW3Gn6yWT1YcX+UuOspI7Emz0kFD4KHXPJAuHOCbc2g==
@@ -6270,7 +6270,7 @@
     uuid "^8.3.2"
     video.js "7.20.3"
 
-"@iot-app-kit/related-table@^2.6.4":
+"@iot-app-kit/related-table@^2.5.1", "@iot-app-kit/related-table@^2.6.4":
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/@iot-app-kit/related-table/-/related-table-2.6.4.tgz#8872cf2b66973e9486f16ec9b7a2a4730f0e2b68"
   integrity sha512-zyhHxZjmqk1UArJLWqWedLmXMmO3VXe49mi/uY7kw5tC3HzKNgK2wlABI+x0Tt7QiGXHT6SxpCyC1E/yZmcZdQ==
@@ -6278,10 +6278,9 @@
     mutationobserver-shim "^0.3.7"
     uuid "^8.3.2"
 
-"@iot-app-kit/scene-composer@^2.6.4":
-  version "2.6.4"
-  resolved "https://registry.yarnpkg.com/@iot-app-kit/scene-composer/-/scene-composer-2.6.4.tgz#127276a7d689e06d2f47fcda06ee80de9ef1fddd"
-  integrity sha512-AnqXxBDJ3mP1BGwvFtqIsHZZnzYM/c86SZZRKSfZ+C9O37sEWoSI6C+BetMY6bxJpQ7UeeO5U18qk25WGZgxtw==
+"@iot-app-kit/scene-composer@file:libs/iot-app-kit-scene-composer-2.5.1.tgz":
+  version "2.5.1"
+  resolved "file:libs/iot-app-kit-scene-composer-2.5.1.tgz#9ad79bcca99c1511c6e3831013eebb38ac4835cd"
   dependencies:
     "3d-tiles-renderer" "0.3.9"
     "@awsui/collection-hooks" "^1.0.0"
@@ -6289,8 +6288,8 @@
     "@awsui/design-tokens" "^3.0.19"
     "@awsui/global-styles" "^1.0.12"
     "@formatjs/ts-transformer" "3.9.11"
-    "@iot-app-kit/core" "^2.6.4"
-    "@iot-app-kit/related-table" "^2.6.4"
+    "@iot-app-kit/core" "^2.5.1"
+    "@iot-app-kit/related-table" "^2.5.1"
     "@react-three/drei" "7.10.1"
     "@react-three/fiber" "7.0.6"
     "@react-three/postprocessing" "2.0.5"
