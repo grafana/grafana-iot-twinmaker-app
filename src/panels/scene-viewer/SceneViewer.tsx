@@ -256,6 +256,20 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       : undefined;
   }, [props.options.customInputActiveCamera, search]);
 
+  const externalLibraryConfig = useMemo(() => {
+    if (props.options.mp_spaceId && props.options.mp_application_key) {
+      return {
+        matterport: {
+          modelId: props.options.mp_spaceId,
+          applicationKey: props.options.mp_application_key,
+          assetBase: '/public/plugins/grafana-iot-twinmaker-app/static/matterport',
+        },
+      };
+    } else {
+      return undefined;
+    }
+  }, [props.options.mp_spaceId, props.options.mp_application_key]);
+
   return (
     <div
       data-testid={'SceneViewer'}
@@ -273,6 +287,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
         dataStreams={dataStreams}
         viewport={viewport}
         activeCamera={activeCamera}
+        externalLibraryConfig={externalLibraryConfig}
       />
     </div>
   );

@@ -7,6 +7,9 @@ export interface PanelOptions {
 
   // The actual scene to load
   sceneId: string;
+  // Matterport space details
+  mp_spaceId?: string;
+  mp_application_key?: string;
 
   customSelEntityVarName?: string;
   customSelCompVarName?: string;
