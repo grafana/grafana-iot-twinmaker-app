@@ -43,6 +43,7 @@
     "testid",
     "timeseries",
     "TMQE",
+    "typecheck",
     "twinmaker",
     "undecorate",
     "Unsubscribable",

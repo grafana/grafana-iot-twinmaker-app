@@ -6,7 +6,7 @@ process.env.TZ = 'UTC';
 const originalConfig = require('./.config/jest.config');
 const { grafanaESModules, nodeModulesToTransform } = require('./.config/jest/utils');
 
-// jest will import the esmodule bundle of these packages which need transforming
+// jest will import the esmodules bundle of these packages which need transforming
 // prior to tests running
 const esModules = [
   '@awsui',
