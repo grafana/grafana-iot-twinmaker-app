@@ -27,6 +27,7 @@ Installation requirements:
 For more information, please consult the [build a plugin docs page](https://grafana.com/docs/grafana/latest/developers/plugins/).
 
 ### Build a release
+
 You need to have commit rights to the GitHub repository to publish a release.
 
 1. Update the version number in the `package.json` file.
@@ -45,12 +46,12 @@ You can install by following the [install Grafana plugins docs page](https://gra
 3. Run the following docker command:
 
 ```BASH
-docker run -d -p 3000:3000 --name=grafana -v ~/.aws:/usr/share/grafana/.aws -e "GF_INSTALL_PLUGINS=grafana-iot-twinmaker-app" grafana/grafana
+docker compose up -d
 ```
 
-a. `-v ~/.aws:/usr/share/grafana/.aws` will mount a volume with the credentials you configured on your machine so you can use the “AWS SDK Default” authentication provider for the TwinMaker datasource
+a. This container will mount the volume `~/.aws:/usr/share/grafana/.aws` with the credentials you configured on your machine so you can use the “AWS SDK Default” authentication provider for the TwinMaker datasource
 
-4. Access from http://localhost:3000 on your browser. First time login will be username:`admin` password:`admin`.
+1. Access from http://localhost:3000 on your browser. First time login will be username:`admin` password:`admin`.
 
 ## Development Mode
 
