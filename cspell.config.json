@@ -46,6 +46,7 @@
     "twinmaker",
     "undecorate",
     "Unsubscribable",
-    "videoplayer"
+    "videoplayer",
+    "commitish"
   ]
 }

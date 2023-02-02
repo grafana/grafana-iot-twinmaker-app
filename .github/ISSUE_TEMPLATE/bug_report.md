@@ -1,10 +1,7 @@
 ---
 name: Bug report
-about: Create an issue report to help us improve
-title: ''
-labels: 'bug'
-assignees: ''
-
+about: Report a bug you found when using this plugin
+labels: ["datasource/TwinMaker", "type/bug"]
 ---
 
 <!--
