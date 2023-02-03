@@ -17,6 +17,8 @@
     "spellcheck": "cspell -c cspell.config.json \"**/*.{ts,tsx,js,go,md,mdx,yml,yaml,json,scss,css}\"",
     "test": "jest --watch --onlyChanged",
     "test:ci": "jest --passWithNoTests --maxWorkers 4",
+    "test:coverage": "jest --coverage",
+    "test:coverage:changes": "jest --coverage --changedSince=origin/main",
     "typecheck": "tsc --noEmit"
   },
   "author": "IoT TwinMaker Frontend",
