@@ -1,19 +1,18 @@
-window.URL.createObjectURL = jest.fn();
+import { DataBindingLabelKeys, INavLink, ITagData } from '@iot-app-kit/scene-composer';
+import { TWINMAKER_PANEL_TYPE_ID } from 'common/constants';
+import { PanelModel } from 'common/dashboard';
+import { getValidHttpUrl, updateSceneViewerPanel, updateUrlParams } from './helpers';
 
 const mockLocationSrv = {
   update: jest.fn(),
 };
-jest.doMock('@grafana/runtime', () => ({
+
+jest.mock('@grafana/runtime', () => ({
   getLocationSrv: () => mockLocationSrv,
   getTemplateSrv: () => ({
     replace: (v: string) => v,
   }),
 }));
-
-import { DataBindingLabelKeys, INavLink, ITagData } from '@iot-app-kit/scene-composer';
-import { TWINMAKER_PANEL_TYPE_ID } from 'common/constants';
-import { PanelModel } from 'common/dashboard';
-import { getValidHttpUrl, updateSceneViewerPanel, updateUrlParams } from './helpers';
 
 describe('panel helpers', () => {
   describe('updateSceneViewerPanel', () => {

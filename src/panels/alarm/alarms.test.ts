@@ -27,10 +27,10 @@ describe('alarm helper', () => {
 
     const result = processAlarmResult([frame]);
     expect(result).toMatchInlineSnapshot(`
-      Object {
-        "alarms": Array [],
+      {
+        "alarms": [],
         "invalidFormat": true,
-        "status": Object {},
+        "status": {},
         "warning": "missing field: alarmStatus",
       }
     `);

@@ -27,23 +27,23 @@ describe('register twinmaker links transformer', () => {
     const info = {} as TwinMakerWorkspaceInfoSupplier;
     const after = applyTwinMakerLinks(info, config, source[0]);
     expect(after.fields.map((f) => f.config.links)).toMatchInlineSnapshot(`
-      Array [
-        Array [
-          Object {
+      [
+        [
+          {
             "onClick": [Function],
             "title": "Some title",
             "url": "",
           },
         ],
-        Array [
-          Object {
+        [
+          {
             "onClick": [Function],
             "title": "Some title",
             "url": "",
           },
         ],
-        Array [
-          Object {
+        [
+          {
             "onClick": [Function],
             "title": "Some title",
             "url": "",

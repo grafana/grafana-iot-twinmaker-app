@@ -14,7 +14,7 @@ describe('Layout manager', () => {
     ];
     const update = getQueryUpdate(actions, (v) => v);
     expect(update).toMatchInlineSnapshot(`
-      Object {
+      {
         "var-aaa": "AAA",
         "var-remove": undefined,
         "var-xyz": "XYZ",

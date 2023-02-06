@@ -1,0 +1,15 @@
+version: '3.0'
+
+services:
+  grafana:
+    container_name: 'grafana-iot-twinmaker-app'
+    build:
+      context: ./.config
+      args:
+        grafana_version: ${GRAFANA_VERSION:-8.4.0}
+    ports:
+      - 3000:3000/tcp
+    volumes:
+      - ./dist:/var/lib/grafana/plugins/grafana-iot-twinmaker-app
+      - ./provisioning:/etc/grafana/provisioning
+      - ~/.aws:/usr/share/grafana/.aws

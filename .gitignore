@@ -40,3 +40,6 @@ cypress/screenshots/actual
 
 # Editor
 .idea
+
+# frontend
+.eslintcache
