@@ -12,7 +12,9 @@
     "e2e": "grafana-e2e run",
     "e2e:open": "grafana-e2e open",
     "e2e:update": "grafana-e2e run --update-screenshots",
-    "generate-release-notes": "PREV_TAG=$(git tag | tail -n 1) && gh api --method POST /repos/grafana/grafana-iot-twinmaker-app/releases/generate-notes -f tag_name=v${npm_package_version} -f target_commitish=main -f previous_tag_name=${PREV_TAG} | jq -r .body"
+    "generate-release-notes": "PREV_TAG=$(git tag | tail -n 1) && gh api --method POST /repos/grafana/grafana-iot-twinmaker-app/releases/generate-notes -f tag_name=v${npm_package_version} -f target_commitish=main -f previous_tag_name=${PREV_TAG} | jq -r .body",
+    "test:coverage": "jest --coverage",
+    "test:coverage:changes": "jest --coverage --changedSince=origin/main"
   },
   "author": "IoT TwinMaker Frontend",
   "devDependencies": {
