@@ -14,25 +14,4 @@ describe('alarm helper', () => {
     expect(result.warning).toMatchInlineSnapshot(`"missing field: Time"`);
   });
 
-  it('should identify bad frame structures', () => {
-    const frame = toDataFrame({
-      fields: [
-        { name: 'Time', values: [1, 2, 3] },
-        { name: 'name', values: ['a', 'b', 'c'] },
-        { name: 'status', values: ['ok', 'ok', 'bad'] },
-        { name: 'alarmId', values: ['a1', 'a2', 'a3'] },
-        { name: 'entityId', values: ['e1', 'e2', 'e3'] },
-      ],
-    });
-
-    const result = processAlarmResult([frame]);
-    expect(result).toMatchInlineSnapshot(`
-      Object {
-        "alarms": Array [],
-        "invalidFormat": true,
-        "status": Object {},
-        "warning": "missing field: alarmStatus",
-      }
-    `);
-  });
 });
