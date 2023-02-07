@@ -23,7 +23,7 @@ const config = async (env): Promise<Configuration> => {
       fallback: {
         util: false,
         crypto: false,
-        path: false,
+        path: require.resolve('path-browserify'),
       },
     },
   });
