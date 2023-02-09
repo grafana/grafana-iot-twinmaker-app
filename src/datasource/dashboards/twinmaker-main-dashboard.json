@@ -121,7 +121,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "Prerequisite: Set up sample Cookie Factory data from the [AWS IoT TwinMaker samples](https://github.com/aws-samples/aws-iot-twinmaker-samples) Github repository.\n\n**Errors come from empty template variables `sel_entity` and `sel_comp`. Set these variables by:**  \n   a. Clicking on an alarm in the Alarm List  \n   OR  \n   b. Clicking on a tag in the scene that has a data binding with an alarm property",
+        "content": "Prerequisite:\n\nSet up sample Cookie Factory data from the [AWS IoT TwinMaker samples](https://github.com/aws-samples/aws-iot-twinmaker-samples) Github repository.\n\n**Errors come from empty template variables `sel_entity` and `sel_comp`. Set these variables by:**  \n   a. Clicking on an alarm in the Alarm List  \n   OR  \n   b. Clicking on a tag in the scene that has a data binding with an alarm property",
         "mode": "markdown"
       },
       "pluginVersion": "8.4.7",
