@@ -9,13 +9,13 @@
       "pluginName": "AWS IoT TwinMaker"
     }
   ],
-  "__elements": {},
+  "__elements": [],
   "__requires": [
     {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.4.0-pre"
+      "version": "8.4.7"
     },
     {
       "type": "datasource",
@@ -86,6 +86,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
+  "iteration": 1675944882908,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -123,7 +124,7 @@
         "content": "Prerequisite: Set up sample Cookie Factory data from the [AWS IoT TwinMaker samples](https://github.com/aws-samples/aws-iot-twinmaker-samples) Github repository.\n\n**Errors come from empty template variables `sel_entity` and `sel_comp`. Set these variables by:**  \n   a. Clicking on an alarm in the Alarm List  \n   OR  \n   b. Clicking on a tag in the scene that has a data binding with an alarm property",
         "mode": "markdown"
       },
-      "pluginVersion": "9.4.0-pre",
+      "pluginVersion": "8.4.7",
       "type": "text"
     },
     {
@@ -140,10 +141,6 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "grafana-iot-twinmaker-datasource",
-        "uid": "${DS_AWS_IOT TWINMAKER}"
-      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -217,7 +214,7 @@
       },
       "targets": [
         {
-          "componentName": "AlarmComponent",
+          "componentName": "${sel_comp}",
           "datasource": {
             "type": "grafana-iot-twinmaker-datasource",
             "uid": "${DS_AWS_IOT TWINMAKER}"
@@ -246,10 +243,7 @@
           },
           "custom": {
             "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
+            "displayMode": "auto"
           },
           "mappings": [],
           "thresholds": {
@@ -284,7 +278,7 @@
         "showRowNums": false,
         "sortBy": []
       },
-      "pluginVersion": "9.4.0-pre",
+      "pluginVersion": "8.4.7",
       "targets": [
         {
           "datasource": {
@@ -318,18 +312,13 @@
       "type": "table"
     },
     {
-      "datasource": {
-        "type": "grafana-iot-twinmaker-datasource",
-        "uid": "${DS_AWS_IOT TWINMAKER}"
-      },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
           "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -405,7 +394,7 @@
           "refId": "A"
         }
       ],
-      "title": "Selected Time Series History",
+      "title": "Selected Time Series History (Mixer only)",
       "type": "timeseries"
     },
     {
@@ -459,10 +448,10 @@
       },
       "id": 12,
       "options": {
-        "componentName": "${sel_video_comp}",
+        "componentName": "sel_video_comp",
         "datasource": "AWS IoT TwinMaker",
-        "entityId": "${sel_video_entity}",
-        "kvsStreamName": "cookiefactory_mixerroom_camera_02"
+        "entityId": "sel_video_entity",
+        "kvsStreamName": "kvs_stream_name"
       },
       "targets": [
         {
@@ -480,7 +469,7 @@
   ],
   "refresh": false,
   "revision": 1,
-  "schemaVersion": 38,
+  "schemaVersion": 35,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -530,25 +519,6 @@
           "value": ""
         },
         "hide": 2,
-        "name": "display_entity",
-        "options": [
-          {
-            "selected": true,
-            "text": "",
-            "value": ""
-          }
-        ],
-        "query": "",
-        "skipUrlSync": false,
-        "type": "textbox"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "",
-          "value": ""
-        },
-        "hide": 2,
         "name": "sel_video_entity",
         "options": [
           {
@@ -563,7 +533,7 @@
       },
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "",
           "value": ""
         },
@@ -583,20 +553,20 @@
       {
         "current": {
           "selected": false,
-          "text": "cookiefactory_mixerroom_camera_02",
-          "value": "cookiefactory_mixerroom_camera_02"
+          "text": "cookiefactory_mixerroom_camera_01",
+          "value": "cookiefactory_mixerroom_camera_01"
         },
-        "hide": 0,
+        "hide": 2,
         "label": "Kinesis video stream name",
         "name": "kvs_stream_name",
         "options": [
           {
             "selected": true,
-            "text": "cookiefactory_mixerroom_camera_02",
-            "value": "cookiefactory_mixerroom_camera_02"
+            "text": "cookiefactory_mixerroom_camera_01",
+            "value": "cookiefactory_mixerroom_camera_01"
           }
         ],
-        "query": "cookiefactory_mixerroom_camera_02",
+        "query": "cookiefactory_mixerroom_camera_01",
         "skipUrlSync": false,
         "type": "textbox"
       }
@@ -610,6 +580,6 @@
   "timezone": "",
   "title": "Main Dashboard",
   "uid": "main",
-  "version": 1,
+  "version": 6,
   "weekStart": ""
 }
