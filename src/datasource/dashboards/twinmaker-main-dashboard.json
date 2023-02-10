@@ -86,7 +86,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1675944882908,
+  "iteration": 1676023110018,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -109,7 +109,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 24,
         "x": 0,
         "y": 1
@@ -133,7 +133,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 5
+        "y": 6
       },
       "id": 14,
       "panels": [],
@@ -194,7 +194,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 7
       },
       "id": 4,
       "options": {
@@ -262,7 +262,7 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 10
+        "y": 11
       },
       "id": 2,
       "options": {
@@ -363,7 +363,7 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 10
+        "y": 11
       },
       "id": 8,
       "options": {
@@ -398,21 +398,17 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "grafana-iot-twinmaker-datasource",
-        "uid": "${DS_AWS_IOT TWINMAKER}"
-      },
       "gridPos": {
         "h": 12,
         "w": 15,
         "x": 0,
-        "y": 15
+        "y": 16
       },
       "id": 6,
       "options": {
         "customSelCompVarName": "sel_comp",
         "customSelEntityVarName": "sel_entity",
-        "datasource": "AWS IoT TwinMaker",
+        "datasource": "",
         "sceneId": "CookieFactory"
       },
       "targets": [
@@ -423,7 +419,6 @@
             "uid": "${DS_AWS_IOT TWINMAKER}"
           },
           "filter": [],
-          "order": "DESCENDING",
           "properties": [
             "alarm_status"
           ],
@@ -444,7 +439,7 @@
         "h": 12,
         "w": 9,
         "x": 15,
-        "y": 15
+        "y": 16
       },
       "id": 12,
       "options": {
@@ -484,7 +479,7 @@
         "name": "sel_entity",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "",
             "value": ""
           }
@@ -503,7 +498,7 @@
         "name": "sel_comp",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "",
             "value": ""
           }
@@ -580,6 +575,6 @@
   "timezone": "",
   "title": "Main Dashboard",
   "uid": "main",
-  "version": 6,
+  "version": 5,
   "weekStart": ""
 }
