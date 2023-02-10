@@ -71,7 +71,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1676043774511,
+  "iteration": 1676047937239,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -88,7 +88,7 @@
     },
     {
       "gridPos": {
-        "h": 6,
+        "h": 4,
         "w": 24,
         "x": 0,
         "y": 1
@@ -106,7 +106,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 7
+        "y": 5
       },
       "id": 8,
       "title": "Alarm Dashboard",
@@ -143,7 +143,7 @@
         "h": 7,
         "w": 11,
         "x": 0,
-        "y": 8
+        "y": 6
       },
       "id": 2,
       "options": {
@@ -241,7 +241,7 @@
         "h": 7,
         "w": 13,
         "x": 11,
-        "y": 8
+        "y": 6
       },
       "id": 4,
       "options": {
@@ -279,13 +279,13 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 15
+        "y": 13
       },
       "id": 6,
       "options": {
+        "customInputActiveCamera": "active_camera",
         "customSelCompVarName": "sel_comp",
         "customSelEntityVarName": "sel_entity",
-        "customInputActiveCamera": "active_camera",
         "datasource": "${DS_AWS_IOT TWINMAKER}",
         "sceneId": ""
       },
