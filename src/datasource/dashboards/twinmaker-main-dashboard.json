@@ -9,12 +9,13 @@
       "pluginName": "AWS IoT TwinMaker"
     }
   ],
+  "__elements": [],
   "__requires": [
     {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.2.0"
+      "version": "8.4.7"
     },
     {
       "type": "datasource",
@@ -48,6 +49,12 @@
     },
     {
       "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
+    },
+    {
+      "type": "panel",
       "id": "timeseries",
       "name": "Time series",
       "version": ""
@@ -57,7 +64,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -73,13 +83,64 @@
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
+  "iteration": 1676049247581,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
-      "datasource": "${DS_AWS_IOT TWINMAKER}",
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 16,
+      "panels": [],
+      "title": "Introduction",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 18,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "Prerequisite:\n\nSet up sample Cookie Factory data from the [AWS IoT TwinMaker samples](https://github.com/aws-samples/aws-iot-twinmaker-samples) Github repository.\n\n**Errors come from empty template variables `sel_entity` and `sel_comp`. Set these variables by:**  \n   a. Clicking on an alarm in the Alarm List  \n   OR  \n   b. Clicking on a tag in the scene that has a data binding with an alarm property",
+        "mode": "markdown"
+      },
+      "pluginVersion": "8.4.7",
+      "type": "text"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "id": 14,
+      "panels": [],
+      "title": "Cookie Factory",
+      "type": "row"
+    },
+    {
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -87,7 +148,8 @@
           },
           "custom": {
             "fillOpacity": 70,
-            "lineWidth": 0
+            "lineWidth": 0,
+            "spanNulls": false
           },
           "mappings": [
             {
@@ -132,26 +194,36 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 7
       },
       "id": 4,
       "options": {
         "alignValue": "left",
         "legend": {
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "mergeValues": true,
         "rowHeight": 0.9,
         "showValue": "auto",
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "targets": [
         {
-          "entityId": "${display_entity}",
-          "properties": ["alarm_status"],
+          "componentName": "${sel_comp}",
+          "datasource": {
+            "type": "grafana-iot-twinmaker-datasource",
+            "uid": "${DS_AWS_IOT TWINMAKER}"
+          },
+          "entityId": "${sel_entity}",
+          "filter": [],
+          "properties": [
+            "alarm_status"
+          ],
           "queryType": "EntityHistory",
           "refId": "A"
         }
@@ -160,7 +232,10 @@
       "type": "state-timeline"
     },
     {
-      "datasource": "${DS_AWS_IOT TWINMAKER}",
+      "datasource": {
+        "type": "grafana-iot-twinmaker-datasource",
+        "uid": "${DS_AWS_IOT TWINMAKER}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -187,16 +262,29 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 4
+        "y": 11
       },
       "id": 2,
       "options": {
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true,
+        "showRowNums": false,
         "sortBy": []
       },
-      "pluginVersion": "8.2.0",
+      "pluginVersion": "8.4.7",
       "targets": [
         {
+          "datasource": {
+            "type": "grafana-iot-twinmaker-datasource",
+            "uid": "${DS_AWS_IOT TWINMAKER}"
+          },
           "queryType": "GetAlarms",
           "refId": "A"
         }
@@ -224,15 +312,39 @@
       "type": "table"
     },
     {
-      "datasource": "${DS_AWS_IOT TWINMAKER}",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
           "custom": {
-            "align": "auto",
-            "displayMode": "auto"
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
           "thresholds": {
@@ -251,54 +363,66 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 4
+        "y": 11
       },
       "id": 8,
       "options": {
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "targets": [
         {
-          "entityId": "${display_entity}",
+          "componentName": "MixerComponent",
+          "datasource": {
+            "type": "grafana-iot-twinmaker-datasource",
+            "uid": "${DS_AWS_IOT TWINMAKER}"
+          },
+          "entityId": "${sel_entity}",
+          "properties": [
+            "Temperature"
+          ],
+          "propertyDisplayNames": {},
           "queryType": "EntityHistory",
           "refId": "A"
         }
       ],
-      "title": "Selected Time Series History",
+      "title": "Selected Time Series History (Mixer only)",
       "type": "timeseries"
     },
     {
-      "datasource": "${DS_AWS_IOT TWINMAKER}",
       "gridPos": {
         "h": 12,
         "w": 15,
         "x": 0,
-        "y": 9
+        "y": 16
       },
       "id": 6,
       "options": {
         "customSelCompVarName": "sel_comp",
         "customSelEntityVarName": "sel_entity",
-        "datasource": "${DS_AWS_IOT TWINMAKER}",
-        "sceneId": ""
+        "datasource": "",
+        "sceneId": "CookieFactory"
       },
       "targets": [
         {
-          "filter": [
-            {
-              "name": "alarm_status",
-              "op": "=",
-              "value": "ACTIVE"
-            }
+          "componentTypeId": "com.example.cookiefactory.alarm",
+          "datasource": {
+            "type": "grafana-iot-twinmaker-datasource",
+            "uid": "${DS_AWS_IOT TWINMAKER}"
+          },
+          "filter": [],
+          "properties": [
+            "alarm_status"
           ],
-          "order": "DESCENDING",
+          "propertyDisplayNames": {},
           "queryType": "ComponentHistory",
           "refId": "A"
         }
@@ -307,22 +431,29 @@
       "type": "grafana-iot-twinmaker-sceneviewer-panel"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
       "gridPos": {
         "h": 12,
         "w": 9,
         "x": 15,
-        "y": 9
+        "y": 16
       },
       "id": 12,
       "options": {
-        "componentName": "${sel_video_comp}",
-        "datasource": "${DS_AWS_IOT TWINMAKER}",
-        "entityId": "${sel_video_entity}",
-        "kvsStreamName": ""
+        "componentName": "sel_video_comp",
+        "datasource": "",
+        "entityId": "sel_video_entity",
+        "kvsStreamName": "kvs_stream_name"
       },
       "targets": [
         {
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
           "queryType": "GetAlarms",
           "refId": "A"
         }
@@ -331,7 +462,9 @@
       "type": "grafana-iot-twinmaker-videoplayer-panel"
     }
   ],
-  "schemaVersion": 32,
+  "refresh": false,
+  "revision": 1,
+  "schemaVersion": 35,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -342,10 +475,7 @@
           "text": "",
           "value": ""
         },
-        "description": null,
-        "error": null,
         "hide": 2,
-        "label": null,
         "name": "sel_entity",
         "options": [
           {
@@ -361,13 +491,10 @@
       {
         "current": {
           "selected": false,
-          "text": "",
-          "value": ""
+          "text": "AlarmComponent",
+          "value": "AlarmComponent"
         },
-        "description": null,
-        "error": null,
         "hide": 2,
-        "label": null,
         "name": "sel_comp",
         "options": [
           {
@@ -376,7 +503,7 @@
             "value": ""
           }
         ],
-        "query": "",
+        "query": "AlarmComponent",
         "skipUrlSync": false,
         "type": "textbox"
       },
@@ -386,32 +513,7 @@
           "text": "",
           "value": ""
         },
-        "description": null,
-        "error": null,
         "hide": 2,
-        "label": null,
-        "name": "display_entity",
-        "options": [
-          {
-            "selected": true,
-            "text": "",
-            "value": ""
-          }
-        ],
-        "query": "",
-        "skipUrlSync": false,
-        "type": "textbox"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "",
-          "value": ""
-        },
-        "description": null,
-        "error": null,
-        "hide": 2,
-        "label": null,
         "name": "sel_video_entity",
         "options": [
           {
@@ -426,14 +528,11 @@
       },
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "",
           "value": ""
         },
-        "description": null,
-        "error": null,
         "hide": 2,
-        "label": null,
         "name": "sel_video_comp",
         "options": [
           {
@@ -445,16 +544,37 @@
         "query": "",
         "skipUrlSync": false,
         "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "cookiefactory_mixerroom_camera_01",
+          "value": "cookiefactory_mixerroom_camera_01"
+        },
+        "hide": 2,
+        "label": "Kinesis video stream name",
+        "name": "kvs_stream_name",
+        "options": [
+          {
+            "selected": true,
+            "text": "cookiefactory_mixerroom_camera_01",
+            "value": "cookiefactory_mixerroom_camera_01"
+          }
+        ],
+        "query": "cookiefactory_mixerroom_camera_01",
+        "skipUrlSync": false,
+        "type": "textbox"
       }
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Main Dashboard",
   "uid": "main",
-  "version": 1
+  "version": 3,
+  "weekStart": ""
 }
