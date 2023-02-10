@@ -86,7 +86,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1676023110018,
+  "iteration": 1676049247581,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -444,7 +444,7 @@
       "id": 12,
       "options": {
         "componentName": "sel_video_comp",
-        "datasource": "AWS IoT TwinMaker",
+        "datasource": "",
         "entityId": "sel_video_entity",
         "kvsStreamName": "kvs_stream_name"
       },
@@ -575,6 +575,6 @@
   "timezone": "",
   "title": "Main Dashboard",
   "uid": "main",
-  "version": 5,
+  "version": 3,
   "weekStart": ""
 }
