@@ -9,12 +9,13 @@
       "pluginName": "AWS IoT TwinMaker"
     }
   ],
+  "__elements": [],
   "__requires": [
     {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.2.0"
+      "version": "8.4.7"
     },
     {
       "type": "datasource",
@@ -39,6 +40,12 @@
       "id": "table",
       "name": "Table",
       "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
     }
   ],
   "annotations": {
@@ -61,13 +68,55 @@
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
+  "iteration": 1676043774511,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
-      "datasource": "${DS_AWS_IOT TWINMAKER}",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 10,
+      "title": "Introduction",
+      "type": "row"
+    },
+    {
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 12,
+      "options": {
+        "content": "(feel free to click on the \"Introduction\" bar above this text to collapse this content)\n\nErrors come from unset variables in this dashboard, to set them:\n\n1) Edit the Scene Viewer panel and select a Scene. Optionally, use the \"Get Property Value History by Component Type\" query and set a \"Component Type\" and \"Property\" to see tags change icons based on data.\n\n2) Populate the empty template variables `sel_entity` and `sel_comp` by clicking on an alarm in the Alarm List.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "8.4.7",
+      "type": "text"
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 8,
+      "title": "Alarm Dashboard",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-iot-twinmaker-datasource",
+        "uid": "${DS_AWS_IOT TWINMAKER}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -94,13 +143,18 @@
         "h": 7,
         "w": 11,
         "x": 0,
-        "y": 0
+        "y": 8
       },
       "id": 2,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": ["sum"],
+          "show": false
+        },
         "showHeader": true
       },
-      "pluginVersion": "8.2.0",
+      "pluginVersion": "8.4.7",
       "targets": [
         {
           "queryType": "GetAlarms",
@@ -130,7 +184,10 @@
       "type": "table"
     },
     {
-      "datasource": "${DS_AWS_IOT TWINMAKER}",
+      "datasource": {
+        "type": "grafana-iot-twinmaker-datasource",
+        "uid": "${DS_AWS_IOT TWINMAKER}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -138,7 +195,8 @@
           },
           "custom": {
             "fillOpacity": 70,
-            "lineWidth": 0
+            "lineWidth": 0,
+            "spanNulls": false
           },
           "mappings": [
             {
@@ -183,7 +241,7 @@
         "h": 7,
         "w": 13,
         "x": 11,
-        "y": 0
+        "y": 8
       },
       "id": 4,
       "options": {
@@ -196,7 +254,8 @@
         "rowHeight": 0.9,
         "showValue": "auto",
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "targets": [
@@ -212,12 +271,15 @@
       "type": "state-timeline"
     },
     {
-      "datasource": "${DS_AWS_IOT TWINMAKER}",
+      "datasource": {
+        "type": "grafana-iot-twinmaker-datasource",
+        "uid": "${DS_AWS_IOT TWINMAKER}"
+      },
       "gridPos": {
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 7
+        "y": 15
       },
       "id": 6,
       "options": {
@@ -247,7 +309,7 @@
       "type": "grafana-iot-twinmaker-sceneviewer-panel"
     }
   ],
-  "schemaVersion": 31,
+  "schemaVersion": 35,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -258,10 +320,7 @@
           "text": "",
           "value": ""
         },
-        "description": null,
-        "error": null,
         "hide": 2,
-        "label": null,
         "name": "sel_entity",
         "options": [
           {
@@ -280,10 +339,7 @@
           "text": "",
           "value": ""
         },
-        "description": null,
-        "error": null,
         "hide": 2,
-        "label": null,
         "name": "sel_comp",
         "options": [
           {
@@ -327,5 +383,6 @@
   "timezone": "",
   "title": "Alarm Dashboard",
   "uid": "alarm",
-  "version": 1
+  "version": 1,
+  "weekStart": ""
 }
