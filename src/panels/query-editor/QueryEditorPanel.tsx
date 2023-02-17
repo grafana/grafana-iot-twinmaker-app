@@ -2,7 +2,6 @@ import React from 'react';
 import { LoadingPlaceholder } from '@grafana/ui';
 import { PanelProps } from '@grafana/data';
 import { QueryEditorPanelState } from './interfaces';
-
 import { QueryEditor } from './QueryEditor';
 import { configureSdkWithDataSource, DataSourceParams } from '../sdkInit';
 import { PanelOptions } from './types';
@@ -47,11 +46,7 @@ export class QueryEditorPanel extends React.Component<Props, QueryEditorPanelSta
 
   private renderContent = () => {
     return this.dataSourceParams ? (
-      <div className="panel-container">
-        <div className="panel-content">
-          <QueryEditor {...this.props} {...this.dataSourceParams} />
-        </div>
-      </div>
+      <QueryEditor {...this.props} {...this.dataSourceParams} />
     ) : (
       <div> No TwinMaker Data Source Connected </div>
     );
