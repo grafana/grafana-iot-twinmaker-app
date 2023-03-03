@@ -1,4 +1,4 @@
-# AWS IoT TwinMaker Application Development Guide
+# AWS IoT TwinMaker Application development guide
 
 Please add feedback to the [issues](https://github.com/grafana/grafana-iot-twinmaker-app/issues) folder, and we will follow up shortly. Be sure to include version information for both Grafana and the installed plugin.
 
