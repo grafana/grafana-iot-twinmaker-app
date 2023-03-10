@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.2
+
+- Fix tiles render issue in Scene Viewer
+
 ## v1.3.1
 
 - Bug fixes in Scene Viewer and Alarm Configuration panel
