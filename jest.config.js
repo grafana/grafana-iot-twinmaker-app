@@ -22,6 +22,7 @@ const esModules = [
 ];
 
 module.exports = {
+  resolver: `<rootDir>/tests/utils/resolver.js`,
   ...originalConfig,
   // Inform jest to only transform specific node_module packages.
   transformIgnorePatterns: [nodeModulesToTransform([...grafanaESModules, ...esModules])],
