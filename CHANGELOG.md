@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.4.0
+
+- Support for GovCloud region us-gov-west-1 (PDT) in datasource
+
 ## v1.3.2
 
 - Fix tiles render issue in Scene Viewer
