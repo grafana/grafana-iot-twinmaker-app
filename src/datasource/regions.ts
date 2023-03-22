@@ -7,6 +7,7 @@ export const standardRegions = [
   'eu-west-1',
   'us-east-1',
   'us-west-2',
+  'us-gov-west-1',
 ];
 
 export const standardRegionOptions: Array<SelectableValue<string>> = standardRegions.map((v) => ({
