@@ -113,6 +113,7 @@ export const mockPanelProps = (mockDisplayOptions: any): PanelProps => {
 const mockAppKitTMDataSource = {
   videoData: jest.fn(),
   s3SceneLoader: jest.fn(),
+  sceneMetadataModule: jest.fn(),
   query: { timeSeriesData: jest.fn() },
 };
 

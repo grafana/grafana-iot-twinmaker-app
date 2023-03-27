@@ -104,6 +104,12 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     return loader;
   }, [props.appKitTMDataSource, props.options.sceneId]);
 
+  const sceneMetadataModule = useMemo(() => {
+    const sceneMetadataModuleFromDataSource = props.appKitTMDataSource.sceneMetadataModule(props.options.sceneId);
+
+    return sceneMetadataModuleFromDataSource;
+  }, [props.appKitTMDataSource, props.options.sceneId]);
+
   const onWidgetClick = useCallback((objectData: IWidgetClickEvent) => {
     const anchorData =
       objectData.additionalComponentData?.[
@@ -256,6 +262,12 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       : undefined;
   }, [props.options.customInputActiveCamera, search]);
 
+  const externalLibraryConfig = {
+    matterport: {
+      assetBase: '/public/plugins/grafana-iot-twinmaker-app/static/matterport',
+    },
+  };
+
   return (
     <div
       data-testid={'SceneViewer'}
@@ -264,6 +276,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     >
       <SceneViewerComp
         sceneLoader={sceneLoader}
+        sceneMetadataModule={sceneMetadataModule}
         onSelectionChanged={onSelectionChanged}
         selectedDataBinding={selectedDataBinding}
         dataBindingTemplate={dataBindingTemplate}
@@ -273,6 +286,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
         dataStreams={dataStreams}
         viewport={viewport}
         activeCamera={activeCamera}
+        externalLibraryConfig={externalLibraryConfig}
       />
     </div>
   );

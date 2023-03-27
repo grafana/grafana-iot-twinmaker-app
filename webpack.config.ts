@@ -1,5 +1,6 @@
 import type { Configuration } from 'webpack';
 import { merge } from 'webpack-merge';
+import WebpackShellPluginNext from 'webpack-shell-plugin-next';
 import grafanaConfig from './.config/webpack/webpack.config';
 
 const config = async (env): Promise<Configuration> => {
@@ -26,6 +27,14 @@ const config = async (env): Promise<Configuration> => {
         path: require.resolve('path-browserify'),
       },
     },
+    plugins: [
+      new WebpackShellPluginNext({
+      onBuildEnd:{
+        scripts: ['npx matterport-assets dist/static/matterport'],
+        blocking: false,
+        parallel: true
+      }})
+    ],
   });
 };
 
