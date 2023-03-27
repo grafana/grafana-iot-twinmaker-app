@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6.0
+
+- Launch Matterport integration in the Scene Viewer
+- Support tag resize settings in the Scene Viewer
+- Support data overlay widgets in the Scene Viewer
+
 ## v1.5.0
 
 - Update backend dependencies

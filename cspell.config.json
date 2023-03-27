@@ -5,6 +5,7 @@
     "cypress/**",
     "dist/**",
     "go.sum",
+    "jest.config.js",
     "mage_output_file.go",
     "node_modules/**",
     "pkg/**/*_test.go",
@@ -48,6 +49,7 @@
     "undecorate",
     "Unsubscribable",
     "videoplayer",
-    "commitish"
+    "commitish",
+    "matterport"
   ]
 }
