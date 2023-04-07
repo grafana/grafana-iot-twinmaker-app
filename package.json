@@ -43,7 +43,7 @@
     "@types/lodash": "^4.14.188",
     "@types/node": "^18.11.9",
     "@types/react-router-dom": "^5.3.3",
-    "@types/three": "0.131.0",
+    "@types/three": "0.139.0",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
@@ -105,7 +105,7 @@
     "node": ">=16"
   },
   "resolutions": {
-    "three-stdlib": "2.4.0",
+    "three-stdlib": "2.17.3",
     "rxjs": "7.5.1"
   }
 }
