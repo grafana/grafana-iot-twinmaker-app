@@ -4676,7 +4676,7 @@
 
 "@iot-app-kit/scene-composer@file:libs/iot-app-kit-scene-composer-3.0.0.tgz":
   version "3.0.0"
-  resolved "file:libs/iot-app-kit-scene-composer-3.0.0.tgz#124172dcb5358ba1092762c000d8b3d0db2ef7b5"
+  resolved "file:libs/iot-app-kit-scene-composer-3.0.0.tgz#b8aa3e0958c88226356179dda60d58fe97a72619"
   dependencies:
     "3d-tiles-renderer" "^0.3.16"
     "@awsui/collection-hooks" "^1.0.0"
