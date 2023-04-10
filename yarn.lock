@@ -4693,7 +4693,7 @@
 
 "@iot-app-kit/scene-composer@file:libs/iot-app-kit-scene-composer-3.0.0.tgz":
   version "3.0.0"
-  resolved "file:libs/iot-app-kit-scene-composer-3.0.0.tgz#b0fc20d6e764396d93ae1a5ad1396696cb58cc0f"
+  resolved "file:libs/iot-app-kit-scene-composer-3.0.0.tgz#73303e48da3eb7c29f4ee0f767f8b500ac99c7ce"
   dependencies:
     "3d-tiles-renderer" "^0.3.16"
     "@awsui/collection-hooks" "^1.0.0"
@@ -4704,7 +4704,7 @@
     "@iot-app-kit/core" "3.0.0"
     "@iot-app-kit/related-table" "3.0.0"
     "@matterport/r3f" "^0.2.1"
-    "@matterport/webcomponent" "^0.1.13"
+    "@matterport/webcomponent" "^0.1.21"
     "@react-three/drei" "8.11.0"
     "@react-three/fiber" "7.0.26"
     "@react-three/postprocessing" "2.6.2"
@@ -5129,10 +5129,10 @@
   resolved "https://registry.yarnpkg.com/@matterport/r3f/-/r3f-0.2.1.tgz#d41dd3741b87ed48958299392b2788843d10b723"
   integrity sha512-ilf3vaENa4lQ45FewiRonDOVejPrgdRANfLNauIKcPoS1dBIDuP2rDAmzkLDhUt29mtpzEauS1yuabu6Hd/kTQ==
 
-"@matterport/webcomponent@^0.1.13":
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/@matterport/webcomponent/-/webcomponent-0.1.13.tgz#e1acbffa06fb88f675b2f66e755ff36ac6a96a2a"
-  integrity sha512-oBM+7Nf4D4N9H7eVxjoAJ+DJl2xvDN2uEKpWu5YO1mFyb2di+++xHZX4qYHFZ5vfiLNEJwFw9xLWqUiCAuCZfQ==
+"@matterport/webcomponent@^0.1.21":
+  version "0.1.21"
+  resolved "https://registry.yarnpkg.com/@matterport/webcomponent/-/webcomponent-0.1.21.tgz#27041bb58dfbac6414ff4a86970e350d6e6a50ec"
+  integrity sha512-7Mm6Y0DACTRHP4/D8C0Ao1cJbVtDi/TpKMxfhzVR5qAsA7OtySWcrZP4gfcxjtrgL10Bx7dn3TZlhx6JgXI0Iw==
   dependencies:
     lit "^2.4.1"
 
