@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.0
+
+- Update backend dependencies
+
 ## v1.4.0
 
 - Support for GovCloud region us-gov-west-1 (PDT) in datasource
