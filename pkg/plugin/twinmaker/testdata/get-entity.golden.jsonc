@@ -1,6 +1,10 @@
 //  🌟 This was machine generated.  Do not edit. 🌟
 //  
 //  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ],
 //      "custom": {}
 //  }
 //  Name: Mixer_1
@@ -24,6 +28,10 @@
       "schema": {
         "name": "Mixer_1",
         "meta": {
+          "typeVersion": [
+            0,
+            0
+          ],
           "custom": {}
         },
         "fields": [
