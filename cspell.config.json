@@ -8,6 +8,7 @@
     "jest.config.js",
     "mage_output_file.go",
     "node_modules/**",
+    "package.json",
     "pkg/**/*_test.go",
     "provisioning/**/*.yaml",
     "**/testdata/*.json",
