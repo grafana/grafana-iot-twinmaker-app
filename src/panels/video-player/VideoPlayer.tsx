@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { getStyles } from './styles';
 import { VideoPlayerPropsFromParent } from './interfaces';
 import { auto } from '@popperjs/core';
-import { getTemplateSrv, locationSearchToObject } from '@grafana/runtime';
+import { locationSearchToObject } from '@grafana/runtime';
 import { getUrlTempVarName, tempVarSyntax } from 'common/variables';
 import { useLocation } from 'react-router-dom';
 import { UrlQueryMap } from '@grafana/data';
@@ -11,8 +11,8 @@ import { VideoData } from '@iot-app-kit/source-iottwinmaker';
 import { RequestVideoUpload, VideoPlayer as VideoPlayerComp } from '@iot-app-kit/react-components';
 
 export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
+  const { replaceVariables } = props;
   const styles = getStyles();
-  const templateSrv = getTemplateSrv();
 
   const { search } = useLocation();
 
@@ -30,11 +30,11 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
   const checkTempVar = useCallback(
     (displayOption: string) => {
       const displayOptionVar = tempVarSyntax(displayOption);
-      const value = templateSrv.replace(displayOptionVar);
+      const value = replaceVariables(displayOptionVar);
       // Not a template var if templateSrv.replace returns the same value
       return value === displayOptionVar ? displayOption : value;
     },
-    [templateSrv]
+    [replaceVariables]
   );
 
   // Get display option value from the URL, or check default variable values
