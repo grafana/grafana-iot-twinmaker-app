@@ -8,6 +8,7 @@ import { getVariableOptions } from 'common/variables';
 export const plugin = new PanelPlugin<PanelOptions>(ScenePanel)
   .setNoPadding() // removes the border
   .setPanelOptions((builder) => {
+    const variables = getVariableOptions();
     return builder
       .addSelect({
         path: 'datasource',
@@ -30,28 +31,28 @@ export const plugin = new PanelPlugin<PanelOptions>(ScenePanel)
         path: 'customSelEntityVarName',
         name: 'Selected entity variable name',
         settings: {
-          options: getVariableOptions(),
+          options: variables,
         },
       })
       .addSelect({
         path: 'customSelCompVarName',
         name: 'Selected component variable name',
         settings: {
-          options: getVariableOptions(),
+          options: variables,
         },
       })
       .addSelect({
         path: 'customSelPropertyVarName',
         name: 'Selected property variable name',
         settings: {
-          options: getVariableOptions(),
+          options: variables,
         },
       })
       .addSelect({
         path: 'customInputActiveCamera',
         name: 'Active camera variable name',
         settings: {
-          options: getVariableOptions({ hideValue: true }),
+          options: variables,
         },
       });
   });

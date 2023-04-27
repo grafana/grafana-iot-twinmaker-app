@@ -31,7 +31,7 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
     (displayOption: string) => {
       const displayOptionVar = tempVarSyntax(displayOption);
       const value = replaceVariables(displayOptionVar);
-      // Not a template var if templateSrv.replace returns the same value
+      // Not a template var if replaceVariables returns the same value
       return value === displayOptionVar ? displayOption : value;
     },
     [replaceVariables]
@@ -40,7 +40,14 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
   // Get display option value from the URL, or check default variable values
   const getDisplayOptionValue = useCallback(
     (queryParams: UrlQueryMap, displayOption: string) => {
-      return (queryParams[getUrlTempVarName(displayOption || '')] as string) ?? checkTempVar(displayOption);
+      const tempVarName = getUrlTempVarName(displayOption || '');
+      const tempVarVal = checkTempVar(displayOption);
+      const tempVarURLVal = queryParams[tempVarName];
+      if (Array.isArray(tempVarURLVal) || tempVarVal !== tempVarURLVal || !(tempVarURLVal as string)) {
+        return tempVarVal;
+      } else {
+        return tempVarURLVal;
+      }
     },
     [checkTempVar]
   );

@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { DataFrame } from '@grafana/data';
+import { DataFrame, UrlQueryMap } from '@grafana/data';
 import { v4 as uuid } from 'uuid';
 import { isEmpty } from 'lodash';
 
@@ -11,7 +11,7 @@ import { getValidHttpUrl, mergeDashboard, updateUrlParams } from './helpers';
 import { MERGE_DASHBOARD_TARGET_ID_KEY } from 'common/constants';
 import plugin from '../../plugin.json';
 import { locationSearchToObject } from '@grafana/runtime';
-import { getUrlTempVarName, undecorateName } from 'common/variables';
+import { getUrlTempVarName, tempVarSyntax, undecorateName } from 'common/variables';
 import { DataStream, DataType, Viewport } from '@iot-app-kit/core';
 import {
   SceneViewer as SceneViewerComp,
@@ -97,6 +97,33 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   }, [props.data.series]);
 
   const { search } = useLocation();
+  const { replaceVariables } = props;
+
+  // Get the value from a template variable
+  const checkTempVar = useCallback(
+    (displayOption: string) => {
+      const displayOptionVar = tempVarSyntax(displayOption);
+      const value = replaceVariables(displayOptionVar);
+      // Not a template var if replaceVariables returns the same value
+      return value === displayOptionVar ? displayOption : value;
+    },
+    [replaceVariables]
+  );
+
+  // Get display option value from the URL, or check default variable values
+  const getDisplayOptionValue = useCallback(
+    (queryParams: UrlQueryMap, displayOption: string) => {
+      const tempVarName = getUrlTempVarName(displayOption || '');
+      const tempVarVal = checkTempVar(displayOption);
+      const tempVarURLVal = queryParams[tempVarName];
+      if (Array.isArray(tempVarURLVal) || tempVarVal !== tempVarURLVal || !(tempVarURLVal as string)) {
+        return tempVarVal;
+      } else {
+        return tempVarURLVal;
+      }
+    },
+    [checkTempVar]
+  );
 
   const sceneLoader = useMemo(() => {
     const loader = props.appKitTMDataSource.s3SceneLoader(props.options.sceneId);
@@ -157,6 +184,8 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     // Get variables from the URL
     const queryParams = locationSearchToObject(search || '');
 
+    // Don't use getDisplayOptionValue because we want to strictly use the values set in the URL
+    // Ensure deselect doesn't resolve to the previously saved value for the dashboard
     const selectedEntityValue = props.options.customSelEntityVarName
       ? (queryParams[getUrlTempVarName(props.options.customSelEntityVarName)] as string)
       : undefined;
@@ -193,6 +222,8 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     // Get variables from the URL
     const queryParams = locationSearchToObject(search || '');
 
+    // Don't use getDisplayOptionValue because we want to strictly use the values set in the URL
+    // Ensure deselect doesn't resolve to the previously saved value for the dashboard
     const selectedEntityValue = props.options.customSelEntityVarName
       ? (queryParams[getUrlTempVarName(props.options.customSelEntityVarName)] as string)
       : undefined;
@@ -257,10 +288,12 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const activeCamera = useMemo(() => {
     const queryParams = locationSearchToObject(search || '');
 
+    // Use getDisplayOptionValue because this field acts more like a display setting of the panel
+    // Can save the default setting when loading the dashboard
     return props.options.customInputActiveCamera
-      ? (queryParams[getUrlTempVarName(props.options.customInputActiveCamera)] as string)
+      ? getDisplayOptionValue(queryParams, props.options.customInputActiveCamera)
       : undefined;
-  }, [props.options.customInputActiveCamera, search]);
+  }, [getDisplayOptionValue, props.options.customInputActiveCamera, search]);
 
   const externalLibraryConfig = {
     matterport: {
