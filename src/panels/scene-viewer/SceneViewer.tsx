@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { DataFrame, UrlQueryMap } from '@grafana/data';
+import { DataFrame, UrlQueryMap, UrlQueryValue } from '@grafana/data';
 import { v4 as uuid } from 'uuid';
 import { isEmpty } from 'lodash';
 
@@ -112,15 +112,11 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
 
   // Get display option value from the URL, or check default variable values
   const getDisplayOptionValue = useCallback(
-    (queryParams: UrlQueryMap, displayOption: string) => {
+    (queryParams: UrlQueryMap, displayOption: string): string | UrlQueryValue => {
       const tempVarName = getUrlTempVarName(displayOption || '');
       const tempVarVal = checkTempVar(displayOption);
       const tempVarURLVal = queryParams[tempVarName];
-      if (Array.isArray(tempVarURLVal) || tempVarVal !== tempVarURLVal || !(tempVarURLVal as string)) {
-        return tempVarVal;
-      } else {
-        return tempVarURLVal;
-      }
+      return tempVarVal ?? tempVarURLVal;
     },
     [checkTempVar]
   );
@@ -318,7 +314,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
         config={viewerConfig}
         dataStreams={dataStreams}
         viewport={viewport}
-        activeCamera={activeCamera}
+        activeCamera={activeCamera as string}
         externalLibraryConfig={externalLibraryConfig}
       />
     </div>

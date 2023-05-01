@@ -5,7 +5,7 @@ import { auto } from '@popperjs/core';
 import { locationSearchToObject } from '@grafana/runtime';
 import { getUrlTempVarName, tempVarSyntax } from 'common/variables';
 import { useLocation } from 'react-router-dom';
-import { UrlQueryMap } from '@grafana/data';
+import { UrlQueryMap, UrlQueryValue } from '@grafana/data';
 import { Viewport } from '@iot-app-kit/core';
 import { VideoData } from '@iot-app-kit/source-iottwinmaker';
 import { RequestVideoUpload, VideoPlayer as VideoPlayerComp } from '@iot-app-kit/react-components';
@@ -39,15 +39,11 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
 
   // Get display option value from the URL, or check default variable values
   const getDisplayOptionValue = useCallback(
-    (queryParams: UrlQueryMap, displayOption: string) => {
+    (queryParams: UrlQueryMap, displayOption: string): string | UrlQueryValue => {
       const tempVarName = getUrlTempVarName(displayOption || '');
       const tempVarVal = checkTempVar(displayOption);
       const tempVarURLVal = queryParams[tempVarName];
-      if (Array.isArray(tempVarURLVal) || tempVarVal !== tempVarURLVal || !(tempVarURLVal as string)) {
-        return tempVarVal;
-      } else {
-        return tempVarURLVal;
-      }
+      return tempVarVal ?? tempVarURLVal;
     },
     [checkTempVar]
   );
@@ -78,12 +74,12 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
     ) {
       shouldUpdate = true;
       setDisplayOptions({
-        entityId,
-        componentName,
-        kvsStreamName,
+        entityId: entityId as string,
+        componentName: componentName as string,
+        kvsStreamName: kvsStreamName as string,
         search,
-        startTime,
-        endTime,
+        startTime: startTime as string,
+        endTime: endTime as string,
       });
     } else if (search === displayOptions.search) {
       // If the URL didn't change then another field was updated and the video player should rerender
@@ -94,9 +90,9 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
       // Load in VideoPlayer component
       setVideoData(
         props.appKitTMDataSource.videoData({
-          entityId,
-          componentName,
-          kvsStreamName,
+          entityId: entityId as string,
+          componentName: componentName as string,
+          kvsStreamName: kvsStreamName as string,
         })
       );
     }
