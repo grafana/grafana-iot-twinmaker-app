@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { getStyles } from './styles';
 import { VideoPlayerPropsFromParent } from './interfaces';
 import { auto } from '@popperjs/core';
-import { getTemplateSrv, locationSearchToObject } from '@grafana/runtime';
+import { locationSearchToObject } from '@grafana/runtime';
 import { getUrlTempVarName, tempVarSyntax } from 'common/variables';
 import { useLocation } from 'react-router-dom';
 import { UrlQueryMap } from '@grafana/data';
@@ -11,8 +11,8 @@ import { VideoData } from '@iot-app-kit/source-iottwinmaker';
 import { RequestVideoUpload, VideoPlayer as VideoPlayerComp } from '@iot-app-kit/react-components';
 
 export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
+  const { replaceVariables } = props;
   const styles = getStyles();
-  const templateSrv = getTemplateSrv();
 
   const { search } = useLocation();
 
@@ -30,17 +30,20 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
   const checkTempVar = useCallback(
     (displayOption: string) => {
       const displayOptionVar = tempVarSyntax(displayOption);
-      const value = templateSrv.replace(displayOptionVar);
-      // Not a template var if templateSrv.replace returns the same value
+      const value = replaceVariables(displayOptionVar);
+      // Not a template var if replaceVariables returns the same value
       return value === displayOptionVar ? displayOption : value;
     },
-    [templateSrv]
+    [replaceVariables]
   );
 
   // Get display option value from the URL, or check default variable values
   const getDisplayOptionValue = useCallback(
-    (queryParams: UrlQueryMap, displayOption: string) => {
-      return (queryParams[getUrlTempVarName(displayOption || '')] as string) ?? checkTempVar(displayOption);
+    (queryParams: UrlQueryMap, displayOption: string): string => {
+      const tempVarName = getUrlTempVarName(displayOption || '');
+      const tempVarVal = checkTempVar(displayOption);
+      const tempVarURLVal = queryParams[tempVarName];
+      return tempVarVal ?? tempVarURLVal;
     },
     [checkTempVar]
   );
@@ -71,12 +74,12 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
     ) {
       shouldUpdate = true;
       setDisplayOptions({
-        entityId,
-        componentName,
-        kvsStreamName,
+        entityId: entityId,
+        componentName: componentName,
+        kvsStreamName: kvsStreamName,
         search,
-        startTime,
-        endTime,
+        startTime: startTime,
+        endTime: endTime,
       });
     } else if (search === displayOptions.search) {
       // If the URL didn't change then another field was updated and the video player should rerender
@@ -87,9 +90,9 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
       // Load in VideoPlayer component
       setVideoData(
         props.appKitTMDataSource.videoData({
-          entityId,
-          componentName,
-          kvsStreamName,
+          entityId: entityId,
+          componentName: componentName,
+          kvsStreamName: kvsStreamName,
         })
       );
     }

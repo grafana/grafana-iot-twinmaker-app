@@ -44,13 +44,7 @@ jest.mock('@iot-app-kit/react-components', () => ({
 import { VideoPlayer } from './VideoPlayer';
 import { VideoPlayerPropsFromParent } from './interfaces';
 import { mockDisplayOptions } from './tests/common';
-import { setTemplateSrv } from '@grafana/runtime';
 import { Viewport } from '@iot-app-kit/core';
-
-setTemplateSrv({
-  getVariables: () => [],
-  replace: (v: string) => v,
-} as any);
 
 describe('VideoPlayer', () => {
   it('should load VideoPlayer component when providing kvsStreamName', () => {
@@ -73,6 +67,7 @@ describe('VideoPlayer', () => {
       ...panelProps,
       options,
       timeRange: mockTimeRange,
+      replaceVariables: (v: string) => v,
     };
     const mockVideoDate = { random: jest.fn() };
     panelProps.appKitTMDataSource.videoData.mockReturnValue(mockVideoDate);
