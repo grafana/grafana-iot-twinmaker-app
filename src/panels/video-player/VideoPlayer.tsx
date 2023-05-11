@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { getStyles } from './styles';
+import { getVideoPlayerStyles, getRequestVideoUploadStyles } from './styles';
 import { VideoPlayerPropsFromParent } from './interfaces';
 import { auto } from '@popperjs/core';
 import { locationSearchToObject } from '@grafana/runtime';
@@ -12,7 +12,8 @@ import { RequestVideoUpload, VideoPlayer as VideoPlayerComp } from '@iot-app-kit
 
 export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
   const { replaceVariables } = props;
-  const styles = getStyles();
+  const videoPlayerStyles = getVideoPlayerStyles();
+  const requestVideoUploadStyles = getRequestVideoUploadStyles();
 
   const { search } = useLocation();
 
@@ -114,11 +115,15 @@ export const VideoPlayer = (props: VideoPlayerPropsFromParent) => {
     <div
       data-testid={'VideoPlayer'}
       // Fit video player inside panel
-      className={styles.wrapper}
+      className={videoPlayerStyles.wrapper}
       style={{ width: props.width, height: props.height, overflow: auto }}
     >
       {videoData && <VideoPlayerComp videoData={videoData} viewport={viewport} />}
-      {videoData && <RequestVideoUpload videoData={videoData} />}
+      {videoData && (
+        <div className={requestVideoUploadStyles.wrapper}>
+          <RequestVideoUpload videoData={videoData} />
+        </div>
+      )}
     </div>
   );
 };
