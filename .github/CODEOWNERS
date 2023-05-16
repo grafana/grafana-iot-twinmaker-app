@@ -11,4 +11,9 @@
 # In each subsection folders are ordered first by depth, then alphabetically.
 # This should make it easy to add new rules without breaking existing ones.
 
-* @grafana/aws-datasources
+# Grafana AWS datasources owns the datasource plugin code
+/.github/ @grafana/aws-datasources
+/go.mod @grafana/aws-datasources
+/go.sum @grafana/aws-datasources
+/pkg/ @grafana/aws-datasources
+/src/datasource/ @grafana/aws-datasources
