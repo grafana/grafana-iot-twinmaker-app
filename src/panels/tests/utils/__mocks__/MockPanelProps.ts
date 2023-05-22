@@ -114,6 +114,7 @@ const mockAppKitTMDataSource = {
   videoData: jest.fn(),
   s3SceneLoader: jest.fn(),
   sceneMetadataModule: jest.fn(),
+  kGDatamodule: jest.fn(),
   query: { timeSeriesData: jest.fn() },
 };
 
