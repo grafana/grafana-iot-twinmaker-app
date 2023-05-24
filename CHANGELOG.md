@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.6.2
+- Setting up sticky video controls for Video Player
+- Error handling for Matterport scenes
+- Auto collapse sidebar for Scene Viewer
+- Fix usage of repeat template variables for Scene Viewer and Video Player panels
+- Other minor bug fixes in Scene Viewer and Video Player panels
+
 ## 1.6.1
 
 - Update grafana-aws-sdk version.

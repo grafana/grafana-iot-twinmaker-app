@@ -1,6 +1,6 @@
 {
   "name": "grafana-iot-twinmaker-app",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Grafana IoT TwinMaker App Plugin",
   "scripts": {
     "build": "webpack -c webpack.config.ts --env production",
