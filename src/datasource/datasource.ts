@@ -19,7 +19,7 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
 
   constructor(public instanceSettings: DataSourceInstanceSettings<TwinMakerDataSourceOptions>) {
     super(instanceSettings);
-
+    
     this.workspaceId = instanceSettings.jsonData.workspaceId!;
     this.grafanaLiveEnabled = true;
 
@@ -167,4 +167,5 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
     };
     return credentials;
   };
+  
 }
