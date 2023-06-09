@@ -49,8 +49,6 @@ function setup() {
 const resetWindow = () => {
   (window as any).grafanaBootData = {
     settings: {
-      awsAllowedAuthProviders: [AwsAuthType.EC2IAMRole, AwsAuthType.Keys],
-      awsAssumeRoleEnabled: false,
     },
   };
 };
