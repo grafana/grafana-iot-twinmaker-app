@@ -2,7 +2,6 @@ import React from 'react';
 import { ConfigEditor } from './ConfigEditor';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { AwsAuthType } from '@grafana/aws-sdk';
 import { DataSourceSettings } from '@grafana/data';
 import { TwinMakerDataSourceOptions, TwinMakerSecureJsonData } from 'datasource/types';
 
