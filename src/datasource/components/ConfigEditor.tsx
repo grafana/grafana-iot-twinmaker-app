@@ -1,10 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  DataSourceSettings,
-  onUpdateDatasourceJsonDataOption,
-  SelectableValue,
-  updateDatasourcePluginJsonDataOption,
-} from '@grafana/data';
+import React, { useEffect, useState } from 'react';
+import { onUpdateDatasourceJsonDataOption, SelectableValue, updateDatasourcePluginJsonDataOption } from '@grafana/data';
 import { ConnectionConfig, ConnectionConfigProps } from '@grafana/aws-sdk';
 import { FieldSet, InlineField, InlineFieldRow, Select, Input, Alert, Checkbox } from '@grafana/ui';
 import { standardRegions } from '../regions';
@@ -22,48 +17,57 @@ export function ConfigEditor(props: Props) {
   const [isWorkspacesMenuOpen, setIsWorkspacesMenuOpen] = useState(false);
   const [workspacesError, setWorkspacesError] = useState('');
   const [isLoadingWorkspaces, setLoadingWorkspaces] = useState(false);
-  const oldOptions = useRef<DataSourceSettings<TwinMakerDataSourceOptions, TwinMakerSecureJsonData> | null>(null);
+  const [saved, setSaved] = useState(!!props.options.version && props.options.version > 1);
 
-  const saved = useDataSourceSavedState(props)
-
-  const onOpenHandler = () => {
-    if (saved) {
-      setIsWorkspacesMenuOpen(true);
-    } else {
-      if (props.options.version && props.options.version > 1) {
-        setWorkspacesError('You have unsaved connection detail changes. You need to save the data source before selecting workspaces.')
-      } else {
-        setWorkspacesError('Save the datasource first to load workspaces');
-      }
-    }
-  };
   useEffectOnce(() => {
     // Default to 'us-east-1'
     if (!props.options.jsonData?.defaultRegion) {
       updateDatasourcePluginJsonDataOption(props, 'defaultRegion', 'us-east-1');
     }
   });
+
   useEffect(() => {
-    const loadWorkspaces = async () => {
-      setLoadingWorkspaces(true);
-      const ds = await getTwinMakerDatasource(props.options.uid);
-      if (ds) {
-        try {
-          const workspaces = await ds.info.listWorkspaces();
-          setWorkspaces(workspaces);
-        } catch (err) {
-          setWorkspacesError("Error listing workspaces")
-          console.log('Error listing workspaces', err);
-        }
-        setLoadingWorkspaces(false);
-      }
-    };
-    if (saved && props.options !== oldOptions.current) {
+    setSaved(false);
+  }, [
+    props.options.jsonData.assumeRoleArn,
+    props.options.jsonData.authType,
+    props.options.jsonData.assumeRoleArnWriter,
+    props.options.jsonData.defaultRegion,
+    props.options.jsonData.endpoint,
+    props.options.jsonData.externalId,
+    props.options.secureJsonData?.accessKey,
+    props.options.secureJsonData?.secretKey,
+  ]);
+
+  useEffect(() => {
+    props.options.version && setSaved(true);
+    setWorkspacesError('');
+  }, [props.options.version]);
+
+  const onOpenHandler = () => {
+    if (saved) {
+      setWorkspaces([]);
       loadWorkspaces();
-      setWorkspacesError('');
-      oldOptions.current = props.options;
+      setIsWorkspacesMenuOpen(true);
+    } else {
+      setWorkspacesError('Save the datasource first to load workspaces');
     }
-  }, [props, saved]);
+  };
+
+  const loadWorkspaces = async () => {
+    setLoadingWorkspaces(true);
+    const ds = await getTwinMakerDatasource(props.options.uid);
+    if (ds) {
+      try {
+        const workspaces = await ds.info.listWorkspaces();
+        setWorkspaces(workspaces);
+      } catch (err) {
+        setWorkspacesError('Error listing workspaces');
+        console.log('Error listing workspaces....', err);
+      }
+      setLoadingWorkspaces(false);
+    }
+  };
 
   const onWorkspaceChange = (event: SelectableValue<string>) => {
     updateDatasourcePluginJsonDataOption(props, 'workspaceId', event?.value);
@@ -80,7 +84,7 @@ export function ConfigEditor(props: Props) {
     }
   };
 
-  const workspacesSelection = getSelectionInfo(props.options.jsonData.workspaceId, workspaces);
+  const workspacesSelection = getSelectionInfo(props.options.jsonData.workspaceId, workspaces, undefined, true);
 
   return (
     <>
@@ -155,26 +159,4 @@ export function ConfigEditor(props: Props) {
       </FieldSet>
     </>
   );
-}
-
-function useDataSourceSavedState(props: Props) {
-  const [saved, setSaved] = useState(!!props.options.version && props.options.version > 1);
-  useEffect(() => {
-    setSaved(false);
-  }, [
-    props.options.jsonData.assumeRoleArn,
-    props.options.jsonData.assumeRoleArnWriter,
-    props.options.jsonData.authType,
-    props.options.jsonData.defaultRegion,
-    props.options.jsonData.endpoint,
-    props.options.jsonData.externalId,
-    props.options.secureJsonData?.accessKey,
-    props.options.secureJsonData?.secretKey,
-  ]);
-
-  useEffect(() => {
-    props.options.version && setSaved(true);
-  }, [props.options.version]);
-
-  return saved;
 }

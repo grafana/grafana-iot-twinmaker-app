@@ -77,9 +77,9 @@ export function resolvePropsFromComponentSel(
   return propOpts;
 }
 
-const handleValueNotFound = <T = any>(value: T) => {
+const handleValueNotFound = <T = any>(value: T, showNotFound = true) => {
   const current = {
-    label: `${value} (not found)`,
+    label: `${value} ${showNotFound ? '(not found)' : ''}`,
     value,
   };
   if (current.label!.indexOf('$') >= 0) {
@@ -151,7 +151,8 @@ export interface SelectionInfo<T = any> {
 export function getSelectionInfo<T>(
   v?: T,
   options?: Array<SelectableValue<T>>,
-  templateVars?: Array<SelectableValue<T>>
+  templateVars?: Array<SelectableValue<T>>,
+  allowCustom?: boolean
 ): SelectionInfo<T> {
   if (v && !options) {
     const current = { label: `${v}`, value: v };
@@ -169,7 +170,7 @@ export function getSelectionInfo<T>(
   }
 
   if (v && !current) {
-    current = handleValueNotFound(v);
+    current = handleValueNotFound(v, false);
     options.push(current);
   }
   return {
