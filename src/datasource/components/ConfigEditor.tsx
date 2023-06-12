@@ -106,13 +106,7 @@ export function ConfigEditor(props: Props) {
 
       <FieldSet label={'TwinMaker settings'} data-testid="twinmaker-settings">
         <InlineFieldRow>
-          <InlineField
-            label="Workspace"
-            labelWidth={28}
-            required={true}
-            invalid={!!workspacesError}
-            error={workspacesError}
-          >
+          <InlineField label="Workspace" labelWidth={28} invalid={!!workspacesError} error={workspacesError}>
             <Select
               menuShouldPortal={true}
               value={workspacesSelection.current}
