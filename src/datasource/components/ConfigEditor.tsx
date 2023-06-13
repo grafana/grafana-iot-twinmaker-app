@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 import { onUpdateDatasourceJsonDataOption, SelectableValue, updateDatasourcePluginJsonDataOption } from '@grafana/data';
 import { ConnectionConfig, ConnectionConfigProps } from '@grafana/aws-sdk';
 import { FieldSet, InlineField, InlineFieldRow, Select, Input, Alert, Checkbox } from '@grafana/ui';
@@ -7,137 +7,150 @@ import { TwinMakerDataSourceOptions, TwinMakerSecureJsonData } from '../types';
 import { getTwinMakerDatasource } from 'common/datasourceSrv';
 import { getSelectionInfo } from 'common/info/info';
 import { SelectableQueryResults } from 'common/info/types';
+import { useEffectOnce } from 'react-use';
 
 type Props = ConnectionConfigProps<TwinMakerDataSourceOptions, TwinMakerSecureJsonData>;
 
-interface State {
-  workspaces?: SelectableQueryResults;
-  alarmConfigChecked?: boolean;
-}
+export function ConfigEditor(props: Props) {
+  const [alarmConfigChecked, setAlarmConfigChecked] = useState(!!props.options.jsonData.assumeRoleArnWriter);
+  const [workspaces, setWorkspaces] = useState<SelectableQueryResults>([]);
+  const [isWorkspacesMenuOpen, setIsWorkspacesMenuOpen] = useState(false);
+  const [workspacesError, setWorkspacesError] = useState('');
+  const [isLoadingWorkspaces, setLoadingWorkspaces] = useState(false);
+  const [saved, setSaved] = useState(!!props.options.version && props.options.version > 1);
 
-export class ConfigEditor extends PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { alarmConfigChecked: !!this.props.options.jsonData.assumeRoleArnWriter };
-    this.loadWorkspaces();
-  }
-
-  loadWorkspaces = async () => {
-    const { options } = this.props;
-
+  useEffectOnce(() => {
     // Default to 'us-east-1'
-    if (!options.jsonData?.defaultRegion) {
-      updateDatasourcePluginJsonDataOption(this.props, 'defaultRegion', 'us-east-1');
+    if (!props.options.jsonData?.defaultRegion) {
+      updateDatasourcePluginJsonDataOption(props, 'defaultRegion', 'us-east-1');
     }
+  });
 
-    const ds = await getTwinMakerDatasource(options.uid);
+  useEffect(() => {
+    setSaved(false);
+  }, [
+    props.options.jsonData.assumeRoleArn,
+    props.options.jsonData.authType,
+    props.options.jsonData.assumeRoleArnWriter,
+    props.options.jsonData.defaultRegion,
+    props.options.jsonData.endpoint,
+    props.options.jsonData.externalId,
+    props.options.secureJsonData?.accessKey,
+    props.options.secureJsonData?.secretKey,
+  ]);
+
+  useEffect(() => {
+    props.options.version && setSaved(true);
+    setWorkspacesError('');
+  }, [props.options.version]);
+
+  const onOpenHandler = () => {
+    if (saved) {
+      setWorkspaces([]);
+      loadWorkspaces();
+      setIsWorkspacesMenuOpen(true);
+    } else {
+      setWorkspacesError('Save the datasource first to load workspaces');
+    }
+  };
+
+  const loadWorkspaces = async () => {
+    setLoadingWorkspaces(true);
+    const ds = await getTwinMakerDatasource(props.options.uid);
     if (ds) {
       try {
         const workspaces = await ds.info.listWorkspaces();
-        this.setState({ ...this.state, workspaces });
+        setWorkspaces(workspaces);
       } catch (err) {
+        setWorkspacesError('Error listing workspaces');
         console.log('Error listing workspaces....', err);
       }
+      setLoadingWorkspaces(false);
     }
   };
 
-  componentDidUpdate(oldProps: Props) {
-    if (this.props.options !== oldProps.options) {
-      this.loadWorkspaces();
-    }
-  }
-
-  onWorkspaceChange = (event: SelectableValue<string>) => {
-    updateDatasourcePluginJsonDataOption(this.props, 'workspaceId', event?.value);
+  const onWorkspaceChange = (event: SelectableValue<string>) => {
+    updateDatasourcePluginJsonDataOption(props, 'workspaceId', event?.value);
   };
 
-  onUnknownWorkspaceChange = (event: string) => {
-    updateDatasourcePluginJsonDataOption(this.props, 'workspaceId', event);
+  const onUnknownWorkspaceChange = (event: string) => {
+    updateDatasourcePluginJsonDataOption(props, 'workspaceId', event);
   };
 
-  onAlarmCheckChange = (event: boolean) => {
-    this.setState({ ...this.state, alarmConfigChecked: event });
-    if (!event) {
-      updateDatasourcePluginJsonDataOption(this.props, 'assumeRoleArnWriter', undefined);
+  const onAlarmCheckChange = (isChecked: boolean) => {
+    setAlarmConfigChecked(isChecked);
+    if (!isChecked) {
+      updateDatasourcePluginJsonDataOption(props, 'assumeRoleArnWriter', undefined);
     }
   };
 
-  render() {
-    const workspaces = getSelectionInfo(this.props.options.jsonData.workspaceId, this.state.workspaces);
-    const hasWorkspaces = Boolean(this.state.workspaces?.length);
-    const arn = this.props.options.jsonData.assumeRoleArn;
-    const arnWriter = this.props.options.jsonData.assumeRoleArnWriter;
+  const workspacesSelection = getSelectionInfo(props.options.jsonData.workspaceId, workspaces, undefined, true);
 
-    return (
-      <>
-        <ConnectionConfig {...this.props} standardRegions={standardRegions} />
+  return (
+    <>
+      <ConnectionConfig {...props} standardRegions={standardRegions} />
 
-        {!arn && (
-          <Alert title="Assume Role ARN" severity="error" style={{ width: 700 }}>
-            Specify an IAM role to narrow the permission scope of this datasource. Follow the documentation{' '}
-            <a
-              href="https://docs.aws.amazon.com/iot-twinmaker/latest/guide/dashboard-IAM-role.html"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              here
-            </a>{' '}
-            to create policies and a role with minimal permissions for your TwinMaker workspace.
-          </Alert>
-        )}
+      {!props.options.jsonData.assumeRoleArn && (
+        <Alert title="Assume Role ARN" severity="error" style={{ width: 700 }}>
+          Specify an IAM role to narrow the permission scope of this datasource. Follow the documentation{' '}
+          <a
+            href="https://docs.aws.amazon.com/iot-twinmaker/latest/guide/dashboard-IAM-role.html"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            here
+          </a>{' '}
+          to create policies and a role with minimal permissions for your TwinMaker workspace.
+        </Alert>
+      )}
 
-        <FieldSet label={'TwinMaker settings'} data-testid="twinmaker-settings">
+      <FieldSet label={'TwinMaker settings'} data-testid="twinmaker-settings">
+        <InlineFieldRow>
+          <InlineField label="Workspace" labelWidth={28} invalid={!!workspacesError} error={workspacesError}>
+            <Select
+              menuShouldPortal={true}
+              value={workspacesSelection.current}
+              options={workspacesSelection.options}
+              className="width-30"
+              onChange={onWorkspaceChange}
+              isLoading={isLoadingWorkspaces}
+              allowCustomValue={true}
+              onCreateOption={onUnknownWorkspaceChange}
+              formatCreateLabel={(v) => `WorkspaceID: ${v}`}
+              isClearable={true}
+              disabled={workspaces?.length === 0}
+              placeholder="Select a workspace"
+              noOptionsMessage="No workspaces found"
+              onOpenMenu={onOpenHandler}
+              onCloseMenu={() => setIsWorkspacesMenuOpen(false)}
+              isOpen={isWorkspacesMenuOpen}
+              invalid={!!workspacesError}
+            />
+          </InlineField>
+        </InlineFieldRow>
+        <Checkbox
+          label={'Define write permissions for Alarm Configuration Panel'}
+          value={alarmConfigChecked}
+          onChange={(e) => onAlarmCheckChange(e.currentTarget.checked)}
+        />
+        {alarmConfigChecked && (
           <InlineFieldRow>
-            <InlineField label="Workspace" labelWidth={28}>
-              <>
-                {hasWorkspaces && (
-                  <Select
-                    menuShouldPortal={true}
-                    value={workspaces.current}
-                    options={workspaces.options}
-                    className="width-30"
-                    onChange={this.onWorkspaceChange}
-                    allowCustomValue={true}
-                    onCreateOption={this.onUnknownWorkspaceChange}
-                    formatCreateLabel={(v) => `WorkspaceID: ${v}`}
-                    isClearable={true}
-                  />
-                )}
-                {!hasWorkspaces && (
-                  <Input
-                    className="width-30"
-                    onBlur={(e) => this.onUnknownWorkspaceChange(e.currentTarget.value)}
-                    defaultValue={this.props.options.jsonData.workspaceId}
-                    placeholder={'enter workspace ID'}
-                  />
-                )}
-              </>
+            <InlineField
+              label="Assume Role ARN Write"
+              labelWidth={28}
+              tooltip="Specify the ARN of a role to assume when writing property values in IoT TwinMaker"
+            >
+              <Input
+                aria-label="Assume Role ARN Write"
+                className="width-30"
+                placeholder="arn:aws:iam:*"
+                value={props.options.jsonData.assumeRoleArnWriter || ''}
+                onChange={onUpdateDatasourceJsonDataOption(props, 'assumeRoleArnWriter')}
+              />
             </InlineField>
           </InlineFieldRow>
-          <Checkbox
-            label={'Define write permissions for Alarm Configuration Panel'}
-            value={this.state.alarmConfigChecked}
-            onChange={(e) => this.onAlarmCheckChange(e.currentTarget.checked)}
-          />
-          {this.state.alarmConfigChecked && (
-            <InlineFieldRow>
-              <InlineField
-                label="Assume Role ARN Write"
-                labelWidth={28}
-                tooltip="Specify the ARN of a role to assume when writing property values in IoT TwinMaker"
-              >
-                <Input
-                  aria-label="Assume Role ARN Write"
-                  className="width-30"
-                  placeholder="arn:aws:iam:*"
-                  value={arnWriter || ''}
-                  onChange={onUpdateDatasourceJsonDataOption(this.props, 'assumeRoleArnWriter')}
-                />
-              </InlineField>
-            </InlineFieldRow>
-          )}
-        </FieldSet>
-      </>
-    );
-  }
+        )}
+      </FieldSet>
+    </>
+  );
 }
