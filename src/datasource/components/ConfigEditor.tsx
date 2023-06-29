@@ -108,6 +108,7 @@ export function ConfigEditor(props: Props) {
         <InlineFieldRow>
           <InlineField label="Workspace" labelWidth={28} invalid={!!workspacesError} error={workspacesError}>
             <Select
+              menuPlacement="top"
               menuShouldPortal={true}
               value={workspacesSelection.current}
               options={workspacesSelection.options}
