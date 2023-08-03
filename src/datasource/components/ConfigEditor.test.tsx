@@ -24,8 +24,6 @@ const datasourceOptions: DataSourceSettings<TwinMakerDataSourceOptions, TwinMake
   readOnly: false,
   withCredentials: false,
   secureJsonFields: {},
-  password: 'test',
-  basicAuthPassword: 'password',
 };
 const workspacesMock = jest.fn(() => Promise.resolve([{ value: 'test1', label: 'test1' }]));
 
