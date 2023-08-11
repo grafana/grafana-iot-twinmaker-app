@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.0
+
+- Update grafana-aws-sdk to v0.19.0 to add `il-central-1` to the opt-in region list
+
 ## v1.6.2
 - Setting up sticky video controls for Video Player
 - Error handling for Matterport scenes
