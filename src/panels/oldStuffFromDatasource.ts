@@ -29,7 +29,7 @@ export class OldDatasourceStuff {
     this.appKitTMDataSource = initialize(this.workspaceId, {
       awsCredentials: ds.getTokensV3,
       awsRegion: ds.instanceSettings.jsonData.defaultRegion || defaultRegion,
-      tmEndpoint: endpoint || undefined, // if endpoint is emptry string, prefer undefined
+      tmEndpoint: endpoint || undefined, // if endpoint is empty string, prefer undefined
     });
   }
 
