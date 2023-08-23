@@ -8,6 +8,18 @@ jest.doMock('@grafana/runtime', () => ({
 import { TwinMakerUxSDK } from 'aws-iot-twinmaker-grafana-utils';
 import { DataQuery, DataSourceApi, DataSourceJsonData } from '@grafana/data';
 import { configureSdkWithDataSource, DataSourceParams } from '../sdkInit';
+import * as commonFuncs from 'common/datasourceSrv';
+import * as awsConfig from '../awsConfig';
+
+// mock these imports
+jest.mock('common/datasourceSrv', () => ({
+  getTwinMakerDatasource: jest.fn(),
+}));
+
+jest.mock('../awsConfig', () => ({
+  getAwsConfig: jest.fn(),
+  getAwsTMQEConfig: jest.fn(),
+}));
 
 describe('sdkInit', () => {
   describe('configureSdkWithDataSource', () => {
@@ -39,6 +51,45 @@ describe('sdkInit', () => {
       expect(result?.twinMakerUxSdk.awsClients).toBe(mockUxSdk.awsClients);
       expect(mockUxSdk.awsStore.createAwsCombinedReducer).toBeCalledTimes(2);
       expect(mockUxSdk.awsStore.subscribeAwsStoreUpdate).toBeCalledTimes(2);
+    });
+
+    it('should properly set endpoint on configured twinmaker datasource when endpoint is defined', async () => {
+      // mocks
+      jest.spyOn(TwinMakerUxSDK.prototype, 'setAwsConfig').mockImplementationOnce(() => {});
+      (awsConfig.getAwsConfig as jest.Mock).mockReturnValueOnce({ iotTwinMaker: { endpoint: 'https://test' } });
+      (awsConfig.getAwsTMQEConfig as jest.Mock).mockReturnValueOnce({ iotTwinMaker: { endpoint: 'https://test' } });
+
+      // getTwinmakerDatasurce with endpoint
+      (commonFuncs.getTwinMakerDatasource as jest.Mock).mockReturnValueOnce({
+        instanceSettings: {
+          jsonData: {
+            workspaceId: 1,
+            endpoint: 'https://test',
+          },
+        },
+      });
+      const response = await configureSdkWithDataSource('twinmaker1');
+      expect(response?.awsConfig.iotTwinMaker?.endpoint).toBe('https://test');
+    });
+
+    it('should properly set endpoint to undefined when endpoint is empty string', async () => {
+      // mocks
+      jest.spyOn(TwinMakerUxSDK.prototype, 'setAwsConfig').mockImplementation(() => {});
+      (awsConfig.getAwsConfig as jest.Mock).mockReturnValue({ iotTwinMaker: { endpoint: '' } });
+      (awsConfig.getAwsTMQEConfig as jest.Mock).mockReturnValue({ iotTwinMaker: { endpoint: '' } });
+
+      // getTwinMakerDatasource with empty string endpoint
+      (commonFuncs.getTwinMakerDatasource as jest.Mock).mockReturnValueOnce({
+        instanceSettings: {
+          jsonData: {
+            workspaceId: 1,
+            endpoint: '',
+          },
+        },
+      });
+
+      const response = await configureSdkWithDataSource('twinmaker2');
+      expect(response?.awsConfig.iotTwinMaker?.endpoint).toBe(undefined);
     });
   });
 });
