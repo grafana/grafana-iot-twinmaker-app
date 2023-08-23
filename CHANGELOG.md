@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.0
+
+- Update grafana-aws-sdk to v0.19.1 to add `il-central-1` to the opt-in region list
+
 ## v1.6.3
 - fix visibility of data overlays on parent objects
 - add entity binding support
