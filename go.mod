@@ -3,10 +3,10 @@ module github.com/grafana/grafana-iot-twinmaker-app
 go 1.20
 
 require (
-	github.com/aws/aws-sdk-go v1.44.179
+	github.com/aws/aws-sdk-go v1.44.323
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
-	github.com/grafana/grafana-aws-sdk v0.19.0
+	github.com/grafana/grafana-aws-sdk v0.19.1
 	github.com/grafana/grafana-plugin-sdk-go v0.161.0
 	github.com/magefile/mage v1.14.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
