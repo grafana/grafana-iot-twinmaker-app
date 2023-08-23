@@ -22,6 +22,7 @@ import {
   IWidgetClickEvent,
   ISelectionChangedEvent,
   useSceneComposerApi,
+  ITagData
 } from '@iot-app-kit/scene-composer';
 
 const valueTypeToDataType: Record<ValueType, DataType> = {
@@ -137,7 +138,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     const anchorData =
       objectData.additionalComponentData?.[
         objectData.componentTypes.findIndex((type) => type === KnownComponentType.Tag)
-      ];
+      ] as ITagData | undefined;
 
     if (anchorData) {
       const targetLink = getValidHttpUrl(anchorData.navLink);
@@ -152,8 +153,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       const anchorData =
         objectData.additionalComponentData?.[
           objectData.componentTypes.findIndex((type) => type === KnownComponentType.Tag)
-        ];
-
+        ] as ITagData | undefined;
       if (objectData.nodeRef && anchorData) {
         const dashboardId = anchorData?.navLink?.params?.[MERGE_DASHBOARD_TARGET_ID_KEY];
         mergeDashboard(dashboardId).then((options) => {
