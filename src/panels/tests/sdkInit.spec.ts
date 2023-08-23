@@ -59,7 +59,7 @@ describe('sdkInit', () => {
       (awsConfig.getAwsConfig as jest.Mock).mockReturnValueOnce({ iotTwinMaker: { endpoint: 'https://test' } });
       (awsConfig.getAwsTMQEConfig as jest.Mock).mockReturnValueOnce({ iotTwinMaker: { endpoint: 'https://test' } });
 
-      // getTwinmakerDatasurce with endpoint
+      // getTwinmakerDatasource with endpoint
       (commonFuncs.getTwinMakerDatasource as jest.Mock).mockReturnValueOnce({
         instanceSettings: {
           jsonData: {
