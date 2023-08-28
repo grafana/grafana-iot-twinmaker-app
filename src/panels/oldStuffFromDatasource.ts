@@ -19,8 +19,8 @@ export class OldDatasourceStuff {
 
     const awsConfig = getAwsConfig(ds.getTokens, ds.getTokensV3, ds.instanceSettings.jsonData.defaultRegion);
     this.awsTMQEConfig = getAwsTMQEConfig(ds.getTokensV3, ds.instanceSettings.jsonData.defaultRegion);
-    const endpoint = ds.instanceSettings.jsonData.endpoint;
-    if (endpoint && awsConfig.iotTwinMaker && this.awsTMQEConfig.iotTwinMaker) {
+    const endpoint = ds.instanceSettings.jsonData.endpoint || undefined; // if endpoint is empty string, prefer undefined
+    if ((endpoint || endpoint === undefined) && awsConfig.iotTwinMaker && this.awsTMQEConfig.iotTwinMaker) {
       awsConfig.iotTwinMaker.endpoint = endpoint;
       this.awsTMQEConfig.iotTwinMaker.endpoint = endpoint;
     }
