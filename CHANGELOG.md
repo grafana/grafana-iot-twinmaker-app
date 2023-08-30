@@ -1,16 +1,22 @@
 # Changelog
 
+## 1.7.1
+
+- Update @grafana/aws-sdk frontend package to fix a bug with a future feature called temporary credentials
+
 ## 1.7.0
 
 - Update grafana-aws-sdk to v0.19.1 to add `il-central-1` to the opt-in region list
 
 ## v1.6.3
+
 - fix visibility of data overlays on parent objects
 - add entity binding support
 - fix raycast issues
 - add support for selection events on data overlays
 
 ## v1.6.2
+
 - Setting up sticky video controls for Video Player
 - Error handling for Matterport scenes
 - Auto collapse sidebar for Scene Viewer
