@@ -22,7 +22,8 @@ import {
   IWidgetClickEvent,
   ISelectionChangedEvent,
   useSceneComposerApi,
-  ITagData
+  ITagData,
+  ISelectedDataBinding,
 } from '@iot-app-kit/scene-composer';
 
 const valueTypeToDataType: Record<ValueType, DataType> = {
@@ -134,11 +135,16 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     return sceneMetadataModuleFromDataSource;
   }, [props.appKitTMDataSource, props.options.sceneId]);
 
+  const valueDataBindingProviders = useMemo(() => {
+    const valueDataBindingProvidersFromDataSource = props.appKitTMDataSource.valueDataBindingProviders();
+
+    return valueDataBindingProvidersFromDataSource;
+  }, [props.appKitTMDataSource]);
+
   const onWidgetClick = useCallback((objectData: IWidgetClickEvent) => {
-    const anchorData =
-      objectData.additionalComponentData?.[
-        objectData.componentTypes.findIndex((type) => type === KnownComponentType.Tag)
-      ] as ITagData | undefined;
+    const anchorData = objectData.additionalComponentData?.[
+      objectData.componentTypes.findIndex((type) => type === KnownComponentType.Tag)
+    ] as ITagData | undefined;
 
     if (anchorData) {
       const targetLink = getValidHttpUrl(anchorData.navLink);
@@ -150,10 +156,9 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
 
   const onSelectionChanged = useCallback(
     (objectData: ISelectionChangedEvent) => {
-      const anchorData =
-        objectData.additionalComponentData?.[
-          objectData.componentTypes.findIndex((type) => type === KnownComponentType.Tag)
-        ] as ITagData | undefined;
+      const anchorData = objectData.additionalComponentData?.[
+        objectData.componentTypes.findIndex((type) => type === KnownComponentType.Tag)
+      ] as ITagData | undefined;
       if (objectData.nodeRef && anchorData) {
         const dashboardId = anchorData?.navLink?.params?.[MERGE_DASHBOARD_TARGET_ID_KEY];
         mergeDashboard(dashboardId).then((options) => {
@@ -227,11 +232,11 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       ? (queryParams[getUrlTempVarName(props.options.customSelCompVarName)] as string)
       : undefined;
 
-    let selectedDataBindingResult: Record<string, string> | undefined =
+    let selectedDataBindingResult: ISelectedDataBinding | undefined =
       selectedEntityValue && selectedComponentValue
         ? {
-            [DataBindingLabelKeys.entityId]: selectedEntityValue,
-            [DataBindingLabelKeys.componentName]: selectedComponentValue,
+            entityId: selectedEntityValue,
+            componentName: selectedComponentValue,
           }
         : undefined;
 
@@ -249,8 +254,8 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       binding[DataBindingLabelKeys.componentName]
     ) {
       selectedDataBindingResult = {
-        [DataBindingLabelKeys.entityId]: '',
-        [DataBindingLabelKeys.componentName]: '',
+        entityId: '',
+        componentName: '',
       };
     }
 
@@ -316,6 +321,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
         viewport={viewport}
         activeCamera={activeCamera}
         externalLibraryConfig={externalLibraryConfig}
+        valueDataBindingProviders={valueDataBindingProviders}
       />
     </div>
   );
