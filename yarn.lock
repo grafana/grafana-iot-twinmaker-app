@@ -5510,7 +5510,7 @@
   dependencies:
     "@swc/helpers" "^0.5.0"
 
-"@react-three/drei@8.11.0":
+"@react-three/drei@8.11.0", "@react-three/drei@9.56.27":
   version "8.11.0"
   resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-8.11.0.tgz#aed175b670e02091d35e19d46338de0b538087da"
   integrity sha512-/17cr7qkfCgDyA5fcscKEch5XjMw8JMyngzLhXzCYyiTeCOteXGkJSrS0RHemuRAof/8rNBcC9z2OYJQroVSnw==
@@ -5532,7 +5532,7 @@
     utility-types "^3.10.0"
     zustand "^3.5.13"
 
-"@react-three/fiber@7.0.26":
+"@react-three/fiber@7.0.26", "@react-three/fiber@^8.13.3":
   version "7.0.26"
   resolved "https://registry.yarnpkg.com/@react-three/fiber/-/fiber-7.0.26.tgz#36ec19fa7bff00738a7dd368d37d81fed912dd52"
   integrity sha512-46NBais4fQIGcMGLBbOf84lp8y/cg73jOEVmAQQJqWX6iOVeNg29jYd15LBuCW2qPD1qDRU0rOfLbMDgwr/vxQ==
@@ -5558,7 +5558,7 @@
     screen-space-reflections "2.5.0"
     three-stdlib "^2.8.11"
 
-"@react-three/test-renderer@7.0.27":
+"@react-three/test-renderer@7.0.27", "@react-three/test-renderer@^8.1.3":
   version "7.0.27"
   resolved "https://registry.yarnpkg.com/@react-three/test-renderer/-/test-renderer-7.0.27.tgz#bb6803065024ba20b4650ed3c09dbab4e7fe1967"
   integrity sha512-3s1mJQwJ1cjf7ae7iUsm49avjnFAYrouFzlsj/i2hq/PMWGp64flElBbsKegO56g9g/Qv1JC0FconWqhdsPHhg==
