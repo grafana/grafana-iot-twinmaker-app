@@ -5,7 +5,7 @@
   "scripts": {
     "build": "webpack -c webpack.config.ts --env production",
     "clean": "rm -rf dist/ build/*",
-    "dev": "webpack -w -c webpack.config.ts --env development",
+    "dev": "webpack -c webpack.config.ts --env development",
     "e2e": "yarn cypress install && yarn grafana-e2e run",
     "e2e:open": "grafana-e2e open",
     "e2e:update": "yarn cypress install && yarn grafana-e2e run --update-screenshots",
@@ -19,7 +19,8 @@
     "test:ci": "jest --passWithNoTests --maxWorkers 4",
     "test:coverage": "jest --coverage",
     "test:coverage:changes": "jest --coverage --changedSince=origin/main",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "watch": "webpack -w -c webpack.config.ts --env development"
   },
   "author": "IoT TwinMaker Frontend",
   "devDependencies": {
