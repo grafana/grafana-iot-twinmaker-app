@@ -12,17 +12,27 @@ const nodeModulesToTransform = (moduleNames) => `node_modules\/(?!(${moduleNames
 
 // Array of known nested grafana package dependencies that only bundle an ESM version
 const grafanaESModules = [
+  '@cloudscape-design',
+  '@popperjs',
+  '@react-dnd',
   'd3',
+  'd3-array',
   'd3-color',
   'd3-force',
+  'd3-format',
   'd3-interpolate',
   'd3-scale-chromatic',
+  'dnd-core',
+  'internmap',
   'ol',
   'react-colorful',
+  'react-cytoscapejs',
+  'react-dnd',
+  'react-dnd-html5-backend',
   'uuid',
 ];
 
 module.exports = {
   nodeModulesToTransform,
-  grafanaESModules
-}
+  grafanaESModules,
+};
