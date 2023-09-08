@@ -260,13 +260,9 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     }
 
     return selectedDataBindingResult;
-  }, [
-    search,
-    getSceneNodeByRef,
-    getSelectedSceneNodeRef,
-    props.options.customSelCompVarName,
-    props.options.customSelEntityVarName,
-  ]);
+    // getSceneNodeByRef and getSelectedSceneNodeRef are not required to in dependencies list to avoid unexpected updates
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, search, props.options.customSelCompVarName, props.options.customSelEntityVarName]);
 
   const staticPluginPath = useMemo(() => `public/plugins/${plugin.id}`, []);
 
