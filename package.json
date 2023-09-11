@@ -3,7 +3,7 @@
   "version": "1.8.1",
   "description": "Grafana IoT TwinMaker App Plugin",
   "scripts": {
-    "build": "webpack -c webpack.config.ts --env production NODE_OPTIONS='--max-old-space-size=8192'",
+    "build": "NODE_OPTIONS='--max-old-space-size=8192' webpack -c webpack.config.ts --env production ",
     "clean": "rm -rf dist/ build/*",
     "dev": "webpack -w -c webpack.config.ts --env development",
     "e2e": "yarn cypress install && yarn grafana-e2e run",
