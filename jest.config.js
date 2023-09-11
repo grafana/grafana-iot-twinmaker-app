@@ -37,6 +37,16 @@ const esModules = [
   'unified',
   'unist-util.*',
   'vfile.*',
+  '@cloudscape-design',
+  '@popperjs',
+  '@react-dnd',
+  'd3-format',
+  'd3-array',
+  'dnd-core',
+  'internmap',
+  'react-cytoscapejs',
+  'react-dnd',
+  'react-dnd-html5-backend',
 ];
 
 module.exports = {
