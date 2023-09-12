@@ -1,8 +1,13 @@
 # Changelog
 
+## 1.8.1
+
+- Upgrade plugin dependencies to React 18 and iot-app-kit@7 in [#212](https://github.com/grafana/grafana-iot-twinmaker-app/pull/212)
+
 ## 1.7.1
 
 - Update @grafana/aws-sdk frontend package to fix a bug with a future feature called temporary credentials
+- Fix 'invalid url' when endpoint is empty string
 
 ## 1.7.0
 
