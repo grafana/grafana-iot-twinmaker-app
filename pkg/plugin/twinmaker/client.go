@@ -4,18 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"os"
-	"runtime"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/request"
 	"github.com/aws/aws-sdk-go/service/iottwinmaker"
 	"github.com/aws/aws-sdk-go/service/sts"
 	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
-	"github.com/grafana/grafana-plugin-sdk-go/build"
 	httplogger "github.com/grafana/grafana-plugin-sdk-go/experimental/http_logger"
 )
 
@@ -61,7 +57,7 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	}
 	httpClient.Transport = httplogger.NewHTTPLogger("grafana-iot-twinmaker-datasource", transport)
 	sessions := awsds.NewSessionCache()
-	agent := userAgentString("grafana-iot-twinmaker-app")
+	agent := "grafana-iot-twinmaker-app"
 
 	// Clients should not use a custom endpoint to load session credentials
 	noEndpointSettings := settings.AWSDatasourceSettings
@@ -88,9 +84,8 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	stsSettings.AssumeRoleARN = ""
 
 	stsSessionConfig := awsds.SessionConfig{
-		Settings:      stsSettings,
-		HTTPClient:    httpClient,
-		UserAgentName: &agent,
+		Settings:   stsSettings,
+		HTTPClient: httpClient,
 	}
 
 	twinMakerService := func() (*iottwinmaker.IoTTwinMaker, error) {
@@ -101,10 +96,6 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 		session.Config.Endpoint = &settings.AWSDatasourceSettings.Endpoint
 
 		svc := iottwinmaker.New(session, aws.NewConfig())
-		svc.Handlers.Send.PushFront(func(r *request.Request) {
-			r.HTTPRequest.Header.Set("User-Agent", agent)
-
-		})
 		return svc, err
 	}
 
@@ -119,10 +110,6 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 		session.Config.Endpoint = &settings.AWSDatasourceSettings.Endpoint
 
 		svc := iottwinmaker.New(session, aws.NewConfig())
-		svc.Handlers.Send.PushFront(func(r *request.Request) {
-			r.HTTPRequest.Header.Set("User-Agent", agent)
-
-		})
 		return svc, err
 	}
 
@@ -132,9 +119,6 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 			return nil, err
 		}
 		svc := sts.New(session, aws.NewConfig())
-		svc.Handlers.Send.PushFront(func(r *request.Request) {
-			r.HTTPRequest.Header.Set("User-Agent", agent)
-		})
 		return svc, err
 	}
 
@@ -549,27 +533,4 @@ func (c *twinMakerClient) BatchPutPropertyValues(ctx context.Context, req *iottw
 	}
 
 	return client.BatchPutPropertyValuesWithContext(ctx, req)
-}
-
-// TODO, move to https://github.com/grafana/grafana-plugin-sdk-go
-func userAgentString(name string) string {
-	buildInfo, err := build.GetBuildInfo()
-	if err != nil {
-		buildInfo.Version = "dev"
-		buildInfo.Hash = "?"
-	}
-
-	if len(buildInfo.Hash) > 8 {
-		buildInfo.Hash = buildInfo.Hash[0:8]
-	}
-
-	return fmt.Sprintf("%s/%s (%s; %s;) %s/%s-%s Grafana/%s",
-		aws.SDKName,
-		aws.SDKVersion,
-		runtime.Version(),
-		runtime.GOOS,
-		name,
-		buildInfo.Version,
-		buildInfo.Hash,
-		os.Getenv("GF_VERSION"))
 }
