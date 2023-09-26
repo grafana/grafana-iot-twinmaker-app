@@ -115,7 +115,8 @@ const mockAppKitTMDataSource = {
   s3SceneLoader: jest.fn(),
   sceneMetadataModule: jest.fn(),
   kGDatamodule: jest.fn(),
-  query: { timeSeriesData: jest.fn() },
+  valueDataBindingProviders: jest.fn(),
+  query: { timeSeriesData: jest.fn(), propertyValue: jest.fn() },
 };
 
 export const mockTwinMakerPanelProps = (mockDisplayOptions: any) => {
