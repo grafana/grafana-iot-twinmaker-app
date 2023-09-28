@@ -2,7 +2,7 @@
 
 ## 1.8.1
 
-- Wrap QueryEditor panel plugin in CustomScrollbar to fix scrolling behaviour in [#223](https://github.com/grafana/grafana-iot-twinmaker-app/pull/223)
+- Wrap QueryEditor panel plugin in CustomScrollbar to fix scrolling behavior in [#223](https://github.com/grafana/grafana-iot-twinmaker-app/pull/223)
 
 ## 1.8.0
 
