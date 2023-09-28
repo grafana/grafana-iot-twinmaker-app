@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.1
+
+- Wrap QueryEditor panel plugin in CustomScrollbar to fix scrolling behavior in [#223](https://github.com/grafana/grafana-iot-twinmaker-app/pull/223)
+
 ## 1.8.0
 
 - Upgrade plugin dependencies to React 18 and iot-app-kit@7 in [#212](https://github.com/grafana/grafana-iot-twinmaker-app/pull/212)
