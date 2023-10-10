@@ -94,8 +94,9 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const styles = getStyles(props.width, props.height);
   const id = useMemo(() => uuid(), []);
   const { getSceneNodeByRef, getSelectedSceneNodeRef } = useSceneComposerApi(id);
-  const dataStreams = useMemo<DataStream[]>(() => {
-    return props.data.series.flatMap((df) => mapDataFrame(df));
+  const dataStreams = useMemo<DataStream[] | undefined>(() => {
+    const streams =  props.data.series.flatMap((df) => mapDataFrame(df));
+    return isEmpty(streams) ? undefined : streams;
   }, [props.data.series]);
 
   const { search } = useLocation();
@@ -271,6 +272,9 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       dracoDecoder: {
         enable: true,
         path: `${window.location.origin}/${staticPluginPath}/static/draco/`,
+      },
+      featureConfig: {
+        AutoQuery: true,
       },
     };
   }, [staticPluginPath]);
