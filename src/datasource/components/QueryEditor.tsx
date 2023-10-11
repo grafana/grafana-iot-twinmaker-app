@@ -2,6 +2,7 @@ import defaults from 'lodash/defaults';
 import React, { PureComponent } from 'react';
 import {
   Alert,
+  CollapsableSection,
   FieldValidationMessage,
   Icon,
   InlineField,
@@ -11,6 +12,7 @@ import {
   LinkButton,
   MultiSelect,
   Select,
+  Switch,
 } from '@grafana/ui';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { TwinMakerDataSource } from '../datasource';
@@ -43,11 +45,13 @@ import {
   DEFAULT_PROPERTY_FILTER_OPERATOR,
   TwinMakerOrderBy,
 } from 'common/manager';
-import { getTemplateSrv } from '@grafana/runtime';
+import { config, getTemplateSrv } from '@grafana/runtime';
 import { getVariableOptions } from 'common/variables';
 import FilterQueryEditor from './FilterQueryEditor';
 import { BlurTextInput } from './BlurTextInput';
 import OrderByEditor from './OrderByEditor';
+import { EditorField, EditorFieldGroup, EditorRow, EditorRows } from '@grafana/experimental';
+import { css } from '@emotion/css';
 
 export const firstLabelWidth = 18;
 
@@ -64,6 +68,7 @@ interface State {
 }
 
 export class QueryEditor extends PureComponent<Props, State> {
+  newFormStylingEnabled: boolean;
   panels: Array<SelectableValue<number>>;
 
   constructor(props: Props) {
@@ -72,6 +77,8 @@ export class QueryEditor extends PureComponent<Props, State> {
     this.state = {
       invalidInterval: false,
     };
+    //@ts-ignore
+    this.newFormStylingEnabled = config.featureToggles.awsDatasourcesNewFormStyling;
   }
 
   componentDidMount() {
@@ -305,21 +312,39 @@ export class QueryEditor extends PureComponent<Props, State> {
   renderEntitySelector(query: TwinMakerQuery, isClearable: boolean) {
     const entity = getSelectionInfo(query.entityId, this.state.workspace?.entities, this.state.templateVars);
     return (
-      <InlineFieldRow key="entity-selector">
-        <InlineField label={'Entity'} grow={true} labelWidth={firstLabelWidth}>
-          <Select
-            menuShouldPortal={true}
-            value={entity.current}
-            options={entity.options}
-            onChange={this.onEntityIdChange}
-            isClearable={isClearable}
-            allowCustomValue={true}
-            onCreateOption={this.onEntityIdTextChange}
-            formatCreateLabel={(v) => `EntityID: ${v}`}
-            isLoading={this.state.workspaceLoading}
-          />
-        </InlineField>
-      </InlineFieldRow>
+      <>
+        {this.newFormStylingEnabled ? (
+          <EditorField label={'Entity'} className="width-15">
+            <Select
+              menuShouldPortal={true}
+              value={entity.current}
+              options={entity.options}
+              onChange={this.onEntityIdChange}
+              isClearable={isClearable}
+              allowCustomValue={true}
+              onCreateOption={this.onEntityIdTextChange}
+              formatCreateLabel={(v) => `EntityID: ${v}`}
+              isLoading={this.state.workspaceLoading}
+            />
+          </EditorField>
+        ) : (
+          <InlineFieldRow key="entity-selector">
+            <InlineField label={'Entity'} grow={true} labelWidth={firstLabelWidth}>
+              <Select
+                menuShouldPortal={true}
+                value={entity.current}
+                options={entity.options}
+                onChange={this.onEntityIdChange}
+                isClearable={isClearable}
+                allowCustomValue={true}
+                onCreateOption={this.onEntityIdTextChange}
+                formatCreateLabel={(v) => `EntityID: ${v}`}
+                isLoading={this.state.workspaceLoading}
+              />
+            </InlineField>
+          </InlineFieldRow>
+        )}
+      </>
     );
   }
 
@@ -339,23 +364,47 @@ export class QueryEditor extends PureComponent<Props, State> {
       }
     }
     return (
-      <InlineFieldRow key="component-type">
-        <InlineField label={'Component Type'} grow={true} labelWidth={firstLabelWidth}>
-          <Select
-            menuShouldPortal={true}
-            value={compType.current}
-            options={compType.options}
-            onChange={this.onComponentTypeIdChange}
-            isClearable={true}
-            isLoading={this.state.workspaceLoading}
-            allowCustomValue={true}
-            onCreateOption={this.onComponentTypeIdTextChange}
-            formatCreateLabel={(v) => `Component Type: ${v}`}
-            placeholder={placeholder}
-          />
-        </InlineField>
-        {isStreaming && this.renderStreamingInputs(query)}
-      </InlineFieldRow>
+      <>
+        {this.newFormStylingEnabled ? (
+          <EditorRow>
+            <EditorFieldGroup>
+              <EditorField label={'Component Type'}>
+                <Select
+                  menuShouldPortal={true}
+                  value={compType.current}
+                  options={compType.options}
+                  onChange={this.onComponentTypeIdChange}
+                  isClearable={true}
+                  isLoading={this.state.workspaceLoading}
+                  allowCustomValue={true}
+                  onCreateOption={this.onComponentTypeIdTextChange}
+                  formatCreateLabel={(v) => `Component Type: ${v}`}
+                  placeholder={placeholder}
+                />
+              </EditorField>
+              {/* {isStreaming && this.renderStreamingInputs(query)} */}
+            </EditorFieldGroup>
+          </EditorRow>
+        ) : (
+          <InlineFieldRow key="component-type">
+            <InlineField label={'Component Type'} grow={true} labelWidth={firstLabelWidth}>
+              <Select
+                menuShouldPortal={true}
+                value={compType.current}
+                options={compType.options}
+                onChange={this.onComponentTypeIdChange}
+                isClearable={true}
+                isLoading={this.state.workspaceLoading}
+                allowCustomValue={true}
+                onCreateOption={this.onComponentTypeIdTextChange}
+                formatCreateLabel={(v) => `Component Type: ${v}`}
+                placeholder={placeholder}
+              />
+            </InlineField>
+            {isStreaming && this.renderStreamingInputs(query)}
+          </InlineFieldRow>
+        )}
+      </>
     );
   }
 
@@ -366,22 +415,40 @@ export class QueryEditor extends PureComponent<Props, State> {
     isStreaming?: boolean
   ) {
     return (
-      <InlineFieldRow>
-        <InlineField label={'Component Name'} grow={true} labelWidth={firstLabelWidth}>
-          <Select
-            menuShouldPortal={true}
-            value={compName.current}
-            options={compName.options}
-            onChange={this.onComponentNameChange}
-            isClearable={isClearable}
-            isLoading={this.state.workspaceLoading}
-            allowCustomValue={true}
-            onCreateOption={this.onComponentNameTextChange}
-            formatCreateLabel={(v) => `Component Name: ${v}`}
-          />
-        </InlineField>
-        {isStreaming && this.renderStreamingInputs(query)}
-      </InlineFieldRow>
+      <>
+        {this.newFormStylingEnabled ? (
+          <EditorField label={'Component Name'} className="width-15">
+            <Select
+              menuShouldPortal={true}
+              value={compName.current}
+              options={compName.options}
+              onChange={this.onComponentNameChange}
+              isClearable={isClearable}
+              isLoading={this.state.workspaceLoading}
+              allowCustomValue={true}
+              onCreateOption={this.onComponentNameTextChange}
+              formatCreateLabel={(v) => `Component Name: ${v}`}
+            />
+          </EditorField>
+        ) : (
+          <InlineFieldRow>
+            <InlineField label={'Component Name'} grow={true} labelWidth={firstLabelWidth}>
+              <Select
+                menuShouldPortal={true}
+                value={compName.current}
+                options={compName.options}
+                onChange={this.onComponentNameChange}
+                isClearable={isClearable}
+                isLoading={this.state.workspaceLoading}
+                allowCustomValue={true}
+                onCreateOption={this.onComponentNameTextChange}
+                formatCreateLabel={(v) => `Component Name: ${v}`}
+              />
+            </InlineField>
+            {isStreaming && this.renderStreamingInputs(query)}
+          </InlineFieldRow>
+        )}
+      </>
     );
   }
 
@@ -407,18 +474,36 @@ export class QueryEditor extends PureComponent<Props, State> {
     const current = query.filter?.length ? query.filter[0].value.stringValue : undefined;
     const filter = getSelectionInfo(current, alarmStatuses);
     return (
-      <InlineFieldRow>
-        <InlineField label={'Filter'} grow={true} labelWidth={firstLabelWidth}>
-          <Select
-            menuShouldPortal={true}
-            value={filter.current}
-            options={filter.options}
-            onChange={this.onAlarmFilterChange}
-            isClearable={isClearable}
-          />
-        </InlineField>
-        {this.renderStreamingInputs(query)}
-      </InlineFieldRow>
+      <>
+        {this.newFormStylingEnabled ? (
+          <EditorRow>
+            <EditorFieldGroup>
+              <EditorField label={'Filter'}>
+                <Select
+                  menuShouldPortal={true}
+                  value={filter.current}
+                  options={filter.options}
+                  onChange={this.onAlarmFilterChange}
+                  isClearable={isClearable}
+                />
+              </EditorField>
+            </EditorFieldGroup>
+          </EditorRow>
+        ) : (
+          <InlineFieldRow>
+            <InlineField label={'Filter'} grow={true} labelWidth={firstLabelWidth}>
+              <Select
+                menuShouldPortal={true}
+                value={filter.current}
+                options={filter.options}
+                onChange={this.onAlarmFilterChange}
+                isClearable={isClearable}
+              />
+            </InlineField>
+            {this.renderStreamingInputs(query)}
+          </InlineFieldRow>
+        )}
+      </>
     );
   }
 
@@ -430,49 +515,89 @@ export class QueryEditor extends PureComponent<Props, State> {
     const FVM = FieldValidationMessage as any;
     return (
       <>
-        <InlineField label="Stream" tooltip="Polling data in an interval">
-          <InlineSwitch value={Boolean(query.isStreaming)} onChange={this.onToggleStream} />
-        </InlineField>
-        <InlineField
-          label="Interval"
-          tooltip="Set an interval in seconds to stream data, min 5s, default 30s"
-          disabled={!query.isStreaming}
-          invalid={this.state.invalidInterval}
-        >
+        {this.newFormStylingEnabled ? (
           <>
-            <BlurTextInput
-              width={8}
-              placeholder="30"
-              value={query.intervalStreaming ?? ''}
-              onChange={this.onIntervalChange}
-              numeric={true}
-            />
-            {this.state.invalidInterval && <FVM>Interval must be at least 5s</FVM>}
+            <EditorField
+              label="Stream"
+              tooltip="Polling data in an interval"
+              error={this.state.invalidInterval && 'Interval must be at least 5s'}
+              width={10}
+            >
+              <Switch value={Boolean(query.isStreaming)} onChange={this.onToggleStream} />
+            </EditorField>
+            <EditorField label="Interval" width={5}>
+              <BlurTextInput
+                placeholder="30"
+                value={query.intervalStreaming ?? ''}
+                onChange={this.onIntervalChange}
+                numeric={true}
+              />
+            </EditorField>
           </>
-        </InlineField>
+        ) : (
+          <>
+            <InlineField label="Stream" tooltip="Polling data in an interval">
+              <InlineSwitch value={Boolean(query.isStreaming)} onChange={this.onToggleStream} />
+            </InlineField>
+            <InlineField
+              label="Interval"
+              tooltip="Set an interval in seconds to stream data, min 5s, default 30s"
+              disabled={!query.isStreaming}
+              invalid={this.state.invalidInterval}
+            >
+              <>
+                <BlurTextInput
+                  width={8}
+                  placeholder="30"
+                  value={query.intervalStreaming ?? ''}
+                  onChange={this.onIntervalChange}
+                  numeric={true}
+                />
+                {this.state.invalidInterval && <FVM>Interval must be at least 5s</FVM>}
+              </>
+            </InlineField>
+          </>
+        )}
       </>
     );
   }
 
   renderAlarmMaxResultsInput(query: TwinMakerQuery) {
     return (
-      <InlineFieldRow>
-        <InlineField
-          label={'Max. Alarms'}
-          grow={true}
-          labelWidth={firstLabelWidth}
-          tooltip="Leave this field blank to return all results"
-        >
-          <Input
-            className="width-15"
-            value={query.maxResults && query.maxResults > 0 ? query.maxResults : ''}
-            type="number"
-            onChange={this.onMaxResultsChange}
-            placeholder="50"
-            min="1"
-          />
-        </InlineField>
-      </InlineFieldRow>
+      <>
+        {this.newFormStylingEnabled ? (
+          <EditorFieldGroup>
+            <EditorField label={'Max. Alarms'} tooltip="Leave this field blank to return all results">
+              <Input
+                className="width-15"
+                value={query.maxResults && query.maxResults > 0 ? query.maxResults : ''}
+                type="number"
+                onChange={this.onMaxResultsChange}
+                placeholder="50"
+                min="1"
+              />
+            </EditorField>
+          </EditorFieldGroup>
+        ) : (
+          <InlineFieldRow>
+            <InlineField
+              label={'Max. Alarms'}
+              grow={true}
+              labelWidth={firstLabelWidth}
+              tooltip="Leave this field blank to return all results"
+            >
+              <Input
+                className="width-15"
+                value={query.maxResults && query.maxResults > 0 ? query.maxResults : ''}
+                type="number"
+                onChange={this.onMaxResultsChange}
+                placeholder="50"
+                min="1"
+              />
+            </InlineField>
+          </InlineFieldRow>
+        )}
+      </>
     );
   }
 
@@ -502,21 +627,39 @@ export class QueryEditor extends PureComponent<Props, State> {
   renderPropsSelector(query: TwinMakerQuery, propOpts?: Array<SelectableValue<string>>, isLoading?: boolean) {
     const properties = this.getPropertiesMultiSelectionInfo(query, propOpts);
     return (
-      <InlineFieldRow>
-        <InlineField label={'Selected Properties'} grow={true} labelWidth={firstLabelWidth}>
-          <MultiSelect
-            menuShouldPortal={true}
-            value={properties.current}
-            options={properties.options}
-            onChange={this.onPropertiesSelected}
-            isLoading={isLoading}
-            allowCustomValue={true}
-            onCreateOption={this.onCustomPropertyAdded}
-            formatCreateLabel={(v) => `Property: ${v}`}
-            placeholder="Type or select properties"
-          />
-        </InlineField>
-      </InlineFieldRow>
+      <>
+        {this.newFormStylingEnabled ? (
+          <EditorField label={'Selected Properties'} width={20}>
+            <MultiSelect
+              menuShouldPortal={true}
+              value={properties.current}
+              options={properties.options}
+              onChange={this.onPropertiesSelected}
+              isLoading={isLoading}
+              allowCustomValue={true}
+              onCreateOption={this.onCustomPropertyAdded}
+              formatCreateLabel={(v) => `Property: ${v}`}
+              placeholder="Type or select properties"
+            />
+          </EditorField>
+        ) : (
+          <InlineFieldRow>
+            <InlineField label={'Selected Properties'} grow={true} labelWidth={firstLabelWidth}>
+              <MultiSelect
+                menuShouldPortal={true}
+                value={properties.current}
+                options={properties.options}
+                onChange={this.onPropertiesSelected}
+                isLoading={isLoading}
+                allowCustomValue={true}
+                onCreateOption={this.onCustomPropertyAdded}
+                formatCreateLabel={(v) => `Property: ${v}`}
+                placeholder="Type or select properties"
+              />
+            </InlineField>
+          </InlineFieldRow>
+        )}
+      </>
     );
   }
 
@@ -562,6 +705,52 @@ export class QueryEditor extends PureComponent<Props, State> {
     onChange(this.changeFilter(query, filters, isTabularCondition));
   };
 
+  renderOptions(query: TwinMakerQuery, propOpts?: Array<SelectableValue<string>>) {
+    const collapseStyles = {
+      collapse: css({
+        alignItems: 'flex-start',
+      }),
+      collapseRow: css({
+        display: 'flex',
+        flexDirection: 'column',
+        '>div': {
+          alignItems: 'baseline',
+          justifyContent: 'flex-end',
+        },
+        '*[id^="collapse-content-"]': {
+          padding: 'unset',
+        },
+      }),
+      collapseItem: css({
+        marginRight: 8
+      })
+    };
+    const sortable =
+      query.queryType === TwinMakerQueryType.ComponentHistory || query.queryType === TwinMakerQueryType.EntityHistory;
+    return (
+      <div className={collapseStyles.collapseRow}>
+        <CollapsableSection className={collapseStyles.collapse} label={<h6>Options</h6>} isOpen={false}>
+          <div style={{ display: 'flex' }}>
+            {sortable && (
+              <EditorField label="Order" className={collapseStyles.collapseItem}>
+                <Select
+                  menuShouldPortal={true}
+                  options={twinMakerOrderOptions}
+                  value={twinMakerOrderOptions.find((v) => v.value === query.order)}
+                  onChange={this.onOrderChange}
+                  placeholder="default"
+                  isClearable
+                  // width={12}
+                />
+              </EditorField>
+            )}
+            {this.renderStreamingInputs(query)}
+          </div>
+        </CollapsableSection>
+      </div>
+    );
+  }
+
   renderPropsFilterSelector(
     query: TwinMakerQuery,
     propOpts?: Array<SelectableValue<string>>,
@@ -569,6 +758,7 @@ export class QueryEditor extends PureComponent<Props, State> {
   ) {
     let filters = isTabularCondition ? query.tabularConditions?.propertyFilter : query.filter;
     filters = filters ?? [];
+
     if (!filters.length) {
       filters = [{ name: '', op: DEFAULT_PROPERTY_FILTER_OPERATOR, value: {} }];
     }
@@ -582,6 +772,7 @@ export class QueryEditor extends PureComponent<Props, State> {
         onAdd={this.onAddFilter(isTabularCondition)}
         onChange={this.onFilterChanged}
         isTabularCondition={isTabularCondition}
+        newFormStylingEnabled={this.newFormStylingEnabled}
       />
     );
   }
@@ -661,21 +852,44 @@ export class QueryEditor extends PureComponent<Props, State> {
 
   renderPropGroupSelector(propertyGroupName: string | undefined, propGroups?: SelectablePropGroupsInfo[]) {
     return (
-      <InlineFieldRow>
-        <InlineField label={'Property Group'} grow={true} labelWidth={firstLabelWidth}>
-          <Select
-            menuShouldPortal={true}
-            value={propertyGroupName}
-            options={propGroups}
-            onChange={this.onPropertyGroupChange}
-            isClearable={true}
-            isLoading={this.state.workspaceLoading}
-            allowCustomValue={true}
-            onCreateOption={this.onPropertyGroupTextChange}
-            formatCreateLabel={(v) => `Property Group: ${v}`}
-          />
-        </InlineField>
-      </InlineFieldRow>
+      <>
+        {this.newFormStylingEnabled ? (
+          <EditorRow>
+            <EditorField
+              label="Property Group"
+              // labelWidth={firstLabelWidth}
+            >
+              <Select
+                menuShouldPortal={true}
+                value={propertyGroupName}
+                options={propGroups}
+                onChange={this.onPropertyGroupChange}
+                isClearable={true}
+                isLoading={this.state.workspaceLoading}
+                allowCustomValue={true}
+                onCreateOption={this.onPropertyGroupTextChange}
+                formatCreateLabel={(v) => `Property Group: ${v}`}
+              />
+            </EditorField>
+          </EditorRow>
+        ) : (
+          <InlineFieldRow>
+            <InlineField label={'Property Group'} grow={true} labelWidth={firstLabelWidth}>
+              <Select
+                menuShouldPortal={true}
+                value={propertyGroupName}
+                options={propGroups}
+                onChange={this.onPropertyGroupChange}
+                isClearable={true}
+                isLoading={this.state.workspaceLoading}
+                allowCustomValue={true}
+                onCreateOption={this.onPropertyGroupTextChange}
+                formatCreateLabel={(v) => `Property Group: ${v}`}
+              />
+            </InlineField>
+          </InlineFieldRow>
+        )}
+      </>
     );
   }
 
@@ -694,35 +908,76 @@ export class QueryEditor extends PureComponent<Props, State> {
       const compName = getSelectionInfo(query.componentName, this.state.entity, this.state.templateVars);
       return (
         <>
-          <InlineFieldRow>
-            <InlineField label={'Panel'} labelWidth={firstLabelWidth} grow={true}>
-              <Select
-                menuShouldPortal={true}
-                value={panelSel.current}
-                options={panelSel.options}
-                onChange={this.onPanelChange}
-                isClearable={true}
-                placeholder={`Select TwinMaker panel`}
-              />
-            </InlineField>
-            <InlineField label={'Topic'}>
-              <Select
-                menuShouldPortal={true}
-                value={topicSel.current}
-                options={topicSel.options}
-                onChange={this.onPanelTopicChange}
-                width={16}
-              />
-            </InlineField>
-          </InlineFieldRow>
-          {panelSel.current?.showPartialQuery ||
-            (query.topic === TwinMakerPanelTopic.SelectedItem && (
-              <>
-                {this.renderEntitySelector(query, true)}
-                {this.renderComponentNameSelector(query, compName, true)}
-                {this.renderPropsSelector(query, this.state.workspace?.properties, this.state.workspaceLoading)}
-              </>
-            ))}
+          {this.newFormStylingEnabled ? (
+            <>
+              <EditorRow>
+                <EditorField
+                  label="Panel"
+                  // labelWidth={firstLabelWidth}
+                >
+                  <Select
+                    menuShouldPortal={true}
+                    value={panelSel.current}
+                    options={panelSel.options}
+                    onChange={this.onPanelChange}
+                    isClearable={true}
+                    placeholder={`Select TwinMaker panel`}
+                  />
+                </EditorField>
+                <EditorField label={'Topic'}>
+                  <Select
+                    menuShouldPortal={true}
+                    value={topicSel.current}
+                    options={topicSel.options}
+                    onChange={this.onPanelTopicChange}
+                    width={16}
+                  />
+                </EditorField>
+              </EditorRow>
+              {panelSel.current?.showPartialQuery ||
+                (query.topic === TwinMakerPanelTopic.SelectedItem && (
+                  <EditorRow>
+                    <EditorFieldGroup>
+                      {this.renderEntitySelector(query, true)}
+                      {this.renderComponentNameSelector(query, compName, true)}
+                      {this.renderPropsSelector(query, this.state.workspace?.properties, this.state.workspaceLoading)}
+                    </EditorFieldGroup>
+                  </EditorRow>
+                ))}
+            </>
+          ) : (
+            <>
+              <InlineFieldRow>
+                <InlineField label={'Panel'} labelWidth={firstLabelWidth} grow={true}>
+                  <Select
+                    menuShouldPortal={true}
+                    value={panelSel.current}
+                    options={panelSel.options}
+                    onChange={this.onPanelChange}
+                    isClearable={true}
+                    placeholder={`Select TwinMaker panel`}
+                  />
+                </InlineField>
+                <InlineField label={'Topic'}>
+                  <Select
+                    menuShouldPortal={true}
+                    value={topicSel.current}
+                    options={topicSel.options}
+                    onChange={this.onPanelTopicChange}
+                    width={16}
+                  />
+                </InlineField>
+              </InlineFieldRow>
+              {panelSel.current?.showPartialQuery ||
+                (query.topic === TwinMakerPanelTopic.SelectedItem && (
+                  <>
+                    {this.renderEntitySelector(query, true)}
+                    {this.renderComponentNameSelector(query, compName, true)}
+                    {this.renderPropsSelector(query, this.state.workspace?.properties, this.state.workspaceLoading)}
+                  </>
+                ))}
+            </>
+          )}
         </>
       );
     }
@@ -774,7 +1029,19 @@ export class QueryEditor extends PureComponent<Props, State> {
       case TwinMakerQueryType.EntityHistory: {
         const compName = getSelectionInfo(query.componentName, entityInfo, this.state.templateVars);
         const propOpts = resolvePropsFromComponentSel(compName, ComponentFieldName.timeSeries, entityInfo);
-        return (
+        return this.newFormStylingEnabled ? (
+          <>
+            <EditorRow>
+              <EditorFieldGroup>
+                {this.renderEntitySelector(query, true)}
+                {this.renderComponentNameSelector(query, compName, true, true)}
+                {this.renderPropsSelector(query, propOpts)}
+              </EditorFieldGroup>
+            </EditorRow>
+            <EditorRow>{this.renderPropsFilterSelector(query, propOpts)}</EditorRow>
+            <EditorRow>{this.renderOptions(query, propOpts)}</EditorRow>
+          </>
+        ) : (
           <>
             {this.renderEntitySelector(query, true)}
             {this.renderComponentNameSelector(query, compName, true, true)}
@@ -819,31 +1086,52 @@ export class QueryEditor extends PureComponent<Props, State> {
 
     return (
       <div className={'gf-form-group'}>
-        <InlineFieldRow>
-          <InlineField label="Query Type" labelWidth={firstLabelWidth} grow={true} tooltip={queryTooltip}>
-            <Select
-              menuShouldPortal={true}
-              options={twinMakerQueryTypes}
-              value={currentQueryType}
-              onChange={this.onQueryTypeChange}
-              placeholder="Select query type"
-              menuPlacement="bottom"
-            />
-          </InlineField>
-          {sortable && (
-            <InlineField label="Order">
+        {this.newFormStylingEnabled ? (
+          <EditorRows>
+            <EditorRow>
+              <EditorField
+                label="Query Type"
+                // labelWidth={firstLabelWidth}
+                tooltip={queryTooltip}
+              >
+                <Select
+                  menuShouldPortal={true}
+                  options={twinMakerQueryTypes}
+                  value={currentQueryType}
+                  onChange={this.onQueryTypeChange}
+                  placeholder="Select query type"
+                  menuPlacement="bottom"
+                />
+              </EditorField>
+            </EditorRow>
+          </EditorRows>
+        ) : (
+          <InlineFieldRow>
+            <InlineField label="Query Type" labelWidth={firstLabelWidth} grow={true} tooltip={queryTooltip}>
               <Select
                 menuShouldPortal={true}
-                options={twinMakerOrderOptions}
-                value={twinMakerOrderOptions.find((v) => v.value === query.order)}
-                onChange={this.onOrderChange}
-                placeholder="default"
-                isClearable
-                width={12}
+                options={twinMakerQueryTypes}
+                value={currentQueryType}
+                onChange={this.onQueryTypeChange}
+                placeholder="Select query type"
+                menuPlacement="bottom"
               />
             </InlineField>
-          )}
-        </InlineFieldRow>
+            {sortable && (
+              <InlineField label="Order">
+                <Select
+                  menuShouldPortal={true}
+                  options={twinMakerOrderOptions}
+                  value={twinMakerOrderOptions.find((v) => v.value === query.order)}
+                  onChange={this.onOrderChange}
+                  placeholder="default"
+                  isClearable
+                  width={12}
+                />
+              </InlineField>
+            )}
+          </InlineFieldRow>
+        )}
 
         {this.renderQuery(query)}
       </div>

@@ -4404,6 +4404,15 @@
     "@types/uuid" "^8.3.3"
     uuid "^8.3.2"
 
+"@grafana/experimental@^1.7.3":
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/@grafana/experimental/-/experimental-1.7.3.tgz#a07399fda8dc602bffe85bb57b8a7ae209a5ee92"
+  integrity sha512-Un9L8KNQTkTYyNKAJAr0rOG/MjjgS6/oD5eY4p3VWlKiUe89K2JNXTMH3Bbj4oMTU8EC+x8tEcAohbVjUPqIcw==
+  dependencies:
+    "@types/uuid" "^8.3.3"
+    semver "^7.5.4"
+    uuid "^8.3.2"
+
 "@grafana/faro-core@^1.0.2":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@grafana/faro-core/-/faro-core-1.1.4.tgz#45c2ea7a64db38f4efcdcda73b61b98f05cf039f"
