@@ -1,6 +1,9 @@
 import { SelectableValue } from '@grafana/data';
 
 export const standardRegions = [
+  'ap-south-1',
+  'ap-northeast-1',
+  'ap-northeast-2',
   'ap-southeast-1',
   'ap-southeast-2',
   'eu-central-1',
