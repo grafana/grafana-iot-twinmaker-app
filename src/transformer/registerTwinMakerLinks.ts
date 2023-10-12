@@ -95,7 +95,7 @@ export function applyTwinMakerLinks(
       values: new ArrayVector(selection),
       type: FieldType.string,
       config: {
-        custom: { displayMode: TableCellDisplayMode.Image, width: 1, align: 'center' },
+        custom: { cellOptions: { type: TableCellDisplayMode.Image}, width: 1, align: 'center' } ,
       },
     });
   }
