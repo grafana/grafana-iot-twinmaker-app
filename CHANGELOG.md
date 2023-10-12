@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.0
+
+- Support for new regions ap-south-1 (BOM), ap-northeast-1 (NRT), & ap-northeast-2 (ICN) in datasource
+- Fix to allow custom cell types to display images
+
 ## 1.8.1
 
 - Wrap QueryEditor panel plugin in CustomScrollbar to fix scrolling behavior in [#223](https://github.com/grafana/grafana-iot-twinmaker-app/pull/223)
