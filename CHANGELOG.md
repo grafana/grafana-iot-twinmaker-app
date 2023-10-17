@@ -4,6 +4,7 @@
 
 - Support for new regions ap-south-1 (BOM), ap-northeast-1 (NRT), & ap-northeast-2 (ICN) in datasource
 - Fix to allow custom cell types to display images
+- Fix to load a scene with Matterport space in the scene viewer
 
 ## 1.8.1
 
