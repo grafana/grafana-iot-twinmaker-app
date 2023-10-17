@@ -5031,15 +5031,15 @@
   resolved "https://registry.yarnpkg.com/@mapbox/unitbezier/-/unitbezier-0.0.0.tgz#15651bd553a67b8581fb398810c98ad86a34524e"
   integrity sha512-HPnRdYO0WjFjRTSwO3frz1wKaU649OBFPX3Zo/2WZvuRi6zMiRGui8SnPQiQABgqCf8YikDe5t3HViTVw1WUzA==
 
-"@matterport/r3f@^0.2.6":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@matterport/r3f/-/r3f-0.2.7.tgz#05acf38987d6fb02fc9004f17d11fe4d2db485ad"
-  integrity sha512-vw8dJNvYq3DvCff+bk5USvVDtObbJShsTSc7leo5FpG5/9BLejZ4quGbhIDxG9ndQhQe2th2boTfUCv4OxdU7A==
+"@matterport/r3f@0.2.6", "@matterport/r3f@^0.2.6":
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/@matterport/r3f/-/r3f-0.2.6.tgz#eebf5dc70e6cd5513c25c8614d74ab79ec0d5edb"
+  integrity sha512-IdRCwGzJLlCvu/IO8uiEFh63roa5Dthba7Fu86KeaqCgMUyILrdx2sW8xs8u60rzHAE1QMV2n9XiTmijdqF6bQ==
 
-"@matterport/webcomponent@^0.1.26":
-  version "0.1.30"
-  resolved "https://registry.yarnpkg.com/@matterport/webcomponent/-/webcomponent-0.1.30.tgz#a39702e8cabddaa7e595f794e4303e27894f6464"
-  integrity sha512-MDbG9kn01kQFaREpLGoGGWjtf3QlNhH5mYKnUBrJc2cQOPnUYAEa8T/Rbv/Wvq7C5+A3NgcbemkIUNjKLBYTng==
+"@matterport/webcomponent@0.1.26", "@matterport/webcomponent@^0.1.26":
+  version "0.1.26"
+  resolved "https://registry.yarnpkg.com/@matterport/webcomponent/-/webcomponent-0.1.26.tgz#550f3dc64e16d70f0716aa37c8a558c6facc4a5e"
+  integrity sha512-W9oHhQx4kdycNbEeo+KYnrrz+tHwgC8kiV/sTWPZspXvI4+Yje2upTKB1N414NvZViaWP2kgb4hKZyYDNNGtPQ==
   dependencies:
     lit "^2.4.1"
 
