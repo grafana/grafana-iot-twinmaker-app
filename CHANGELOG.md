@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.1
+
+- Support for custom style for tags in the Scene Viewer panel
+- Other minor bug fixes in the Scene Viewer panel
+
 ## 1.9.0
 
 - Support for new regions ap-south-1 (BOM), ap-northeast-1 (NRT), & ap-northeast-2 (ICN) in datasource
