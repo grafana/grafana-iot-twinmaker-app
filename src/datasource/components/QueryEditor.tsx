@@ -986,7 +986,6 @@ export class QueryEditor extends PureComponent<Props, State> {
     }
     const compType = getSelectionInfo(query.componentTypeId, this.state.workspace?.components, this.state.templateVars);
     const { entity: entityInfo } = this.state;
-    console.log('state: ', this.state);
     switch (query.queryType) {
       case TwinMakerQueryType.ListWorkspace:
       case TwinMakerQueryType.ListScenes:
@@ -1136,7 +1135,6 @@ export class QueryEditor extends PureComponent<Props, State> {
 
     const sortable =
       query.queryType === TwinMakerQueryType.ComponentHistory || query.queryType === TwinMakerQueryType.EntityHistory;
-    console.log('1144');
 
     return (
       <div>

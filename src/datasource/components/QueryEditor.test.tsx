@@ -24,14 +24,11 @@ const instanceSettings: DataSourceInstanceSettings<TwinMakerDataSourceOptions> =
   withCredentials: false,
   meta: {} as any,
 };
-// jest.mock('common/datasourceSrv', () => ({
-//   ...jest.requireActual('common/datasourceSrv'),
-//   getTwinMakerDatasource: jest.fn(() => ({
-//     info: {
-//       listWorkspaces: workspacesMock,
-//     },
-//   })),
-// }));
+const originalFormFeatureToggleValue = config.featureToggles.awsDatasourcesNewFormStyling;
+const cleanup = () => {
+  config.featureToggles.awsDatasourcesNewFormStyling = originalFormFeatureToggleValue;
+};
+
 Promise.resolve([{ value: 'test1', label: 'test1' }]);
 jest.mock('common/info/info', () => ({
   ...jest.requireActual('common/info/info'),
@@ -41,7 +38,6 @@ jest.mock('common/info/info', () => ({
     listScenes: () => jest.fn(),
     getWorkspaceInfo: () => jest.fn(),
     getEntityInfo: (): SelectableComponentInfo => {
-      console.log('mock');
       return Promise.resolve([
         {
           value: 'mockEntity',
@@ -87,52 +83,72 @@ const defaultProps = {
 };
 
 describe('QueryEditor', () => {
-  it.each([
-    [TwinMakerQueryType.GetAlarms, ['Filter', 'Max. Alarms', 'Interval', 'Stream'], {}, true],
-    [TwinMakerQueryType.ListEntities, ['Component Type'], { isStreaming: true }, false],
-    [TwinMakerQueryType.GetEntity, ['Entity'], {}, false],
+  function run() {
+    it.each([
+      [TwinMakerQueryType.GetAlarms, ['Filter', 'Max. Alarms', 'Interval', 'Stream'], {}, true],
+      [TwinMakerQueryType.ListEntities, ['Component Type'], { isStreaming: true }, false],
+      [TwinMakerQueryType.GetEntity, ['Entity'], {}, false],
 
-    [
-      TwinMakerQueryType.GetPropertyValue,
-      ['Entity', 'Component Name', 'Selected Properties', 'Filters', 'Order By'],
-      { isStreaming: true, componentName: 'mockEntity', entityId: 'mockEntity', propertyGroupName: 'propGroup1' },
-      false,
-    ],
-    [
-      TwinMakerQueryType.EntityHistory,
-      ['Entity', 'Component Name', 'Selected Properties', 'Filter', 'Interval', 'Stream', 'Order'],
-      {},
-      true,
-    ],
-    [
-      TwinMakerQueryType.ComponentHistory,
-      ['Component Type', 'Selected Properties', 'Filter', 'Interval', 'Stream', 'Order'],
-      {},
-      true,
-    ],
-  ])(
-    'Renders all necessary fields when Twinmaker Query Type is %s',
-    async (type, expected, queryOptions, renderOptions) => {
-      const props = {
-        ...defaultProps,
-        query: {
-          ...defaultProps.query,
-          ...queryOptions,
-          queryType: type,
-          grafanLiveEnabled: true,
-        },
-      };
-      render(<QueryEditor {...props} />);
-      for (const field of expected) {
-        // if newFormStyling is enabled, the Format section is hidden under a Collapse
-        // @ts-ignore
-        if (renderOptions && config.featureToggles.awsDatasourcesNewFormStyling) {
-          await openFormatCollapse();
+      [
+        TwinMakerQueryType.GetPropertyValue,
+        ['Entity', 'Component Name', 'Selected Properties', 'Filter', 'Order By'],
+        { isStreaming: true, componentName: 'mockEntity', entityId: 'mockEntity', propertyGroupName: 'propGroup1' },
+        false,
+      ],
+      [
+        TwinMakerQueryType.EntityHistory,
+        ['Entity', 'Component Name', 'Selected Properties', 'Filter', 'Interval', 'Stream', 'Order'],
+        {},
+        true,
+      ],
+      [
+        TwinMakerQueryType.ComponentHistory,
+        ['Component Type', 'Selected Properties', 'Filter', 'Interval', 'Stream', 'Order'],
+        {},
+        true,
+      ],
+    ])(
+      'Renders all necessary fields when Twinmaker Query Type is %s',
+      async (type, expected, queryOptions, renderOptions) => {
+        const props = {
+          ...defaultProps,
+          query: {
+            ...defaultProps.query,
+            ...queryOptions,
+            queryType: type,
+            grafanLiveEnabled: true,
+          },
+        };
+        render(<QueryEditor {...props} />);
+        for (const field of expected) {
+          // if newFormStyling is enabled, the Format section is hidden under a Collapse
+          // @ts-ignore
+          if (renderOptions && config.featureToggles.awsDatasourcesNewFormStyling) {
+            await openFormatCollapse();
+          }
+          await waitFor(() => screen.getByText(field));
         }
-        await waitFor(() => screen.getByText(field));
       }
-    }
-  );
+    );
+  }
+  describe('QueryEditor with awsDatasourcesNewFormStyling feature toggle disabled', () => {
+    beforeAll(() => {
+      config.featureToggles.awsDatasourcesNewFormStyling = false;
+    });
+    afterAll(() => {
+      cleanup();
+    });
+    run();
+  });
+  describe('QueryEditor with awsDatasourcesNewFormStyling feature toggle enabled', () => {
+    beforeAll(() => {
+      config.featureToggles.awsDatasourcesNewFormStyling = true;
+    });
+    afterAll(() => {
+      cleanup();
+    });
+    run();
+  });
 });
 async function openFormatCollapse() {
   const collapseLabel = await screen.findByTestId('collapse-title');
