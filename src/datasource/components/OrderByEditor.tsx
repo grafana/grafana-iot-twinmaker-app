@@ -4,7 +4,7 @@ import { TwinMakerOrderBy, TwinMakerResultOrder } from 'common/manager';
 import { firstLabelWidth } from '.';
 import { SelectableValue } from '@grafana/data';
 import { twinMakerOrderOptions } from 'datasource/queryInfo';
-import { EditorField, EditorFieldGroup, EditorRow } from '@grafana/experimental';
+import { EditorField, EditorFieldGroup } from '@grafana/experimental';
 
 export interface OrderByEditorProps {
   orderBy: TwinMakerOrderBy[];
@@ -32,8 +32,7 @@ export default function OrderByEditor(props: OrderByEditorProps) {
             {orderBy.map((o, index) => (
               <EditorField
                 key={`${index}/${o.propertyName}`}
-                label={'OrderBy'}
-                // labelWidth={firstLabelWidth}
+                label="Order By"
                 tooltip="enter the order of property values"
               >
                 <>
@@ -73,7 +72,7 @@ export default function OrderByEditor(props: OrderByEditorProps) {
           {orderBy.map((o, index) => (
             <InlineField
               key={`${index}/${o.propertyName}`}
-              label={'OrderBy'}
+              label={'Order By'}
               grow={true}
               labelWidth={firstLabelWidth}
               tooltip="enter the order of property values"

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button, InlineField, InlineFieldRow, Select } from '@grafana/ui';
 import { DEFAULT_PROPERTY_FILTER_OPERATOR, TwinMakerFilterValue, TwinMakerPropertyFilter } from 'common/manager';
-import { firstLabelWidth } from '.';
+import { editorFieldStyles, firstLabelWidth } from '.';
 import { BlurTextInput } from './BlurTextInput';
 import { SelectableValue } from '@grafana/data';
-import { EditorField, EditorFieldGroup, EditorRow } from '@grafana/experimental';
+import { EditorField, EditorFieldGroup } from '@grafana/experimental';
 import { css } from '@emotion/css';
 
 export interface FilterQueryEditorProps {
@@ -66,7 +66,7 @@ export default function FilterQueryEditor(props: FilterQueryEditorProps) {
   return props.newFormStylingEnabled ? (
     <EditorFieldGroup>
       {filters.map((f, index) => (
-        <EditorField key={`${index}/${f.name}`} label="Filter" tooltip="enter expressions to filter property values">
+        <EditorField key={`${index}/${f.name}`} label="Filters" tooltip="enter expressions to filter property values" className={editorFieldStyles}>
           <div style={{ display: 'flex' }}>
             <Select
               menuShouldPortal={true}

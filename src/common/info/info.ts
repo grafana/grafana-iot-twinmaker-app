@@ -57,7 +57,9 @@ export enum ComponentFieldName {
 }
 
 export function resolvePropGroups(compName: SelectionInfo<string>, entityInfo: SelectableComponentInfo[] | undefined) {
-  return entityInfo?.find((item) => item.value === compName.current?.value)?.propGroups ?? [];
+  const propGroups =  entityInfo?.find((item) => item.value === compName.current?.value)?.propGroups ?? [];
+  console.log('prop groups info.ts', propGroups)
+  return propGroups;
 }
 
 export function resolvePropsFromComponentSel(
