@@ -4404,7 +4404,7 @@
     "@types/uuid" "^8.3.3"
     uuid "^8.3.2"
 
-"@grafana/experimental@^1.7.3":
+"@grafana/experimental@1.7.3":
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/@grafana/experimental/-/experimental-1.7.3.tgz#a07399fda8dc602bffe85bb57b8a7ae209a5ee92"
   integrity sha512-Un9L8KNQTkTYyNKAJAr0rOG/MjjgS6/oD5eY4p3VWlKiUe89K2JNXTMH3Bbj4oMTU8EC+x8tEcAohbVjUPqIcw==
