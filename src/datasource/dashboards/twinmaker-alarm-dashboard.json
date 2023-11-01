@@ -296,7 +296,9 @@
             {
               "name": "alarm_status",
               "op": "=",
-              "value": "ACTIVE"
+              "value": {
+                "stringValue": "ACTIVE"
+              }
             }
           ],
           "order": "DESCENDING",
