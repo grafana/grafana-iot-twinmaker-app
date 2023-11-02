@@ -19,7 +19,7 @@ import (
 )
 
 // NewTwinMakerInstance creates a new datasource instance.
-func NewTwinMakerInstance(s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
+func NewTwinMakerInstance(ctx context.Context, s backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 	settings := models.TwinMakerDataSourceSetting{}
 	err := settings.Load(s)
 	if err != nil {
