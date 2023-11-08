@@ -96,8 +96,8 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const { getSceneNodeByRef, getSelectedSceneNodeRef } = useSceneComposerApi(id);
   const dataStreams = useMemo<DataStream[] | undefined>(() => {
     const streams =  props.data.series.flatMap((df) => mapDataFrame(df));
-    return isEmpty(streams) ? undefined : streams;
-  }, [props.data.series]);
+    return props.options.enableAutoQuery ? undefined : streams;
+  }, [props.data.series, props.options.enableAutoQuery]);
 
   const { search } = useLocation();
   const { replaceVariables } = props;

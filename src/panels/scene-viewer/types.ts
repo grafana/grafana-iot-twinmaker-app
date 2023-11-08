@@ -12,4 +12,6 @@ export interface PanelOptions {
   customSelCompVarName?: string;
   customSelPropertyVarName?: string;
   customInputActiveCamera?: string;
+
+  enableAutoQuery?: boolean;
 }

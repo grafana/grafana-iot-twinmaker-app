@@ -54,5 +54,11 @@ export const plugin = new PanelPlugin<PanelOptions>(ScenePanel)
         settings: {
           options: variables,
         },
-      });
+      })
+      .addBooleanSwitch({
+        path: 'enableAutoQuery',
+        name: 'Enable auto query',
+        description: 'By enabling auto query, the scene viewer panel can auto query all data bindings configured in the scene and ignore queries configured with the panel.',
+        defaultValue: false,
+      }); // should only add this option when AutoQuery feature is on
   });
