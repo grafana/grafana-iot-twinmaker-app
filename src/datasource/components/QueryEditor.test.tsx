@@ -179,10 +179,11 @@ describe('QueryEditor', () => {
           },
         };
         render(<QueryEditor {...props} />);
-        if (config.featureToggles.awsDatasourcesNewFormStyling) {
-          await openFormatCollapse();
-        }
-
+        waitFor(() => {
+          if (config.featureToggles.awsDatasourcesNewFormStyling) {
+            openFormatCollapse();
+          }
+        });
         for (const field of expected) {
           // if newFormStyling is enabled, the Format section is hidden under a Collapse
           await waitFor(() => screen.getByText(field));
