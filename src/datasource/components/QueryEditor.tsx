@@ -313,8 +313,10 @@ export class QueryEditor extends PureComponent<Props, State> {
     return (
       <>
         {this.newFormStylingEnabled ? (
-          <EditorField label="Entity" className={editorFieldStyles} width={30}>
+          <EditorField label="Entity" className={editorFieldStyles} width={30} htmlFor="entity">
             <Select
+              id="entity"
+              aria-label="Entity"
               width={30}
               menuShouldPortal={true}
               value={entity.current}
@@ -366,8 +368,10 @@ export class QueryEditor extends PureComponent<Props, State> {
     return (
       <>
         {this.newFormStylingEnabled ? (
-          <EditorField label="Component Type" className={editorFieldStyles} width={20}>
+          <EditorField label="Component Type" className={editorFieldStyles} width={20} htmlFor="component-type">
             <Select
+              id="component-type"
+              aria-label="Component Type"
               menuShouldPortal={true}
               value={compType.current}
               options={compType.options}
@@ -412,8 +416,10 @@ export class QueryEditor extends PureComponent<Props, State> {
     return (
       <>
         {this.newFormStylingEnabled ? (
-          <EditorField label="Component Name" width={15} className={editorFieldStyles}>
+          <EditorField label="Component Name" width={15} className={editorFieldStyles} htmlFor="component-name">
             <Select
+              id="component-name"
+              aria-label="Component Name"
               menuShouldPortal={true}
               value={compName.current}
               options={compName.options}
@@ -471,8 +477,10 @@ export class QueryEditor extends PureComponent<Props, State> {
     return (
       <>
         {this.newFormStylingEnabled ? (
-          <EditorField label="Filter" className={editorFieldStyles} width={20}>
+          <EditorField label="Filter" className={editorFieldStyles} width={20} htmlFor="filter">
             <Select
+              id="filter"
+              aria-label="filter"
               menuShouldPortal={true}
               value={filter.current}
               options={filter.options}
@@ -516,8 +524,9 @@ export class QueryEditor extends PureComponent<Props, State> {
             >
               <Switch value={Boolean(query.isStreaming)} onChange={this.onToggleStream} />
             </EditorField>
-            <EditorField label="Interval" width={5}>
+            <EditorField label="Interval" width={5} htmlFor="interval">
               <BlurTextInput
+                id="interval"
                 placeholder="30"
                 value={query.intervalStreaming ?? ''}
                 onChange={this.onIntervalChange}
@@ -623,8 +632,10 @@ export class QueryEditor extends PureComponent<Props, State> {
     return (
       <>
         {this.newFormStylingEnabled ? (
-          <EditorField label="Selected Properties" className={editorFieldStyles} width={20}>
+          <EditorField label="Selected Properties" className={editorFieldStyles} width={20} htmlFor="selected-props">
             <MultiSelect
+              id="selected-props"
+              aria-label="Selected Properties"
               menuShouldPortal={true}
               value={properties.current}
               options={properties.options}
@@ -744,12 +755,13 @@ export class QueryEditor extends PureComponent<Props, State> {
             {sortable && (
               <EditorField htmlFor="order" label="Order" className={editorFieldStyles} width={15} id="order-field">
                 <Select
+                  id="order"
+                  aria-label="Order"
                   menuShouldPortal={true}
                   options={twinMakerOrderOptions}
                   value={twinMakerOrderOptions.find((v) => v.value === query.order)}
                   onChange={this.onOrderChange}
                   placeholder="default"
-                  id="order"
                   isClearable
                 />
               </EditorField>
@@ -839,6 +851,7 @@ export class QueryEditor extends PureComponent<Props, State> {
 
     return (
       <OrderByEditor
+        newFormStylingEnabled={this.newFormStylingEnabled}
         orderBy={orderBy}
         properties={properties.options}
         onAdd={this.onAddOrderBy}
@@ -864,8 +877,10 @@ export class QueryEditor extends PureComponent<Props, State> {
     return (
       <>
         {this.newFormStylingEnabled ? (
-          <EditorField label="Property Group" className={editorFieldStyles} width={20}>
+          <EditorField label="Property Group" className={editorFieldStyles} width={20} htmlFor="propertyGroupName">
             <Select
+              id="propertyGroupName"
+              aria-label="Property Group"
               menuShouldPortal={true}
               value={propertyGroupName}
               options={propGroups}
@@ -916,8 +931,10 @@ export class QueryEditor extends PureComponent<Props, State> {
           {this.newFormStylingEnabled ? (
             <>
               <EditorRow>
-                <EditorField label="Panel">
+                <EditorField label="Panel" htmlFor="panel">
                   <Select
+                    id="panel"
+                    aria-label="Panel"
                     menuShouldPortal={true}
                     value={panelSel.current}
                     options={panelSel.options}
@@ -926,8 +943,10 @@ export class QueryEditor extends PureComponent<Props, State> {
                     placeholder={`Select TwinMaker panel`}
                   />
                 </EditorField>
-                <EditorField label={'Topic'}>
+                <EditorField label="Topic" htmlFor="topic">
                   <Select
+                    id="topic"
+                    aria-label="Topic"
                     menuShouldPortal={true}
                     value={topicSel.current}
                     options={topicSel.options}
@@ -1141,8 +1160,16 @@ export class QueryEditor extends PureComponent<Props, State> {
           <EditorRows>
             <EditorRow>
               <EditorFieldGroup>
-                <EditorField label="Query Type" tooltip={queryTooltip} className={editorFieldStyles} width={30}>
+                <EditorField
+                  label="Query Type"
+                  tooltip={queryTooltip}
+                  className={editorFieldStyles}
+                  width={30}
+                  htmlFor="query-type"
+                >
                   <Select
+                    id="query-type"
+                    aria-label="Query Type"
                     menuShouldPortal={true}
                     options={twinMakerQueryTypes}
                     value={currentQueryType}

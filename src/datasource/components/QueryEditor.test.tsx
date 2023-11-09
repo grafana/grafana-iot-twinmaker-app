@@ -64,7 +64,7 @@ jest.mock('common/dashboard', () => ({
 jest.mock('@grafana/runtime', () => ({
   ...jest.requireActual('@grafana/runtime'),
   // enable grafanaLive (by default)
-  getGrafanaLiveSrv: () => ({ getConnectionState: jest.fn(() => of(true)) }),
+  getGrafanaLiveSrv: () => ({ getConnectionState: jest.fn(() => of(false)) }),
   getTemplateSrv: () => ({
     getVariables: () => [],
     replace: (v: string) => v,
@@ -75,15 +75,20 @@ jest.mock('@grafana/runtime', () => ({
     },
   },
 }));
-const defaultProps = {
-  datasource: new TwinMakerDataSource(instanceSettings),
+const getDatasource = (grafanaLive: boolean) => {
+  const ds = new TwinMakerDataSource(instanceSettings);
+  ds.grafanaLiveEnabled = grafanaLive;
+  return ds;
+};
+const getDefaultProps = (grafanaLive: boolean) => ({
+  datasource: getDatasource(grafanaLive),
   query: { grafanaLiveEnabled: false, propertyDisplayNames: { property: 'Prop name' }, refId: 'A' },
   onRunQuery: jest.fn(),
   onChange: jest.fn(),
-};
+});
 
 describe('QueryEditor', () => {
-  function run() {
+  function runGrafanaLiveEnabled() {
     it.each([
       [TwinMakerQueryType.GetAlarms, ['Filter', 'Max. Alarms', 'Interval', 'Stream'], {}],
       [TwinMakerQueryType.ListEntities, ['Component Type'], { isStreaming: true }],
@@ -104,25 +109,31 @@ describe('QueryEditor', () => {
         ['Component Type', 'Selected Properties', 'Filter', 'Interval', 'Stream', 'Order'],
         {},
       ],
-    ])('Renders all necessary fields when Twinmaker Query Type is %s', async (type, expected, queryOptions) => {
-      const props = {
-        ...defaultProps,
-        query: {
-          ...defaultProps.query,
-          ...queryOptions,
-          queryType: type
-        },
-      };
-      render(<QueryEditor {...props} />);
-      if (config.featureToggles.awsDatasourcesNewFormStyling) {
-        await openFormatCollapse();
+    ])(
+      'Renders all necessary fields when Twinmaker Query Type is %s and grafanaLive enabled',
+      async (type, expected, queryOptions) => {
+        const defaultProps = getDefaultProps(true);
+        const props = {
+          ...defaultProps,
+          query: {
+            ...defaultProps.query,
+            ...queryOptions,
+            queryType: type,
+          },
+        };
+        render(<QueryEditor {...props} />);
+        waitFor(() => {
+          if (config.featureToggles.awsDatasourcesNewFormStyling) {
+            openFormatCollapse();
+          }
+        });
+
+        for (const field of expected) {
+          // if newFormStyling is enabled, the Format section is hidden under a Collapse
+          await waitFor(() => expect(screen.getByText(field)).toBeInTheDocument());
+        }
       }
-      
-      for (const field of expected) {
-        // if newFormStyling is enabled, the Format section is hidden under a Collapse
-        await waitFor(() => screen.getByText(field));
-      }
-    });
+    );
   }
   describe('QueryEditor with awsDatasourcesNewFormStyling feature toggle disabled', () => {
     beforeAll(() => {
@@ -131,7 +142,7 @@ describe('QueryEditor', () => {
     afterAll(() => {
       cleanup();
     });
-    run();
+    runGrafanaLiveEnabled();
   });
   describe('QueryEditor with awsDatasourcesNewFormStyling feature toggle enabled', () => {
     beforeAll(() => {
@@ -140,7 +151,62 @@ describe('QueryEditor', () => {
     afterAll(() => {
       cleanup();
     });
-    run();
+    runGrafanaLiveEnabled();
+  });
+  function runGrafanaLiveDisabled() {
+    it.each([
+      [TwinMakerQueryType.GetAlarms, ['Filter', 'Max. Alarms'], {}],
+      [TwinMakerQueryType.ListEntities, ['Component Type'], { isStreaming: true }],
+      [TwinMakerQueryType.GetEntity, ['Entity'], {}],
+
+      [
+        TwinMakerQueryType.GetPropertyValue,
+        ['Entity', 'Component Name', 'Selected Properties', 'Filter', 'Order By'],
+        { isStreaming: true, componentName: 'mockEntity', entityId: 'mockEntity', propertyGroupName: 'propGroup1' },
+      ],
+      [TwinMakerQueryType.EntityHistory, ['Entity', 'Component Name', 'Selected Properties', 'Filter', 'Order'], {}],
+      [TwinMakerQueryType.ComponentHistory, ['Component Type', 'Selected Properties', 'Filter', 'Order'], {}],
+    ])(
+      'Renders all necessary fields when Twinmaker Query Type is %s and grafanaLive disabled',
+      async (type, expected, queryOptions) => {
+        const defaultProps = getDefaultProps(false);
+        const props = {
+          ...defaultProps,
+          query: {
+            ...defaultProps.query,
+            ...queryOptions,
+            queryType: type,
+          },
+        };
+        render(<QueryEditor {...props} />);
+        if (config.featureToggles.awsDatasourcesNewFormStyling) {
+          await openFormatCollapse();
+        }
+
+        for (const field of expected) {
+          // if newFormStyling is enabled, the Format section is hidden under a Collapse
+          await waitFor(() => screen.getByText(field));
+        }
+      }
+    );
+  }
+  describe('QueryEditor with awsDatasourcesNewFormStyling feature toggle disabled', () => {
+    beforeAll(() => {
+      config.featureToggles.awsDatasourcesNewFormStyling = false;
+    });
+    afterAll(() => {
+      cleanup();
+    });
+    runGrafanaLiveDisabled();
+  });
+  describe('QueryEditor with awsDatasourcesNewFormStyling feature toggle enabled', () => {
+    beforeAll(() => {
+      config.featureToggles.awsDatasourcesNewFormStyling = true;
+    });
+    afterAll(() => {
+      cleanup();
+    });
+    runGrafanaLiveDisabled();
   });
 });
 async function openFormatCollapse() {

@@ -66,9 +66,17 @@ export default function FilterQueryEditor(props: FilterQueryEditorProps) {
   return props.newFormStylingEnabled ? (
     <EditorFieldGroup>
       {filters.map((f, index) => (
-        <EditorField key={`${index}/${f.name}`} label="Filters" tooltip="enter expressions to filter property values" className={editorFieldStyles}>
-          <div style={{ display: 'flex' }}>
+        <EditorField
+          key={`${index}/${f.name}`}
+          label="Filter"
+          tooltip="enter expressions to filter property values"
+          className={editorFieldStyles}
+          htmlFor="filters"
+        >
+          <div className={css({ display: 'flex' })}>
             <Select
+              id="filters"
+              aria-label="filters"
               menuShouldPortal={true}
               options={properties}
               value={properties.find((v) => v.value === f.name)}
@@ -114,7 +122,7 @@ export default function FilterQueryEditor(props: FilterQueryEditorProps) {
                 className={btnStyle}
                 onClick={props.onAdd}
               >
-                Filter
+                Add
               </Button>
             )}
           </div>

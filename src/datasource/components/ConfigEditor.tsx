@@ -205,7 +205,7 @@ export function ConfigEditor(props: Props) {
             </InlineFieldRow>
           )}
         </FieldSet>
-      )}{' '}
+      )}
     </div>
   );
 }
