@@ -21,7 +21,6 @@ export function ConfigEditor(props: Props) {
   const [isLoadingWorkspaces, setLoadingWorkspaces] = useState(false);
   const [saved, setSaved] = useState(!!props.options.version && props.options.version > 1);
 
-  //@ts-ignore
   const newFormStylingEnabled = config.featureToggles.awsDatasourcesNewFormStyling;
 
   useEffectOnce(() => {

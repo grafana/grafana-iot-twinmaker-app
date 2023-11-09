@@ -68,7 +68,7 @@ interface State {
 }
 
 export class QueryEditor extends PureComponent<Props, State> {
-  newFormStylingEnabled: boolean;
+  newFormStylingEnabled?: boolean;
   panels: Array<SelectableValue<number>>;
 
   constructor(props: Props) {
@@ -77,7 +77,6 @@ export class QueryEditor extends PureComponent<Props, State> {
     this.state = {
       invalidInterval: false,
     };
-    //@ts-ignore
     this.newFormStylingEnabled = config.featureToggles.awsDatasourcesNewFormStyling;
   }
 

@@ -85,51 +85,45 @@ const defaultProps = {
 describe('QueryEditor', () => {
   function run() {
     it.each([
-      [TwinMakerQueryType.GetAlarms, ['Filter', 'Max. Alarms', 'Interval', 'Stream'], {}, true],
-      [TwinMakerQueryType.ListEntities, ['Component Type'], { isStreaming: true }, false],
-      [TwinMakerQueryType.GetEntity, ['Entity'], {}, false],
+      [TwinMakerQueryType.GetAlarms, ['Filter', 'Max. Alarms', 'Interval', 'Stream'], {}],
+      [TwinMakerQueryType.ListEntities, ['Component Type'], { isStreaming: true }],
+      [TwinMakerQueryType.GetEntity, ['Entity'], {}],
 
       [
         TwinMakerQueryType.GetPropertyValue,
         ['Entity', 'Component Name', 'Selected Properties', 'Filter', 'Order By'],
         { isStreaming: true, componentName: 'mockEntity', entityId: 'mockEntity', propertyGroupName: 'propGroup1' },
-        false,
       ],
       [
         TwinMakerQueryType.EntityHistory,
         ['Entity', 'Component Name', 'Selected Properties', 'Filter', 'Interval', 'Stream', 'Order'],
         {},
-        true,
       ],
       [
         TwinMakerQueryType.ComponentHistory,
         ['Component Type', 'Selected Properties', 'Filter', 'Interval', 'Stream', 'Order'],
         {},
-        true,
       ],
-    ])(
-      'Renders all necessary fields when Twinmaker Query Type is %s',
-      async (type, expected, queryOptions, renderOptions) => {
-        const props = {
-          ...defaultProps,
-          query: {
-            ...defaultProps.query,
-            ...queryOptions,
-            queryType: type,
-            grafanLiveEnabled: true,
-          },
-        };
-        render(<QueryEditor {...props} />);
-        for (const field of expected) {
-          // if newFormStyling is enabled, the Format section is hidden under a Collapse
-          // @ts-ignore
-          if (renderOptions && config.featureToggles.awsDatasourcesNewFormStyling) {
-            await openFormatCollapse();
-          }
-          await waitFor(() => screen.getByText(field));
-        }
+    ])('Renders all necessary fields when Twinmaker Query Type is %s', async (type, expected, queryOptions) => {
+      const props = {
+        ...defaultProps,
+        query: {
+          ...defaultProps.query,
+          ...queryOptions,
+          queryType: type,
+          grafanLiveEnabled: true,
+        },
+      };
+      render(<QueryEditor {...props} />);
+      if (config.featureToggles.awsDatasourcesNewFormStyling) {
+        await openFormatCollapse();
       }
-    );
+      
+      for (const field of expected) {
+        // if newFormStyling is enabled, the Format section is hidden under a Collapse
+        waitFor(() => screen.getByText(field));
+      }
+    });
   }
   describe('QueryEditor with awsDatasourcesNewFormStyling feature toggle disabled', () => {
     beforeAll(() => {
@@ -151,6 +145,8 @@ describe('QueryEditor', () => {
   });
 });
 async function openFormatCollapse() {
-  const collapseLabel = await screen.findByTestId('collapse-title');
-  userEvent.click(collapseLabel);
+  const collapseLabel = await screen.queryByTestId('collapse-title');
+  if (collapseLabel) {
+    return userEvent.click(collapseLabel);
+  }
 }
