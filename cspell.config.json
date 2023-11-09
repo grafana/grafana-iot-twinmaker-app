@@ -53,6 +53,7 @@
     "videoplayer",
     "commitish",
     "matterport",
-    "raycast"
+    "raycast",
+    "Collapsable"
   ]
 }

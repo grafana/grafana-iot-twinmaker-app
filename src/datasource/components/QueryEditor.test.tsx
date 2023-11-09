@@ -44,8 +44,8 @@ jest.mock('common/info/info', () => ({
           label: 'mockEntity',
           propGroups: [
             {
-              value: 'propGroup1',
-              label: 'propgroup1',
+              value: 'prop-Group-1',
+              label: 'prop group1',
               props: [{ value: 'prop1', label: 'prop1' }],
             },
           ],
@@ -110,8 +110,7 @@ describe('QueryEditor', () => {
         query: {
           ...defaultProps.query,
           ...queryOptions,
-          queryType: type,
-          grafanLiveEnabled: true,
+          queryType: type
         },
       };
       render(<QueryEditor {...props} />);
@@ -121,7 +120,7 @@ describe('QueryEditor', () => {
       
       for (const field of expected) {
         // if newFormStyling is enabled, the Format section is hidden under a Collapse
-        waitFor(() => screen.getByText(field));
+        await waitFor(() => screen.getByText(field));
       }
     });
   }
