@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Input } from '@grafana/ui';
 
 interface Props {
+  id?: string;
   value?: string;
   placeholder?: string;
   autoFocus?: boolean;
@@ -54,10 +55,11 @@ export class BlurTextInput extends PureComponent<Props, State> {
   };
 
   render() {
-    const { placeholder, width, autoFocus } = this.props;
+    const { placeholder, width, autoFocus, id } = this.props;
     const { text } = this.state;
     return (
       <Input
+        id={id}
         autoFocus={autoFocus}
         width={width}
         value={text}

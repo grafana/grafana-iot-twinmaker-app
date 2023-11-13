@@ -1,9 +1,11 @@
 import React from 'react';
 import { Button, InlineField, InlineFieldRow, Select } from '@grafana/ui';
 import { DEFAULT_PROPERTY_FILTER_OPERATOR, TwinMakerFilterValue, TwinMakerPropertyFilter } from 'common/manager';
-import { firstLabelWidth } from '.';
+import { editorFieldStyles, firstLabelWidth } from '.';
 import { BlurTextInput } from './BlurTextInput';
 import { SelectableValue } from '@grafana/data';
+import { EditorField, EditorFieldGroup } from '@grafana/experimental';
+import { css } from '@emotion/css';
 
 export interface FilterQueryEditorProps {
   filters: TwinMakerPropertyFilter[];
@@ -11,6 +13,7 @@ export interface FilterQueryEditorProps {
   onChange: (index: number, filter?: TwinMakerPropertyFilter, isTabularCondition?: boolean) => void;
   onAdd: () => void;
   isTabularCondition?: boolean;
+  newFormStylingEnabled?: boolean;
 }
 
 export default function FilterQueryEditor(props: FilterQueryEditorProps) {
@@ -60,7 +63,73 @@ export default function FilterQueryEditor(props: FilterQueryEditorProps) {
     return '';
   };
 
-  return (
+  return props.newFormStylingEnabled ? (
+    <EditorFieldGroup>
+      {filters.map((f, index) => (
+        <EditorField
+          key={`${index}/${f.name}`}
+          label="Filter"
+          tooltip="enter expressions to filter property values"
+          className={editorFieldStyles}
+          htmlFor="filters"
+        >
+          <div className={css({ display: 'flex' })}>
+            <Select
+              id="filters"
+              aria-label="filters"
+              menuShouldPortal={true}
+              options={properties}
+              value={properties.find((v) => v.value === f.name)}
+              onChange={(v) => onNameChange(v, index)}
+              placeholder="Select property"
+              isClearable={false}
+              width={20}
+            />
+            <BlurTextInput
+              width={5}
+              value={f.op ?? DEFAULT_PROPERTY_FILTER_OPERATOR}
+              onChange={(v) => {
+                if (v) {
+                  onOpChange(v, index);
+                }
+              }}
+              placeholder={DEFAULT_PROPERTY_FILTER_OPERATOR}
+            />
+            <BlurTextInput
+              value={filterValueToString(filters[index].value)}
+              onChange={(v) => {
+                if (v) {
+                  onValueChange(v, index);
+                }
+              }}
+              placeholder="value"
+              width={10}
+            />
+            <Button
+              data-testid="query-builder-filters-remove-button"
+              icon="trash-alt"
+              variant="destructive"
+              size="sm"
+              className={btnStyle}
+              onClick={() => onChange(index, undefined, isTabularCondition)} // Do not send event
+            />
+            {index === filters.length - 1 && (
+              <Button
+                data-testid="query-builder-filters-add-button"
+                icon="plus-circle"
+                variant="secondary"
+                size="sm"
+                className={btnStyle}
+                onClick={props.onAdd}
+              >
+                Add
+              </Button>
+            )}
+          </div>
+        </EditorField>
+      ))}
+    </EditorFieldGroup>
+  ) : (
     <InlineFieldRow>
       {filters.map((f, index) => (
         <InlineField
@@ -112,3 +181,8 @@ export default function FilterQueryEditor(props: FilterQueryEditorProps) {
     </InlineFieldRow>
   );
 }
+
+export const btnStyle = css({
+  marginTop: 5,
+  marginInline: 5,
+});
