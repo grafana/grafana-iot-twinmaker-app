@@ -4,6 +4,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DataSourceSettings } from '@grafana/data';
 import { TwinMakerDataSourceOptions, TwinMakerSecureJsonData } from 'datasource/types';
+import { config } from '@grafana/runtime';
 
 const datasourceOptions: DataSourceSettings<TwinMakerDataSourceOptions, TwinMakerSecureJsonData> = {
   id: 0,
@@ -25,6 +26,7 @@ const datasourceOptions: DataSourceSettings<TwinMakerDataSourceOptions, TwinMake
   withCredentials: false,
   secureJsonFields: {},
 };
+const originalFormFeatureToggleValue = config.featureToggles.awsDatasourcesNewFormStyling;
 const workspacesMock = jest.fn(() => Promise.resolve([{ value: 'test1', label: 'test1' }]));
 
 jest.mock('common/datasourceSrv', () => ({
@@ -45,14 +47,16 @@ function setup() {
 
 const resetWindow = () => {
   (window as any).grafanaBootData = {
-    settings: {
-    },
+    settings: {},
   };
+};
+const cleanup = () => {
+  config.featureToggles.awsDatasourcesNewFormStyling = originalFormFeatureToggleValue;
 };
 
 describe('ConfigEditor', () => {
   beforeEach(() => resetWindow());
-  describe('loading workspaces', () => {
+  function run() {
     it('should display an error if the datasource is not saved', async () => {
       const { rerender, user } = setup();
       const rerenderOptions = {
@@ -67,7 +71,6 @@ describe('ConfigEditor', () => {
       const error = await screen.findByText('Save the datasource first to load workspaces');
       expect(error).toBeInTheDocument();
       expect(workspacesMock).not.toHaveBeenCalled();
-      
     });
     it('should remove the error when the datasource is saved', async () => {
       const { rerender, user } = setup();
@@ -82,8 +85,27 @@ describe('ConfigEditor', () => {
       await user.click(dropdown);
       const error = await screen.findByText('Save the datasource first to load workspaces');
       expect(error).toBeInTheDocument();
-      rerender(<ConfigEditor options={{...rerenderOptions, version: 2}} onOptionsChange={() => {}} />);
+      rerender(<ConfigEditor options={{ ...rerenderOptions, version: 2 }} onOptionsChange={() => {}} />);
       waitFor(() => expect(error).not.toBeInTheDocument());
     });
+  }
+
+  describe('Loading Workspaces with awsDatasourcesNewFormStyling feature toggle disabled', () => {
+    beforeAll(() => {
+      config.featureToggles.awsDatasourcesNewFormStyling = false;
+    });
+    afterAll(() => {
+      cleanup();
+    });
+    run();
+  });
+  describe('Loading Workspaces with awsDatasourcesNewFormStyling feature toggle enabled', () => {
+    beforeAll(() => {
+      config.featureToggles.awsDatasourcesNewFormStyling = true;
+    });
+    afterAll(() => {
+      cleanup();
+    });
+    run();
   });
 });
