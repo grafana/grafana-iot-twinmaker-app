@@ -53,6 +53,11 @@
     "videoplayer",
     "commitish",
     "matterport",
-    "raycast"
+    "raycast",
+    "opentelemetry",
+    "httptrace",
+    "otelhttptrace",
+    "struct",
+    "fridgepoet"
   ]
 }

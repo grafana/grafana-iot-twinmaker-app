@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.9.2
+
+- Bump go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace from 0.42.0 to 0.44.0 by @dependabot in https://github.com/grafana/grafana-iot-twinmaker-app/pull/237
+- Fix imported Alarm Dashboard's filter value from string to struct by @fridgepoet in https://github.com/grafana/grafana-iot-twinmaker-app/pull/240
+- Bump @babel/traverse from 7.22.15 to 7.23.2 by @dependabot in https://github.com/grafana/grafana-iot-twinmaker-app/pull/241
+- Bump google.golang.org/grpc from 1.58.2 to 1.58.3 by @dependabot in https://github.com/grafana/grafana-iot-twinmaker-app/pull/242
+
 ## 1.9.1
 
 - Support for custom style for tags in the Scene Viewer panel
