@@ -54,5 +54,18 @@ export const plugin = new PanelPlugin<PanelOptions>(ScenePanel)
         settings: {
           options: variables,
         },
-      });
+      })
+      .addBooleanSwitch({
+        path: 'enableAutoQuery',
+        name: 'Enable auto query',
+        description: 'By enabling auto query, the scene viewer panel can auto query all data bindings configured in the scene and ignore queries configured with the panel.',
+        defaultValue: false,
+      })
+      .addNumberInput({
+        path: 'queryRefreshInterval',
+        name: 'Query interval',
+        description: 'Set an interval in seconds to auto query data and applied only when a relative time range is set.',
+        defaultValue: 5,
+      })
+      ;
   });

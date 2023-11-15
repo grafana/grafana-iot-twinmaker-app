@@ -20,11 +20,14 @@ To set up your Scene Viewer panel (numbers reference the image above):
 
 4. Select the template variables that will store the entityId and componentName of the data bound to tags. When you select a tag in the scene the Scene Viewer will set these variables automatically. You can use these variables to dynamically configure queries on other panels.
 
-5. In order to see tags change icons based on data:
-   a. Add a "Get Property Value History by Component Type" query to the panel
-   b. Select your component type and property, and optionally a filter on the property value.
-   c. Select Order = DESC to pass data from most recent to oldest to the Scene Viewer. This panel will parse the data and pull off the first value to match with a tag's rule. This assumes you have composed your scene with rules to change tag icons based on data value thresholds.
-   - Note: The Scene Viewer only supports the "Get Property Value History by Component Type" query
+5. In order to see tags change icons based on data, the Scene Viewer panel needs to get the property values. There are two ways to provide the data:
+- 5.a Add Grafana query 
+  - a. Add a "Get Property Value History by Entity" query to the panel for each data binding in your scene.
+    - Note: The Scene Viewer only supports the "Get Property Value History by Component Type", "Get Property Value History by Entity" and "Get Alarms" queries
+  - b. Select your component type and property, and optionally a filter on the property value.
+  - c. Select Order = DESC to pass data from most recent to oldest to the Scene Viewer. This panel will parse the data and pull off the first value to match with a tag's rule. This assumes you have composed your scene with rules to change tag icons based on data value thresholds.
+- 5.b Enable auto query
+  - By switching on the "Enable auto query" toggle, the Scene Viewer panel will automatically construct the queries for all the data bindings exist in the scene, then fetch the data. Any Grafana query added to Scene Viewer panel will be ignored.
 
 Click "Apply" then save your dashboard.
 
