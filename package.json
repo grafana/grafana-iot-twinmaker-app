@@ -108,6 +108,7 @@
     "node": ">=18"
   },
   "resolutions": {
+    "fast-xml-parser": "4.2.5",
     "three-stdlib": "2.17.3",
     "rxjs": "7.5.1",
     "moment-timezone": "^0.5.35",
