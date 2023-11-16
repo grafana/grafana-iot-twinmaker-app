@@ -58,6 +58,7 @@
     "httptrace",
     "otelhttptrace",
     "struct",
-    "fridgepoet"
+    "fridgepoet",
+    "stdlib"
   ]
 }
