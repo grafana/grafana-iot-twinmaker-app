@@ -94,9 +94,10 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const styles = getStyles(props.width, props.height);
   const id = useMemo(() => uuid(), []);
   const { getSceneNodeByRef, getSelectedSceneNodeRef } = useSceneComposerApi(id);
-  const dataStreams = useMemo<DataStream[]>(() => {
-    return props.data.series.flatMap((df) => mapDataFrame(df));
-  }, [props.data.series]);
+  const dataStreams = useMemo<DataStream[] | undefined>(() => {
+    const streams =  props.data.series.flatMap((df) => mapDataFrame(df));
+    return props.options.enableAutoQuery ? undefined : streams;
+  }, [props.data.series, props.options.enableAutoQuery]);
 
   const { search } = useLocation();
   const { replaceVariables } = props;
@@ -267,20 +268,38 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
   const staticPluginPath = useMemo(() => `public/plugins/${plugin.id}`, []);
 
   const viewerConfig = useMemo(() => {
+    const interval = props.options.queryRefreshInterval !== undefined ? props.options.queryRefreshInterval * 1000 : undefined;
+
     return {
       dracoDecoder: {
         enable: true,
         path: `${window.location.origin}/${staticPluginPath}/static/draco/`,
       },
+      featureConfig: {
+        AutoQuery: true,
+      },
+      dataBindingQueryRefreshRate: interval
     };
-  }, [staticPluginPath]);
+  }, [staticPluginPath, props.options.queryRefreshInterval]);
 
   const viewport: Viewport = useMemo(() => {
+    const from = props.data.timeRange.from.valueOf();
+    const to = props.data.timeRange.to.valueOf();
+    const fromRaw = props.timeRange.raw.from;
+    const toRaw = props.timeRange.raw.to;
+
+    if (typeof fromRaw === 'string' && typeof toRaw === 'string' && fromRaw.includes('now') && toRaw.includes('now')) {
+      const duration = to - from;
+      return {
+        duration
+      };
+    }
+
     return {
-      start: new Date(props.data.timeRange.from.valueOf()),
-      end: new Date(props.data.timeRange.to.valueOf()),
+      start: new Date(from),
+      end: new Date(to),
     };
-  }, [props.data.timeRange.from, props.data.timeRange.to]);
+  }, [props.data.timeRange.from, props.data.timeRange.to, props.timeRange.raw.from, props.timeRange.raw.to]);
 
   const activeCamera = useMemo(() => {
     const queryParams = locationSearchToObject(search || '');

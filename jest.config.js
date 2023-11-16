@@ -54,5 +54,9 @@ module.exports = {
   ...originalConfig,
   // Inform jest to only transform specific node_module packages.
   transformIgnorePatterns: [nodeModulesToTransform([...grafanaESModules, ...esModules])],
-  moduleNameMapper: { ...originalConfig.moduleNameMapper, '\\.(hdr)$': '<rootDir>/tests/utils/__mocks__/styleMock.js' },
+  moduleNameMapper: {
+    ...originalConfig.moduleNameMapper,
+    '\\.(hdr)$': '<rootDir>/tests/utils/__mocks__/styleMock.js',
+    '\\.(svg)$': 'jest-transform-stub'
+  },
 };
