@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.9.3
+
+- Upgrade IotAppKit dependency from 9.2.0 to 9.6.0
+  - Support Auto Query and Tag Occlusion in Scene Viewer panel
+  - Fix toggle playback mode functionality and reflect time range changes in Video Player panel
+  - Minor bug fixes related to tags, Custom styled tags, overlay and synced Matterport tags
+- Upgrade three-stdlib dependency from 2.17.3 to 2.23.9
+
 ## 1.9.2
 
 - Bump go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace from 0.42.0 to 0.44.0 by @dependabot in https://github.com/grafana/grafana-iot-twinmaker-app/pull/237
