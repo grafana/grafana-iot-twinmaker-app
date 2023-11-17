@@ -7,6 +7,7 @@
   - Fix toggle playback mode functionality and reflect time range changes in Video Player panel
   - Minor bug fixes related to tags, Custom styled tags, overlay and synced Matterport tags
 - Upgrade three-stdlib dependency from 2.17.3 to 2.23.9
+- Upgrade fast-xml-parser dependency from to 4.2.5
 
 ## 1.9.2
 
