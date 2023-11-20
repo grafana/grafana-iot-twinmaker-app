@@ -54,6 +54,7 @@
     "commitish",
     "matterport",
     "raycast",
+    "Collapsable",
     "opentelemetry",
     "httptrace",
     "otelhttptrace",
