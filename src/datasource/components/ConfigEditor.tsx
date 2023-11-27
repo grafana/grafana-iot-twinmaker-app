@@ -110,7 +110,11 @@ export function ConfigEditor(props: Props) {
         <>
           <Divider />
           <ConfigSection title="Twinmaker Settings" data-testid="twinmaker-settings">
-            <Field label="Workspace" invalid={!!workspacesError} error={workspacesError}>
+            <Field
+              label="Workspace"
+              invalid={!!workspacesError}
+              error={workspacesError}
+            >
               <Select
                 menuPlacement="top"
                 menuShouldPortal={true}
@@ -123,7 +127,6 @@ export function ConfigEditor(props: Props) {
                 onCreateOption={onUnknownWorkspaceChange}
                 formatCreateLabel={(v) => `WorkspaceID: ${v}`}
                 isClearable={true}
-                disabled={workspaces?.length === 0}
                 placeholder="Select a workspace"
                 noOptionsMessage="No workspaces found"
                 onOpenMenu={onOpenHandler}
