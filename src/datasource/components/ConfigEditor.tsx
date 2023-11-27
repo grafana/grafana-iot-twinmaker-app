@@ -110,11 +110,7 @@ export function ConfigEditor(props: Props) {
         <>
           <Divider />
           <ConfigSection title="Twinmaker Settings" data-testid="twinmaker-settings">
-            <Field
-              label="Workspace"
-              invalid={!!workspacesError}
-              error={workspacesError}
-            >
+            <Field label="Workspace" invalid={!!workspacesError} error={workspacesError}>
               <Select
                 menuPlacement="top"
                 menuShouldPortal={true}
