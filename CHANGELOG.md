@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.10.0
+
+- Config editor: Fix workspace loading in new form styling in [#258](https://github.com/grafana/grafana-iot-twinmaker-app/pull/258)
+- Add ramda 0.27.2 to resolutions in [#256](https://github.com/grafana/grafana-iot-twinmaker-app/pull/256)
+- Query editor: Migrate to new form styling under feature toggle in [#249](https://github.com/grafana/grafana-iot-twinmaker-app/pull/249)
+- Config editor: Migrate to new form styling under feature toggle in [#244](https://github.com/grafana/grafana-iot-twinmaker-app/pull/244)
+
 ## 1.9.3
 
 - Upgrade IotAppKit dependency from 9.2.0 to 9.6.0
