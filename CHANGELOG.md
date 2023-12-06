@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.1
+
+- Fixed scene loading issue for Grafana version 9.x and below
+
 ## 1.10.0
 
 - Config editor: Fix workspace loading in new form styling in [#258](https://github.com/grafana/grafana-iot-twinmaker-app/pull/258)
