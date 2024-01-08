@@ -524,7 +524,7 @@ export class QueryEditor extends PureComponent<Props, State> {
             >
               <Switch value={Boolean(query.isStreaming)} onChange={this.onToggleStream} />
             </EditorField>
-            <EditorField label="Interval" width={5} htmlFor="interval">
+            <EditorField label="Interval" width={5} htmlFor="interval" tooltip="Set an interval in seconds to stream data, min 5s, default 30s">
               <BlurTextInput
                 id="interval"
                 placeholder="30"
