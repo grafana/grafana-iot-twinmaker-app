@@ -402,6 +402,6 @@ func getTimeObjectFromStringTime(timeString *string) (*time.Time, error) {
 }
 
 func getTimeStringFromTimeObject(timeObject *time.Time) *string {
-	timeString := timeObject.Format(time.RFC3339)
+	timeString := timeObject.Format(time.RFC3339Nano)
 	return &timeString
 }
