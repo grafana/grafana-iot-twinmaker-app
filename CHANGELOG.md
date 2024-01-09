@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.0
+
+- Support for new region cn-north-1 (BJS) in datasource
+
 ## 1.10.1
 
 - Fixed scene loading issue for Grafana version 9.x and below
