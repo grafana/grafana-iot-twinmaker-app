@@ -69,7 +69,7 @@ export default function FilterQueryEditor(props: FilterQueryEditorProps) {
         <EditorField
           key={`${index}/${f.name}`}
           label="Filter"
-          tooltip="enter expressions to filter property values"
+          tooltip="Enter expressions to filter property values"
           className={editorFieldStyles}
           htmlFor="filters"
         >
@@ -111,6 +111,7 @@ export default function FilterQueryEditor(props: FilterQueryEditorProps) {
               variant="destructive"
               size="sm"
               className={btnStyle}
+              disabled={filters.length === 1 && isFilterEmpty(filters[0])}
               onClick={() => onChange(index, undefined, isTabularCondition)} // Do not send event
             />
             {index === filters.length - 1 && (
@@ -137,7 +138,7 @@ export default function FilterQueryEditor(props: FilterQueryEditorProps) {
           label={'Filter'}
           grow={true}
           labelWidth={firstLabelWidth}
-          tooltip="enter expressions to filter property values"
+          tooltip="Enter expressions to filter property values"
         >
           <>
             <Select
@@ -181,7 +182,9 @@ export default function FilterQueryEditor(props: FilterQueryEditorProps) {
     </InlineFieldRow>
   );
 }
-
+function isFilterEmpty(filter: TwinMakerPropertyFilter) {
+  return !filter.name && !Object.keys(filter.value).length;
+}
 export const btnStyle = css({
   marginTop: 5,
   marginInline: 5,
