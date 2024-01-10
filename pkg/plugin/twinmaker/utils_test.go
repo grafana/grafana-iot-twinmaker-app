@@ -89,7 +89,7 @@ func TestGetTimeObjectFromStringTime(t *testing.T) {
 
 func TestGetTimeStringFromTimeObject(t *testing.T) {
 	t.Run("Convert time object to ISO 8601 date time string", func(t *testing.T) {
-		timeObject := time.Date(2022, 4, 27, 0, 0, 0, 0, time.UTC)
-		require.Equal(t, "2022-04-27T00:00:00Z", *getTimeStringFromTimeObject(&timeObject))
+		timeObject := time.Date(2022, 4, 27, 0, 0, 0, 123456789, time.UTC)
+		require.Equal(t, "2022-04-27T00:00:00.123456789Z", *getTimeStringFromTimeObject(&timeObject))
 	})
 }
