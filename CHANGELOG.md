@@ -1,5 +1,11 @@
 # Changelog
 
+
+## 1.11.1
+
+- Query Editor: Disable delete if only one filter, fix tooltip (new form styling) in [#268](https://github.com/grafana/grafana-iot-twinmaker-app/pull/268)
+- GetPropertyValueHistory: Convert time objects to strings with nanosecond precision [#264](https://github.com/grafana/grafana-iot-twinmaker-app/pull/264)
+
 ## 1.11.0
 
 - Support for new region cn-north-1 (BJS) in datasource
