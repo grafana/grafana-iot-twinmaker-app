@@ -1,6 +1,6 @@
 {
   "name": "grafana-iot-twinmaker-app",
-  "version": "1.11.1",
+  "version": "1.11.2",
   "description": "Grafana IoT TwinMaker App Plugin",
   "scripts": {
     "build": "NODE_OPTIONS='--max-old-space-size=4096' webpack -c webpack.config.ts --env production ",
