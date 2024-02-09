@@ -1,7 +1,7 @@
 # Changelog
 
 
-## 1.11.2
+## 1.12.0
 
 - Update grafana/aws-sdk-go to 0.20.0 in [#273](https://github.com/grafana/grafana-iot-twinmaker-app/pull/273)
 - chore(twinmaker): upgrade UxSDK to add path query feature for query editor in [#272](https://github.com/grafana/grafana-iot-twinmaker-app/pull/272)
