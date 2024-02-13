@@ -88,7 +88,7 @@ const getDefaultProps = (grafanaLive: boolean) => ({
 });
 
 describe('QueryEditor', () => {
-  function runGrafanaLiveEnabled() {
+  function run() {
     it.each([
       [TwinMakerQueryType.GetAlarms, ['Filter', 'Max. Alarms', 'Interval', 'Stream'], {}],
       [TwinMakerQueryType.ListEntities, ['Component Type'], { isStreaming: true }],
@@ -142,7 +142,7 @@ describe('QueryEditor', () => {
     afterAll(() => {
       cleanup();
     });
-    runGrafanaLiveEnabled();
+    run();
   });
   describe('QueryEditor with awsDatasourcesNewFormStyling feature toggle enabled', () => {
     beforeAll(() => {
@@ -151,7 +151,7 @@ describe('QueryEditor', () => {
     afterAll(() => {
       cleanup();
     });
-    runGrafanaLiveEnabled();
+    run();
   });
   function runGrafanaLiveDisabled() {
     it.each([

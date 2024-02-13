@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 1.12.0
+
+- Update grafana/aws-sdk-go to 0.20.0 in [#273](https://github.com/grafana/grafana-iot-twinmaker-app/pull/273)
+- Upgrade UxSDK to add path query feature for query editor in [#272](https://github.com/grafana/grafana-iot-twinmaker-app/pull/272)
+
 ## 1.11.1
 
 - Query Editor: Disable delete if only one filter, fix tooltip (new form styling) in [#268](https://github.com/grafana/grafana-iot-twinmaker-app/pull/268)
