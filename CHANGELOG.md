@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.13.0
+
+- Upgrade IotAppKit dependency from [9.6.0 to 10.2.0](https://github.com/awslabs/iot-app-kit/compare/root-v9.6.0...root-v10.2.0)
+  - [10.2.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.1.0...root-v10.2.0) (2024-03-29)
+  - [10.1.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.0.0...root-v10.1.0) (2024-03-21)
+  - [10.0.0](https://github.com/awslabs/iot-app-kit/compare/root-v9.15.0...root-v10.0.0) (2024-02-28)
+  - [9.15.0](https://github.com/awslabs/iot-app-kit/compare/root-v9.14.0...root-v9.15.0) (2024-02-01)
+  - [9.14.0](https://github.com/awslabs/iot-app-kit/compare/root-v9.13.0...root-v9.14.0) (2024-01-18)
+  - [9.13.0](https://github.com/awslabs/iot-app-kit/compare/root-v9.12.0...root-v9.13.0) (2024-01-05)
+  - [9.12.0](https://github.com/awslabs/iot-app-kit/compare/root-v9.11.0...root-v9.12.0) (2023-12-18)
+  - [9.11.0](https://github.com/awslabs/iot-app-kit/compare/root-v9.10.0...root-v9.11.0) (2023-12-07)
+  - [9.10.0](https://github.com/awslabs/iot-app-kit/compare/root-v9.9.1...root-v9.10.0) (2023-12-07)
+  - [9.9.1](https://github.com/awslabs/iot-app-kit/compare/root-v9.9.0...root-v9.9.1) (2023-12-06)
+  - [9.9.0](https://github.com/awslabs/iot-app-kit/compare/root-v9.8.0...root-v9.9.0) (2023-12-05)
+  - [9.8.0](https://github.com/awslabs/iot-app-kit/compare/root-v9.7.0...root-v9.8.0) (2023-11-25)
+  - [9.7.0](https://github.com/awslabs/iot-app-kit/compare/root-v9.6.0...root-v9.7.0) (2023-11-21)
 
 ## 1.12.0
 

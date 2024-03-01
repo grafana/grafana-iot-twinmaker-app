@@ -47,6 +47,8 @@ const esModules = [
   'react-cytoscapejs',
   'react-dnd',
   'react-dnd-html5-backend',
+  'echarts',
+  'zrender',
 ];
 
 module.exports = {
