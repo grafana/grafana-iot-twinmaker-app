@@ -11,7 +11,7 @@
       "name": "AWS IoT TwinMaker",
       "url": "https://aws.amazon.com"
     },
-    "keywords": ["aws", "iot", "panel"],
+    "keywords": ["aws", "iot", "panel", "cloud provider", "twinmaker"],
     "logos": {
       "small": "img/AWS-IoT-TwinMaker.png",
       "large": "img/AWS-IoT-TwinMaker.png"
