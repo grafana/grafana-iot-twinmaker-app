@@ -193,7 +193,6 @@ func TestFetchAWSData(t *testing.T) {
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType: awsds.AuthTypeDefault,
 				Region:   "us-east-1",
-				Endpoint: "https://gamma.us-east-1.twinmaker.iot.aws.dev",
 			},
 		})
 		require.NoError(t, err)

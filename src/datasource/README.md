@@ -21,10 +21,13 @@
 6. (Optional) AWS developers may use a custom endpoint for testing
 
    a. Note: You cannot currently set an "Assume Role ARN" and a custom endpoint together
-   b. Note: Gamma endpoint : https://gamma.us-east-1.twinmaker.iot.aws.dev to test console local changes.
 
 7. Select your region
 
-8. Enter your TwinMaker workspace ID. Any query that uses this datasource instance will have access to resources within the workspace.
+8. Click "Save & test" to load your workspaces
 
-9. Click “Save & test”
+   a. The error "Missing WorkspaceID configuration" is expected to appear
+
+9. Select your TwinMaker workspace ID. Any query that uses this datasource instance will have access to resources within the workspace.
+
+10. Click “Save & test”
