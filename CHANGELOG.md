@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.0
+- New build for [security fixes in go 1.21.8](https://groups.google.com/g/golang-announce/c/5pwGVUPoMbg)
+
 ## 1.13.0
 
 - Upgrade IotAppKit dependency from [9.6.0 to 10.2.0](https://github.com/awslabs/iot-app-kit/compare/root-v9.6.0...root-v10.2.0)
