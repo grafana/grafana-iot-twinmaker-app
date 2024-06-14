@@ -1,6 +1,18 @@
 # Changelog
 
+## 1.15.0
+
+  - Support for [Dynamic Scenes](https://docs.aws.amazon.com/iot-twinmaker/latest/guide/dynamic-scenes.html)
+  - Remove dummy cypress test and dependencies
+  - Upgrade IotAppKit dependency from [10.2.0 to 10.6.1](https://github.com/awslabs/iot-app-kit/compare/root-v10.2.0...root-v10.6.1)
+  - [10.6.1](https://github.com/awslabs/iot-app-kit/compare/root-v10.6.0...root-v10.6.1) (2024-06-13)
+  - [10.6.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.5.0...root-v10.6.0) (2024-06-06)
+  - [10.5.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.4.0...root-v10.5.0) (2024-05-30)
+  - [10.4.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.3.0...root-v10.4.0) (2024-05-20)
+  - [10.3.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.2.0...root-v10.3.0) (2024-05-10)
+
 ## 1.14.0
+
 - New build for [security fixes in go 1.21.8](https://groups.google.com/g/golang-announce/c/5pwGVUPoMbg)
 
 ## 1.13.0

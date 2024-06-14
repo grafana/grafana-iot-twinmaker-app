@@ -277,6 +277,7 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       },
       featureConfig: {
         AutoQuery: true,
+        DynamicScene: true,
       },
       dataBindingQueryRefreshRate: interval
     };

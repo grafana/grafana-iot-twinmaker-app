@@ -257,6 +257,10 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 
 		for _, propVal := range propValues {
 			prop := results.PropertyValues[propVal]
+			// Properties may have no data value
+			if prop.PropertyValue == nil {
+				continue
+			}
 			if v := prop.PropertyValue.ListValue; v != nil {
 				fr := s.processListValue(v, propVal)
 				frame.Fields = append(frame.Fields, fr.Fields...)
@@ -281,7 +285,7 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 			f.Labels = data.Labels{
 				"entityId":      *prop.PropertyReference.EntityId,
 				"componentName": *prop.PropertyReference.ComponentName,
-				"propertyName": *prop.PropertyReference.PropertyName,
+				"propertyName":  *prop.PropertyReference.PropertyName,
 			}
 			frame.Fields = append(frame.Fields, f)
 		}
@@ -305,7 +309,7 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 					f.Labels = data.Labels{
 						"entityId":      query.EntityId,
 						"componentName": query.ComponentName,
-						"propertyName": propName,
+						"propertyName":  propName,
 					}
 					fieldsList = append(fieldsList, f)
 					converterList = append(converterList, converter)
