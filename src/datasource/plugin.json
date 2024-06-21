@@ -7,7 +7,7 @@
   "metrics": true,
   "backend": true,
   "alerting": true,
-  "executable": "gpx_twinmaker_app",
+  "executable": "gpx_twinmaker_datasource",
 
   "includes": [
     { "type": "dashboard", "name": "Alarm dashboard", "path": "dashboards/twinmaker-alarm-dashboard.json" },
