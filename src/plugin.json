@@ -25,7 +25,33 @@
   "includes": [
     {
       "type": "datasource",
-      "name": "Grafana IoT TwinMaker Datasource"
+      "name": "Grafana IoT TwinMaker Datasource",
+      "path": "datasource/plugin.json"
+    },
+    {
+        "type": "panel",
+        "name": "AWS IoT TwinMaker Alarm Configuration Panel",
+        "path": "panels/alarm/plugin.json"
+    },
+    {
+        "type": "panel",
+        "name": "Grafana IoT TwinMaker Dashboard Layout Panel",
+        "path": "panels/layout/plugin.json"
+    },
+    {
+        "type": "panel",
+        "name": "AWS IoT TwinMaker Query Editor Panel",
+        "path": "panels/query-editor/plugin.json"
+    },
+    {
+        "type": "panel",
+        "name": "AWS IoT TwinMaker Scene Viewer Panel",
+        "path": "panels/scene-viewer/plugin.json"
+    },
+    {
+        "type": "panel",
+        "name": "AWS IoT TwinMaker Video Player Panel",
+        "path": "panels/video-player/plugin.json"
     }
   ],
 
