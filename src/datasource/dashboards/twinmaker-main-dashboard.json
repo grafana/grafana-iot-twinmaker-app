@@ -221,7 +221,9 @@
           },
           "entityId": "${sel_entity}",
           "filter": [],
-          "properties": ["alarm_status"],
+          "properties": [
+            "alarm_status"
+          ],
           "queryType": "EntityHistory",
           "refId": "A"
         }
@@ -267,7 +269,9 @@
         "footer": {
           "countRows": false,
           "fields": "",
-          "reducer": ["sum"],
+          "reducer": [
+            "sum"
+          ],
           "show": false
         },
         "showHeader": true,
@@ -382,7 +386,9 @@
             "uid": "${DS_AWS_IOT TWINMAKER}"
           },
           "entityId": "${sel_entity}",
-          "properties": ["Temperature"],
+          "properties": [
+            "Temperature"
+          ],
           "propertyDisplayNames": {},
           "queryType": "EntityHistory",
           "refId": "A"
@@ -413,7 +419,9 @@
             "uid": "${DS_AWS_IOT TWINMAKER}"
           },
           "filter": [],
-          "properties": ["alarm_status"],
+          "properties": [
+            "alarm_status"
+          ],
           "propertyDisplayNames": {},
           "queryType": "ComponentHistory",
           "refId": "A"
