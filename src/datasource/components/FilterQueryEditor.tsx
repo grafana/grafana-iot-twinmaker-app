@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, InlineField, InlineFieldRow, Select } from '@grafana/ui';
+import { Button, Select } from '@grafana/ui';
 import { DEFAULT_PROPERTY_FILTER_OPERATOR, TwinMakerFilterValue, TwinMakerPropertyFilter } from 'common/manager';
-import { editorFieldStyles, firstLabelWidth } from '.';
+import { editorFieldStyles } from '.';
 import { BlurTextInput } from './BlurTextInput';
 import { SelectableValue } from '@grafana/data';
 import { EditorField, EditorFieldGroup } from '@grafana/experimental';
@@ -13,7 +13,6 @@ export interface FilterQueryEditorProps {
   onChange: (index: number, filter?: TwinMakerPropertyFilter, isTabularCondition?: boolean) => void;
   onAdd: () => void;
   isTabularCondition?: boolean;
-  newFormStylingEnabled?: boolean;
 }
 
 export default function FilterQueryEditor(props: FilterQueryEditorProps) {
@@ -63,7 +62,7 @@ export default function FilterQueryEditor(props: FilterQueryEditorProps) {
     return '';
   };
 
-  return props.newFormStylingEnabled ? (
+  return (
     <EditorFieldGroup>
       {filters.map((f, index) => (
         <EditorField
@@ -130,56 +129,6 @@ export default function FilterQueryEditor(props: FilterQueryEditorProps) {
         </EditorField>
       ))}
     </EditorFieldGroup>
-  ) : (
-    <InlineFieldRow>
-      {filters.map((f, index) => (
-        <InlineField
-          key={`${index}/${f.name}`}
-          label={'Filter'}
-          grow={true}
-          labelWidth={firstLabelWidth}
-          tooltip="Enter expressions to filter property values"
-        >
-          <>
-            <Select
-              menuShouldPortal={true}
-              options={properties}
-              value={properties.find((v) => v.value === f.name)}
-              onChange={(v) => onNameChange(v, index)}
-              placeholder="Select a property"
-              isClearable={false}
-              width={40}
-            />
-            <BlurTextInput
-              width={14}
-              value={f.op ?? DEFAULT_PROPERTY_FILTER_OPERATOR}
-              onChange={(v) => {
-                if (v) {
-                  onOpChange(v, index);
-                }
-              }}
-              placeholder={DEFAULT_PROPERTY_FILTER_OPERATOR}
-            />
-            <BlurTextInput
-              value={filterValueToString(filters[index].value)}
-              onChange={(v) => {
-                if (v) {
-                  onValueChange(v, index);
-                }
-              }}
-              placeholder="value"
-              width={40}
-            />
-            <Button
-              icon="trash-alt"
-              variant="secondary"
-              onClick={() => onChange(index, undefined, isTabularCondition)} // Do not send event
-            />
-            {index === filters.length - 1 && <Button icon="plus-circle" variant="secondary" onClick={props.onAdd} />}
-          </>
-        </InlineField>
-      ))}
-    </InlineFieldRow>
   );
 }
 function isFilterEmpty(filter: TwinMakerPropertyFilter) {

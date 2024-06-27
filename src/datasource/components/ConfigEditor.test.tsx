@@ -4,7 +4,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DataSourceSettings } from '@grafana/data';
 import { TwinMakerDataSourceOptions, TwinMakerSecureJsonData } from 'datasource/types';
-import { config } from '@grafana/runtime';
 
 const datasourceOptions: DataSourceSettings<TwinMakerDataSourceOptions, TwinMakerSecureJsonData> = {
   id: 0,
@@ -26,7 +25,6 @@ const datasourceOptions: DataSourceSettings<TwinMakerDataSourceOptions, TwinMake
   withCredentials: false,
   secureJsonFields: {},
 };
-const originalFormFeatureToggleValue = config.featureToggles.awsDatasourcesNewFormStyling;
 const workspacesMock = jest.fn(() => Promise.resolve([{ value: 'test1', label: 'test1' }]));
 
 jest.mock('common/datasourceSrv', () => ({
@@ -50,62 +48,38 @@ const resetWindow = () => {
     settings: {},
   };
 };
-const cleanup = () => {
-  config.featureToggles.awsDatasourcesNewFormStyling = originalFormFeatureToggleValue;
-};
 
 describe('ConfigEditor', () => {
   beforeEach(() => resetWindow());
-  function run() {
-    it('should display an error if the datasource is not saved', async () => {
-      const { rerender, user } = setup();
-      const rerenderOptions = {
-        ...datasourceOptions,
-        jsonData: {
-          assumeRoleArn: 'test_2',
-        },
-      };
-      rerender(<ConfigEditor options={rerenderOptions} onOptionsChange={() => {}} />);
-      const dropdown = screen.getByText('Select a workspace');
-      await user.click(dropdown);
-      const error = await screen.findByText('Save the datasource first to load workspaces');
-      expect(error).toBeInTheDocument();
-      expect(workspacesMock).not.toHaveBeenCalled();
-    });
-    it('should remove the error when the datasource is saved', async () => {
-      const { rerender, user } = setup();
-      const rerenderOptions = {
-        ...datasourceOptions,
-        jsonData: {
-          assumeRoleArn: 'test_2',
-        },
-      };
-      rerender(<ConfigEditor options={rerenderOptions} onOptionsChange={() => {}} />);
-      const dropdown = screen.getByText('Select a workspace');
-      await user.click(dropdown);
-      const error = await screen.findByText('Save the datasource first to load workspaces');
-      expect(error).toBeInTheDocument();
-      rerender(<ConfigEditor options={{ ...rerenderOptions, version: 2 }} onOptionsChange={() => {}} />);
-      waitFor(() => expect(error).not.toBeInTheDocument());
-    });
-  }
-
-  describe('Loading Workspaces with awsDatasourcesNewFormStyling feature toggle disabled', () => {
-    beforeAll(() => {
-      config.featureToggles.awsDatasourcesNewFormStyling = false;
-    });
-    afterAll(() => {
-      cleanup();
-    });
-    run();
+  it('should display an error if the datasource is not saved', async () => {
+    const { rerender, user } = setup();
+    const rerenderOptions = {
+      ...datasourceOptions,
+      jsonData: {
+        assumeRoleArn: 'test_2',
+      },
+    };
+    rerender(<ConfigEditor options={rerenderOptions} onOptionsChange={() => {}} />);
+    const dropdown = screen.getByText('Select a workspace');
+    await user.click(dropdown);
+    const error = await screen.findByText('Save the datasource first to load workspaces');
+    expect(error).toBeInTheDocument();
+    expect(workspacesMock).not.toHaveBeenCalled();
   });
-  describe('Loading Workspaces with awsDatasourcesNewFormStyling feature toggle enabled', () => {
-    beforeAll(() => {
-      config.featureToggles.awsDatasourcesNewFormStyling = true;
-    });
-    afterAll(() => {
-      cleanup();
-    });
-    run();
+  it('should remove the error when the datasource is saved', async () => {
+    const { rerender, user } = setup();
+    const rerenderOptions = {
+      ...datasourceOptions,
+      jsonData: {
+        assumeRoleArn: 'test_2',
+      },
+    };
+    rerender(<ConfigEditor options={rerenderOptions} onOptionsChange={() => {}} />);
+    const dropdown = screen.getByText('Select a workspace');
+    await user.click(dropdown);
+    const error = await screen.findByText('Save the datasource first to load workspaces');
+    expect(error).toBeInTheDocument();
+    rerender(<ConfigEditor options={{ ...rerenderOptions, version: 2 }} onOptionsChange={() => {}} />);
+    waitFor(() => expect(error).not.toBeInTheDocument());
   });
 });
