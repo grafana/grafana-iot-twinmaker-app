@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { onUpdateDatasourceJsonDataOption, SelectableValue, updateDatasourcePluginJsonDataOption } from '@grafana/data';
 import { ConnectionConfig, ConnectionConfigProps, Divider } from '@grafana/aws-sdk';
-import { FieldSet, InlineField, InlineFieldRow, Select, Input, Alert, Checkbox, Field, Switch } from '@grafana/ui';
+import { Select, Input, Alert, Field, Switch } from '@grafana/ui';
 import { standardRegions } from '../regions';
 import { TwinMakerDataSourceOptions, TwinMakerSecureJsonData } from '../types';
 import { getTwinMakerDatasource } from 'common/datasourceSrv';
 import { getSelectionInfo } from 'common/info/info';
 import { SelectableQueryResults } from 'common/info/types';
 import { useEffectOnce } from 'react-use';
-import { config } from '@grafana/runtime';
 import { ConfigSection } from '@grafana/experimental';
 
 type Props = ConnectionConfigProps<TwinMakerDataSourceOptions, TwinMakerSecureJsonData>;
@@ -20,8 +19,6 @@ export function ConfigEditor(props: Props) {
   const [workspacesError, setWorkspacesError] = useState('');
   const [isLoadingWorkspaces, setLoadingWorkspaces] = useState(false);
   const [saved, setSaved] = useState(!!props.options.version && props.options.version > 1);
-
-  const newFormStylingEnabled = config.featureToggles.awsDatasourcesNewFormStyling;
 
   useEffectOnce(() => {
     // Default to 'us-east-1'
@@ -92,7 +89,7 @@ export function ConfigEditor(props: Props) {
 
   return (
     <div className="width-30">
-      <ConnectionConfig {...props} standardRegions={standardRegions} newFormStylingEnabled={newFormStylingEnabled} />
+      <ConnectionConfig {...props} standardRegions={standardRegions} />
       {!props.options.jsonData.assumeRoleArn && (
         <Alert title="Assume Role ARN" severity="error" style={{ width: 700 }}>
           Specify an IAM role to narrow the permission scope of this datasource. Follow the documentation{' '}
@@ -106,105 +103,52 @@ export function ConfigEditor(props: Props) {
           to create policies and a role with minimal permissions for your TwinMaker workspace.
         </Alert>
       )}
-      {newFormStylingEnabled ? (
-        <>
-          <Divider />
-          <ConfigSection title="Twinmaker Settings" data-testid="twinmaker-settings">
-            <Field label="Workspace" invalid={!!workspacesError} error={workspacesError}>
-              <Select
-                menuPlacement="top"
-                menuShouldPortal={true}
-                value={workspacesSelection.current}
-                options={workspacesSelection.options}
-                className="width-30"
-                onChange={onWorkspaceChange}
-                isLoading={isLoadingWorkspaces}
-                allowCustomValue={true}
-                onCreateOption={onUnknownWorkspaceChange}
-                formatCreateLabel={(v) => `WorkspaceID: ${v}`}
-                isClearable={true}
-                placeholder="Select a workspace"
-                noOptionsMessage="No workspaces found"
-                onOpenMenu={onOpenHandler}
-                onCloseMenu={() => setIsWorkspacesMenuOpen(false)}
-                isOpen={isWorkspacesMenuOpen}
-                invalid={!!workspacesError}
-              />
-            </Field>
-            <Field htmlFor="alarmConfigChecked" label="Define write permissions for Alarm Configuration Panel">
-              <Switch
-                id="alarmConfigChecked"
-                value={alarmConfigChecked}
-                onChange={(e) => onAlarmCheckChange(e.currentTarget.checked)}
-              />
-            </Field>
-
-            {alarmConfigChecked && (
-              <Field
-                htmlFor="assumeRoleArnWriter"
-                label="Assume Role ARN Write"
-                description="Specify the ARN of a role to assume when writing property values in IoT TwinMaker"
-              >
-                <Input
-                  id="assumeRoleArnWriter"
-                  placeholder="arn:aws:iam:*"
-                  value={props.options.jsonData.assumeRoleArnWriter || ''}
-                  onChange={onUpdateDatasourceJsonDataOption(props, 'assumeRoleArnWriter')}
-                />
-              </Field>
-            )}
-          </ConfigSection>
-        </>
-      ) : (
-        <FieldSet label={'TwinMaker settings'} data-testid="twinmaker-settings">
-          <InlineFieldRow>
-            <InlineField label="Workspace" labelWidth={28} invalid={!!workspacesError} error={workspacesError}>
-              <Select
-                menuPlacement="top"
-                menuShouldPortal={true}
-                value={workspacesSelection.current}
-                options={workspacesSelection.options}
-                className="width-30"
-                onChange={onWorkspaceChange}
-                isLoading={isLoadingWorkspaces}
-                allowCustomValue={true}
-                onCreateOption={onUnknownWorkspaceChange}
-                formatCreateLabel={(v) => `WorkspaceID: ${v}`}
-                isClearable={true}
-                disabled={workspaces?.length === 0}
-                placeholder="Select a workspace"
-                noOptionsMessage="No workspaces found"
-                onOpenMenu={onOpenHandler}
-                onCloseMenu={() => setIsWorkspacesMenuOpen(false)}
-                isOpen={isWorkspacesMenuOpen}
-                invalid={!!workspacesError}
-              />
-            </InlineField>
-          </InlineFieldRow>
-          <Checkbox
-            label={'Define write permissions for Alarm Configuration Panel'}
+      <Divider />
+      <ConfigSection title="Twinmaker Settings" data-testid="twinmaker-settings">
+        <Field label="Workspace" invalid={!!workspacesError} error={workspacesError}>
+          <Select
+            menuPlacement="top"
+            menuShouldPortal={true}
+            value={workspacesSelection.current}
+            options={workspacesSelection.options}
+            className="width-30"
+            onChange={onWorkspaceChange}
+            isLoading={isLoadingWorkspaces}
+            allowCustomValue={true}
+            onCreateOption={onUnknownWorkspaceChange}
+            formatCreateLabel={(v) => `WorkspaceID: ${v}`}
+            isClearable={true}
+            placeholder="Select a workspace"
+            noOptionsMessage="No workspaces found"
+            onOpenMenu={onOpenHandler}
+            onCloseMenu={() => setIsWorkspacesMenuOpen(false)}
+            isOpen={isWorkspacesMenuOpen}
+            invalid={!!workspacesError}
+          />
+        </Field>
+        <Field htmlFor="alarmConfigChecked" label="Define write permissions for Alarm Configuration Panel">
+          <Switch
+            id="alarmConfigChecked"
             value={alarmConfigChecked}
             onChange={(e) => onAlarmCheckChange(e.currentTarget.checked)}
           />
-          {alarmConfigChecked && (
-            <InlineFieldRow>
-              <InlineField
-                label="Assume Role ARN Write"
-                labelWidth={28}
-                tooltip="Specify the ARN of a role to assume when writing property values in IoT TwinMaker"
-              >
-                <Input
-                  aria-label="Assume Role ARN Write"
-                  className="width-30"
-                  placeholder="arn:aws:iam:*"
-                  value={props.options.jsonData.assumeRoleArnWriter || ''}
-                  onChange={onUpdateDatasourceJsonDataOption(props, 'assumeRoleArnWriter')}
-                />
-              </InlineField>
-            </InlineFieldRow>
-          )}
-        </FieldSet>
-      )}
+        </Field>
+
+        {alarmConfigChecked && (
+          <Field
+            htmlFor="assumeRoleArnWriter"
+            label="Assume Role ARN Write"
+            description="Specify the ARN of a role to assume when writing property values in IoT TwinMaker"
+          >
+            <Input
+              id="assumeRoleArnWriter"
+              placeholder="arn:aws:iam:*"
+              value={props.options.jsonData.assumeRoleArnWriter || ''}
+              onChange={onUpdateDatasourceJsonDataOption(props, 'assumeRoleArnWriter')}
+            />
+          </Field>
+        )}
+      </ConfigSection>
     </div>
   );
 }
