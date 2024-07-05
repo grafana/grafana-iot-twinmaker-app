@@ -2,6 +2,7 @@
 
 ## 1.16.0
 
+- Use Grafana theme for config editor width in [#290](https://github.com/grafana/grafana-iot-twinmaker-app/pull/290)
 - Migrate to new form styling in config and query editors in [#289](https://github.com/grafana/grafana-iot-twinmaker-app/pull/289)
 - add nested plugin to app includes in [#288](https://github.com/grafana/grafana-iot-twinmaker-app/pull/288)
 - Remove relative path info from executable field in [#282](https://github.com/grafana/grafana-iot-twinmaker-app/pull/282)

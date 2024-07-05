@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { onUpdateDatasourceJsonDataOption, SelectableValue, updateDatasourcePluginJsonDataOption } from '@grafana/data';
+import {
+  GrafanaTheme2,
+  onUpdateDatasourceJsonDataOption,
+  SelectableValue,
+  updateDatasourcePluginJsonDataOption,
+} from '@grafana/data';
 import { ConnectionConfig, ConnectionConfigProps, Divider } from '@grafana/aws-sdk';
-import { Select, Input, Alert, Field, Switch } from '@grafana/ui';
+import { Select, Input, Alert, Field, Switch, useStyles2 } from '@grafana/ui';
 import { standardRegions } from '../regions';
 import { TwinMakerDataSourceOptions, TwinMakerSecureJsonData } from '../types';
 import { getTwinMakerDatasource } from 'common/datasourceSrv';
@@ -9,6 +14,7 @@ import { getSelectionInfo } from 'common/info/info';
 import { SelectableQueryResults } from 'common/info/types';
 import { useEffectOnce } from 'react-use';
 import { ConfigSection } from '@grafana/experimental';
+import { css } from '@emotion/css';
 
 type Props = ConnectionConfigProps<TwinMakerDataSourceOptions, TwinMakerSecureJsonData>;
 
@@ -87,8 +93,9 @@ export function ConfigEditor(props: Props) {
 
   const workspacesSelection = getSelectionInfo(props.options.jsonData.workspaceId, workspaces, undefined, true);
 
+  const styles = useStyles2(getStyles);
   return (
-    <div className="width-30">
+    <div className={styles.formStyles}>
       <ConnectionConfig {...props} standardRegions={standardRegions} />
       {!props.options.jsonData.assumeRoleArn && (
         <Alert title="Assume Role ARN" severity="error" style={{ width: 700 }}>
@@ -152,3 +159,9 @@ export function ConfigEditor(props: Props) {
     </div>
   );
 }
+
+const getStyles = (theme: GrafanaTheme2) => ({
+  formStyles: css({
+    maxWidth: theme.spacing(50),
+  }),
+});
