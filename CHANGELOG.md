@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.17.0
+
+- fix(scene-viewer): Upgrade AppKit and UxSDK bundle for compatibility fix with Grafana runtime env [#291](https://github.com/grafana/grafana-iot-twinmaker-app/pull/291)
+- Upgrade IotAppKit dependency from [10.6.1 to 10.8.1](https://github.com/awslabs/iot-app-kit/compare/root-v10.6.1...root-v10.8.1)
+- [10.8.1](https://github.com/awslabs/iot-app-kit/compare/root-v10.8.0...root-v10.8.1) (2024-07-01)
+- [10.8.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.7.0...root-v10.8.0) (2024-06-24)
+- [10.7.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.6.1...root-v10.7.0) (2024-06-18)
+
+
 ## 1.16.0
 
 - Use Grafana theme for config editor width in [#290](https://github.com/grafana/grafana-iot-twinmaker-app/pull/290)
