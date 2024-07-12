@@ -1,4 +1,5 @@
-import { SelectableValue, DataQueryResponse, DataQuery, DataQueryRequest } from '@grafana/data';
+import { SelectableValue, DataQueryResponse, DataQueryRequest } from '@grafana/data';
+import { DataQuery } from '@grafana/schema';
 import { Observable } from 'rxjs';
 import { getSimpleTwinMakerDashboardManager } from './managerSimple';
 

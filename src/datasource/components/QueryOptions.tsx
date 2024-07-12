@@ -11,7 +11,7 @@ interface Props {
   query: TwinMakerQuery;
   grafanaLiveEnabled: boolean;
   onOrderChange: (value: SelectableValue<TwinMakerResultOrder>) => void;
-  renderStreamingInputs: () => JSX.Element | null;
+  renderStreamingInputs: () => React.JSX.Element | null;
 }
 export function QueryOptions({ query, onOrderChange, grafanaLiveEnabled, renderStreamingInputs }: Props) {
   const sortable =

@@ -6,7 +6,8 @@ jest.doMock('@grafana/runtime', () => ({
 }));
 
 import { TwinMakerUxSDK } from 'aws-iot-twinmaker-grafana-utils';
-import { DataQuery, DataSourceApi, DataSourceJsonData } from '@grafana/data';
+import { DataSourceApi, DataSourceJsonData } from '@grafana/data';
+import { DataQuery } from '@grafana/schema';
 import { configureSdkWithDataSource, DataSourceParams } from '../sdkInit';
 import * as commonFuncs from 'common/datasourceSrv';
 import * as awsConfig from '../awsConfig';
@@ -49,8 +50,8 @@ describe('sdkInit', () => {
       expect(result?.store).toBeDefined();
       expect(result?.twinMakerUxSdk.awsStore).toBe(mockUxSdk.awsStore);
       expect(result?.twinMakerUxSdk.awsClients).toBe(mockUxSdk.awsClients);
-      expect(mockUxSdk.awsStore.createAwsCombinedReducer).toBeCalledTimes(2);
-      expect(mockUxSdk.awsStore.subscribeAwsStoreUpdate).toBeCalledTimes(2);
+      expect(mockUxSdk.awsStore.createAwsCombinedReducer).toHaveBeenCalledTimes(2);
+      expect(mockUxSdk.awsStore.subscribeAwsStoreUpdate).toHaveBeenCalledTimes(2);
     });
 
     it('should properly set endpoint on configured twinmaker datasource when endpoint is defined', async () => {
