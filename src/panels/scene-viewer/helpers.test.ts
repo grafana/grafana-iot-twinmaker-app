@@ -158,8 +158,8 @@ describe('panel helpers', () => {
       };
       updateUrlParams('sel-aaa', 'sel-bbb', 'sel-ccc', anchorData);
 
-      expect(mockLocationSrv.update).toBeCalledTimes(1);
-      expect(mockLocationSrv.update).toBeCalledWith({
+      expect(mockLocationSrv.update).toHaveBeenCalledTimes(1);
+      expect(mockLocationSrv.update).toHaveBeenCalledWith({
         query: expectedParams,
         partial: true,
       });
@@ -173,8 +173,8 @@ describe('panel helpers', () => {
       };
       updateUrlParams('sel-aaa', 'sel-bbb', 'sel-ccc', {});
 
-      expect(mockLocationSrv.update).toBeCalledTimes(1);
-      expect(mockLocationSrv.update).toBeCalledWith({
+      expect(mockLocationSrv.update).toHaveBeenCalledTimes(1);
+      expect(mockLocationSrv.update).toHaveBeenCalledWith({
         query: expectedParams,
         partial: true,
       });

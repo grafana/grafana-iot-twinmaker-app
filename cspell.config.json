@@ -22,6 +22,7 @@
     "awserr",
     "awsui",
     "cacheable",
+    "Datalink",
     "Datamodule",
     "datasource",
     "datasources",

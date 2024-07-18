@@ -74,8 +74,8 @@ describe('VideoPlayer', () => {
 
     render(<VideoPlayer {...props} />);
 
-    expect(panelProps.appKitTMDataSource.videoData).toBeCalledTimes(1);
-    expect(panelProps.appKitTMDataSource.videoData).toBeCalledWith(options);
+    expect(panelProps.appKitTMDataSource.videoData).toHaveBeenCalledTimes(1);
+    expect(panelProps.appKitTMDataSource.videoData).toHaveBeenCalledWith(options);
     expect(mockVideoPlayer).toHaveBeenCalledWith(expect.objectContaining({ videoData: mockVideoDate, viewport }));
     expect(mockRequestUpload).toHaveBeenCalledWith(expect.objectContaining({ videoData: mockVideoDate }));
   });
