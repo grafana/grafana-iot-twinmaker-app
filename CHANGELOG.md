@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.1
+
+- Chore: update dependencies [#293](https://github.com/grafana/grafana-iot-twinmaker-app/pull/293)
+
 ## 1.17.0
 
 - fix(scene-viewer): Upgrade AppKit and UxSDK bundle for compatibility fix with Grafana runtime env [#291](https://github.com/grafana/grafana-iot-twinmaker-app/pull/291)
