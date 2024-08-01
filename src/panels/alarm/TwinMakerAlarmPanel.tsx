@@ -2,19 +2,18 @@ import React, { useMemo } from 'react';
 import { formattedValueToString, getValueFormat, GrafanaTheme2, PanelProps } from '@grafana/data';
 import { AlarmPanelOptions } from './types';
 import { processAlarmResult, AlarmState } from './alarms';
-import { stylesFactory, useTheme2 } from '@grafana/ui';
+import { useStyles2 } from '@grafana/ui';
 import { css } from '@emotion/css';
 
 type Props = PanelProps<AlarmPanelOptions>;
 
 export const TwinMakerAlarmPanel: React.FunctionComponent<Props> = ({ data }) => {
   const results = useMemo(() => processAlarmResult(data.series), [data]);
-  const theme = useTheme2();
-  const styles = getStyles(theme);
+  const styles = useStyles2(getStyles);
 
   if (results.invalidFormat || results.warning) {
     return (
-      <div className="panel-empty">
+      <div className={styles.panelEmpty}>
         <p>
           Invalid alarm data
           <br />
@@ -30,11 +29,11 @@ export const TwinMakerAlarmPanel: React.FunctionComponent<Props> = ({ data }) =>
     switch (a.alarmStatus) {
       case 'ACTIVE':
       case 'ERROR':
-        return styles.ERROR;
+        return styles.error;
       case 'WARN':
-        return styles.WARNING;
+        return styles.error;
     }
-    return styles.OK;
+    return styles.ok;
   };
 
   return (
@@ -69,54 +68,60 @@ export const TwinMakerAlarmPanel: React.FunctionComponent<Props> = ({ data }) =>
   );
 };
 
-const getStyles = stylesFactory((theme: GrafanaTheme2) => {
-  return {
-    table: css`
-      width: 100%;
-      border-collapse: separate;
-
-      th {
-        width: auto;
-        padding: ${theme.v1.spacing.insetSquishMd};
-        text-align: left;
-        line-height: 30px;
-        height: 30px;
-        white-space: nowrap;
+const getStyles = (theme: GrafanaTheme2) => ({
+    table: css({
+      width: '100%',
+      borderCollapse: 'separate',
+      th: {
+        width: 'auto',
+        padding: theme.spacing(0.5,1),
+        textAlign: 'left',
+        lineHeight: 30,
+        height: 30,
+        whiteSpace: 'nowrap',
+      },
+      td: {
+        padding: theme.spacing(0.5,1),
+        lineHeight: 30,
+        height: 30,
+        whiteSpace: 'nowrap'
+      },
+      'thead tr': {
+        background: theme.colors.background.secondary
+      },
+      'tbody td': {
+        cursor: 'pointer'
       }
-
-      td {
-        padding: ${theme.v1.spacing.insetSquishMd};
-        line-height: 30px;
-        height: 30px;
-        white-space: nowrap;
+    }),
+    error: css({
+      background: theme.colors.error.main,
+      color: theme.colors.error.contrastText,
+      '&:hover td': {
+        background: theme.colors.error.shade,
       }
-
-      thead tr {
-        background: ${theme.colors.background.secondary};
+    }),
+    warning: css({
+      background: theme.colors.warning.main,
+      color: theme.colors.warning.contrastText,
+      '&:hover td': {
+        background: theme.colors.warning.shade,
       }
-
-      tbody td {
-        cursor: pointer;
+    }),
+    ok: css({
+      '&:hover td': {
+        background: theme.colors.background.secondary,
       }
-    `,
-    ERROR: css`
-      background: ${theme.colors.error.main};
-      color: ${theme.colors.error.contrastText};
-      &:hover td {
-        background: ${theme.colors.error.shade};
+    }),
+    panelEmpty: css({
+      display: 'flex',
+      alignItems: 'center',
+      height: '100%',
+      width: '100%',
+      p: {
+        textAlign: 'center',
+        color: theme.colors.text.secondary,
+        fontSize: theme.typography.h2.fontSize,
+        width: '100%',
       }
-    `,
-    WARNING: css`
-      background: ${theme.colors.warning.main};
-      color: ${theme.colors.warning.contrastText};
-      &:hover td {
-        background: ${theme.colors.warning.shade};
-      }
-    `,
-    OK: css`
-      &:hover td {
-        background: ${theme.colors.background.secondary};
-      }
-    `,
-  };
+    })
 });
