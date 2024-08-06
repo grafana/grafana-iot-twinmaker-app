@@ -2,7 +2,7 @@
 
 ## 1.17.2
 
-- Fix incorrect path for alarm configuration panel
+- Fix incorrect path for alarm configuration panel [#300](https://github.com/grafana/grafana-iot-twinmaker-app/pull/300)
 
 ## 1.17.1
 
