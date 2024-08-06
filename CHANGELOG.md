@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.2
+
+- Fix incorrect path for alarm configuration panel
+
 ## 1.17.1
 
 - Chore: update dependencies [#293](https://github.com/grafana/grafana-iot-twinmaker-app/pull/293)
