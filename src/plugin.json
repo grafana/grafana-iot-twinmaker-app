@@ -31,7 +31,7 @@
     {
         "type": "panel",
         "name": "AWS IoT TwinMaker Alarm Configuration Panel",
-        "path": "panels/alarm/plugin.json"
+        "path": "panels/alarm-configuration/plugin.json"
     },
     {
         "type": "panel",
