@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.18.0
+  - Upgrade IotAppKit dependency from [10.8.1 to 10.11.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.8.1...root-v10.11.0)
+
 ## 1.17.2
 
 - Fix incorrect path for alarm configuration panel [#300](https://github.com/grafana/grafana-iot-twinmaker-app/pull/300)

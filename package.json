@@ -1,6 +1,6 @@
 {
   "name": "grafana-iot-twinmaker-app",
-  "version": "1.17.2",
+  "version": "1.18.0",
   "description": "Grafana IoT TwinMaker App Plugin",
   "scripts": {
     "build": "NODE_OPTIONS='--max-old-space-size=4096' webpack -c webpack.config.ts --env production",
@@ -85,10 +85,10 @@
     "@grafana/runtime": "^10.4.5",
     "@grafana/schema": "^10.4.5",
     "@grafana/ui": "^10.4.5",
-    "@iot-app-kit/core": "10.8.1",
-    "@iot-app-kit/react-components": "10.8.1",
-    "@iot-app-kit/scene-composer": "10.8.1",
-    "@iot-app-kit/source-iottwinmaker": "10.8.1",
+    "@iot-app-kit/core": "10.11.0",
+    "@iot-app-kit/react-components": "10.11.0",
+    "@iot-app-kit/scene-composer": "10.11.0",
+    "@iot-app-kit/source-iottwinmaker": "10.11.0",
     "aws-iot-twinmaker-grafana-utils": "file:libs/aws-iot-twinmaker-grafana-utils-2.1.0.tgz",
     "aws-sdk": "^2.978.0",
     "cytoscape": "^3.26.0",
