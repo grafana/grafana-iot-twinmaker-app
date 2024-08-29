@@ -4516,32 +4516,32 @@
   dependencies:
     "@iot-app-kit/charts-core" "^2.1.2"
 
-"@iot-app-kit/components@10.8.1":
-  version "10.8.1"
-  resolved "https://registry.npmjs.org/@iot-app-kit/components/-/components-10.8.1.tgz"
-  integrity sha512-K8wySdJNTmcX0tZl8d9vUnH1tKAkFdH3Zx1Je6EJP8KNGi9eE3MGTeqs9VNm1jXX+wpQ/0dn1txYK9Gpy4jdeA==
+"@iot-app-kit/components@10.11.0":
+  version "10.11.0"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/components/-/components-10.11.0.tgz#4225bac77dcb49eb86d741fddad7721fd36cbfad"
+  integrity sha512-K2ietNYLE1NrnvCEJVR0nn7TqPtOqMG/vH/A/Ec3nmy1CQZdgwc3DKjFq+6f6O7rTnpFGZAqU5AgR202hVnW8Q==
   dependencies:
     "@awsui/collection-hooks" "^1.0.51"
     "@awsui/components-react" "^3.0.0"
     "@awsui/design-tokens" "^3.0.41"
-    "@iot-app-kit/core" "10.8.1"
-    "@iot-app-kit/related-table" "10.8.1"
+    "@iot-app-kit/core" "10.11.0"
+    "@iot-app-kit/related-table" "10.11.0"
     "@stencil/core" "^2.7.0"
     "@synchro-charts/core" "7.2.0"
     styled-components "^5.3.11"
 
-"@iot-app-kit/core-util@10.8.1":
-  version "10.8.1"
-  resolved "https://registry.npmjs.org/@iot-app-kit/core-util/-/core-util-10.8.1.tgz"
-  integrity sha512-C3U7MJ/avboP3axldnWNibOMOVa+maTz9z7Iu3X5/ItSzMBQbrgWN3AVd7mFpJUY3+dEGgIIje8owuyWRueVlw==
+"@iot-app-kit/core-util@10.11.0":
+  version "10.11.0"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/core-util/-/core-util-10.11.0.tgz#ee8e6feaf727da7797d1b2f23c5e6b721b87198a"
+  integrity sha512-oNhNF6mqKhX2fURL5vF6FxK/hSLg7vkUBf6r25kuum48UmVJSpiqTHbkblAHZ/0FIZwBaSOUmQIsyfDtHTnTow==
   dependencies:
-    "@iot-app-kit/core" "10.8.1"
+    "@iot-app-kit/core" "10.11.0"
     lodash.difference "4.5.0"
 
-"@iot-app-kit/core@10.8.1":
-  version "10.8.1"
-  resolved "https://registry.npmjs.org/@iot-app-kit/core/-/core-10.8.1.tgz"
-  integrity sha512-5Q148VW0tESBGRlwP5MPgTTZXAf2qMBhKXx6/t9Z6rNgObr4VR6VeSA7ZGaaLlwI+6O9tuVDlo1GRhOT+c5aLg==
+"@iot-app-kit/core@10.11.0":
+  version "10.11.0"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/core/-/core-10.11.0.tgz#617bcad3e4bf37f90d297822814b86dbf63d48d8"
+  integrity sha512-Fwa924dBhbgfVCnBS6E+kwih8OYH0BnkqaroZedtFukzWJbuBJk7r5XbJA6pJrqt0kifd8a7MA4DJPkW16oo5A==
   dependencies:
     d3-array "^3.2.4"
     intervals-fn "^3.0.3"
@@ -4550,27 +4550,28 @@
     rxjs "^7.8.1"
     uuid "^9.0.0"
 
-"@iot-app-kit/react-components@10.8.1":
-  version "10.8.1"
-  resolved "https://registry.npmjs.org/@iot-app-kit/react-components/-/react-components-10.8.1.tgz"
-  integrity sha512-uxpizFmhIip6HPP7NXJOoNeRhTtJKzvCAE0GEMPQGwYTAsf9U2TqmLc9TK64ciCJhO8xXvr7kedrLLCZS4vMMA==
+"@iot-app-kit/react-components@10.11.0":
+  version "10.11.0"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/react-components/-/react-components-10.11.0.tgz#debd4498a8982464b3f073c63f70296664b4ed4f"
+  integrity sha512-hast14tDiOgygeI9MvmNoynTbbRDP89fZ5m3wXkdCzZfpigRPS6+BrsyuWWTOwJ6xmGJd6HjUP8rFFuQdZnPww==
   dependencies:
     "@cloudscape-design/collection-hooks" "1.0.36"
     "@cloudscape-design/components" "3.0.518"
     "@cloudscape-design/design-tokens" "3.0.34"
     "@iot-app-kit/charts" "2.1.2"
     "@iot-app-kit/charts-core" "2.1.2"
-    "@iot-app-kit/components" "10.8.1"
-    "@iot-app-kit/core" "10.8.1"
-    "@iot-app-kit/core-util" "10.8.1"
-    "@iot-app-kit/source-iottwinmaker" "10.8.1"
+    "@iot-app-kit/components" "10.11.0"
+    "@iot-app-kit/core" "10.11.0"
+    "@iot-app-kit/core-util" "10.11.0"
+    "@iot-app-kit/source-iottwinmaker" "10.11.0"
     "@tanstack/react-query" "^5.32.1"
     color "^4.2.3"
     copy-to-clipboard "^3.3.3"
     d3-array "^3.2.3"
     d3-format "^3.1.0"
     d3-shape "^3.2.0"
-    date-fns "^3.4.0"
+    date-fns "^2.30.0"
+    date-fns-tz "^2.0.1"
     dompurify "3.0.5"
     echarts "^5.4.3"
     is-hotkey "^0.2.0"
@@ -4597,17 +4598,17 @@
     video.js "8.3.0"
     zustand "^4.3.9"
 
-"@iot-app-kit/related-table@10.8.1":
-  version "10.8.1"
-  resolved "https://registry.npmjs.org/@iot-app-kit/related-table/-/related-table-10.8.1.tgz"
-  integrity sha512-VL00QJDmKtCQLf6RbeJnCnMydb/zL8ysQl4qF3noTwD3vSqneHRF8UXs5Tz1DDbI+92l5h0lpCHmWT9EVwSlTw==
+"@iot-app-kit/related-table@10.11.0":
+  version "10.11.0"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/related-table/-/related-table-10.11.0.tgz#fcec710b9f702accfc0a7c2712b03a14b3df018f"
+  integrity sha512-KA1hkfzoELQEOMDv9e+rSx7LqH81lIs3N1RroEjQY+CoDZGg/TKWIy3t0z7fMTD32FSDCJ5/K9IQl6quD5k/ag==
   dependencies:
     uuid "^9.0.0"
 
-"@iot-app-kit/scene-composer@10.8.1":
-  version "10.8.1"
-  resolved "https://registry.npmjs.org/@iot-app-kit/scene-composer/-/scene-composer-10.8.1.tgz"
-  integrity sha512-2ywjPls9Jtzo0Azp/y/FyEVq2+ZL45neGlVNZ6etkVj6z8jpzfJtiTS9pW93jw518/pB3PUICVyLsSzZWw54zQ==
+"@iot-app-kit/scene-composer@10.11.0":
+  version "10.11.0"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/scene-composer/-/scene-composer-10.11.0.tgz#c0ecc3a5af0c8cb60fd556c62669efd0bfcf9456"
+  integrity sha512-CCm5sz/DU6+W5BSGyTV7IkxRcJfPUbL3pqU7Crg99RGC5ByHR0jwubXl51KinceiE8jwxCuD6bVT1hFtar85Lg==
   dependencies:
     "3d-tiles-renderer" "0.3.16"
     "@aws-sdk/client-iottwinmaker" "3.589.0"
@@ -4615,10 +4616,10 @@
     "@fortawesome/fontawesome-svg-core" "^6.4.2"
     "@fortawesome/free-solid-svg-icons" "^6.4.2"
     "@fortawesome/react-fontawesome" "^0.2.0"
-    "@iot-app-kit/core" "10.8.1"
-    "@iot-app-kit/react-components" "10.8.1"
-    "@iot-app-kit/related-table" "10.8.1"
-    "@iot-app-kit/source-iottwinmaker" "10.8.1"
+    "@iot-app-kit/core" "10.11.0"
+    "@iot-app-kit/react-components" "10.11.0"
+    "@iot-app-kit/related-table" "10.11.0"
+    "@iot-app-kit/source-iottwinmaker" "10.11.0"
     "@matterport/r3f" "0.2.7"
     "@matterport/webcomponent" "0.1.35"
     "@react-three/drei" "9.56.27"
@@ -4655,10 +4656,10 @@
     zundo "1.6.0"
     zustand "^3.7.2"
 
-"@iot-app-kit/source-iottwinmaker@10.8.1":
-  version "10.8.1"
-  resolved "https://registry.npmjs.org/@iot-app-kit/source-iottwinmaker/-/source-iottwinmaker-10.8.1.tgz"
-  integrity sha512-MTfPKgKVW9m2q93rbyXDY2M/aglQqx3a/Y4C7hlJ0AJ9s0A2MkFximS9c/yOKSk+LDyAo5Ie1RzIsqsmdMfk4w==
+"@iot-app-kit/source-iottwinmaker@10.11.0":
+  version "10.11.0"
+  resolved "https://registry.yarnpkg.com/@iot-app-kit/source-iottwinmaker/-/source-iottwinmaker-10.11.0.tgz#e998149767b1b1744862d433cbe9b20efa46a313"
+  integrity sha512-xO9EWubctCdiIvnwMdHKvEkhLE+ji8Ie188pGoBTUcB43jhuNaxEXYhgjgpTYhNcImJCwgT0YqLCyi33vfkHng==
   dependencies:
     "@aws-sdk/client-iotsitewise" "3.456.0"
     "@aws-sdk/client-iottwinmaker" "3.589.0"
@@ -4667,7 +4668,7 @@
     "@aws-sdk/client-s3" "3.335.0"
     "@aws-sdk/client-secrets-manager" "3.353.0"
     "@aws-sdk/url-parser" "3.374.0"
-    "@iot-app-kit/core" "10.8.1"
+    "@iot-app-kit/core" "10.11.0"
     "@tanstack/query-core" "^4.29.15"
     lodash "^4.17.21"
     rxjs "^7.8.1"
@@ -9098,22 +9099,22 @@ data-urls@^3.0.2:
     whatwg-mimetype "^3.0.0"
     whatwg-url "^11.0.0"
 
+date-fns-tz@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/date-fns-tz/-/date-fns-tz-2.0.1.tgz#0a9b2099031c0d74120b45de9fd23192e48ea495"
+  integrity sha512-fJCG3Pwx8HUoLhkepdsP7Z5RsucUi+ZBOxyM5d0ZZ6c4SdYustq0VMmOu6Wf7bli+yS/Jwp91TOCqn9jMcVrUA==
+
 date-fns@3.3.1:
   version "3.3.1"
   resolved "https://registry.npmjs.org/date-fns/-/date-fns-3.3.1.tgz"
   integrity sha512-y8e109LYGgoQDveiEBD3DYXKba1jWf5BA8YU1FL5Tvm0BTdEfy54WLCwnuYWZNnzzvALy/QQ4Hov+Q9RVRv+Zw==
 
-date-fns@^2.25.0:
+date-fns@^2.25.0, date-fns@^2.30.0:
   version "2.30.0"
   resolved "https://registry.npmjs.org/date-fns/-/date-fns-2.30.0.tgz"
   integrity sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==
   dependencies:
     "@babel/runtime" "^7.21.0"
-
-date-fns@^3.4.0:
-  version "3.6.0"
-  resolved "https://registry.npmjs.org/date-fns/-/date-fns-3.6.0.tgz"
-  integrity sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==
 
 debounce@^1.2.1:
   version "1.2.1"
@@ -14314,16 +14315,7 @@ string-to-arraybuffer@1.0.2:
     atob-lite "^2.0.0"
     is-base64 "^0.1.0"
 
-"string-width-cjs@npm:string-width@^4.2.0":
-  version "4.2.3"
-  resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
-
-string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -14392,14 +14384,7 @@ string_decoder@0.10:
   resolved "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz"
   integrity sha512-ev2QzSzWPYmy9GuqfIVildA4OdcGLeFZQrq5ys6RtiuF+RQQiZWr8TZNyAcuVXyQRYfEO+MsoB/1BuQVhOJuoQ==
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
-  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
-  dependencies:
-    ansi-regex "^5.0.1"
-
-strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -15457,16 +15442,7 @@ word-wrap@^1.2.5:
   resolved "https://registry.npmjs.org/word-wrap/-/word-wrap-1.2.5.tgz"
   integrity sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
