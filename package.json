@@ -1,6 +1,6 @@
 {
   "name": "grafana-iot-twinmaker-app",
-  "version": "1.18.0",
+  "version": "1.18.1",
   "description": "Grafana IoT TwinMaker App Plugin",
   "scripts": {
     "build": "NODE_OPTIONS='--max-old-space-size=4096' webpack -c webpack.config.ts --env production",
@@ -104,7 +104,7 @@
   },
   "resolutions": {
     "d3-color": "^3.1.0",
-    "fast-xml-parser": "4.2.5",
+    "fast-xml-parser": "4.5.0",
     "jackspeak": "2.1.1",
     "lodash.pick": "https://github.com/lodash/lodash/archive/refs/tags/4.17.21.tar.gz",
     "ramda": "0.27.2",
