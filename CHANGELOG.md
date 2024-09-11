@@ -3,6 +3,7 @@
 ## 1.18.1
 
 - Bump fast-xml-parser dependency from [4.2.5 to 4.5.0](https://github.com/NaturalIntelligence/fast-xml-parser/compare/v4.2.5...v4.5.0)
+- Resolve path-to-regexp dependency to [1.9.0](https://github.com/pillarjs/path-to-regexp/releases/tag/v1.9.0)
 
 ## 1.18.0
   - Upgrade IotAppKit dependency from [10.8.1 to 10.11.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.8.1...root-v10.11.0)
