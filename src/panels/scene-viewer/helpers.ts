@@ -1,26 +1,10 @@
 import { DataBindingLabelKeys, ITagData, INavLink } from '@iot-app-kit/scene-composer';
 import { TWINMAKER_PANEL_TYPE_ID } from 'common/constants';
-import { getCurrentDashboard, getDashboardByUid, PanelModel } from 'common/dashboard';
+import { PanelModel } from 'common/dashboard';
 import { PanelOptions, PanelOptions as SceneViewerPanelOptions } from './types';
 import { doQueryUpdate } from '../layout/merge';
 import { VariableAction } from '../layout/types';
 
-export function mergeDashboard(targetDashboardId?: string): Promise<PanelOptions | undefined> {
-  if (!targetDashboardId) {
-    return Promise.resolve(undefined);
-  }
-
-  return getDashboardByUid(targetDashboardId).then((meta) => {
-    const dashboard = meta.dashboard;
-    const currentDashboard = getCurrentDashboard();
-
-    const currentViewerOptions = updateSceneViewerPanel(currentDashboard?.panels ?? [], dashboard.panels);
-
-    const info = currentDashboard?.updatePanels(dashboard.panels);
-    console.log('LOAD', info);
-    return currentViewerOptions;
-  });
-}
 
 export function updateSceneViewerPanel(currentPanels: PanelModel[], newPanels: PanelModel[]): PanelOptions {
   const currViewer = currentPanels.find((panel) => (panel as any).type === TWINMAKER_PANEL_TYPE_ID.SCENE);
