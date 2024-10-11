@@ -1,28 +1,8 @@
 import { EventBus, InterpolateFunction } from '@grafana/data';
 import { getLocationSrv, getTemplateSrv } from '@grafana/runtime';
 import { TWINMAKER_PANEL_TYPE_ID } from 'common/constants';
-import { getCurrentDashboard, getDashboardByUid, PanelModel } from 'common/dashboard';
+import { PanelModel } from 'common/dashboard';
 import { VariableAction } from './types';
-
-export async function mergeDashboard(eventBus: EventBus, targetDashboardId: string): Promise<boolean> {
-  if (!targetDashboardId) {
-    return Promise.resolve(false);
-  }
-
-  const meta = await getDashboardByUid(targetDashboardId);
-  const dashboard = meta.dashboard;
-  const currentDashboard = getCurrentDashboard();
-
-  console.log('PREPARE: ', targetDashboardId, dashboard.panels);
-  const panels = prepareDashboardMerge(eventBus, currentDashboard?.panels ?? [], dashboard.panels);
-  if (panels.length) {
-    console.log('UPDATE: ', panels);
-    const info = currentDashboard?.updatePanels(panels);
-    console.log('MERGED: ', info);
-    return true;
-  }
-  return false;
-}
 
 export function prepareDashboardMerge(
   eventBus: EventBus,

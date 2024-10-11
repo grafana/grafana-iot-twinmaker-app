@@ -16,7 +16,7 @@ import {
 } from 'common/manager';
 import { ReplaySubject, of, throwError } from 'rxjs';
 import { getCurrentDashboard } from 'common/dashboard';
-import { doQueryUpdate, mergeDashboard } from './merge';
+import { doQueryUpdate } from './merge';
 import { TWINMAKER_PANEL_TYPE_ID } from 'common/constants';
 
 const twinMakerQueries: Array<Partial<TwinMakerQuery>> = [
@@ -133,13 +133,6 @@ export class LayoutPanel extends Component<Props, State> {
             if (rule.componentTypeId === componentTypeId) {
               const query = doQueryUpdate(rule.actions);
               console.log('RULE MATCHED: ', rule, componentTypeId, query);
-              if (rule.dashboard && rule.dashboard !== this.dashboardUid) {
-                mergeDashboard(this.props.eventBus, rule.dashboard).then((v) => {
-                  if (v) {
-                    this.dashboardUid = rule.dashboard!;
-                  }
-                });
-              }
               break;
             }
           }
