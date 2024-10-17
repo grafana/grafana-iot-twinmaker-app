@@ -2,9 +2,13 @@ import { DataBindingLabelKeys, ITagData, INavLink } from '@iot-app-kit/scene-com
 import { TWINMAKER_PANEL_TYPE_ID } from 'common/constants';
 import { PanelModel } from 'common/dashboard';
 import { PanelOptions, PanelOptions as SceneViewerPanelOptions } from './types';
-import { doQueryUpdate } from '../layout/merge';
-import { VariableAction } from '../layout/types';
+import { getLocationSrv, getTemplateSrv } from '@grafana/runtime';
+import { InterpolateFunction } from '@grafana/data';
 
+export interface VariableAction {
+  variable: string;
+  value?: string;
+}
 
 export function updateSceneViewerPanel(currentPanels: PanelModel[], newPanels: PanelModel[]): PanelOptions {
   const currViewer = currentPanels.find((panel) => (panel as any).type === TWINMAKER_PANEL_TYPE_ID.SCENE);
@@ -98,4 +102,40 @@ export function updateUrlParams(
     });
   });
   doQueryUpdate(actions);
+}
+
+function doQueryUpdate(actions?: VariableAction[]): Record<string, any> | undefined {
+  const query = getQueryUpdate(actions, (v) => getTemplateSrv().replace(v));
+  if (query) {
+    getLocationSrv().update({
+      partial: true,
+      query,
+    });
+  }
+  return query;
+}
+/** translate the variable action request into a URL parameter changes */
+export function getQueryUpdate(
+  actions: VariableAction[] | undefined,
+  replace: InterpolateFunction
+): Record<string, any> | undefined {
+  if (!actions?.length) {
+    return undefined;
+  }
+
+  let ok = false;
+  const query: Record<string, any> = {};
+  for (const action of actions) {
+    let { variable, value } = action;
+    if (variable) {
+      const idx0 = variable.indexOf('{');
+      const idx1 = variable.indexOf('}');
+      if (idx0 >= 0 && idx1 > idx0) {
+        variable = variable.substring(idx0 + 1, idx1);
+      }
+      query[`var-${variable}`] = value ? replace(value) : undefined;
+      ok = true;
+    }
+  }
+  return ok ? query : undefined;
 }
