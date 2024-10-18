@@ -35,11 +35,6 @@
     },
     {
         "type": "panel",
-        "name": "Grafana IoT TwinMaker Dashboard Layout Panel",
-        "path": "panels/layout/plugin.json"
-    },
-    {
-        "type": "panel",
         "name": "AWS IoT TwinMaker Query Editor Panel",
         "path": "panels/query-editor/plugin.json"
     },

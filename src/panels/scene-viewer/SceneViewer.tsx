@@ -7,8 +7,7 @@ import { isEmpty } from 'lodash';
 import { TwinMakerApiModel } from 'aws-iot-twinmaker-grafana-utils';
 import { SceneViewerPropsFromParent } from './interfaces';
 import { getStyles } from './styles';
-import { getValidHttpUrl, mergeDashboard, updateUrlParams } from './helpers';
-import { MERGE_DASHBOARD_TARGET_ID_KEY } from 'common/constants';
+import { getValidHttpUrl, updateUrlParams } from './helpers';
 import plugin from '../../plugin.json';
 import { locationSearchToObject } from '@grafana/runtime';
 import { getUrlTempVarName, tempVarSyntax, undecorateName } from 'common/variables';
@@ -160,25 +159,13 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
       const anchorData = objectData.additionalComponentData?.[
         objectData.componentTypes.findIndex((type) => type === KnownComponentType.Tag)
       ] as ITagData | undefined;
-      if (objectData.nodeRef && anchorData) {
-        const dashboardId = anchorData?.navLink?.params?.[MERGE_DASHBOARD_TARGET_ID_KEY];
-        mergeDashboard(dashboardId).then((options) => {
-          updateUrlParams(
-            options?.customSelEntityVarName || props.options.customSelEntityVarName,
-            options?.customSelCompVarName || props.options.customSelCompVarName,
-            options?.customSelPropertyVarName || props.options.customSelPropertyVarName,
-            anchorData
-          );
-        });
-      } else {
         updateUrlParams(
           props.options.customSelEntityVarName,
           props.options.customSelCompVarName,
           props.options.customSelPropertyVarName,
           anchorData
         );
-      }
-    },
+      },
     [props.options.customSelEntityVarName, props.options.customSelCompVarName, props.options.customSelPropertyVarName]
   );
 
