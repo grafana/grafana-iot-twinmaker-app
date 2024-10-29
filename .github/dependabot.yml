@@ -20,6 +20,10 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+    ignore:
+      - dependency-name: '@iot-app-kit/*'
+      - dependency-name: '@aws-sdk/*'
+      - dependency-name: '@cloudscape-design/*'
     groups:
       all-node-dependencies:
         patterns:
