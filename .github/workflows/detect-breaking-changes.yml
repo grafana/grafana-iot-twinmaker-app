@@ -10,7 +10,9 @@ jobs:
         with:
           node-version-file: '.nvmrc'
       - name: Install dependencies
-        run: yarn install
+        run: |
+          export NODE_OPTIONS="--max-old-space-size=8192"
+          yarn install
       - name: Build plugin
         run: yarn build
       - name: Compatibility check
