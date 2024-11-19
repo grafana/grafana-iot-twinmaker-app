@@ -262,6 +262,10 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
         enable: true,
         path: `${window.location.origin}/${staticPluginPath}/static/draco/`,
       },
+      basisuDecoder: {
+        enable: true,
+        path: `${window.location.origin}/${staticPluginPath}/static/basisu/`,
+      },
       featureConfig: {
         AutoQuery: true,
         DynamicScene: true,

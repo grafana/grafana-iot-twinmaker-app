@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.18.2
+
+- Upgrade IotAppKit dependency from [10.11.0 to 10.13.1](https://github.com/awslabs/iot-app-kit/compare/ts-config-v10.11.0...ts-config-v10.13.1)
+- Adding basis universal transcoder to support DRACO compressed tiles [#321](https://github.com/grafana/grafana-iot-twinmaker-app/pull/321)
+- Remove unused alarm panel [#307](https://github.com/grafana/grafana-iot-twinmaker-app/pull/307)
+- Remove unused merge dashboard flow [#306](https://github.com/grafana/grafana-iot-twinmaker-app/pull/306)
+
 ## 1.18.1
 
 - Bump fast-xml-parser dependency from [4.2.5 to 4.5.0](https://github.com/NaturalIntelligence/fast-xml-parser/compare/v4.2.5...v4.5.0)

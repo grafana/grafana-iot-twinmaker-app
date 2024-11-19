@@ -49,6 +49,8 @@ const esModules = [
   'react-dnd-html5-backend',
   'echarts',
   'zrender',
+  'nanoid',
+  '@iot-app-kit/react-components',
 ];
 
 module.exports = {
