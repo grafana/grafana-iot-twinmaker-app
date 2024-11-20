@@ -89,7 +89,7 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	}
 
 	twinMakerService := func() (*iottwinmaker.IoTTwinMaker, error) {
-		session, err := sessions.GetSession(noEndpointSessionConfig)
+		session, err := sessions.GetSession(noEndpointSessionConfig) //nolint:staticcheck
 		if err != nil {
 			return nil, err
 		}
@@ -103,7 +103,7 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 		if writerSessionConfig.Settings.AssumeRoleARN == "" {
 			return nil, fmt.Errorf("writer role not configured")
 		}
-		session, err := sessions.GetSession(writerSessionConfig)
+		session, err := sessions.GetSession(writerSessionConfig) //nolint:staticcheck
 		if err != nil {
 			return nil, err
 		}
@@ -114,7 +114,7 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	}
 
 	tokenService := func() (*sts.STS, error) {
-		session, err := sessions.GetSession(stsSessionConfig)
+		session, err := sessions.GetSession(stsSessionConfig) //nolint:staticcheck
 		if err != nil {
 			return nil, err
 		}
