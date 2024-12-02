@@ -46,7 +46,7 @@ type twinMakerClient struct {
 }
 
 // NewTwinMakerClient provides a twinMakerClient for the session and associated calls
-func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerClient, error) {
+func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting, ctx context.Context) (TwinMakerClient, error) {
 	httpClient, err := httpclient.New()
 	if err != nil {
 		return nil, err
@@ -63,7 +63,7 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	noEndpointSettings := settings.AWSDatasourceSettings
 	noEndpointSettings.Endpoint = ""
 
-	noEndpointSessionConfig := awsds.SessionConfig{
+	noEndpointSessionConfig := awsds.GetSessionConfig{
 		Settings:      noEndpointSettings,
 		HTTPClient:    httpClient,
 		UserAgentName: &agent,
@@ -73,7 +73,7 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	writerSettings.Endpoint = ""
 	writerSettings.AssumeRoleARN = settings.AssumeRoleARNWriter
 
-	writerSessionConfig := awsds.SessionConfig{
+	writerSessionConfig := awsds.GetSessionConfig{
 		Settings:      writerSettings,
 		HTTPClient:    httpClient,
 		UserAgentName: &agent,
@@ -83,13 +83,14 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	stsSettings := noEndpointSettings
 	stsSettings.AssumeRoleARN = ""
 
-	stsSessionConfig := awsds.SessionConfig{
+	stsSessionConfig := awsds.GetSessionConfig{
 		Settings:   stsSettings,
 		HTTPClient: httpClient,
 	}
+	authSettings, _ := awsds.ReadAuthSettingsFromContext(ctx)
 
 	twinMakerService := func() (*iottwinmaker.IoTTwinMaker, error) {
-		session, err := sessions.GetSession(noEndpointSessionConfig)
+		session, err := sessions.GetSessionWithAuthSettings(noEndpointSessionConfig, *authSettings)
 		if err != nil {
 			return nil, err
 		}
@@ -103,7 +104,7 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 		if writerSessionConfig.Settings.AssumeRoleARN == "" {
 			return nil, fmt.Errorf("writer role not configured")
 		}
-		session, err := sessions.GetSession(writerSessionConfig)
+		session, err := sessions.GetSessionWithAuthSettings(writerSessionConfig, *authSettings)
 		if err != nil {
 			return nil, err
 		}
@@ -114,7 +115,7 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 	}
 
 	tokenService := func() (*sts.STS, error) {
-		session, err := sessions.GetSession(stsSessionConfig)
+		session, err := sessions.GetSessionWithAuthSettings(stsSessionConfig, *authSettings)
 		if err != nil {
 			return nil, err
 		}

@@ -30,7 +30,7 @@ func NewTwinMakerInstance(ctx context.Context, s backend.DataSourceInstanceSetti
 		return nil, err
 	}
 
-	return NewTwinMakerDatasource(settings), nil
+	return NewTwinMakerDatasource(settings, ctx), nil
 }
 
 type TwinMakerDatasource struct {
@@ -55,8 +55,8 @@ var (
 )
 
 // NewTwinMakerDatasource creates a new datasource instance.
-func NewTwinMakerDatasource(settings models.TwinMakerDataSourceSetting) *TwinMakerDatasource {
-	c, err := twinmaker.NewTwinMakerClient(settings)
+func NewTwinMakerDatasource(settings models.TwinMakerDataSourceSetting, ctx context.Context, ) *TwinMakerDatasource {
+	c, err := twinmaker.NewTwinMakerClient(settings, ctx)
 	if err != nil {
 		backend.Logger.Error("Error initializing TwinMakerTokenProvider", "err", err)
 		return nil
