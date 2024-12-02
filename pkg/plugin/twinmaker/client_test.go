@@ -19,7 +19,7 @@ func TestFetchAWSData(t *testing.T) {
 	t.Run("get a sts token with inline policy enforced", func(t *testing.T) {
 		t.Skip()
 
-		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType:      awsds.AuthTypeDefault,
@@ -37,7 +37,7 @@ func TestFetchAWSData(t *testing.T) {
 
 	t.Run("throw error when assume role arn is missing", func(t *testing.T) {
 		t.Skip()
-		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType:     awsds.AuthTypeKeys,
@@ -56,7 +56,7 @@ func TestFetchAWSData(t *testing.T) {
 	t.Run("manually get an sts token when creds are permanent", func(t *testing.T) {
 		t.Skip()
 
-		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType:      awsds.AuthTypeDefault,
@@ -76,7 +76,7 @@ func TestFetchAWSData(t *testing.T) {
 	t.Run("manually query twinmaker", func(t *testing.T) {
 		t.Skip()
 
-		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType: awsds.AuthTypeDefault,
@@ -188,7 +188,7 @@ func TestFetchAWSData(t *testing.T) {
 	t.Run("athena connector test no filter", func(t *testing.T) {
 		t.Skip()
 
-		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType: awsds.AuthTypeDefault,

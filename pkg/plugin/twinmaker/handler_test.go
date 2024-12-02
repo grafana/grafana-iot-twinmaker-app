@@ -129,7 +129,7 @@ func TestHandleAWSData(t *testing.T) {
 	t.Run("run GetComponentHistory handler w id", func(t *testing.T) {
 		t.Skip()
 		// cannot use the mock client here since this uses different API calls
-		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType: awsds.AuthTypeDefault,
@@ -176,7 +176,7 @@ func TestHandleAWSData(t *testing.T) {
 	t.Run("run GetAlarms handler", func(t *testing.T) {
 		t.Skip()
 		// cannot use the mock client here since no real API call exists for this
-		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType: awsds.AuthTypeDefault,
