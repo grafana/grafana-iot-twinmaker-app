@@ -26,7 +26,7 @@ func TestFetchAWSData(t *testing.T) {
 				AssumeRoleARN: "arn:aws:iam::166800769179:role/IoTTwinMakerDashboardRole-8cf9aa9e",
 				Region:        "us-east-1",
 			},
-		})
+		}, context.Background())
 		require.NoError(t, err)
 
 		WorkspaceId := "AlarmWorkspace"
@@ -45,7 +45,7 @@ func TestFetchAWSData(t *testing.T) {
 				SecretKey:    "dummySecretKeyId",
 				SessionToken: "dummySessionToken", // this means creds are already temp
 			},
-		})
+		}, context.Background())
 		require.NoError(t, err)
 
 		WorkspaceId := "GrafanaWorkspace"
@@ -63,7 +63,7 @@ func TestFetchAWSData(t *testing.T) {
 				AssumeRoleARN: "arn:aws:iam::166800769179:role/IoTTwinMakerDashboardRole-8cf9aa9e",
 				Region:        "us-east-1",
 			},
-		})
+		}, context.Background())
 		require.NoError(t, err)
 
 		WorkspaceId := "AlarmWorkspace"
@@ -82,7 +82,7 @@ func TestFetchAWSData(t *testing.T) {
 				AuthType: awsds.AuthTypeDefault,
 				Region:   "us-east-1",
 			},
-		})
+		}, context.Background())
 		require.NoError(t, err)
 
 		w, err := c.ListWorkspaces(context.Background(), models.TwinMakerQuery{})
@@ -194,7 +194,7 @@ func TestFetchAWSData(t *testing.T) {
 				AuthType: awsds.AuthTypeDefault,
 				Region:   "us-east-1",
 			},
-		})
+		}, context.Background())
 		require.NoError(t, err)
 
 		pv, err := c.GetPropertyValue(context.Background(), models.TwinMakerQuery{

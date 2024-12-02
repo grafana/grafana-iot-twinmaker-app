@@ -135,7 +135,7 @@ func TestHandleAWSData(t *testing.T) {
 				AuthType: awsds.AuthTypeDefault,
 				Region:   "us-east-1",
 			},
-		})
+		}, context.Background())
 		require.NoError(t, err)
 		handler := NewTwinMakerHandler(c)
 
@@ -182,7 +182,7 @@ func TestHandleAWSData(t *testing.T) {
 				AuthType: awsds.AuthTypeDefault,
 				Region:   "us-east-1",
 			},
-		})
+		}, context.Background())
 		require.NoError(t, err)
 		handler := NewTwinMakerHandler(c)
 

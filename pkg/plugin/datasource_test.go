@@ -22,7 +22,7 @@ func TestCheckHealthHandler(t *testing.T) {
 				AssumeRoleARN: "arn:abcefhtogjslghs:aws:ssafg",
 			},
 			WorkspaceID: "aaa",
-		})
+		}, context.Background())
 
 		res, _ := ds.CheckHealth(
 			context.Background(),
@@ -41,7 +41,7 @@ func TestCheckHealthHandler(t *testing.T) {
 				Region:    "us-east-1",
 			},
 			WorkspaceID: "aaa",
-		})
+		}, context.Background())
 
 		res, _ := ds.CheckHealth(
 			context.Background(),
@@ -62,7 +62,7 @@ func TestCheckHealthHandler(t *testing.T) {
 				AssumeRoleARN: "abc",
 			},
 			WorkspaceID: "aaa",
-		})
+		}, context.Background())
 
 		res, _ := ds.CheckHealth(
 			context.Background(),
