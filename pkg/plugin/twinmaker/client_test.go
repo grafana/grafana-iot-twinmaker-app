@@ -19,14 +19,14 @@ func TestFetchAWSData(t *testing.T) {
 	t.Run("get a sts token with inline policy enforced", func(t *testing.T) {
 		t.Skip()
 
-		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType:      awsds.AuthTypeDefault,
 				AssumeRoleARN: "arn:aws:iam::166800769179:role/IoTTwinMakerDashboardRole-8cf9aa9e",
 				Region:        "us-east-1",
 			},
-		}, context.Background())
+		})
 		require.NoError(t, err)
 
 		WorkspaceId := "AlarmWorkspace"
@@ -37,7 +37,7 @@ func TestFetchAWSData(t *testing.T) {
 
 	t.Run("throw error when assume role arn is missing", func(t *testing.T) {
 		t.Skip()
-		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType:     awsds.AuthTypeKeys,
@@ -45,7 +45,7 @@ func TestFetchAWSData(t *testing.T) {
 				SecretKey:    "dummySecretKeyId",
 				SessionToken: "dummySessionToken", // this means creds are already temp
 			},
-		}, context.Background())
+		})
 		require.NoError(t, err)
 
 		WorkspaceId := "GrafanaWorkspace"
@@ -56,14 +56,14 @@ func TestFetchAWSData(t *testing.T) {
 	t.Run("manually get an sts token when creds are permanent", func(t *testing.T) {
 		t.Skip()
 
-		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType:      awsds.AuthTypeDefault,
 				AssumeRoleARN: "arn:aws:iam::166800769179:role/IoTTwinMakerDashboardRole-8cf9aa9e",
 				Region:        "us-east-1",
 			},
-		}, context.Background())
+		})
 		require.NoError(t, err)
 
 		WorkspaceId := "AlarmWorkspace"
@@ -76,13 +76,13 @@ func TestFetchAWSData(t *testing.T) {
 	t.Run("manually query twinmaker", func(t *testing.T) {
 		t.Skip()
 
-		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType: awsds.AuthTypeDefault,
 				Region:   "us-east-1",
 			},
-		}, context.Background())
+		})
 		require.NoError(t, err)
 
 		w, err := c.ListWorkspaces(context.Background(), models.TwinMakerQuery{})
@@ -188,13 +188,13 @@ func TestFetchAWSData(t *testing.T) {
 	t.Run("athena connector test no filter", func(t *testing.T) {
 		t.Skip()
 
-		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType: awsds.AuthTypeDefault,
 				Region:   "us-east-1",
 			},
-		}, context.Background())
+		})
 		require.NoError(t, err)
 
 		pv, err := c.GetPropertyValue(context.Background(), models.TwinMakerQuery{

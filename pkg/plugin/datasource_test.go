@@ -13,7 +13,7 @@ import (
 
 func TestCheckHealthHandler(t *testing.T) {
 	t.Run("HealthStatusError when cannot connect", func(t *testing.T) {
-		ds := plugin.NewTwinMakerDatasource(models.TwinMakerDataSourceSetting{
+		ds := plugin.NewTwinMakerDatasource(context.Background(), models.TwinMakerDataSourceSetting{
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AccessKey:     "sdkhfbhkdshjf",
 				SecretKey:     "sdafdsfdsf",
@@ -22,7 +22,7 @@ func TestCheckHealthHandler(t *testing.T) {
 				AssumeRoleARN: "arn:abcefhtogjslghs:aws:ssafg",
 			},
 			WorkspaceID: "aaa",
-		}, context.Background())
+		})
 
 		res, _ := ds.CheckHealth(
 			context.Background(),
@@ -33,7 +33,7 @@ func TestCheckHealthHandler(t *testing.T) {
 		require.Contains(t, res.Message, "InvalidClientTokenId: The security token included in the request is invalid.\n\tstatus code: 403")
 	})
 	t.Run("HealthStatusError when assume role arn is not filled out", func(t *testing.T) {
-		ds := plugin.NewTwinMakerDatasource(models.TwinMakerDataSourceSetting{
+		ds := plugin.NewTwinMakerDatasource(context.Background(), models.TwinMakerDataSourceSetting{
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AccessKey: "sdkhfbhkdshjf",
 				SecretKey: "sdafdsfdsf",
@@ -41,7 +41,7 @@ func TestCheckHealthHandler(t *testing.T) {
 				Region:    "us-east-1",
 			},
 			WorkspaceID: "aaa",
-		}, context.Background())
+		})
 
 		res, _ := ds.CheckHealth(
 			context.Background(),
@@ -53,7 +53,7 @@ func TestCheckHealthHandler(t *testing.T) {
 	})
 	t.Run("HealthStatusOK when can connect", func(t *testing.T) {
 		t.Skip()
-		ds := plugin.NewTwinMakerDatasource(models.TwinMakerDataSourceSetting{
+		ds := plugin.NewTwinMakerDatasource(context.Background(), models.TwinMakerDataSourceSetting{
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AccessKey:     "sdkhfbhkdshjf",
 				SecretKey:     "sdafdsfdsf",
@@ -62,7 +62,7 @@ func TestCheckHealthHandler(t *testing.T) {
 				AssumeRoleARN: "abc",
 			},
 			WorkspaceID: "aaa",
-		}, context.Background())
+		})
 
 		res, _ := ds.CheckHealth(
 			context.Background(),

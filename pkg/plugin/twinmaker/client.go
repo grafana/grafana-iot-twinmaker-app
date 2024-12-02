@@ -46,7 +46,7 @@ type twinMakerClient struct {
 }
 
 // NewTwinMakerClient provides a twinMakerClient for the session and associated calls
-func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting, ctx context.Context) (TwinMakerClient, error) {
+func NewTwinMakerClient(ctx context.Context, settings models.TwinMakerDataSourceSetting) (TwinMakerClient, error) {
 	httpClient, err := httpclient.New()
 	if err != nil {
 		return nil, err
