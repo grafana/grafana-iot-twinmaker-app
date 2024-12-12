@@ -1,5 +1,61 @@
 # Changelog
 
+## 1.18.3
+
+- Dependency updates:
+  - Node in [#325](https://github.com/grafana/grafana-iot-twinmaker-app/pull/325), [#326](https://github.com/grafana/grafana-iot-twinmaker-app/pull/326), [#315](https://github.com/grafana/grafana-iot-twinmaker-app/pull/315), [#316](https://github.com/grafana/grafana-iot-twinmaker-app/pull/316), [#312](https://github.com/grafana/grafana-iot-twinmaker-app/pull/312):
+    - actions/checkout@v3 to actions/checkout@v4
+    - actions actions/setup-node@v3 to actions/setup-node@v4
+    - Bump ws from 8.13.0 to 8.18.0
+    - Bump micromatch from 4.0.5 to 4.0.8
+    - Bump webpack from 5.93.0 to 5.94.0
+    - @emotion/css from 11.11.2 to 11.13.5
+    - @grafana/aws-sdk from 0.4.1 to 0.5.0
+    - @grafana/data from 10.4.5 to 11.4.0
+    - @grafana/experimental from 1.7.12 to 2.1.4
+    - @grafana/runtime from 10.4.5 to 11.4.0
+    - @grafana/schema from 10.4.5 to 11.4.0
+    - @grafana/ui from 10.4.5 to 11.4.0
+    - aws-sdk from 2.1450 to .0 2.1692.0
+    - cytoscape from 3.26.0 to 3.30.4
+    - react from 18.2.0 to 18.3.1
+    - react-dom from 18.2.0 to 18.3.1
+    - react-router-dom from 5.3.4 to 7.0.2
+    - react-use from 17.5.0 to 17.5.1
+    - tslib from 2.6.3 to 2.8.1
+    - uuid from 8.3.2 to 11.0.3
+    - @babel/core from 7.24.9 to 7.26.0
+    - @grafana/eslint-config from 7.0.0 to 8.0.0
+    - @grafana/tsconfig from 1.3.0- to rc1 2.0.0
+    - @swc/core from 1.6.13 to 1.10.1
+    - @swc/helpers from 0.5.12 to 0.5.15
+    - @swc/jest from 0.2.36 to 0.2.37
+    - @testing-library/dom from 10.3.2 to 10.4.0
+    - @testing-library/jest-dom from 6.4.6 to 6.6.3
+    - @types/testing-library\_\_jest-dom from 5.14.9 to 6.0.0
+    - @testing-library/react from 16.0.0 to 16.1.0
+    - @types/jest from 29.5.1 to 2 29.5.14
+    - @types/node from 20.14. to 10 22.10.1
+    - @types/three from 0.139. to 0 0.170.0
+    - @types/three from 0.139. to 0 0.170.0
+    - @types/uuid from 8.3.4 to 10.0.0
+    - cspell from 8.11.0 to 8.16.1
+    - eslint-plugin-prettier from 5.1.3 to 5.2.1
+    - prettier from 3.3.3 to 3.4.2
+    - sass from 1.77.8 to 1.82.0
+    - sass-loader from 14.2.1 to 16.0.4
+    - typescript from 5.5.3 to 5.7.2
+    - webpack from 5.94.0 to 5.97.1
+    - webpack-shell-plugin-next from 2.3.1 to 2.3.2
+    - @types/lodash from 4.17.10 to 4.17.13
+    - @grafana/plugin-sdk-go from v0.260.1 to v0.260.2
+  - Go in [#324](https://github.com/grafana/grafana-iot-twinmaker-app/pull/324), [#327](https://github.com/grafana/grafana-iot-twinmaker-app/pull/327)
+    - Updates github.com/aws/aws-sdk-go from 1.44.323 to 1.55.5
+    - Updates github.com/grafana/grafana-aws-sdk from 0.20.0 to 0.31.4
+    - Updates github.com/grafana/grafana-plugin-sdk-go from 0.240.0 to 0.258.0
+    - Updates github.com/stretchr/testify from 1.9.0 to 1.10.0
+    - Bump github.com/grafana/grafana-plugin-sdk-go from 0.258.0 to 0.260.1
+
 ## 1.18.2
 
 - Upgrade IotAppKit dependency from [10.11.0 to 10.13.1](https://github.com/awslabs/iot-app-kit/compare/ts-config-v10.11.0...ts-config-v10.13.1)
@@ -13,7 +69,8 @@
 - Resolve path-to-regexp dependency to [1.9.0](https://github.com/pillarjs/path-to-regexp/releases/tag/v1.9.0)
 
 ## 1.18.0
-  - Upgrade IotAppKit dependency from [10.8.1 to 10.11.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.8.1...root-v10.11.0)
+
+- Upgrade IotAppKit dependency from [10.8.1 to 10.11.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.8.1...root-v10.11.0)
 
 ## 1.17.2
 
@@ -31,7 +88,6 @@
 - [10.8.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.7.0...root-v10.8.0) (2024-06-24)
 - [10.7.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.6.1...root-v10.7.0) (2024-06-18)
 
-
 ## 1.16.0
 
 - Use Grafana theme for config editor width in [#290](https://github.com/grafana/grafana-iot-twinmaker-app/pull/290)
@@ -41,14 +97,14 @@
 
 ## 1.15.0
 
-  - Support for [Dynamic Scenes](https://docs.aws.amazon.com/iot-twinmaker/latest/guide/dynamic-scenes.html)
-  - Remove dummy cypress test and dependencies
-  - Upgrade IotAppKit dependency from [10.2.0 to 10.6.1](https://github.com/awslabs/iot-app-kit/compare/root-v10.2.0...root-v10.6.1)
-  - [10.6.1](https://github.com/awslabs/iot-app-kit/compare/root-v10.6.0...root-v10.6.1) (2024-06-13)
-  - [10.6.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.5.0...root-v10.6.0) (2024-06-06)
-  - [10.5.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.4.0...root-v10.5.0) (2024-05-30)
-  - [10.4.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.3.0...root-v10.4.0) (2024-05-20)
-  - [10.3.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.2.0...root-v10.3.0) (2024-05-10)
+- Support for [Dynamic Scenes](https://docs.aws.amazon.com/iot-twinmaker/latest/guide/dynamic-scenes.html)
+- Remove dummy cypress test and dependencies
+- Upgrade IotAppKit dependency from [10.2.0 to 10.6.1](https://github.com/awslabs/iot-app-kit/compare/root-v10.2.0...root-v10.6.1)
+- [10.6.1](https://github.com/awslabs/iot-app-kit/compare/root-v10.6.0...root-v10.6.1) (2024-06-13)
+- [10.6.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.5.0...root-v10.6.0) (2024-06-06)
+- [10.5.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.4.0...root-v10.5.0) (2024-05-30)
+- [10.4.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.3.0...root-v10.4.0) (2024-05-20)
+- [10.3.0](https://github.com/awslabs/iot-app-kit/compare/root-v10.2.0...root-v10.3.0) (2024-05-10)
 
 ## 1.14.0
 
