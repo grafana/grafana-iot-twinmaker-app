@@ -1,9 +1,9 @@
 {
   "name": "grafana-iot-twinmaker-app",
-  "version": "1.18.2",
+  "version": "1.18.3",
   "description": "Grafana IoT TwinMaker App Plugin",
   "scripts": {
-    "build": "webpack -c ./webpack.config.ts --env production",
+    "build": "NODE_OPTIONS='--max-old-space-size=4096' webpack -c ./webpack.config.ts --env production",
     "clean": "rm -rf dist/ build/*",
     "dev": "webpack -w -c ./webpack.config.ts --env development",
     "generate-release-notes": "PREV_TAG=$(git tag | tail -n 1) && gh api --method POST /repos/grafana/grafana-iot-twinmaker-app/releases/generate-notes -f tag_name=v${npm_package_version} -f target_commitish=main -f previous_tag_name=${PREV_TAG} | jq -r .body",

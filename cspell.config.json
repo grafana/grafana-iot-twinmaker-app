@@ -62,6 +62,8 @@
     "otelhttptrace",
     "struct",
     "fridgepoet",
-    "stdlib"
+    "stdlib",
+    "cytoscape",
+    "stretchr"
   ]
 }
