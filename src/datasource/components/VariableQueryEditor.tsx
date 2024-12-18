@@ -59,8 +59,9 @@ export default function VariableQueryEditor(props: Props) {
   return (
     <>
       <InlineFieldRow>
-        <InlineField label="Query Type" labelWidth={20} grow={true}>
+        <InlineField htmlFor="query-type" label="Query Type" labelWidth={20} grow={true}>
           <Select
+            inputId="query-type"
             menuShouldPortal={true}
             options={variableQueryTypes}
             value={variableQueryTypes.find((v) => v.value === query.queryType) ?? variableQueryTypes[0]}
