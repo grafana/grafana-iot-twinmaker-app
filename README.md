@@ -33,7 +33,7 @@ You need to have commit rights to the GitHub repository to publish a release.
 1. Update the version number in the `package.json` file.
 2. Update the `CHANGELOG.md` by copy and pasting the relevant PRs from [Github's Release drafter interface](https://github.com/grafana/grafana-iot-twinmaker-app/releases/new) or by running `npm run generate-release-notes`.
 3. PR the changes.
-4. Let the AWS TwinMaker team know that you are planning a release so they can test it first.  You can do this by tagging them in the release PR.
+4. Let the AWS TwinMaker team know that you are planning a release so they can test it first. You can do this by tagging them in the release PR.
 5. Once merged, follow the Drone release process that you can find [here](https://github.com/grafana/integrations-team/wiki/Plugin-Release-Process#drone-release-process)
 
 ## Install
@@ -59,3 +59,9 @@ a. This container will mount the volume `~/.aws:/usr/share/grafana/.aws` with th
 By default, the webpack mode is set to `production` to work with the released Grafana production build.
 
 To build the plugin with `development` mode, change the mode in [webpack.config.js](https://github.com/grafana/grafana-iot-twinmaker-app/blob/main/webpack.config.js) file to be `development`, and start the development mode local Grafana server following [Grafana Developer Guide](https://github.com/grafana/grafana/blob/main/contribute/developer-guide.md#build-grafana)
+
+## E2E tests
+
+1. `yarn playwright install --with-deps`
+1. `yarn server`
+1. `yarn e2e`

@@ -1,0 +1,19 @@
+apiVersion: 1
+
+deleteDatasources:
+  - name: AWS IoT TwinMaker
+    orgId: 1
+
+datasources:
+  - name: AWS IoT TwinMaker
+    type: grafana-iot-twinmaker-datasource
+    enabled: true
+    jsonData:
+      authType: keys
+      defaultRegion: us-east-1
+      assumeRoleArn: $ASSUME_ROLE_ARN
+      workspaceId: $WORKSPACE_ID
+    secureJsonData:
+      accessKey: $ACCESS_KEY
+      secretKey: $SECRET_KEY
+    version: 1
