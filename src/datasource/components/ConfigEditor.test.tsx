@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import React from 'react';
 import { ConfigEditor } from './ConfigEditor';
 import { render, screen, waitFor } from '@testing-library/react';

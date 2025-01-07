@@ -1,4 +1,4 @@
-import { ArrayVector, DataFrame, DataTransformerInfo, Field, FieldType, UrlQueryMap } from '@grafana/data';
+import { DataFrame, DataTransformerInfo, Field, FieldType, UrlQueryMap } from '@grafana/data';
 import { getLocationSrv, getTemplateSrv, TemplateSrv } from '@grafana/runtime';
 import { TableCellDisplayMode } from '@grafana/schema';
 import { getTwinMakerDatasource } from 'common/datasourceSrv';
@@ -92,7 +92,7 @@ export function applyTwinMakerLinks(
     }
     fields.unshift({
       name: ' ',
-      values: new ArrayVector(selection),
+      values: selection,
       type: FieldType.string,
       config: {
         custom: { cellOptions: { type: TableCellDisplayMode.Image}, width: 1, align: 'center' } ,

@@ -3,7 +3,7 @@ import { Button, Select } from '@grafana/ui';
 import { TwinMakerOrderBy, TwinMakerResultOrder } from 'common/manager';
 import { SelectableValue } from '@grafana/data';
 import { twinMakerOrderOptions } from 'datasource/queryInfo';
-import { EditorField, EditorFieldGroup } from '@grafana/experimental';
+import { EditorField, EditorFieldGroup } from '@grafana/plugin-ui';
 import { css } from '@emotion/css';
 
 export interface OrderByEditorProps {

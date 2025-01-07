@@ -1,4 +1,4 @@
-import { EditorField } from '@grafana/experimental';
+import { EditorField } from '@grafana/plugin-ui';
 import { CollapsableSection, Select } from '@grafana/ui';
 import { twinMakerOrderOptions } from 'datasource/queryInfo';
 import React from 'react';

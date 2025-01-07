@@ -13,7 +13,7 @@ import { getTwinMakerDatasource } from 'common/datasourceSrv';
 import { getSelectionInfo } from 'common/info/info';
 import { SelectableQueryResults } from 'common/info/types';
 import { useEffectOnce } from 'react-use';
-import { ConfigSection } from '@grafana/experimental';
+import { ConfigSection } from '@grafana/plugin-ui';
 import { css } from '@emotion/css';
 
 type Props = ConnectionConfigProps<TwinMakerDataSourceOptions, TwinMakerSecureJsonData>;

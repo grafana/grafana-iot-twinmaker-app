@@ -37,7 +37,7 @@ import { getVariableOptions } from 'common/variables';
 import FilterQueryEditor from './FilterQueryEditor';
 import { BlurTextInput } from './BlurTextInput';
 import OrderByEditor from './OrderByEditor';
-import { EditorField, EditorFieldGroup, EditorRow, EditorRows } from '@grafana/experimental';
+import { EditorField, EditorFieldGroup, EditorRow, EditorRows } from '@grafana/plugin-ui';
 import { css } from '@emotion/css';
 import { QueryOptions } from './QueryOptions';
 
