@@ -4,7 +4,7 @@ import { DEFAULT_PROPERTY_FILTER_OPERATOR, TwinMakerFilterValue, TwinMakerProper
 import { editorFieldStyles } from '.';
 import { BlurTextInput } from './BlurTextInput';
 import { SelectableValue } from '@grafana/data';
-import { EditorField, EditorFieldGroup } from '@grafana/experimental';
+import { EditorField, EditorFieldGroup } from '@grafana/plugin-ui';
 import { css } from '@emotion/css';
 
 export interface FilterQueryEditorProps {
