@@ -1,3 +1,7 @@
+# Compatibility
+
+Grafana IoT TwinMaker App Plugin >=2.0.0 is not compatible with Grafana versions <10.4.x due to a breaking change in UI components.
+
 # AWS IoT TwinMaker Application Development Guide
 
 Please add feedback to the [issues](https://github.com/grafana/grafana-iot-twinmaker-app/issues) folder, and we will follow up shortly. Be sure to include version information for both Grafana and the installed plugin.
