@@ -64,6 +64,7 @@
     "fridgepoet",
     "stdlib",
     "cytoscape",
-    "stretchr"
+    "stretchr",
+    "dompurify"
   ]
 }

@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.0.0
+
+- Migrate to plugin-ui from grafana/experimental in [#344](https://github.com/grafana/grafana-iot-twinmaker-app/pull/344)
+- Dependabot config: Ignore react and react-dom major updates in [#331](https://github.com/grafana/grafana-iot-twinmaker-app/pull/331)
+- Add e2e smoke tests in [#336](https://github.com/grafana/grafana-iot-twinmaker-app/pull/336)
+- Dependency updates:
+  - Bump github.com/grafana/grafana-plugin-sdk-go from 0.260.3 to 0.261.0 in the all-go-dependencies group in [#346](https://github.com/grafana/grafana-iot-twinmaker-app/pull/346)
+  - Bumps the all-node-dependencies group with 21 updates in [#341](https://github.com/grafana/grafana-iot-twinmaker-app/pull/341)
+  - Bump the npm_and_yarn group with 2 updates in [#330](https://github.com/grafana/grafana-iot-twinmaker-app/pull/330)
+  - Bump golang.org/x/crypto from 0.29.0 to 0.31.0 in the go_modules group in [#329](https://github.com/grafana/grafana-iot-twinmaker-app/pull/329)
+  - Bump the all-go-dependencies group across 1 directory with 2 updates in [#338](https://github.com/grafana/grafana-iot-twinmaker-app/pull/338)
+  - Bump dompurify to 3.2.3  in [#349](https://github.com/grafana/grafana-iot-twinmaker-app/pull/349)
+
 ## 1.18.3
 
 - Dependency updates:
