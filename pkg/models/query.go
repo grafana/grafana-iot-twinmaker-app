@@ -3,11 +3,11 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+	iottwinmakertypes "github.com/aws/aws-sdk-go-v2/service/iottwinmaker/types"
 	"strconv"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/iottwinmaker"
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
@@ -34,7 +34,7 @@ const (
 type TwinMakerFilterValue struct {
 	BooleanValue *bool    `json:"booleanValue,omitempty"`
 	DoubleValue  *float64 `json:"doubleValue,omitempty"`
-	IntegerValue *int64   `json:"integerValue,omitempty"`
+	IntegerValue *int32   `json:"integerValue,omitempty"`
 	LongValue    *int64   `json:"longValue,omitempty"`
 	StringValue  *string  `json:"stringValue,omitempty"`
 }
@@ -45,19 +45,19 @@ type TwinMakerPropertyFilter struct {
 	Op    string               `json:"op,omitempty"`
 }
 
-func (v *TwinMakerFilterValue) ToTwinMakerDataValue() *iottwinmaker.DataValue {
+func (v *TwinMakerFilterValue) ToTwinMakerDataValue() *iottwinmakertypes.DataValue {
 	if v.BooleanValue != nil {
-		return &iottwinmaker.DataValue{BooleanValue: v.BooleanValue}
+		return &iottwinmakertypes.DataValue{BooleanValue: v.BooleanValue}
 	} else if v.DoubleValue != nil {
-		return &iottwinmaker.DataValue{DoubleValue: v.DoubleValue}
+		return &iottwinmakertypes.DataValue{DoubleValue: v.DoubleValue}
 	} else if v.IntegerValue != nil {
-		return &iottwinmaker.DataValue{IntegerValue: v.IntegerValue}
+		return &iottwinmakertypes.DataValue{IntegerValue: v.IntegerValue}
 	} else if v.LongValue != nil {
-		return &iottwinmaker.DataValue{LongValue: v.LongValue}
+		return &iottwinmakertypes.DataValue{LongValue: v.LongValue}
 	} else if v.StringValue != nil {
-		return &iottwinmaker.DataValue{StringValue: v.StringValue}
+		return &iottwinmakertypes.DataValue{StringValue: v.StringValue}
 	}
-	return &iottwinmaker.DataValue{}
+	return &iottwinmakertypes.DataValue{}
 }
 
 func (v *TwinMakerFilterValue) DataValueToString() string {
@@ -67,7 +67,7 @@ func (v *TwinMakerFilterValue) DataValueToString() string {
 	} else if v.DoubleValue != nil {
 		str = strconv.FormatFloat(*v.DoubleValue, 'f', -1, 64)
 	} else if v.IntegerValue != nil {
-		str = strconv.FormatInt(*v.IntegerValue, 10)
+		str = strconv.FormatInt(int64(*v.IntegerValue), 10)
 	} else if v.LongValue != nil {
 		str = strconv.FormatInt(*v.LongValue, 10)
 	} else if v.StringValue != nil {
@@ -82,25 +82,25 @@ type TwinMakerListEntitiesFilter struct {
 	ParentEntityId  string `json:"parentEntityId,omitempty"`
 }
 
-func (f *TwinMakerPropertyFilter) ToTwinMakerFilter() *iottwinmaker.PropertyFilter {
-	filter := &iottwinmaker.PropertyFilter{
+func (f *TwinMakerPropertyFilter) ToTwinMakerFilter() iottwinmakertypes.PropertyFilter {
+	filter := iottwinmakertypes.PropertyFilter{
 		PropertyName: aws.String(f.Name),
 		Value:        f.Value.ToTwinMakerDataValue(),
 	}
 	if f.Op != "" {
-		filter.SetOperator(f.Op) // ???
+		filter.Operator = aws.String(f.Op)
 	}
 	return filter
 }
 
 type TwinMakerOrderBy struct {
-	Order        TwinMakerResultOrder `json:"order,omitempty"`
-	PropertyName string               `json:"propertyName,omitempty"`
+	Order        iottwinmakertypes.Order `json:"order,omitempty"`
+	PropertyName string                  `json:"propertyName,omitempty"`
 }
 
-func (orderBy *TwinMakerOrderBy) ToTwinMakerOrderBy() *iottwinmaker.OrderBy {
-	return &iottwinmaker.OrderBy{
-		Order:        aws.String(orderBy.Order),
+func (orderBy *TwinMakerOrderBy) ToTwinMakerOrderBy() iottwinmakertypes.OrderBy {
+	return iottwinmakertypes.OrderBy{
+		Order:        orderBy.Order,
 		PropertyName: aws.String(orderBy.PropertyName),
 	}
 }
@@ -110,18 +110,18 @@ type TwinMakerTabularConditions struct {
 	PropertyFilter []TwinMakerPropertyFilter `json:"propertyFilter,omitempty"`
 }
 
-func (tabularConditions *TwinMakerTabularConditions) ToTwinMakerTabularConditions() *iottwinmaker.TabularConditions {
-	var orders []*iottwinmaker.OrderBy
+func (tabularConditions *TwinMakerTabularConditions) ToTwinMakerTabularConditions() *iottwinmakertypes.TabularConditions {
+	var orders []iottwinmakertypes.OrderBy
 	for _, o := range tabularConditions.OrderBy {
 		orders = append(orders, o.ToTwinMakerOrderBy())
 	}
 
-	var filters []*iottwinmaker.PropertyFilter
+	var filters []iottwinmakertypes.PropertyFilter
 	for _, pf := range tabularConditions.PropertyFilter {
 		filters = append(filters, pf.ToTwinMakerFilter())
 	}
 
-	tabularCondition := &iottwinmaker.TabularConditions{}
+	tabularCondition := &iottwinmakertypes.TabularConditions{}
 	if len(orders) > 0 {
 		tabularCondition.OrderBy = orders
 	}
@@ -134,11 +134,11 @@ func (tabularConditions *TwinMakerTabularConditions) ToTwinMakerTabularCondition
 
 // TwinMakerQuery model
 type TwinMakerQuery struct {
-	GrafanaLiveEnabled bool      `json:"grafanaLiveEnabled,omitempty"`
-	IsStreaming        bool      `json:"isStreaming,omitempty"`
-	WorkspaceId        string    `json:"workspaceId,omitempty"`
-	EntityId           string    `json:"entityId,omitempty"`
-	Properties         []*string `json:"properties,omitempty"`
+	GrafanaLiveEnabled bool     `json:"grafanaLiveEnabled,omitempty"`
+	IsStreaming        bool     `json:"isStreaming,omitempty"`
+	WorkspaceId        string   `json:"workspaceId,omitempty"`
+	EntityId           string   `json:"entityId,omitempty"`
+	Properties         []string `json:"properties,omitempty"`
 	// Optional metadata saved with the query.  When this matches properties used in the results, it will
 	// replace the display name
 	PropertyDisplayNames map[string]string             `json:"propertyDisplayNames,omitempty"`
@@ -147,7 +147,7 @@ type TwinMakerQuery struct {
 	ComponentTypeId      string                        `json:"componentTypeId,omitempty"`
 	PropertyFilter       []TwinMakerPropertyFilter     `json:"filter,omitempty"`
 	ListEntitiesFilter   []TwinMakerListEntitiesFilter `json:"listEntitiesFilter,omitempty"`
-	Order                TwinMakerResultOrder          `json:"order,omitempty"`
+	Order                iottwinmakertypes.OrderByTime `json:"order,omitempty"`
 	MaxResults           int                           `json:"maxResults,omitempty"`
 
 	// Athena Data Connector parameters for iottwinmaker.GetPropertyValue
@@ -170,9 +170,7 @@ func (q *TwinMakerQuery) CacheKey(prefix string) string {
 	key := prefix + "~" + q.WorkspaceId + "/" + q.EntityId + "/" + q.ComponentName + "/" + q.ComponentTypeId
 
 	for _, p := range q.Properties {
-		if p != nil {
-			key += "#" + *p
-		}
+		key += "#" + p
 	}
 
 	for _, f := range q.PropertyFilter {
@@ -183,7 +181,7 @@ func (q *TwinMakerQuery) CacheKey(prefix string) string {
 		key += "&" + ef.ExternalId
 	}
 
-	key += "@" + q.Order
+	key += "@" + string(q.Order)
 
 	return key
 }

@@ -2,9 +2,11 @@ package twinmaker
 
 import (
 	"context"
+	iottwinmakertypes "github.com/aws/aws-sdk-go-v2/service/iottwinmaker/types"
 	"time"
 
-	"github.com/aws/aws-sdk-go/service/iottwinmaker"
+	"github.com/aws/aws-sdk-go-v2/service/iottwinmaker"
+
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/patrickmn/go-cache"
 )
@@ -106,6 +108,6 @@ func (s *cachingResource) ListEntity(ctx context.Context, id string) ([]models.S
 	return v, err
 }
 
-func (s *cachingResource) BatchPutPropertyValues(ctx context.Context, entries []*iottwinmaker.PropertyValueEntry) (*iottwinmaker.BatchPutPropertyValuesOutput, error) {
+func (s *cachingResource) BatchPutPropertyValues(ctx context.Context, entries []iottwinmakertypes.PropertyValueEntry) (*iottwinmaker.BatchPutPropertyValuesOutput, error) {
 	return s.res.BatchPutPropertyValues(ctx, entries)
 }

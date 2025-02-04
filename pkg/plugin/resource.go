@@ -3,10 +3,10 @@ package plugin
 import (
 	"encoding/json"
 	"fmt"
+	iottwinmakertypes "github.com/aws/aws-sdk-go-v2/service/iottwinmaker/types"
 	"net/http"
 	"time"
 
-	"github.com/aws/aws-sdk-go/service/iottwinmaker"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 )
 
@@ -75,8 +75,9 @@ func (ds *TwinMakerDatasource) HandleListEntityOptions(w http.ResponseWriter, r 
 
 func (ds *TwinMakerDatasource) HandleBatchPutPropertyValues(w http.ResponseWriter, r *http.Request) {
 	req := struct {
-		Entries []*iottwinmaker.PropertyValueEntry `json:"entries"`
+		Entries []*iottwinmakertypes.PropertyValueEntry `json:"entries"`
 	}{}
+
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		log.DefaultLogger.Error("failed to decode request", "error", err)
@@ -84,6 +85,10 @@ func (ds *TwinMakerDatasource) HandleBatchPutPropertyValues(w http.ResponseWrite
 		_, _ = w.Write([]byte(`{"message": "unable to parse request body"}`))
 		return
 	}
-	rsp, err := ds.res.BatchPutPropertyValues(r.Context(), req.Entries)
+	entries := make([]iottwinmakertypes.PropertyValueEntry, len(req.Entries))
+	for i, entry := range req.Entries {
+		entries[i] = *entry
+	}
+	rsp, err := ds.res.BatchPutPropertyValues(r.Context(), entries)
 	writeJsonResponse(w, rsp, err)
 }
