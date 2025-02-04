@@ -5,7 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go-v2/aws"
+
 	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -93,7 +94,7 @@ func TestHandleAWSData(t *testing.T) {
 			WorkspaceId:       "tabular-test-1",
 			EntityId:          "1b480741-1ac9-4c28-ac0e-f815b4bb3347",
 			ComponentName:     "TabularComponent",
-			Properties:        []*string{aws.String("crit"), aws.String("description"), aws.String("floc")},
+			Properties:        []string{"crit", "description", "floc"},
 			PropertyGroupName: "tabularPropertyGroup",
 		})
 		dr := runTest(t, client.path, &resp)
@@ -129,7 +130,7 @@ func TestHandleAWSData(t *testing.T) {
 	t.Run("run GetComponentHistory handler w id", func(t *testing.T) {
 		t.Skip()
 		// cannot use the mock client here since this uses different API calls
-		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType: awsds.AuthTypeDefault,
@@ -147,7 +148,7 @@ func TestHandleAWSData(t *testing.T) {
 				To:   time.Date(2022, 4, 27, 23, 0, 0, 0, time.UTC),
 			},
 			ComponentTypeId: "com.example.cookiefactory.alarm",
-			Properties:      []*string{aws.String("alarm_status")},
+			Properties:      []string{"alarm_status"},
 			PropertyFilter: []models.TwinMakerPropertyFilter{
 				{
 					Name: "alarm_status",
@@ -176,7 +177,7 @@ func TestHandleAWSData(t *testing.T) {
 	t.Run("run GetAlarms handler", func(t *testing.T) {
 		t.Skip()
 		// cannot use the mock client here since no real API call exists for this
-		c, err := NewTwinMakerClient(context.Background(), models.TwinMakerDataSourceSetting{
+		c, err := NewTwinMakerClient(models.TwinMakerDataSourceSetting{
 			// use credentials in ~/.aws/credentials
 			AWSDatasourceSettings: awsds.AWSDatasourceSettings{
 				AuthType: awsds.AuthTypeDefault,
