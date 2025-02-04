@@ -9,7 +9,9 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/aws/aws-sdk-go/service/iottwinmaker"
+	"github.com/aws/aws-sdk-go-v2/service/iottwinmaker"
+	iottwinmakertypes "github.com/aws/aws-sdk-go-v2/service/iottwinmaker/types"
+
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
@@ -114,7 +116,7 @@ func LoadPolicy(workspace *iottwinmaker.GetWorkspaceOutput) (string, error) {
 	return builder.String(), err
 }
 
-func checkForUrl(v *iottwinmaker.DataValue, convertor func(v *iottwinmaker.DataValue) interface{}) bool {
+func checkForUrl(v *iottwinmakertypes.DataValue, convertor func(v *iottwinmakertypes.DataValue) interface{}) bool {
 	val := convertor(v)
 	switch val.(type) {
 	case *string:
@@ -137,17 +139,17 @@ func setUrlDatalink(field *data.Field) {
 }
 
 type PropertyReference struct {
-	values                  []*iottwinmaker.PropertyValue
-	entityPropertyReference *iottwinmaker.EntityPropertyReference
+	values                  []iottwinmakertypes.PropertyValue
+	entityPropertyReference *iottwinmakertypes.EntityPropertyReference
 	entityName              *string
 }
 
-func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmaker.EntityPropertyReference, propertyDefinitions map[string]*iottwinmaker.PropertyDefinitionResponse) (s string) {
+func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmakertypes.EntityPropertyReference, propertyDefinitions map[string]iottwinmakertypes.PropertyDefinitionResponse) (s string) {
 	externalId := ""
 	for key, val := range entityPropertyReference.ExternalIdProperty {
 		// Check that the property is an externalId property
 		if property, ok := propertyDefinitions[key]; ok && *property.IsExternalId {
-			externalId = *val
+			externalId = val
 			break
 		}
 	}
@@ -170,7 +172,7 @@ func GetEntityPropertyReferenceKey(entityPropertyReference *iottwinmaker.EntityP
 * This function returns the latest value for each entity property.
 * Assumes that the Roci Api query returns data from latest to oldest.
  */
-func (s *twinMakerHandler) GetLatestPropertyValueHistoryPaginated(ctx context.Context, query models.TwinMakerQuery, propertyDefinitions map[string]*iottwinmaker.PropertyDefinitionResponse) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
+func (s *twinMakerHandler) GetLatestPropertyValueHistoryPaginated(ctx context.Context, query models.TwinMakerQuery, propertyDefinitions map[string]iottwinmakertypes.PropertyDefinitionResponse) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
 	var maxPropertyValues int
 	isLimited := false
 	if query.MaxResults > 0 {
@@ -234,7 +236,7 @@ func (s *twinMakerHandler) GetLatestPropertyValueHistoryPaginated(ctx context.Co
 	return propertyValueHistories, nil
 }
 
-func (s *twinMakerHandler) GetPropertyValueHistoryPaginated(ctx context.Context, query models.TwinMakerQuery, propertyDefinitions map[string]*iottwinmaker.PropertyDefinitionResponse) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
+func (s *twinMakerHandler) GetPropertyValueHistoryPaginated(ctx context.Context, query models.TwinMakerQuery, propertyDefinitions map[string]iottwinmakertypes.PropertyDefinitionResponse) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
 	propertyValueHistories, err := s.client.GetPropertyValueHistory(ctx, query)
 	if err != nil {
 		return nil, err
@@ -272,7 +274,7 @@ func (s *twinMakerHandler) GetPropertyValueHistoryPaginated(ctx context.Context,
 	return propertyValueHistories, nil
 }
 
-func (s *twinMakerHandler) GetComponentHistoryWithLookupHelper(ctx context.Context, query models.TwinMakerQuery, historyFunction func(ctx context.Context, query models.TwinMakerQuery, propertyDefinitions map[string]*iottwinmaker.PropertyDefinitionResponse) (*iottwinmaker.GetPropertyValueHistoryOutput, error)) (p []PropertyReference, n []data.Notice, err error) {
+func (s *twinMakerHandler) GetComponentHistoryWithLookupHelper(ctx context.Context, query models.TwinMakerQuery, historyFunction func(ctx context.Context, query models.TwinMakerQuery, propertyDefinitions map[string]iottwinmakertypes.PropertyDefinitionResponse) (*iottwinmaker.GetPropertyValueHistoryOutput, error)) (p []PropertyReference, n []data.Notice, err error) {
 	propertyReferences := []PropertyReference{}
 	failures := []data.Notice{}
 	componentTypeId := query.ComponentTypeId
@@ -298,7 +300,7 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookupHelper(ctx context.Conte
 			for key, val := range propertyValue.EntityPropertyReference.ExternalIdProperty {
 				// Check that the property is an externalId property
 				if property, ok := propertyDefinitions[key]; ok && *property.IsExternalId {
-					externalId = *val
+					externalId = val
 					break
 				}
 			}
@@ -359,7 +361,7 @@ func (s *twinMakerHandler) GetComponentHistoryWithLookupHelper(ctx context.Conte
 
 				pr := PropertyReference{
 					values: propertyValue.Values,
-					entityPropertyReference: &iottwinmaker.EntityPropertyReference{
+					entityPropertyReference: &iottwinmakertypes.EntityPropertyReference{
 						EntityId:           entityId,
 						ComponentName:      &componentName,
 						ExternalIdProperty: propertyValue.EntityPropertyReference.ExternalIdProperty,
@@ -404,4 +406,8 @@ func getTimeObjectFromStringTime(timeString *string) (*time.Time, error) {
 func getTimeStringFromTimeObject(timeObject *time.Time) *string {
 	timeString := timeObject.Format(time.RFC3339Nano)
 	return &timeString
+}
+
+func Pointer[T any](v T) *T {
+	return &v
 }
