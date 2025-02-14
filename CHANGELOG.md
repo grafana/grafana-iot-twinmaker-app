@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.1
+
+- Bump the all-node-dependencies group across 1 directory with 23 updates in [#360](https://github.com/grafana/grafana-iot-twinmaker-app/pull/360)
+- Bump github.com/grafana/grafana-plugin-sdk-go from 0.263.0 to 0.265.0 in the all-go-dependencies group in [#359](https://github.com/grafana/grafana-iot-twinmaker-app/pull/359)
+- Bump github.com/grafana/grafana-plugin-sdk-go from 0.262.0 to 0.263.0 in the all-go-dependencies group in [#354](https://github.com/grafana/grafana-iot-twinmaker-app/pull/354)
+- Bump the all-node-dependencies group across 1 directory with 25 updates [#353](https://github.com/grafana/grafana-iot-twinmaker-app/pull/353)
+- Bump the all-go-dependencies group with 3 updates in [#351](https://github.com/grafana/grafana-iot-twinmaker-app/pull/351)
+
 ## 2.0.0
 
 - Migrate to plugin-ui from grafana/experimental in [#344](https://github.com/grafana/grafana-iot-twinmaker-app/pull/344)
@@ -11,7 +19,7 @@
   - Bump the npm_and_yarn group with 2 updates in [#330](https://github.com/grafana/grafana-iot-twinmaker-app/pull/330)
   - Bump golang.org/x/crypto from 0.29.0 to 0.31.0 in the go_modules group in [#329](https://github.com/grafana/grafana-iot-twinmaker-app/pull/329)
   - Bump the all-go-dependencies group across 1 directory with 2 updates in [#338](https://github.com/grafana/grafana-iot-twinmaker-app/pull/338)
-  - Bump dompurify to 3.2.3  in [#349](https://github.com/grafana/grafana-iot-twinmaker-app/pull/349)
+  - Bump dompurify to 3.2.3 in [#349](https://github.com/grafana/grafana-iot-twinmaker-app/pull/349)
 
 ## 1.18.3
 
