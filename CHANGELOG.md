@@ -2,6 +2,10 @@
 
 ## 2.0.1
 
+- Bump the all-node-dependencies group with 17 updates in [#365](https://github.com/grafana/grafana-iot-twinmaker-app/pull/365)
+- Bump github.com/grafana/grafana-aws-sdk from 0.31.7 to 0.31.8 in the all-go-dependencies group in [#364](https://github.com/grafana/grafana-iot-twinmaker-app/pull/364)
+- Bump the all-node-dependencies group with 11 updates in [#363](https://github.com/grafana/grafana-iot-twinmaker-app/pull/363)
+- Bump github.com/grafana/grafana-plugin-sdk-go from 0.265.0 to 0.266.0 in the all-go-dependencies group in [#362](https://github.com/grafana/grafana-iot-twinmaker-app/pull/362)
 - Bump the all-node-dependencies group across 1 directory with 23 updates in [#360](https://github.com/grafana/grafana-iot-twinmaker-app/pull/360)
 - Bump github.com/grafana/grafana-plugin-sdk-go from 0.263.0 to 0.265.0 in the all-go-dependencies group in [#359](https://github.com/grafana/grafana-iot-twinmaker-app/pull/359)
 - Bump github.com/grafana/grafana-plugin-sdk-go from 0.262.0 to 0.263.0 in the all-go-dependencies group in [#354](https://github.com/grafana/grafana-iot-twinmaker-app/pull/354)
