@@ -65,6 +65,9 @@
     "stdlib",
     "cytoscape",
     "stretchr",
+    "ststypes",
+    "awsauth",
+    "iottwinmakertypes",
     "dompurify"
   ]
 }
