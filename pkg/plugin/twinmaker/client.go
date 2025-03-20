@@ -11,7 +11,8 @@ import (
 	iottwinmakertypes "github.com/aws/aws-sdk-go-v2/service/iottwinmaker/types"
 	"github.com/aws/aws-sdk-go-v2/service/sts"
 	ststypes "github.com/aws/aws-sdk-go-v2/service/sts/types"
-	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
+
+	"github.com/grafana/grafana-aws-sdk/pkg/awsauth"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	httplogger "github.com/grafana/grafana-plugin-sdk-go/experimental/http_logger"
@@ -42,13 +43,13 @@ type twinMakerClient struct {
 	tokenRole       string
 	tokenRoleWriter string
 
-	twinMakerService func(context.Context) (*iottwinmaker.Client, error)
-	writerService    func(context.Context) (*iottwinmaker.Client, error)
-	tokenService     func(context.Context) (*sts.Client, error)
+	twinMakerService func() (*iottwinmaker.Client, error)
+	writerService    func() (*iottwinmaker.Client, error)
+	tokenService     func() (*sts.Client, error)
 }
 
 // NewTwinMakerClient provides a twinMakerClient for the session and associated calls
-func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerClient, error) {
+func NewTwinMakerClient(ctx context.Context, settings models.TwinMakerDataSourceSetting) (TwinMakerClient, error) {
 	httpClient, err := httpclient.New()
 	if err != nil {
 		return nil, err
@@ -58,82 +59,83 @@ func NewTwinMakerClient(settings models.TwinMakerDataSourceSetting) (TwinMakerCl
 		return nil, err
 	}
 	httpClient.Transport = httplogger.NewHTTPLogger("grafana-iot-twinmaker-datasource", transport)
-	sessions := awsds.NewSessionCache()
 	agent := "grafana-iot-twinmaker-app"
 
-	// Clients should not use a custom endpoint to load session credentials
-	noEndpointSettings := settings.AWSDatasourceSettings
-	noEndpointSettings.Endpoint = ""
-
-	noEndpointSessionConfig := awsds.GetSessionConfig{
-		Settings:      noEndpointSettings,
-		HTTPClient:    httpClient,
-		UserAgentName: &agent,
+	client := &twinMakerClient{
+		tokenRole:       settings.AWSDatasourceSettings.AssumeRoleARN,
+		tokenRoleWriter: settings.AssumeRoleARNWriter,
 	}
 
-	writerSettings := settings.AWSDatasourceSettings
-	writerSettings.Endpoint = ""
-	writerSettings.AssumeRoleARN = settings.AssumeRoleARNWriter
+	region := settings.Region
+	if region == "" || region == "default" {
+		region = settings.DefaultRegion
+	}
 
-	writerSessionConfig := awsds.GetSessionConfig{
-		Settings:      writerSettings,
-		HTTPClient:    httpClient,
-		UserAgentName: &agent,
+	noEndpointSettings := awsauth.Settings{
+		LegacyAuthType:     settings.AuthType,
+		AccessKey:          settings.AccessKey,
+		SecretKey:          settings.SecretKey,
+		Region:             region,
+		CredentialsProfile: settings.Profile,
+		AssumeRoleARN:      settings.AssumeRoleARN,
+		ExternalID:         settings.ExternalID,
+		UserAgent:          agent,
+		HTTPClient:         httpClient,
+	}
+
+	setEndpoint := func(options *iottwinmaker.Options) {
+		options.BaseEndpoint = &settings.Endpoint
+	}
+
+	client.twinMakerService = getClientService(ctx, noEndpointSettings, setEndpoint)
+
+	if settings.AssumeRoleARNWriter != "" {
+		writerSettings := noEndpointSettings
+		writerSettings.AssumeRoleARN = settings.AssumeRoleARNWriter
+		client.writerService = getClientService(ctx, writerSettings, setEndpoint)
+	} else {
+		client.writerService = func() (*iottwinmaker.Client, error) {
+			return nil, fmt.Errorf("writer role not configured")
+		}
 	}
 
 	// STS client can not use scoped down role to generate tokens
-	stsSettings := noEndpointSettings
-	stsSettings.AssumeRoleARN = ""
+	tokenSettings := noEndpointSettings
+	tokenSettings.AssumeRoleARN = ""
+	client.tokenService = getTokenService(ctx, tokenSettings)
 
-	stsSessionConfig := awsds.GetSessionConfig{
-		Settings:   stsSettings,
-		HTTPClient: httpClient,
-	}
+	return client, nil
+}
 
-	twinMakerService := func(ctx context.Context) (*iottwinmaker.Client, error) {
-		creds, err := sessions.CredentialsProviderV2(ctx, noEndpointSessionConfig)
-		if err != nil {
+func getClientService(ctx context.Context, awsSettings awsauth.Settings, optFns ...func(*iottwinmaker.Options)) func() (*iottwinmaker.Client, error) {
+	noEndpointAwsConfig, err := awsauth.NewConfigProvider().GetConfig(ctx, awsSettings)
+	if err != nil {
+		return func() (*iottwinmaker.Client, error) {
 			return nil, err
 		}
-		awsCfg := aws.Config{Credentials: creds, BaseEndpoint: &settings.AWSDatasourceSettings.Endpoint}
-		svc := iottwinmaker.NewFromConfig(awsCfg)
-		return svc, nil
 	}
+	service := iottwinmaker.NewFromConfig(noEndpointAwsConfig, optFns...)
+	return func() (*iottwinmaker.Client, error) {
+		return service, nil
+	}
+}
 
-	writerService := func(ctx context.Context) (*iottwinmaker.Client, error) {
-		if writerSessionConfig.Settings.AssumeRoleARN == "" {
-			return nil, fmt.Errorf("writer role not configured")
-		}
-		creds, err := sessions.CredentialsProviderV2(ctx, writerSessionConfig)
-		if err != nil {
+func getTokenService(ctx context.Context, awsSettings awsauth.Settings, optFns ...func(*sts.Options)) func() (*sts.Client, error) {
+	tokenCfg, err := awsauth.NewConfigProvider().GetConfig(ctx, awsSettings)
+	if err != nil {
+		return func() (*sts.Client, error) {
 			return nil, err
 		}
-		awsCfg := aws.Config{Credentials: creds, BaseEndpoint: &settings.AWSDatasourceSettings.Endpoint}
-		svc := iottwinmaker.NewFromConfig(awsCfg)
-		return svc, err
-	}
-
-	tokenService := func(ctx context.Context) (*sts.Client, error) {
-		creds, err := sessions.CredentialsProviderV2(ctx, stsSessionConfig)
-		if err != nil {
-			return nil, err
+	} else {
+		service := sts.NewFromConfig(tokenCfg, optFns...)
+		return func() (*sts.Client, error) {
+			return service, nil
 		}
-		awsCfg := aws.Config{Credentials: creds}
-		svc := sts.NewFromConfig(awsCfg)
-		return svc, err
 	}
-
-	return &twinMakerClient{
-		twinMakerService: twinMakerService,
-		tokenService:     tokenService,
-		writerService:    writerService,
-		tokenRole:        settings.AWSDatasourceSettings.AssumeRoleARN,
-		tokenRoleWriter:  settings.AssumeRoleARNWriter,
-	}, nil
 }
 
 func (c *twinMakerClient) ListWorkspaces(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.ListWorkspacesOutput, error) {
-	client, err := c.twinMakerService(ctx)
+	client, err := c.twinMakerService()
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +167,7 @@ func (c *twinMakerClient) ListWorkspaces(ctx context.Context, query models.TwinM
 }
 
 func (c *twinMakerClient) ListScenes(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.ListScenesOutput, error) {
-	client, err := c.twinMakerService(ctx)
+	client, err := c.twinMakerService()
 	if err != nil {
 		return nil, err
 	}
@@ -199,7 +201,7 @@ func (c *twinMakerClient) ListScenes(ctx context.Context, query models.TwinMaker
 }
 
 func (c *twinMakerClient) ListEntities(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.ListEntitiesOutput, error) {
-	client, err := c.twinMakerService(ctx)
+	client, err := c.twinMakerService()
 	if err != nil {
 		return nil, err
 	}
@@ -254,7 +256,7 @@ func (c *twinMakerClient) ListEntities(ctx context.Context, query models.TwinMak
 }
 
 func (c *twinMakerClient) ListComponentTypes(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.ListComponentTypesOutput, error) {
-	client, err := c.twinMakerService(ctx)
+	client, err := c.twinMakerService()
 	if err != nil {
 		return nil, err
 	}
@@ -294,7 +296,7 @@ func (c *twinMakerClient) ListComponentTypes(ctx context.Context, query models.T
 }
 
 func (c *twinMakerClient) GetComponentType(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetComponentTypeOutput, error) {
-	client, err := c.twinMakerService(ctx)
+	client, err := c.twinMakerService()
 	if err != nil {
 		return nil, err
 	}
@@ -312,7 +314,7 @@ func (c *twinMakerClient) GetComponentType(ctx context.Context, query models.Twi
 }
 
 func (c *twinMakerClient) GetEntity(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetEntityOutput, error) {
-	client, err := c.twinMakerService(ctx)
+	client, err := c.twinMakerService()
 	if err != nil {
 		return nil, err
 	}
@@ -330,7 +332,7 @@ func (c *twinMakerClient) GetEntity(ctx context.Context, query models.TwinMakerQ
 }
 
 func (c *twinMakerClient) GetWorkspace(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetWorkspaceOutput, error) {
-	client, err := c.twinMakerService(ctx)
+	client, err := c.twinMakerService()
 	if err != nil {
 		return nil, err
 	}
@@ -343,7 +345,7 @@ func (c *twinMakerClient) GetWorkspace(ctx context.Context, query models.TwinMak
 }
 
 func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetPropertyValueOutput, error) {
-	client, err := c.twinMakerService(ctx)
+	client, err := c.twinMakerService()
 	if err != nil {
 		return nil, err
 	}
@@ -398,7 +400,7 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 }
 
 func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query models.TwinMakerQuery) (*iottwinmaker.GetPropertyValueHistoryOutput, error) {
-	client, err := c.twinMakerService(ctx)
+	client, err := c.twinMakerService()
 	if err != nil {
 		return nil, err
 	}
@@ -460,12 +462,12 @@ func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query mod
 }
 
 func (c *twinMakerClient) GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*ststypes.Credentials, error) {
-	client, err := c.twinMakerService(ctx)
+	client, err := c.twinMakerService()
 	if err != nil {
 		return nil, err
 	}
 
-	tokenService, err := c.tokenService(ctx)
+	tokenService, err := c.tokenService()
 	if err != nil {
 		return nil, err
 	}
@@ -509,7 +511,7 @@ func (c *twinMakerClient) GetWriteSessionToken(ctx context.Context, duration tim
 		return nil, fmt.Errorf("assume role ARN Write is missing in datasource configuration")
 	}
 
-	tokenService, err := c.tokenService(ctx)
+	tokenService, err := c.tokenService()
 	if err != nil {
 		return nil, err
 	}
@@ -528,7 +530,7 @@ func (c *twinMakerClient) GetWriteSessionToken(ctx context.Context, duration tim
 }
 
 func (c *twinMakerClient) BatchPutPropertyValues(ctx context.Context, req *iottwinmaker.BatchPutPropertyValuesInput) (*iottwinmaker.BatchPutPropertyValuesOutput, error) {
-	client, err := c.writerService(ctx)
+	client, err := c.writerService()
 	if err != nil {
 		return nil, err
 	}
