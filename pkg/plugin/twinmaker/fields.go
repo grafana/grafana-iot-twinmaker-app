@@ -2,8 +2,8 @@ package twinmaker
 
 import (
 	"fmt"
+	iottwinmakertypes "github.com/aws/aws-sdk-go-v2/service/iottwinmaker/types"
 
-	"github.com/aws/aws-sdk-go/service/iottwinmaker"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
@@ -40,10 +40,10 @@ func (r *twinMakerFrameBuilder) Time() *data.Field {
 	return r.add(f, data.TimeSeriesTimeFieldName)
 }
 
-func newDataValueField(v *iottwinmaker.DataValue, count int) (*data.Field, func(v *iottwinmaker.DataValue) interface{}) {
+func newDataValueField(v *iottwinmakertypes.DataValue, count int) (*data.Field, func(v *iottwinmakertypes.DataValue) interface{}) {
 	if val := v.BooleanValue; val != nil {
 		f := data.NewFieldFromFieldType(data.FieldTypeNullableBool, count)
-		c := func(v *iottwinmaker.DataValue) interface{} {
+		c := func(v *iottwinmakertypes.DataValue) interface{} {
 			return v.BooleanValue
 		}
 		return f, c
@@ -51,7 +51,7 @@ func newDataValueField(v *iottwinmaker.DataValue, count int) (*data.Field, func(
 
 	if val := v.DoubleValue; val != nil {
 		f := data.NewFieldFromFieldType(data.FieldTypeNullableFloat64, count)
-		c := func(v *iottwinmaker.DataValue) interface{} {
+		c := func(v *iottwinmakertypes.DataValue) interface{} {
 			return v.DoubleValue
 		}
 		return f, c
@@ -59,15 +59,15 @@ func newDataValueField(v *iottwinmaker.DataValue, count int) (*data.Field, func(
 
 	if val := v.LongValue; val != nil {
 		f := data.NewFieldFromFieldType(data.FieldTypeNullableInt64, count)
-		c := func(v *iottwinmaker.DataValue) interface{} {
+		c := func(v *iottwinmakertypes.DataValue) interface{} {
 			return v.LongValue
 		}
 		return f, c
 	}
 
 	if val := v.IntegerValue; val != nil {
-		f := data.NewFieldFromFieldType(data.FieldTypeNullableInt64, count)
-		c := func(v *iottwinmaker.DataValue) interface{} {
+		f := data.NewFieldFromFieldType(data.FieldTypeNullableInt32, count)
+		c := func(v *iottwinmakertypes.DataValue) interface{} {
 			return v.IntegerValue
 		}
 		return f, c
@@ -75,20 +75,20 @@ func newDataValueField(v *iottwinmaker.DataValue, count int) (*data.Field, func(
 
 	if val := v.StringValue; val != nil {
 		f := data.NewFieldFromFieldType(data.FieldTypeNullableString, count)
-		c := func(v *iottwinmaker.DataValue) interface{} {
+		c := func(v *iottwinmakertypes.DataValue) interface{} {
 			return v.StringValue
 		}
 		return f, c
 	}
 
 	f := data.NewFieldFromFieldType(data.FieldTypeString, count)
-	c := func(v *iottwinmaker.DataValue) interface{} {
+	c := func(v *iottwinmakertypes.DataValue) interface{} {
 		return fmt.Sprintf("%v", v)
 	}
 	return f, c
 }
 
-func (r *twinMakerFrameBuilder) Value(v *iottwinmaker.DataValue) (*data.Field, func(v *iottwinmaker.DataValue) interface{}) {
+func (r *twinMakerFrameBuilder) Value(v *iottwinmakertypes.DataValue) (*data.Field, func(v *iottwinmakertypes.DataValue) interface{}) {
 	f, c := newDataValueField(v, r.len)
 	return r.add(f, data.TimeSeriesValueFieldName), c
 }

@@ -8,7 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go-v2/aws"
+
 	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -124,7 +125,7 @@ func TestFetchAWSData(t *testing.T) {
 		pv, err := c.GetPropertyValue(context.Background(), models.TwinMakerQuery{
 			EntityId:      "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
 			WorkspaceId:   "AlarmWorkspace",
-			Properties:    []*string{aws.String("alarm_key"), aws.String("telemetryAssetType")},
+			Properties:    []string{"alarm_key", "telemetryAssetType"},
 			ComponentName: "AlarmComponent",
 		})
 		require.NoError(t, err)
@@ -134,7 +135,7 @@ func TestFetchAWSData(t *testing.T) {
 		pv, err = c.GetPropertyValue(context.Background(), models.TwinMakerQuery{
 			EntityId:      "Factory_aa3d7d8b-6b94-44fe-ab02-6936bfcdade6",
 			WorkspaceId:   "AlarmWorkspace",
-			Properties:    []*string{aws.String("bounds")},
+			Properties:    []string{"bounds"},
 			ComponentName: "Space",
 		})
 		require.NoError(t, err)
@@ -144,7 +145,7 @@ func TestFetchAWSData(t *testing.T) {
 		pv, err = c.GetPropertyValue(context.Background(), models.TwinMakerQuery{
 			EntityId:      "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
 			WorkspaceId:   "AlarmWorkspace",
-			Properties:    []*string{aws.String("documents")},
+			Properties:    []string{"documents"},
 			ComponentName: "SpecSheets",
 		})
 		require.NoError(t, err)
@@ -158,7 +159,7 @@ func TestFetchAWSData(t *testing.T) {
 				From: time.Date(2022, 4, 27, 0, 0, 0, 0, time.UTC),
 				To:   time.Date(2022, 4, 27, 23, 0, 0, 0, time.UTC),
 			},
-			Properties:    []*string{aws.String("alarm_status")},
+			Properties:    []string{"alarm_status"},
 			ComponentName: "AlarmComponent",
 		})
 		require.NoError(t, err)
@@ -171,7 +172,7 @@ func TestFetchAWSData(t *testing.T) {
 				From: time.Date(2022, 4, 27, 0, 0, 0, 0, time.UTC),
 				To:   time.Date(2022, 4, 27, 23, 0, 0, 0, time.UTC),
 			},
-			Properties:      []*string{aws.String("alarm_status")},
+			Properties:      []string{"alarm_status"},
 			ComponentTypeId: "com.example.cookiefactory.alarm",
 			PropertyFilter: []models.TwinMakerPropertyFilter{
 				{
@@ -200,7 +201,7 @@ func TestFetchAWSData(t *testing.T) {
 		pv, err := c.GetPropertyValue(context.Background(), models.TwinMakerQuery{
 			EntityId:          "1b480741-1ac9-4c28-ac0e-f815b4bb3347",
 			WorkspaceId:       "tabular-test-1",
-			Properties:        []*string{aws.String("crit"), aws.String("description"), aws.String("floc")},
+			Properties:        []string{"crit", "description", "floc"},
 			ComponentName:     "TabularComponent",
 			PropertyGroupName: "tabularPropertyGroup",
 		})

@@ -6,8 +6,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/aws/aws-sdk-go/service/iottwinmaker"
-	"github.com/aws/aws-sdk-go/service/sts"
+	"github.com/aws/aws-sdk-go-v2/service/iottwinmaker"
+	ststypes "github.com/aws/aws-sdk-go-v2/service/sts/types"
+
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 )
 
@@ -86,14 +87,14 @@ func (c *twinMakerMockClient) GetPropertyValueHistory(ctx context.Context, query
 	return r, err
 }
 
-func (c *twinMakerMockClient) GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*sts.Credentials, error) {
-	r := &sts.Credentials{}
+func (c *twinMakerMockClient) GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*ststypes.Credentials, error) {
+	r := &ststypes.Credentials{}
 	_, err := c.loadSavedResponse(r)
 	return r, err
 }
 
-func (c *twinMakerMockClient) GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*sts.Credentials, error) {
-	r := &sts.Credentials{}
+func (c *twinMakerMockClient) GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*ststypes.Credentials, error) {
+	r := &ststypes.Credentials{}
 	_, err := c.loadSavedResponse(r)
 	return r, err
 }
