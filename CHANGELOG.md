@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.1
+
+- Chore: add label to external contributions in [#358](https://github.com/grafana/grafana-iot-twinmaker-app/pull/358)
+- Dependabot updates: 
+  - Go dependencies in [#374](https://github.com/grafana/grafana-iot-twinmaker-app/pull/347), [#370](https://github.com/grafana/grafana-iot-twinmaker-app/pull/370), [#364](https://github.com/grafana/grafana-iot-twinmaker-app/pull/364), [#362](https://github.com/grafana/grafana-iot-twinmaker-app/pull/362), [#359](https://github.com/grafana/grafana-iot-twinmaker-app/pull/359), [#354](https://github.com/grafana/grafana-iot-twinmaker-app/pull/354), [#351](https://github.com/grafana/grafana-iot-twinmaker-app/pull/351)
+  - Node dependencies in [#371](https://github.com/grafana/grafana-iot-twinmaker-app/pull/371), [#372](https://github.com/grafana/grafana-iot-twinmaker-app/pull/372), [#368](https://github.com/grafana/grafana-iot-twinmaker-app/pull/368), [#365](https://github.com/grafana/grafana-iot-twinmaker-app/pull/365), [#363](https://github.com/grafana/grafana-iot-twinmaker-app/pull/363), [#360](https://github.com/grafana/grafana-iot-twinmaker-app/pull/360), [#353](https://github.com/grafana/grafana-iot-twinmaker-app/pull/353)
+
 ## 2.0.0
 
 - Migrate to plugin-ui from grafana/experimental in [#344](https://github.com/grafana/grafana-iot-twinmaker-app/pull/344)
