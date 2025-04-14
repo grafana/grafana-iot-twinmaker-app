@@ -11,7 +11,7 @@ require (
 	github.com/aws/smithy-go v1.22.2
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1
-	github.com/grafana/grafana-aws-sdk v0.36.0
+	github.com/grafana/grafana-aws-sdk v0.37.0
 	github.com/grafana/grafana-plugin-sdk-go v0.269.1
 	github.com/magefile/mage v1.15.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
