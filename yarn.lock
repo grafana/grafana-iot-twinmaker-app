@@ -3944,12 +3944,21 @@
     "@floating-ui/utils" "^0.2.9"
     tabbable "^6.0.0"
 
+"@floating-ui/react@^0.26.16":
+  version "0.26.28"
+  resolved "https://registry.yarnpkg.com/@floating-ui/react/-/react-0.26.28.tgz#93f44ebaeb02409312e9df9507e83aab4a8c0dc7"
+  integrity sha512-yORQuuAtVpiRjpMhdc0wJj06b9JFjrYF4qp96j++v2NBpbi6SEGF7donUJ3TMieerQ6qVkAv1tgr7L4r5roTqw==
+  dependencies:
+    "@floating-ui/react-dom" "^2.1.2"
+    "@floating-ui/utils" "^0.2.8"
+    tabbable "^6.0.0"
+
 "@floating-ui/utils@^0.2.4":
   version "0.2.4"
   resolved "https://registry.npmjs.org/@floating-ui/utils/-/utils-0.2.4.tgz"
   integrity sha512-dWO2pw8hhi+WrXq1YJy2yCuWoL20PddgGaqTgVe4cOS9Q6qklXCiA1tJEqX6BEwRNSCP84/afac9hd4MS+zEUA==
 
-"@floating-ui/utils@^0.2.9":
+"@floating-ui/utils@^0.2.8", "@floating-ui/utils@^0.2.9":
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.9.tgz#50dea3616bc8191fb8e112283b49eaff03e78429"
   integrity sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==
@@ -4194,6 +4203,19 @@
     react-use "17.6.0"
     rxjs "7.8.1"
     tslib "2.8.1"
+
+"@grafana/scenes@^6.8.1":
+  version "6.8.1"
+  resolved "https://registry.yarnpkg.com/@grafana/scenes/-/scenes-6.8.1.tgz#496a261ccfdb9a8eb4cd3ffb2c21908a207c2263"
+  integrity sha512-sOVARedvp9N/4DClJ4r4fnD+9i7ksjOJsEZcw4ZPGP4rA/2qbutRTxu+aXQEgwgSDC47PG9V0/saNxjaC+Op0g==
+  dependencies:
+    "@floating-ui/react" "^0.26.16"
+    "@leeoniya/ufuzzy" "^1.0.16"
+    "@tanstack/react-virtual" "^3.9.0"
+    react-grid-layout "1.3.4"
+    react-use "17.5.0"
+    react-virtualized-auto-sizer "1.0.24"
+    uuid "^9.0.0"
 
 "@grafana/schema@11.5.2", "@grafana/schema@^11.3.2":
   version "11.5.2"
@@ -4865,7 +4887,7 @@
   resolved "https://registry.npmjs.org/@juggle/resize-observer/-/resize-observer-3.4.0.tgz"
   integrity sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==
 
-"@leeoniya/ufuzzy@1.0.18":
+"@leeoniya/ufuzzy@1.0.18", "@leeoniya/ufuzzy@^1.0.16":
   version "1.0.18"
   resolved "https://registry.yarnpkg.com/@leeoniya/ufuzzy/-/ufuzzy-1.0.18.tgz#98e38c1308208bd47524aa2c53da0fe33dbbdab8"
   integrity sha512-5D54A86/VaPvJVf7UWJgy+UyhDtstUxq0iQd8UOZ2TG3NjV2oSoa9m4qW3VsotDD6dH2SNHDQwSPq+IAuudnag==
@@ -6567,10 +6589,22 @@
   dependencies:
     "@tanstack/virtual-core" "3.10.9"
 
+"@tanstack/react-virtual@^3.9.0":
+  version "3.13.6"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.13.6.tgz#30243c8c3166673caf66bfbf5352e1b314a3a4cd"
+  integrity sha512-WT7nWs8ximoQ0CDx/ngoFP7HbQF9Q2wQe4nh2NB+u2486eX3nZRE40P9g6ccCVq7ZfTSH5gFOuCoVH5DLNS/aA==
+  dependencies:
+    "@tanstack/virtual-core" "3.13.6"
+
 "@tanstack/virtual-core@3.10.9":
   version "3.10.9"
   resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.10.9.tgz#55710c92b311fdaa8d8c66682a0dbdd684bc77c4"
   integrity sha512-kBknKOKzmeR7lN+vSadaKWXaLS0SZZG+oqpQ/k80Q6g9REn6zRHS/ZYdrIzHnpHgy/eWs00SujveUN/GJT2qTw==
+
+"@tanstack/virtual-core@3.13.6":
+  version "3.13.6"
+  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.13.6.tgz#329f962f1596b3280736c266a982897ed2112157"
+  integrity sha512-cnQUeWnhNP8tJ4WsGcYiX24Gjkc9ALstLbHcBj1t3E7EimN6n6kHH+DPV4PpDnuw00NApQp+ViojMj1GRdwYQg==
 
 "@testing-library/dom@^10.4.0":
   version "10.4.0"
@@ -12036,7 +12070,7 @@ lodash.groupby@4.6.0:
   resolved "https://registry.yarnpkg.com/lodash.groupby/-/lodash.groupby-4.6.0.tgz#0b08a1dcf68397c397855c3239783832df7403d1"
   integrity sha512-5dcWxm23+VAoz+awKmBaiBvzox8+RqMgFhi7UvX9DHZr2HdxHXM/Wrf8cfKpsW37RNrvtPn6hSwNqurSILbmJw==
 
-lodash.isequal@4.5.0, lodash.isequal@^4.5.0:
+lodash.isequal@4.5.0, lodash.isequal@^4.0.0, lodash.isequal@^4.5.0:
   version "4.5.0"
   resolved "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz"
   integrity sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==
@@ -13620,7 +13654,7 @@ react-dom@18.3.1:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
 
-react-draggable@^4.0.3:
+react-draggable@^4.0.0, react-draggable@^4.0.3:
   version "4.4.6"
   resolved "https://registry.npmjs.org/react-draggable/-/react-draggable-4.4.6.tgz"
   integrity sha512-LtY5Xw1zTPqHkVmtM3X8MUOxNDOUhv/khTgBgrUvwaS064bwVvxT+q5El0uUFNx5IEPKXuRejr7UqLwBIg5pdw==
@@ -13653,6 +13687,17 @@ react-from-dom@^0.7.3:
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/react-from-dom/-/react-from-dom-0.7.5.tgz#2d2d2bf6d80149c053bcf71bb6615e5e7f6d23db"
   integrity sha512-CO92PmMKo/23uYPm6OFvh5CtZbMgHs/Xn+o095Lz/TZj9t8DSDhGdSOMLxBxwWI4sr0MF17KUn9yJWc5Q00R/w==
+
+react-grid-layout@1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/react-grid-layout/-/react-grid-layout-1.3.4.tgz#4fa819be24a1ba9268aa11b82d63afc4762a32ff"
+  integrity sha512-sB3rNhorW77HUdOjB4JkelZTdJGQKuXLl3gNg+BI8gJkTScspL1myfZzW/EM0dLEn+1eH+xW+wNqk0oIM9o7cw==
+  dependencies:
+    clsx "^1.1.1"
+    lodash.isequal "^4.0.0"
+    prop-types "^15.8.1"
+    react-draggable "^4.0.0"
+    react-resizable "^3.0.4"
 
 react-highlight-words@0.20.0:
   version "0.20.0"
@@ -13817,7 +13862,7 @@ react-redux@^9.1.2:
     "@types/use-sync-external-store" "^0.0.6"
     use-sync-external-store "^1.4.0"
 
-react-resizable@^3.0.5:
+react-resizable@^3.0.4, react-resizable@^3.0.5:
   version "3.0.5"
   resolved "https://registry.npmjs.org/react-resizable/-/react-resizable-3.0.5.tgz"
   integrity sha512-vKpeHhI5OZvYn82kXOs1bC8aOXktGU5AmKAgaZS4F5JPburCtbmDPqE7Pzp+1kN4+Wb81LlF33VpGwWwtXem+w==
@@ -13934,7 +13979,7 @@ react-use-measure@^2.1.1:
   dependencies:
     debounce "^1.2.1"
 
-react-use@17.4.0, react-use@17.6.0, react-use@^17.3.1, react-use@^17.5.0, react-use@^17.6.0:
+react-use@17.4.0, react-use@17.5.0, react-use@17.6.0, react-use@^17.3.1, react-use@^17.5.0, react-use@^17.6.0:
   version "17.6.0"
   resolved "https://registry.yarnpkg.com/react-use/-/react-use-17.6.0.tgz#2101a3a79dc965a25866b21f5d6de4b128488a14"
   integrity sha512-OmedEScUMKFfzn1Ir8dBxiLLSOzhKe/dPZwVxcujweSj45aNM7BEGPb9BEVIgVEqEXx6f3/TsXzwIktNgUR02g==
@@ -13960,6 +14005,11 @@ react-virtual@^2.8.2:
   integrity sha512-Ir6+oPQZTVHfa6+JL9M7cvMILstFZH/H3jqeYeKI4MSUX+rIruVwFC6nGVXw9wqAw8L0Kg2KvfXxI85OvYQdpQ==
   dependencies:
     "@reach/observe-rect" "^1.1.0"
+
+react-virtualized-auto-sizer@1.0.24:
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.24.tgz#3ebdc92f4b05ad65693b3cc8e7d8dd54924c0227"
+  integrity sha512-3kCn7N9NEb3FlvJrSHWGQ4iVl+ydQObq2fHMn12i5wbtm74zHOPhz/i64OL3c1S1vi9i2GXtZqNqUJTQ+BnNfg==
 
 react-virtualized-auto-sizer@^1.0.6:
   version "1.0.25"

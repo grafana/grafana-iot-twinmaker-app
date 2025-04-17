@@ -96,6 +96,7 @@
     "@grafana/data": "^11.5.2",
     "@grafana/plugin-ui": "^0.10.4",
     "@grafana/runtime": "^11.5.2",
+    "@grafana/scenes": "^6.8.1",
     "@grafana/schema": "^11.3.2",
     "@grafana/ui": "^11.3.2",
     "@iot-app-kit/core": "10.13.1",
