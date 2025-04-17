@@ -8,12 +8,6 @@ export interface QueryTypeInfo extends SelectableValue<TwinMakerQueryType> {
 }
 
 export const twinMakerQueryTypes: QueryTypeInfo[] = [
-  // {
-  //   label: 'TwinMaker panel state',
-  //   value: TwinMakerQueryType.TwinMakerPanel,
-  //   description: `Show data based on the state of another TwinMaker panel`,
-  //   defaultQuery: {},
-  // },
   {
     label: 'Get Property Value History by Entity',
     value: TwinMakerQueryType.EntityHistory,
