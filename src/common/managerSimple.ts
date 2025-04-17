@@ -36,31 +36,6 @@ export class SimpleTwinMakerDashboardManager implements TwinMakerDashboardManage
       });
   }
 
-  refresh(panelId?: number) {
-    console.log('refresh all panels pointing to: ', panelId);
-    getCurrentDashboard()?.panels.forEach((p) => {
-      if (p.targets) {
-        for (const q of p.targets) {
-          if (isTwinMakerPanelQuery(q) && (q.panelId === panelId || !panelId)) {
-            p.refresh();
-            break;
-          }
-        }
-      }
-    });
-  }
-
-  twinMakerPanelQueryRunner = (query: TwinMakerPanelQuery, options: BaseDataQueryOptions) => {
-    if (!query.panelId) {
-      return of({ error: { message: 'missing panel id' }, data: [] });
-    }
-    return this.getTwinMakerPanelInstance(query.panelId).pipe(
-      mergeMap((stream) => {
-        return stream.twinMakerPanelQueryRunner(query, options);
-      })
-    );
-  };
-
   /** Get access to scene info */
   private getTwinMakerPanelInstance(panelId: number) {
     let p = this.panels.get(panelId);
@@ -69,21 +44,6 @@ export class SimpleTwinMakerDashboardManager implements TwinMakerDashboardManage
       this.panels.set(panelId, p);
     }
     return p;
-  }
-
-  /**
-   * Get the supported query options
-   */
-  getQueryTopics(panelId?: number) {
-    if (!panelId) {
-      return panelTopicInfo;
-    }
-    // ??? some panels may have different support
-    const panel = getCurrentDashboard()?.panels.find((p) => p.id === panelId);
-    if (panel?.type === TWINMAKER_PANEL_TYPE_ID.LAYOUT) {
-      return panelTopicInfo;
-    }
-    return panelTopicInfo;
   }
 
   /** Called when a scene panel initializes */

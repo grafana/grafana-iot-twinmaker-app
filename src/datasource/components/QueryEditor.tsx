@@ -1,6 +1,6 @@
 import defaults from 'lodash/defaults';
 import React, { PureComponent } from 'react';
-import { Alert, Icon, Input, LinkButton, MultiSelect, Select, Switch } from '@grafana/ui';
+import { Icon, Input, LinkButton, MultiSelect, Select, Switch } from '@grafana/ui';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { TwinMakerDataSource } from '../datasource';
 import { defaultQuery, TwinMakerDataSourceOptions } from '../types';
@@ -21,10 +21,6 @@ import {
   SelectionInfo,
 } from 'common/info/info';
 import {
-  getTwinMakerDashboardManager,
-  isTwinMakerPanelQuery,
-  TwinMakerPanelTopic,
-  TwinMakerPanelTopicInfo,
   TwinMakerQueryType,
   TwinMakerQuery,
   TwinMakerResultOrder,
@@ -50,17 +46,13 @@ interface State {
   workspaceLoading?: boolean;
   entity?: SelectableComponentInfo[];
   entityLoading?: boolean;
-  topics?: TwinMakerPanelTopicInfo[];
   invalidInterval?: boolean;
   hasStreaming?: boolean;
 }
 
 export class QueryEditor extends PureComponent<Props, State> {
-  panels: Array<SelectableValue<number>>;
-
   constructor(props: Props) {
     super(props);
-    this.panels = getTwinMakerDashboardManager().listTwinMakerPanels();
     this.state = {
       invalidInterval: false,
     };
@@ -69,7 +61,6 @@ export class QueryEditor extends PureComponent<Props, State> {
   componentDidMount() {
     this.loadWorkspaceInfo();
     this.loadEntityInfo(this.props.query);
-    this.loadTopicInfo(this.props.query);
     this.setState({ templateVars: getVariableOptions({ keepVarSyntax: true }) });
   }
 
@@ -100,24 +91,11 @@ export class QueryEditor extends PureComponent<Props, State> {
     }
   };
 
-  loadTopicInfo = async (query: TwinMakerQuery) => {
-    if (isTwinMakerPanelQuery(query)) {
-      try {
-        this.setState({ topics: getTwinMakerDashboardManager().getQueryTopics(query.panelId) });
-      } catch (ex) {
-        console.log('Error loading query.entityId', ex);
-      }
-    }
-  };
-
   onQueryTypeChange = (sel: SelectableValue<TwinMakerQueryType>) => {
     const { onChange, onRunQuery } = this.props;
     const query = changeQueryType(this.props.query, sel as QueryTypeInfo);
     onChange(query);
     onRunQuery();
-    if (isTwinMakerPanelQuery(query)) {
-      this.loadTopicInfo(query);
-    }
   };
 
   onOrderChange = (event: SelectableValue<TwinMakerResultOrder>) => {
@@ -214,28 +192,6 @@ export class QueryEditor extends PureComponent<Props, State> {
       }
     }
     onChange(copy);
-    onRunQuery();
-  };
-
-  onPanelChange = (event: SelectableValue<number>) => {
-    const { onChange, onRunQuery } = this.props;
-    const query = {
-      ...this.props.query,
-      queryType: TwinMakerQueryType.TwinMakerPanel,
-      panelId: event?.value,
-    };
-    onChange(query);
-    onRunQuery();
-    this.loadTopicInfo(query);
-  };
-
-  onPanelTopicChange = (event: SelectableValue<TwinMakerPanelTopic>) => {
-    const { onChange, query, onRunQuery } = this.props;
-    onChange({
-      ...query,
-      queryType: TwinMakerQueryType.TwinMakerPanel,
-      topic: event?.value,
-    } as any);
     onRunQuery();
   };
 
@@ -670,58 +626,6 @@ export class QueryEditor extends PureComponent<Props, State> {
   }
 
   renderQuery(query: TwinMakerQuery) {
-    if (isTwinMakerPanelQuery(query)) {
-      if (!this.panels.length) {
-        return (
-          <Alert title="No TwinMaker panels in the dashboard" severity="warning">
-            This query type will listen for actions within a panel, however the dashboard does not contain any
-            configured panels.
-          </Alert>
-        );
-      }
-      const panelSel = getSelectionInfo(query.panelId, this.panels);
-      const topicSel = getSelectionInfo(query.topic, this.state.topics);
-      const compName = getSelectionInfo(query.componentName, this.state.entity, this.state.templateVars);
-      return (
-        <>
-          <EditorRow>
-            <EditorField label="Panel" htmlFor="panel">
-              <Select
-                id="panel"
-                aria-label="Panel"
-                menuShouldPortal={true}
-                value={panelSel.current}
-                options={panelSel.options}
-                onChange={this.onPanelChange}
-                isClearable={true}
-                placeholder={`Select TwinMaker panel`}
-              />
-            </EditorField>
-            <EditorField label="Topic" htmlFor="topic">
-              <Select
-                id="topic"
-                aria-label="Topic"
-                menuShouldPortal={true}
-                value={topicSel.current}
-                options={topicSel.options}
-                onChange={this.onPanelTopicChange}
-                width={16}
-              />
-            </EditorField>
-          </EditorRow>
-          {panelSel.current?.showPartialQuery ||
-            (query.topic === TwinMakerPanelTopic.SelectedItem && (
-              <EditorRow>
-                <EditorFieldGroup>
-                  {this.renderEntitySelector(query, true)}
-                  {this.renderComponentNameSelector(query, compName, true)}
-                  {this.renderPropsSelector(query, this.state.workspace?.properties, this.state.workspaceLoading)}
-                </EditorFieldGroup>
-              </EditorRow>
-            ))}
-        </>
-      );
-    }
     const compType = getSelectionInfo(query.componentTypeId, this.state.workspace?.components, this.state.templateVars);
     const { entity: entityInfo } = this.state;
     switch (query.queryType) {

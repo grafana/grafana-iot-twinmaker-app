@@ -75,24 +75,8 @@ export interface TwinMakerQuery extends DataQuery {
   propertyGroupName?: string;
 }
 
-export interface TwinMakerPanelQuery extends TwinMakerQuery {
-  queryType: TwinMakerQueryType.TwinMakerPanel;
-
-  panelId?: number;
-  topic?: TwinMakerPanelTopic;
-}
-
-export function isTwinMakerPanelQuery(query: DataQuery): query is TwinMakerPanelQuery {
-  return query?.queryType === TwinMakerQueryType.TwinMakerPanel;
-}
-
 /** Request without targets */
 export type BaseDataQueryOptions = Omit<DataQueryRequest, 'targets'>;
-
-export type TwinMakerPanelQueryRunner = (
-  query: TwinMakerPanelQuery,
-  options: BaseDataQueryOptions
-) => Observable<DataQueryResponse>;
 
 export enum TwinMakerPanelTopic {
   /** the selected item */
@@ -108,40 +92,7 @@ export enum TwinMakerPanelTopic {
   VisibleAnchors = 'visibleAnchors',
 }
 
-export interface TwinMakerPanelTopicInfo extends SelectableValue<TwinMakerPanelTopic> {
-  showPartialQuery?: boolean;
-}
-
-export const panelTopicInfo: TwinMakerPanelTopicInfo[] = [
-  {
-    value: TwinMakerPanelTopic.SelectedItem,
-    label: 'Selected item',
-    description: 'Show the selected target from a scene',
-    showPartialQuery: true,
-  },
-  {
-    value: TwinMakerPanelTopic.SelectedAlarm,
-    label: 'Selected alarm',
-    description: 'Show the selected target from a scene',
-    showPartialQuery: true,
-  },
-  {
-    value: TwinMakerPanelTopic.VisibleComponents,
-    label: 'Visible components (future)',
-    description: 'Show the selected target from a scene',
-  },
-  {
-    value: TwinMakerPanelTopic.VisibleAnchors,
-    label: 'Visible anchors (future)',
-    description: 'Show the selected target from a scene',
-  },
-];
-
 export interface TwinMakerPanelInstance {
-  /**
-   * Panel query execution
-   */
-  twinMakerPanelQueryRunner: TwinMakerPanelQueryRunner;
 
   /**
    * TODO?
@@ -152,20 +103,9 @@ export interface TwinMakerPanelInstance {
 
 /** Singleton controller for the whole dashboard.  Will manage layout and posting commands */
 export interface TwinMakerDashboardManager {
-  /** Execute a panel query  */
-  twinMakerPanelQueryRunner: TwinMakerPanelQueryRunner;
-
   /** Find the current   */
   listTwinMakerPanels: () => Array<SelectableValue<number>>;
-
-  /** Refresh any panels listening to the twinmaker panel for actions */
-  refresh: (panelId?: number) => void;
-
-  /**
-   * Get the supported query options
-   */
-  getQueryTopics: (panelId?: number) => TwinMakerPanelTopicInfo[];
-
+  
   /** Called when a scene panel initializes */
   registerTwinMakerPanel: (panelId: number, panel: TwinMakerPanelInstance) => void;
 
