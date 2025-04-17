@@ -1,40 +1,11 @@
-import { TWINMAKER_PANEL_TYPE_ID } from './constants';
-import { getCurrentDashboard } from './dashboard';
-import { ReplaySubject, of, mergeMap } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import {
-  BaseDataQueryOptions,
   TwinMakerDashboardManager,
   TwinMakerPanelInstance,
-  TwinMakerPanelQuery,
-  panelTopicInfo,
-  isTwinMakerPanelQuery,
 } from './manager';
 
 export class SimpleTwinMakerDashboardManager implements TwinMakerDashboardManager {
   panels = new Map<number, ReplaySubject<TwinMakerPanelInstance>>();
-
-  /** A list of the scene viewer panels on the dashboard */
-  listTwinMakerPanels() {
-    const keep: Set<string> = new Set(Object.values(TWINMAKER_PANEL_TYPE_ID));
-    const dash = getCurrentDashboard();
-    // dashboard is not available in explore view
-    if (!dash) {
-      return [];
-    }
-    return dash.panels
-      .filter((p) => keep.has(p.type))
-      .map((p) => {
-        let label = p.title ?? `Panel: ${p.id}`;
-        if (p.options.sceneId) {
-          label += ` (${p.options.sceneId})`;
-        }
-        return {
-          value: p.id,
-          label,
-          imgUrl: `public/plugins/${p.type}/img/icon.svg`,
-        };
-      });
-  }
 
   /** Get access to scene info */
   private getTwinMakerPanelInstance(panelId: number) {

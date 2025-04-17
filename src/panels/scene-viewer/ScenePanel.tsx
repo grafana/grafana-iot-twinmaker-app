@@ -1,5 +1,5 @@
 import React from 'react';
-import { Unsubscribable, throwError } from 'rxjs';
+import { Unsubscribable } from 'rxjs';
 import { PanelProps } from '@grafana/data';
 import { LoadingPlaceholder } from '@grafana/ui';
 

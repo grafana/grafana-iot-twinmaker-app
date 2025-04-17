@@ -1,6 +1,5 @@
-import { SelectableValue, DataQueryResponse, DataQueryRequest } from '@grafana/data';
+import { DataQueryRequest } from '@grafana/data';
 import { DataQuery } from '@grafana/schema';
-import { Observable } from 'rxjs';
 import { getSimpleTwinMakerDashboardManager } from './managerSimple';
 
 export enum TwinMakerQueryType {
@@ -91,9 +90,7 @@ export enum TwinMakerPanelTopic {
   /** anchors in view */
   VisibleAnchors = 'visibleAnchors',
 }
-
 export interface TwinMakerPanelInstance {
-
   /**
    * TODO?
    * callback when the dashboard manager discovers an event
@@ -103,9 +100,6 @@ export interface TwinMakerPanelInstance {
 
 /** Singleton controller for the whole dashboard.  Will manage layout and posting commands */
 export interface TwinMakerDashboardManager {
-  /** Find the current   */
-  listTwinMakerPanels: () => Array<SelectableValue<number>>;
-  
   /** Called when a scene panel initializes */
   registerTwinMakerPanel: (panelId: number, panel: TwinMakerPanelInstance) => void;
 
