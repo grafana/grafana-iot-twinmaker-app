@@ -354,7 +354,7 @@ func (c *twinMakerClient) GetPropertyValue(ctx context.Context, query models.Twi
 	if query.ComponentName == "" {
 		return nil, fmt.Errorf("missing component name")
 	}
-	if query.Properties == nil || len(query.Properties) < 1 {
+	if len(query.Properties) < 1 {
 		return nil, fmt.Errorf("missing property")
 	}
 
@@ -428,7 +428,7 @@ func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query mod
 	}
 
 	if c := query.ComponentTypeId; c != "" {
-		if query.Properties == nil || len(query.Properties) < 1 {
+		if len(query.Properties) < 1 {
 			return nil, fmt.Errorf("missing property")
 		}
 		params.ComponentTypeId = &c
@@ -436,7 +436,7 @@ func (c *twinMakerClient) GetPropertyValueHistory(ctx context.Context, query mod
 		if query.ComponentName == "" {
 			return nil, fmt.Errorf("missing component name")
 		}
-		if query.Properties == nil || len(query.Properties) < 1 {
+		if len(query.Properties) < 1 {
 			return nil, fmt.Errorf("missing property")
 		}
 		params.EntityId = &query.EntityId
