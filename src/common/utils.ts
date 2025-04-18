@@ -21,7 +21,10 @@ async function getAllDashboardPanels(): Promise<VizPanel[]> {
     try {
       // alarm panel fails to load if sceneGraph is imported at the top level in 10, so it needs to be conditionally imported
       const scenes = await import(/* webpackMode: "eager" */ '@grafana/scenes');
-      return scenes.sceneGraph.findAllObjects(sceneContext, (obj) => obj.constructor.name === 'VizPanel') as VizPanel[];
+      return scenes.sceneGraph.findAllObjects(
+        sceneContext,
+        (obj) => obj?.state?.key?.includes('panel') ?? false
+      ) as VizPanel[];
     } catch (error) {
       console.error('Failed to load scenes:', error);
       return [];
