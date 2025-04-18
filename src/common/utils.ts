@@ -1,33 +1,31 @@
-import {
-  SceneDataTransformer,
-  SceneObject,
-  SceneObjectState,
-  SceneQueryRunner,
-  VizPanel,
-} from '@grafana/scenes';
+import { SceneDataTransformer, SceneObject, SceneObjectState, SceneQueryRunner, VizPanel } from '@grafana/scenes';
 import { lte } from 'semver';
 import { PanelModel } from './dashboard';
 import { config } from '@grafana/runtime';
 
-export function refreshPanelsInDashboard() {
+export async function refreshPanelsInDashboard() {
   if (isGrafanaLte10()) {
     refreshAngularDashboard();
   } else {
-    const panels = getAllDashboardPanels();
+    const panels = await getAllDashboardPanels();
     panels.forEach((panel) => {
-    const queryRunner = getQueryRunnerFor(panel);
-    queryRunner?.runQueries();
-     });
+      const queryRunner = getQueryRunnerFor(panel);
+      queryRunner?.runQueries();
+    });
   }
 }
 
-function getAllDashboardPanels(): VizPanel[] {
+async function getAllDashboardPanels(): Promise<VizPanel[]> {
   const sceneContext: SceneObject<SceneObjectState> = (window as any).__grafanaSceneContext;
   if (sceneContext) {
-    import('@grafana/scenes').then((scenes) => {
+    try {
       // alarm panel fails to load if sceneGraph is imported at the top level in 10, so it needs to be conditionally imported
+      const scenes = await import(/* webpackMode: "eager" */ '@grafana/scenes');
       return scenes.sceneGraph.findAllObjects(sceneContext, (obj) => obj.constructor.name === 'VizPanel') as VizPanel[];
-    })
+    } catch (error) {
+      console.error('Failed to load scenes:', error);
+      return [];
+    }
   } else return [];
   return [];
 }
@@ -51,13 +49,19 @@ export function getQueryRunnerFor(sceneObject: SceneObject | undefined): SceneQu
   return undefined;
 }
 
-function refreshAngularDashboard() {
-  // Grafana will stop plugin from loading in >=12 if we import getLegacyAngularInjector at top level, so have to lazy load it
-  import('@grafana/runtime').then((runtime) => {
+async function refreshAngularDashboard() {
+  try {
+    // Grafana will stop plugin from loading in >=12 if we import getLegacyAngularInjector at top level, so have to lazy load it
+    const runtime = await import('@grafana/runtime');
     const $injector = runtime.getLegacyAngularInjector();
-    const dashboardSrv = $injector.get('dashboardSrv');
-    dashboardSrv.dashboard?.panels?.forEach((panel: PanelModel) => panel.refresh());
-  });
+    if ($injector) {
+      const dashboardSrv = $injector.get('dashboardSrv');
+      dashboardSrv.dashboard?.panels?.forEach((panel: PanelModel) => panel.refresh());
+    }
+  } catch (error) {
+    console.error('Failed to load grafana/runtime:', error);
+    return;
+  }
 }
 
 function isGrafanaLte10(): boolean {
