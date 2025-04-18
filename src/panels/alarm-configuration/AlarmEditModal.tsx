@@ -37,7 +37,7 @@ export const AlarmEditModal: React.FunctionComponent<AlarmEditProps> = ({
         <Input
           id="thresholdValue"
           type="number"
-          placeholder={currentThreshold.toString()}
+          placeholder="8"
           onChange={handleThresholdInputChange}
         />
       </Field>

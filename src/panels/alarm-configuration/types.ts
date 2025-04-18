@@ -25,7 +25,7 @@ export interface AlarmQueryInfo {
 }
 
 export enum AlarmResultFields {
-  Status = 'alarm_status',
-  Threshold = 'alarm_threshold',
+  Status = 'alarmStatus',
+  Threshold = 'alarmThreshold',
   Recipients = 'alarm_notification_recipients',
 }

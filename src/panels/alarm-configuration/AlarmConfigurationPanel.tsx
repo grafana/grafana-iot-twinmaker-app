@@ -96,12 +96,12 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
         },
       ];
       if (dataSource) {
+        refreshPanelsInDashboard();
         const doAsync = async () => {
           await dataSource.batchPutPropertyValues(entries);
           if (toField && toField === 'now') {
             setAlarmThreshold(newThreshold);
           }
-          refreshPanelsInDashboard();
         };
         doAsync();
       }
