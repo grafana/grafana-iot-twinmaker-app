@@ -1,5 +1,5 @@
 import { PanelModel as IPanelModel } from '@grafana/data';
-import { getBackendSrv, getLegacyAngularInjector } from '@grafana/runtime';
+import { getBackendSrv } from '@grafana/runtime';
 
 // Extend the published types with the internal/experimental features required
 export interface PanelModel<TOptions = any> extends IPanelModel<TOptions> {
@@ -20,15 +20,6 @@ export interface DashboardMeta {
 
 export interface Dashboard extends DashboardJSON {
   updatePanels: (panels: IPanelModel[]) => void;
-}
-
-/**
- * Get access to the current dashboard
- */
-export function getCurrentDashboard(): Dashboard | undefined {
-  const $injector = getLegacyAngularInjector();
-  const dashboardSrv = $injector.get('dashboardSrv');
-  return dashboardSrv.dashboard;
 }
 
 export function getDashboardByUid(uid: string): Promise<DashboardMeta> {

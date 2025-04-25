@@ -15,7 +15,7 @@ import { AlarmEditModal } from './AlarmEditModal';
 import { processAlarmQueryInput, processAlarmResult } from './alarmParser';
 import { PanelOptions } from './types';
 import { TwinMakerDataSource } from 'datasource/datasource';
-import { getCurrentDashboard } from 'common/dashboard';
+import { refreshPanelsInDashboard } from 'common/utils';
 
 type Props = PanelProps<PanelOptions>;
 
@@ -101,7 +101,7 @@ export const AlarmConfigurationPanel: React.FunctionComponent<Props> = ({ id, da
           if (toField && toField === 'now') {
             setAlarmThreshold(newThreshold);
           }
-          getCurrentDashboard()?.panels?.forEach((panel) => panel.refresh());
+          refreshPanelsInDashboard();
         };
         doAsync();
       }
