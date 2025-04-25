@@ -1,5 +1,5 @@
 import React from 'react';
-import { Unsubscribable, throwError } from 'rxjs';
+import { Unsubscribable } from 'rxjs';
 import { PanelProps } from '@grafana/data';
 import { LoadingPlaceholder } from '@grafana/ui';
 
@@ -19,12 +19,6 @@ export class ScenePanel extends React.Component<Props, ScenePanelState> {
 
   constructor(props: Props) {
     super(props);
-    getTwinMakerDashboardManager().registerTwinMakerPanel(this.props.id, {
-      twinMakerPanelQueryRunner: () => throwError(() => `not implemented yet (see twinmaker debug panel)`),
-      onDashboardAction: (cmd) => {
-        console.log('TODO! implement action sent from the manager???', cmd);
-      },
-    });
     this.state = {
       configured: false,
     };
