@@ -65,6 +65,7 @@
     "stdlib",
     "cytoscape",
     "stretchr",
-    "dompurify"
+    "dompurify",
+    "zizmor"
   ]
 }
