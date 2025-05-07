@@ -84,7 +84,9 @@ func NewTwinMakerClient(ctx context.Context, settings models.TwinMakerDataSource
 	}
 
 	setEndpoint := func(options *iottwinmaker.Options) {
-		options.BaseEndpoint = &settings.Endpoint
+		if settings.Endpoint != "" {
+			options.BaseEndpoint = &settings.Endpoint
+		}
 	}
 
 	client.twinMakerService = getClientService(ctx, noEndpointSettings, setEndpoint)
