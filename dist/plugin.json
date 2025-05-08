@@ -1,0 +1,67 @@
+{
+    "type": "app",
+    "name": "AWS IoT TwinMaker App",
+    "id": "grafana-iot-twinmaker-app",
+    "category": "iot",
+    "autoEnabled": true,
+    "info": {
+        "description": "Create end-user 3D digital twin applications to monitor industrial operations with AWS IoT TwinMaker. AWS IoT TwinMaker is a service that makes it faster and easier for developers to create digital replicas of real-world systems, helping more customers realize the potential of digital twins to optimize operations.",
+        "author": {
+            "name": "AWS IoT TwinMaker",
+            "url": "https://aws.amazon.com"
+        },
+        "keywords": [
+            "application",
+            "aws",
+            "amazon",
+            "iot",
+            "panel",
+            "cloud provider",
+            "twinmaker"
+        ],
+        "logos": {
+            "small": "img/AWS-IoT-TwinMaker.png",
+            "large": "img/AWS-IoT-TwinMaker.png"
+        },
+        "links": [
+            {
+                "name": "Website",
+                "url": "https://github.com/grafana/grafana-iot-twinmaker-app"
+            }
+        ],
+        "screenshots": [],
+        "version": "2.0.1",
+        "updated": "2025-05-08"
+    },
+    "includes": [
+        {
+            "type": "datasource",
+            "name": "Grafana IoT TwinMaker Datasource",
+            "path": "datasource/plugin.json"
+        },
+        {
+            "type": "panel",
+            "name": "AWS IoT TwinMaker Alarm Configuration Panel",
+            "path": "panels/alarm-configuration/plugin.json"
+        },
+        {
+            "type": "panel",
+            "name": "AWS IoT TwinMaker Query Editor Panel",
+            "path": "panels/query-editor/plugin.json"
+        },
+        {
+            "type": "panel",
+            "name": "AWS IoT TwinMaker Scene Viewer Panel",
+            "path": "panels/scene-viewer/plugin.json"
+        },
+        {
+            "type": "panel",
+            "name": "AWS IoT TwinMaker Video Player Panel",
+            "path": "panels/video-player/plugin.json"
+        }
+    ],
+    "dependencies": {
+        "grafanaDependency": ">=10.4.0"
+    },
+    "buildMode": "production"
+}
