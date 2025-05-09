@@ -2,12 +2,13 @@ package plugin
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"sync"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/smithy-go"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
@@ -179,11 +180,11 @@ func (ds *TwinMakerDatasource) CheckHealth(ctx context.Context, _ *backend.Check
 
 	_, err := ds.handler.GetSessionToken(ctx, time.Second*3600, ds.settings.WorkspaceID)
 	if err != nil {
-		awsErr, ok := err.(awserr.Error)
-		if ok {
+		var smErr *smithy.OperationError
+		if errors.As(err, &smErr) {
 			return &backend.CheckHealthResult{
 				Status:  backend.HealthStatusError,
-				Message: awsErr.Error(),
+				Message: smErr.Error(),
 			}, nil
 		}
 		return &backend.CheckHealthResult{
@@ -196,11 +197,11 @@ func (ds *TwinMakerDatasource) CheckHealth(ctx context.Context, _ *backend.Check
 		WorkspaceId: ds.settings.WorkspaceID,
 	})
 	if err != nil {
-		awsErr, ok := err.(awserr.Error)
-		if ok {
+		var smErr *smithy.OperationError
+		if errors.As(err, &smErr) {
 			return &backend.CheckHealthResult{
 				Status:  backend.HealthStatusError,
-				Message: awsErr.Message(),
+				Message: smErr.Error(),
 			}, nil
 		}
 		return &backend.CheckHealthResult{
@@ -219,11 +220,11 @@ func (ds *TwinMakerDatasource) CheckHealth(ctx context.Context, _ *backend.Check
 	if ds.settings.AssumeRoleARNWriter != "" {
 		_, err := ds.handler.GetWriteSessionToken(ctx, time.Second*3600, ds.settings.WorkspaceID)
 		if err != nil {
-			awsErr, ok := err.(awserr.Error)
-			if ok {
+			var smErr smithy.APIError
+			if errors.As(err, &smErr) {
 				return &backend.CheckHealthResult{
 					Status:  backend.HealthStatusError,
-					Message: awsErr.Error(),
+					Message: err.Error(),
 				}, nil
 			}
 			return &backend.CheckHealthResult{
