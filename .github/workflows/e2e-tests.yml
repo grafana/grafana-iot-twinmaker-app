@@ -21,7 +21,7 @@ jobs:
           persist-credentials: false
       - name: Resolve Grafana E2E versions
         id: resolve-versions
-        uses: grafana/plugin-actions/e2e-version@c233e9f6752186a9b256a2a451ec3067fbf712c2 # main
+        uses: grafana/plugin-actions/e2e-version@main
         with:
           version-resolver-type: version-support-policy
 
@@ -65,6 +65,9 @@ jobs:
         run: |
           docker compose pull
           GRAFANA_VERSION=${{ matrix.GRAFANA_IMAGE.VERSION }} GRAFANA_IMAGE=${{ matrix.GRAFANA_IMAGE.NAME }} docker compose up -d --wait --wait-timeout 60
+
+      - name: Wait for grafana server
+        uses: grafana/plugin-actions/wait-for-grafana@main
 
       - name: Run Playwright tests
         id: run-tests
