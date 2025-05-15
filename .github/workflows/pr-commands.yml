@@ -7,13 +7,15 @@ on:
 concurrency:
   group: pr-commands-${{ github.event.number }}
 
-permissions:
-  contents: read
-  pull-requests: write
-
+permissions: {}
 jobs:
   main:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      # The "id-token: write" permission is required by "get-vault-secrets" action
+      id-token: write
     steps:
       - name: Checkout Actions
         uses: actions/checkout@v4
