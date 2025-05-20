@@ -94,7 +94,7 @@ func NewTwinMakerClient(ctx context.Context, settings models.TwinMakerDataSource
 		if err != nil {
 			return nil, err
 		}
-		session.Config.Endpoint = &settings.AWSDatasourceSettings.Endpoint
+		session.Config.Endpoint = &settings.Endpoint
 
 		svc := iottwinmaker.New(session, aws.NewConfig())
 		return svc, err
@@ -108,7 +108,7 @@ func NewTwinMakerClient(ctx context.Context, settings models.TwinMakerDataSource
 		if err != nil {
 			return nil, err
 		}
-		session.Config.Endpoint = &settings.AWSDatasourceSettings.Endpoint
+		session.Config.Endpoint = &settings.Endpoint
 
 		svc := iottwinmaker.New(session, aws.NewConfig())
 		return svc, err
@@ -127,7 +127,7 @@ func NewTwinMakerClient(ctx context.Context, settings models.TwinMakerDataSource
 		twinMakerService: twinMakerService,
 		tokenService:     tokenService,
 		writerService:    writerService,
-		tokenRole:        settings.AWSDatasourceSettings.AssumeRoleARN,
+		tokenRole:        settings.AssumeRoleARN,
 		tokenRoleWriter:  settings.AssumeRoleARNWriter,
 	}, nil
 }

@@ -29,7 +29,9 @@ async function getAllDashboardPanels(): Promise<VizPanel[]> {
       console.error('Failed to load scenes:', error);
       return [];
     }
-  } else return [];
+  } else {
+    return [];
+  }
   return [];
 }
 
@@ -56,6 +58,7 @@ async function refreshAngularDashboard() {
   try {
     // Grafana will stop plugin from loading in >=12 if we import getLegacyAngularInjector at top level, so have to lazy load it
     const runtime = await import('@grafana/runtime');
+    // @ts-ignore
     const $injector = runtime.getLegacyAngularInjector();
     if ($injector) {
       const dashboardSrv = $injector.get('dashboardSrv');
