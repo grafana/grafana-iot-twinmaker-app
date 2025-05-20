@@ -29,7 +29,9 @@ async function getAllDashboardPanels(): Promise<VizPanel[]> {
       console.error('Failed to load scenes:', error);
       return [];
     }
-  } else return [];
+  } else {
+    return [];
+  }
   return [];
 }
 
