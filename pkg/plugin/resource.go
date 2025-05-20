@@ -15,7 +15,7 @@ func writeJsonResponse(w http.ResponseWriter, rsp interface{}, err error) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		_, _ = w.Write([]byte(fmt.Sprintf(`{"message": "%s"}`, err.Error())))
+		_, _ = fmt.Fprintf(w, fmt.Sprintf(`{"message": "%s"}`, err.Error()))
 	} else {
 		_ = json.NewEncoder(w).Encode(rsp)
 	}
