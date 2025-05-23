@@ -5,8 +5,9 @@ import {
   SelectableValue,
   updateDatasourcePluginJsonDataOption,
 } from '@grafana/data';
+import { config } from '@grafana/runtime';
 import { ConnectionConfig, ConnectionConfigProps, Divider } from '@grafana/aws-sdk';
-import { Select, Input, Alert, Field, Switch, useStyles2 } from '@grafana/ui';
+import { Select, Input, Alert, Field, SecureSocksProxySettings, Switch, useStyles2 } from '@grafana/ui';
 import { standardRegions } from '../regions';
 import { TwinMakerDataSourceOptions, TwinMakerSecureJsonData } from '../types';
 import { getTwinMakerDatasource } from 'common/datasourceSrv';
@@ -15,6 +16,7 @@ import { SelectableQueryResults } from 'common/info/types';
 import { useEffectOnce } from 'react-use';
 import { ConfigSection } from '@grafana/plugin-ui';
 import { css } from '@emotion/css';
+import { gte } from 'semver';
 
 type Props = ConnectionConfigProps<TwinMakerDataSourceOptions, TwinMakerSecureJsonData>;
 
@@ -109,6 +111,9 @@ export function ConfigEditor(props: Props) {
           </a>{' '}
           to create policies and a role with minimal permissions for your TwinMaker workspace.
         </Alert>
+      )}
+      {config.secureSocksDSProxyEnabled && gte(config.buildInfo.version, '10.0.0') && (
+        <SecureSocksProxySettings options={props.options} onOptionsChange={props.onOptionsChange} />
       )}
       <Divider />
       <ConfigSection title="Twinmaker Settings" data-testid="twinmaker-settings">
