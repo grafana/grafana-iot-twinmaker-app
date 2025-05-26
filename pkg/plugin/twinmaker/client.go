@@ -2,7 +2,6 @@ package twinmaker
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"time"
 
@@ -223,16 +222,29 @@ func (c *twinMakerClient) ListEntities(ctx context.Context, query models.TwinMak
 
 	// if a filter is set then just use that instead directly
 	if len(query.ListEntitiesFilter) > 0 {
+		params.Filters = make([]iottwinmakertypes.ListEntitiesFilter, 0)
+		for _, filter := range query.ListEntitiesFilter {
+			if filter.ComponentTypeId != "" {
+				params.Filters = append(params.Filters,
+					&iottwinmakertypes.ListEntitiesFilterMemberComponentTypeId{
+						Value: filter.ComponentTypeId,
+					})
+			}
+			if filter.ExternalId != "" {
+				params.Filters = append(params.Filters,
+					&iottwinmakertypes.ListEntitiesFilterMemberExternalId{
+						Value: filter.ExternalId,
+					})
+			}
+			if filter.ParentEntityId != "" {
+				params.Filters = append(params.Filters,
+					&iottwinmakertypes.ListEntitiesFilterMemberParentEntityId{
+						Value: filter.ParentEntityId,
+					})
+			}
+		}
 		if len(params.Filters) == 0 {
-			params.Filters = make([]iottwinmakertypes.ListEntitiesFilter, 1)
-		}
-		listEntitiesFilter, err := json.Marshal(query.ListEntitiesFilter)
-		if err != nil {
-			return nil, err
-		}
-		err = json.Unmarshal(listEntitiesFilter, &params.Filters)
-		if err != nil {
-			return nil, err
+			fmt.Println("What is going on here")
 		}
 	}
 

@@ -622,7 +622,8 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 			status.Set(i, propertyReference.values[0].Value.StringValue)
 		}
 		name.Set(i, propertyReference.entityPropertyReference.ComponentName)
-		id.Set(i, propertyReference.entityPropertyReference.ExternalIdProperty[externalIdKey])
+		externalId := propertyReference.entityPropertyReference.ExternalIdProperty[externalIdKey]
+		id.Set(i, &externalId)
 		eId.Set(i, propertyReference.entityPropertyReference.EntityId)
 		eName.Set(i, propertyReference.entityName)
 	}
