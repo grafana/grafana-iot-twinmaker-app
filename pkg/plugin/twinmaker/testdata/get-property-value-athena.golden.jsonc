@@ -6,7 +6,7 @@
 //  +----------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------+
 //  | Name: crit                                                                                               | Name: description                                                                                               | Name: floc                                                                                               |
 //  | Labels: componentName=TabularComponent, entityId=1b480741-1ac9-4c28-ac0e-f815b4bb3347, propertyName=crit | Labels: componentName=TabularComponent, entityId=1b480741-1ac9-4c28-ac0e-f815b4bb3347, propertyName=description | Labels: componentName=TabularComponent, entityId=1b480741-1ac9-4c28-ac0e-f815b4bb3347, propertyName=floc |
-//  | Type: []*int64                                                                                           | Type: []*string                                                                                                 | Type: []*string                                                                                          |
+//  | Type: []*int32                                                                                           | Type: []*string                                                                                                 | Type: []*string                                                                                          |
 //  +----------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------+
 //  | 5                                                                                                        | BYTN-02-SDV-09186 does not open                                                                                 | P-268                                                                                                    |
 //  | 5                                                                                                        | BYTN-03-TV-05319 does not open                                                                                  | P-268                                                                                                    |
@@ -32,7 +32,7 @@
             "name": "crit",
             "type": "number",
             "typeInfo": {
-              "frame": "int64",
+              "frame": "int32",
               "nullable": true
             },
             "labels": {

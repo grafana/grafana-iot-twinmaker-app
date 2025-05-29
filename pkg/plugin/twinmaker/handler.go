@@ -3,14 +3,16 @@ package twinmaker
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"github.com/aws/smithy-go"
 	"sort"
 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/awserr"
-	"github.com/aws/aws-sdk-go/service/iottwinmaker"
-	"github.com/aws/aws-sdk-go/service/sts"
+	"github.com/aws/aws-sdk-go-v2/service/iottwinmaker"
+	iottwinmakertypes "github.com/aws/aws-sdk-go-v2/service/iottwinmaker/types"
+	ststypes "github.com/aws/aws-sdk-go-v2/service/sts/types"
+
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
@@ -292,7 +294,7 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 	} else if len(results.TabularPropertyValues) > 0 && len(results.TabularPropertyValues[0]) > 0 {
 		tabularValuesList := results.TabularPropertyValues[0]
 		fieldsList := make([]*data.Field, 0, len(tabularValuesList[0]))
-		converterList := make([]func(v *iottwinmaker.DataValue) interface{}, 0, len(tabularValuesList[0]))
+		converterList := make([]func(v *iottwinmakertypes.DataValue) interface{}, 0, len(tabularValuesList[0]))
 
 		for valIdx, propList := range tabularValuesList {
 			keys := make([]string, 0, len(propList))
@@ -304,7 +306,7 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 				propVal := propList[propName]
 				// First iteration initialize the fields
 				if valIdx == 0 {
-					f, converter := newDataValueField(propVal, len(tabularValuesList))
+					f, converter := newDataValueField(&propVal, len(tabularValuesList))
 					f.Name = propName
 					f.Labels = data.Labels{
 						"entityId":      query.EntityId,
@@ -316,7 +318,7 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 					frame.Fields = append(frame.Fields, f)
 				}
 				// Save the property value in the respective field
-				fieldsList[propIdx].Set(valIdx, converterList[propIdx](propVal))
+				fieldsList[propIdx].Set(valIdx, converterList[propIdx](&propVal))
 			}
 		}
 	}
@@ -325,17 +327,17 @@ func (s *twinMakerHandler) GetPropertyValue(ctx context.Context, query models.Tw
 	return
 }
 
-func (s *twinMakerHandler) processListValue(v []*iottwinmaker.DataValue, propVal string) *data.Frame {
+func (s *twinMakerHandler) processListValue(v []iottwinmakertypes.DataValue, propVal string) *data.Frame {
 	fields := newTwinMakerFrameBuilder(len(v))
 
-	valField, valConvertor := fields.Value(v[0])
+	valField, valConvertor := fields.Value(&v[0])
 	valField.Name = propVal
 
 	isUrl := false
 	for i, value := range v {
-		valField.Set(i, valConvertor(value))
+		valField.Set(i, valConvertor(&value))
 		if !isUrl {
-			isUrl = checkForUrl(value, valConvertor)
+			isUrl = checkForUrl(&value, valConvertor)
 		}
 	}
 
@@ -347,7 +349,7 @@ func (s *twinMakerHandler) processListValue(v []*iottwinmaker.DataValue, propVal
 	return frame
 }
 
-func (s *twinMakerHandler) processMapValue(v map[string]*iottwinmaker.DataValue) *data.Frame {
+func (s *twinMakerHandler) processMapValue(v map[string]iottwinmakertypes.DataValue) *data.Frame {
 	keys := make([]string, 0, len(v))
 	for k := range v {
 		keys = append(keys, k)
@@ -357,16 +359,16 @@ func (s *twinMakerHandler) processMapValue(v map[string]*iottwinmaker.DataValue)
 
 	keyField := fields.Name()
 	keyField.Name = "Key"
-	valField, valConvertor := fields.Value(v[keys[0]])
+	valField, valConvertor := fields.Value(Pointer(v[keys[0]]))
 	valField.Name = "Value"
 
 	isUrl := false
 	sort.Strings(keys)
 	for i, k := range keys {
 		keyField.Set(i, &keys[i])
-		valField.Set(i, valConvertor(v[k]))
+		valField.Set(i, valConvertor(Pointer(v[k])))
 		if !isUrl {
-			isUrl = checkForUrl(v[k], valConvertor)
+			isUrl = checkForUrl(Pointer(v[k]), valConvertor)
 		}
 	}
 
@@ -432,7 +434,7 @@ func (s *twinMakerHandler) processHistory(results *iottwinmaker.GetPropertyValue
 				if key == "propertyName" {
 					continue
 				}
-				v.Labels[key] = *val
+				v.Labels[key] = val
 			}
 		}
 
@@ -453,15 +455,15 @@ func (s *twinMakerHandler) GetComponentHistory(ctx context.Context, query models
 	propertyReferences, failures, err := s.GetComponentHistoryWithLookup(ctx, query)
 	result := &iottwinmaker.GetPropertyValueHistoryOutput{
 		NextToken:      nil,
-		PropertyValues: []*iottwinmaker.PropertyValueHistory{},
+		PropertyValues: []iottwinmakertypes.PropertyValueHistory{},
 	}
 
 	for _, p := range propertyReferences {
-		propertyValue := iottwinmaker.PropertyValueHistory{
+		propertyValue := iottwinmakertypes.PropertyValueHistory{
 			EntityPropertyReference: p.entityPropertyReference,
 			Values:                  p.values,
 		}
-		result.PropertyValues = append(result.PropertyValues, &propertyValue)
+		result.PropertyValues = append(result.PropertyValues, propertyValue)
 	}
 
 	// Return dataFrame with the history results and entityId and componentName
@@ -545,9 +547,9 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 	for _, componentTypeSummary := range componentTypeSummaryResults {
 		// Set mapping of alarm component types for quick lookup later
 		query.EntityId = ""
-		query.Properties = []*string{aws.String(alarmProperty)}
+		query.Properties = []string{alarmProperty}
 		query.ComponentTypeId = *componentTypeSummary.ComponentTypeId
-		query.Order = models.ResultOrderDesc
+		query.Order = iottwinmakertypes.OrderByTimeDescending
 		if isFiltered {
 			query.PropertyFilter = filter
 		}
@@ -620,7 +622,8 @@ func (s *twinMakerHandler) GetAlarms(ctx context.Context, query models.TwinMaker
 			status.Set(i, propertyReference.values[0].Value.StringValue)
 		}
 		name.Set(i, propertyReference.entityPropertyReference.ComponentName)
-		id.Set(i, propertyReference.entityPropertyReference.ExternalIdProperty[externalIdKey])
+		externalId := propertyReference.entityPropertyReference.ExternalIdProperty[externalIdKey]
+		id.Set(i, &externalId)
 		eId.Set(i, propertyReference.entityPropertyReference.EntityId)
 		eName.Set(i, propertyReference.entityName)
 	}
@@ -650,15 +653,16 @@ func (s *twinMakerHandler) GetWriteSessionToken(ctx context.Context, duration ti
 }
 
 func HandleGetTokenError(err error) error {
-	if aErr, ok := err.(awserr.Error); ok {
-		log.DefaultLogger.Error("error getting session token", "code", aErr.Code(), "error", aErr)
+	var smErr smithy.APIError
+	if errors.As(err, &smErr) {
+		log.DefaultLogger.Error("error getting session token", "code", smErr.ErrorCode(), "error", smErr)
 		return err
 	}
 	log.DefaultLogger.Error("error getting session token", "error", err)
 	return err
 }
 
-func SetInfo(credentials *sts.Credentials, info models.TokenInfo) models.TokenInfo {
+func SetInfo(credentials *ststypes.Credentials, info models.TokenInfo) models.TokenInfo {
 	info.AccessKeyId = credentials.AccessKeyId
 	info.SecretAccessKey = credentials.SecretAccessKey
 	info.SessionToken = credentials.SessionToken

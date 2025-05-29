@@ -30,7 +30,7 @@ func TestCheckHealthHandler(t *testing.T) {
 		)
 
 		require.Equal(t, res.Status, backend.HealthStatusError)
-		require.Contains(t, res.Message, "InvalidClientTokenId: The security token included in the request is invalid.\n\tstatus code: 403")
+		require.Contains(t, res.Message, "InvalidClientTokenId: The security token included in the request is invalid.")
 	})
 	t.Run("HealthStatusError when assume role arn is not filled out", func(t *testing.T) {
 		ds := plugin.NewTwinMakerDatasource(context.Background(), models.TwinMakerDataSourceSetting{

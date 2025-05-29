@@ -2,10 +2,10 @@ package twinmaker
 
 import (
 	"context"
+	ststypes "github.com/aws/aws-sdk-go-v2/service/sts/types"
 	"time"
 
-	"github.com/aws/aws-sdk-go/service/iottwinmaker"
-	"github.com/aws/aws-sdk-go/service/sts"
+	"github.com/aws/aws-sdk-go-v2/service/iottwinmaker"
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/patrickmn/go-cache"
@@ -161,12 +161,12 @@ func (c *cachingClient) GetPropertyValueHistory(ctx context.Context, query model
 	return c.client.GetPropertyValueHistory(ctx, query)
 }
 
-func (c *cachingClient) GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*sts.Credentials, error) {
+func (c *cachingClient) GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*ststypes.Credentials, error) {
 	// not cached
 	return c.client.GetSessionToken(ctx, duration, workspaceId)
 }
 
-func (c *cachingClient) GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*sts.Credentials, error) {
+func (c *cachingClient) GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*ststypes.Credentials, error) {
 	// not cached
 	return c.client.GetWriteSessionToken(ctx, duration, workspaceId)
 }

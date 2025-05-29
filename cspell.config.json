@@ -65,7 +65,10 @@
     "stdlib",
     "cytoscape",
     "stretchr",
-    "dompurify",
-    "zizmor"
+    "zizmor",
+    "ststypes",
+    "awsauth",
+    "iottwinmakertypes",
+    "dompurify"
   ]
 }
