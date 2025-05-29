@@ -4,12 +4,12 @@ go 1.24.1
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.36.3
-	github.com/aws/aws-sdk-go-v2/service/iottwinmaker v1.24.10
+	github.com/aws/aws-sdk-go-v2/service/iottwinmaker v1.25.2
 	github.com/aws/aws-sdk-go-v2/service/sts v1.33.19
 	github.com/aws/smithy-go v1.22.3
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1
-	github.com/grafana/grafana-aws-sdk v0.38.3
+	github.com/grafana/grafana-aws-sdk v0.38.5
 	github.com/grafana/grafana-plugin-sdk-go v0.277.1
 	github.com/magefile/mage v1.15.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
