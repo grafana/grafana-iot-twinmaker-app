@@ -30,6 +30,11 @@ func NewTwinMakerInstance(ctx context.Context, s backend.DataSourceInstanceSetti
 	if err != nil {
 		return nil, err
 	}
+	proxyOptions, err := s.ProxyOptionsFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+	settings.ProxyOptions = proxyOptions
 
 	return NewTwinMakerDatasource(ctx, settings), nil
 }

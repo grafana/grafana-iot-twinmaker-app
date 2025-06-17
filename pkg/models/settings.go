@@ -6,10 +6,12 @@ import (
 
 	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/proxy"
 )
 
 type TwinMakerDataSourceSetting struct {
 	awsds.AWSDatasourceSettings
+	ProxyOptions        *proxy.Options
 	AssumeRoleARNWriter string `json:"assumeRoleArnWriter"`
 	WorkspaceID         string `json:"workspaceId"`
 	UID                 string `json:"uid"`

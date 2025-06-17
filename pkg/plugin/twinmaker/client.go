@@ -53,7 +53,7 @@ func NewTwinMakerClient(ctx context.Context, settings models.TwinMakerDataSource
 	if err != nil {
 		return nil, err
 	}
-	transport, err := httpclient.GetTransport()
+	transport, err := httpclient.GetTransport(httpclient.Options{ProxyOptions: settings.ProxyOptions})
 	if err != nil {
 		return nil, err
 	}
