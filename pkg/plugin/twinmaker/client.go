@@ -61,7 +61,7 @@ func NewTwinMakerClient(ctx context.Context, settings models.TwinMakerDataSource
 	agent := "grafana-iot-twinmaker-app"
 
 	client := &twinMakerClient{
-		tokenRole:       settings.AWSDatasourceSettings.AssumeRoleARN,
+		tokenRole:       settings.AssumeRoleARN,
 		tokenRoleWriter: settings.AssumeRoleARNWriter,
 	}
 
