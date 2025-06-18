@@ -1,12 +1,20 @@
 # Changelog
 
+## 2.1.0
+- Add PDC support in [#386](https://github.com/grafana/grafana-iot-twinmaker-app/pull/386)
+- Update to aws-sdk-go-v2 and grafana-aws-sdk new style authentication in [#373](https://github.com/grafana/grafana-iot-twinmaker-app/pull/373)
+- Dependency updates:
+  - Bump the all-node-dependencies group across 1 directory with 30 updates in [#406](https://github.com/grafana/grafana-iot-twinmaker-app/pull/406)
+  - Bump the all-go-dependencies group across 1 directory with 4 updates [#405](https://github.com/grafana/grafana-iot-twinmaker-app/pull/405)
+
 ## 2.0.2
 
-- Bump the all-node-dependencies group with 10 updates in [#394](https://github.com/grafana/grafana-iot-twinmaker-app/pull/394)
-- Bump github.com/grafana/grafana-plugin-sdk-go from 0.277.0 to 0.277.1 in the all-go-dependencies group in [#393](https://github.com/grafana/grafana-iot-twinmaker-app/pull/393)
-- Bump the all-node-dependencies group across 1 directory with 31 updates in [#389](https://github.com/grafana/grafana-iot-twinmaker-app/pull/389)
-- Bump golang.org/x/net from 0.36.0 to 0.38.0 in the go_modules group in [#381](https://github.com/grafana/grafana-iot-twinmaker-app/pull/381)
-- Bump the all-go-dependencies group across 1 directory with 3 updates in [#387](https://github.com/grafana/grafana-iot-twinmaker-app/pull/387)
+- Dependency updates:
+  - Bump the all-node-dependencies group with 10 updates in [#394](https://github.com/grafana/grafana-iot-twinmaker-app/pull/394)
+  - Bump github.com/grafana/grafana-plugin-sdk-go from 0.277.0 to 0.277.1 in the all-go-dependencies group in [#393](https://github.com/grafana/grafana-iot-twinmaker-app/pull/393)
+  - Bump the all-node-dependencies group across 1 directory with 31 updates in [#389](https://github.com/grafana/grafana-iot-twinmaker-app/pull/389)
+  - Bump golang.org/x/net from 0.36.0 to 0.38.0 in the go_modules group in [#381](https://github.com/grafana/grafana-iot-twinmaker-app/pull/381)
+  - Bump the all-go-dependencies group across 1 directory with 3 updates in [#387](https://github.com/grafana/grafana-iot-twinmaker-app/pull/387)
 
 ## 2.0.1
 
@@ -16,8 +24,9 @@
 - Update pr-commands.yml in [#391](https://github.com/grafana/grafana-iot-twinmaker-app/pull/391)
 - Use vault to generate token in [#390](https://github.com/grafana/grafana-iot-twinmaker-app/pull/390)
 - Update github actions files in [#388](https://github.com/grafana/grafana-iot-twinmaker-app/pull/388)
-- Bump node dependencies in [#365](https://github.com/grafana/grafana-iot-twinmaker-app/pull/365), [#371](https://github.com/grafana/grafana-iot-twinmaker-app/pull/371), [#372](https://github.com/grafana/grafana-iot-twinmaker-app/pull/372), [#363](https://github.com/grafana/grafana-iot-twinmaker-app/pull/363), [#360](https://github.com/grafana/grafana-iot-twinmaker-app/pull/360), [#353](https://github.com/grafana/grafana-iot-twinmaker-app/pull/353)
-- Bump go dependencies in [#351](https://github.com/grafana/grafana-iot-twinmaker-app/pull/351), [#354](https://github.com/grafana/grafana-iot-twinmaker-app/pull/354), [#359](https://github.com/grafana/grafana-iot-twinmaker-app/pull/359), [#362](https://github.com/grafana/grafana-iot-twinmaker-app/pull/362), [#364](https://github.com/grafana/grafana-iot-twinmaker-app/pull/364), [#368](https://github.com/grafana/grafana-iot-twinmaker-app/pull/368), [#374](https://github.com/grafana/grafana-iot-twinmaker-app/pull/374)
+- Dependency updates:
+  - Bump node dependencies in [#365](https://github.com/grafana/grafana-iot-twinmaker-app/pull/365), [#371](https://github.com/grafana/grafana-iot-twinmaker-app/pull/371), [#372](https://github.com/grafana/grafana-iot-twinmaker-app/pull/372), [#363](https://github.com/grafana/grafana-iot-twinmaker-app/pull/363), [#360](https://github.com/grafana/grafana-iot-twinmaker-app/pull/360), [#353](https://github.com/grafana/grafana-iot-twinmaker-app/pull/353)
+  - Bump go dependencies in [#351](https://github.com/grafana/grafana-iot-twinmaker-app/pull/351), [#354](https://github.com/grafana/grafana-iot-twinmaker-app/pull/354), [#359](https://github.com/grafana/grafana-iot-twinmaker-app/pull/359), [#362](https://github.com/grafana/grafana-iot-twinmaker-app/pull/362), [#364](https://github.com/grafana/grafana-iot-twinmaker-app/pull/364), [#368](https://github.com/grafana/grafana-iot-twinmaker-app/pull/368), [#374](https://github.com/grafana/grafana-iot-twinmaker-app/pull/374)
 
 ## 2.0.0
 
