@@ -34,10 +34,10 @@ const valueTypeToDataType: Record<ValueType, DataType> = {
 
 const mapDataFrame = (df: DataFrame): DataStream[] => {
   // Map GetAlarms query dataFrame.
-  const componentNameField = df.fields.find((field) => field.name === 'alarmName')?.values.toArray();
-  const entityIdField = df.fields.find((field) => field.name === 'entityId')?.values.toArray();
-  const alarmStatusField = df.fields.find((field) => field.name === 'alarmStatus')?.values.toArray();
-  const timeField = df.fields.find((field) => field.name === 'Time')?.values.toArray();
+  const componentNameField = df.fields.find((field) => field.name === 'alarmName')?.values;
+  const entityIdField = df.fields.find((field) => field.name === 'entityId')?.values;
+  const alarmStatusField = df.fields.find((field) => field.name === 'alarmStatus')?.values;
+  const timeField = df.fields.find((field) => field.name === 'Time')?.values;
   const timeFieldIndex = df.fields.findIndex((field) => field.name === 'Time');
 
   if (!timeField) {
