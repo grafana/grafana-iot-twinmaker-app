@@ -38,7 +38,7 @@ You need to have commit rights to the GitHub repository to publish a release.
 2. Update the `CHANGELOG.md` by copy and pasting the relevant PRs from [Github's Release drafter interface](https://github.com/grafana/grafana-iot-twinmaker-app/releases/new) or by running `npm run generate-release-notes`.
 3. PR the changes.
 4. Let the AWS TwinMaker team know that you are planning a release so they can test it first. You can do this by tagging them in the release PR.
-5. Once merged, follow the Drone release process that you can find [here](https://github.com/grafana/integrations-team/wiki/Plugin-Release-Process#drone-release-process)
+5. Once merged, follow the release process that you can find [here](https://enghub.grafana-ops.net/docs/default/component/grafana-plugins-platform/plugins-ci-github-actions/010-plugins-ci-github-actions/#cd_1)
 
 ## Install
 
