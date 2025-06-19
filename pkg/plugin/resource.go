@@ -3,9 +3,10 @@ package plugin
 import (
 	"encoding/json"
 	"fmt"
-	iottwinmakertypes "github.com/aws/aws-sdk-go-v2/service/iottwinmaker/types"
 	"net/http"
 	"time"
+
+	iottwinmakertypes "github.com/aws/aws-sdk-go-v2/service/iottwinmaker/types"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 )
@@ -15,7 +16,7 @@ func writeJsonResponse(w http.ResponseWriter, rsp interface{}, err error) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		_, _ = w.Write([]byte(fmt.Sprintf(`{"message": "%s"}`, err.Error())))
+		_, _ = fmt.Fprintf(w, `{"message": "%s"}`, err.Error())
 	} else {
 		_ = json.NewEncoder(w).Encode(rsp)
 	}
@@ -77,7 +78,6 @@ func (ds *TwinMakerDatasource) HandleBatchPutPropertyValues(w http.ResponseWrite
 	req := struct {
 		Entries []*iottwinmakertypes.PropertyValueEntry `json:"entries"`
 	}{}
-
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		log.DefaultLogger.Error("failed to decode request", "error", err)

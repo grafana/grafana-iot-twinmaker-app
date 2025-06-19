@@ -56,6 +56,7 @@ async function refreshAngularDashboard() {
   try {
     // Grafana will stop plugin from loading in >=12 if we import getLegacyAngularInjector at top level, so have to lazy load it
     const runtime = await import('@grafana/runtime');
+    // @ts-ignore-next-line
     const $injector = runtime.getLegacyAngularInjector();
     if ($injector) {
       const dashboardSrv = $injector.get('dashboardSrv');
