@@ -107,7 +107,7 @@
     "@iot-app-kit/source-iottwinmaker": "10.13.1",
     "aws-iot-twinmaker-grafana-utils": "file:libs/aws-iot-twinmaker-grafana-utils-2.1.0.tgz",
     "aws-sdk": "^2.1692.0",
-    "cytoscape": "^3.32.0",
+    "cytoscape": "^3.32.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "^6.22.0",
