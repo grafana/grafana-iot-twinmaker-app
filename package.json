@@ -45,7 +45,7 @@
     "@types/three": "0.177.0",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.34.0",
-    "@typescript-eslint/parser": "^8.34.0",
+    "@typescript-eslint/parser": "^8.38.0",
     "copy-webpack-plugin": "^13.0.0",
     "cspell": "^9.1.5",
     "css-loader": "^7.1.2",
