@@ -3,7 +3,7 @@
   "version": "2.1.0",
   "description": "Grafana IoT TwinMaker App Plugin",
   "scripts": {
-    "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
+    "build": "webpack -c ./webpack.config.ts --env production",
     "clean": "rm -rf dist/ build/*",
     "dev": "webpack -w -c ./webpack.config.ts --env development",
     "e2e": "playwright test",
