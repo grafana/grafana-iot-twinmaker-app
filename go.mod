@@ -3,7 +3,7 @@ module github.com/grafana/grafana-iot-twinmaker-app
 go 1.24.4
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.36.6
+	github.com/aws/aws-sdk-go-v2 v1.37.0
 	github.com/aws/aws-sdk-go-v2/service/iottwinmaker v1.25.5
 	github.com/aws/aws-sdk-go-v2/service/sts v1.34.1
 	github.com/aws/smithy-go v1.22.5
