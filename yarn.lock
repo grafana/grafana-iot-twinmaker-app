@@ -9260,10 +9260,10 @@ csstype@^3.0.2, csstype@^3.1.2:
   resolved "https://registry.npmjs.org/csstype/-/csstype-3.1.3.tgz"
   integrity sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==
 
-cytoscape@^3.32.1:
-  version "3.32.1"
-  resolved "https://registry.yarnpkg.com/cytoscape/-/cytoscape-3.32.1.tgz#8475a892a43c79a26825b4f16946fa1491020798"
-  integrity sha512-dbeqFTLYEwlFg7UGtcZhCCG/2WayX72zK3Sq323CEX29CY81tYfVhw1MIdduCtpstB0cTOhJswWlM/OEB3Xp+Q==
+cytoscape@^3.33.0:
+  version "3.33.0"
+  resolved "https://registry.yarnpkg.com/cytoscape/-/cytoscape-3.33.0.tgz#c08136096f568d0f9b438406ec722f1a093b4e16"
+  integrity sha512-2d2EwwhaxLWC8ahkH1PpQwCyu6EY3xDRdcEJXrLTb4fOUtVc+YWQalHU67rFS1a6ngj1fgv9dQLtJxP/KAFZEw==
 
 d3-array@2, d3-array@^2.3.0, d3-array@^2.3.2:
   version "2.12.1"
