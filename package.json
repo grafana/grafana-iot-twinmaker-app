@@ -98,7 +98,7 @@
     "@emotion/css": "11.13.5",
     "@grafana/aws-sdk": "0.7.1",
     "@grafana/data": "^12.1.0",
-    "@grafana/plugin-ui": "^0.10.8",
+    "@grafana/plugin-ui": "^0.10.9",
     "@grafana/runtime": "^12.1.0",
     "@grafana/scenes": "^6.20.2",
     "@grafana/schema": "^12.1.0",
