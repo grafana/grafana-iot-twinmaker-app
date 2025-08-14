@@ -7,6 +7,10 @@
 - Chore: Migrate to Github actions in [#409](https://github.com/grafana/grafana-iot-twinmaker-app/pull/409)
 - Tweak dependabot schedule in [#458](https://github.com/grafana/grafana-iot-twinmaker-app/pull/458)
 - Dependencies: 
+  - Bump github.com/aws/aws-sdk-go-v2/service/iottwinmaker from 1.25.5 to 1.26.0 in [#472](https://github.com/grafana/grafana-iot-twinmaker-app/pull/472)
+  - Bump github.com/aws/aws-sdk-go-v2 from 1.37.0 to 1.37.2 in [#476](https://github.com/grafana/grafana-iot-twinmaker-app/pull/476)
+  - Bump github.com/aws/aws-sdk-go-v2/service/sts from 1.35.0 to 1.35.1 in [#475](https://github.com/grafana/grafana-iot-twinmaker-app/pull/475)
+  - Bump github.com/aws/aws-sdk-go-v2/service/sts from 1.34.1 to 1.35.0 in [#469](https://github.com/grafana/grafana-iot-twinmaker-app/pull/469)
   - Remove @types/glob in [#449](https://github.com/grafana/grafana-iot-twinmaker-app/pull/449)
   - Bump the grafana-dependencies group and update create plugin dependencies in [#460](https://github.com/grafana/grafana-iot-twinmaker-app/pull/460)
   - Bump @grafana/plugin-e2e from 2.1.7 to 2.1.8 in [#467](https://github.com/grafana/grafana-iot-twinmaker-app/pull/467)
