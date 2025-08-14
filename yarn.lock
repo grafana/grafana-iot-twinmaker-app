@@ -4326,10 +4326,10 @@
     uuid "^11.0.2"
     yaml "^2.3.4"
 
-"@grafana/plugin-ui@^0.10.1", "@grafana/plugin-ui@^0.10.8":
-  version "0.10.8"
-  resolved "https://registry.yarnpkg.com/@grafana/plugin-ui/-/plugin-ui-0.10.8.tgz#9c1ae868cdf56c1c85d58aa969a4ca5af1623222"
-  integrity sha512-rodCOF9pSn5Ph+SDhpCrrfbPIZKK3yreieAmgpG/L4N7YtJ2BSqvdpj8BQvP2JTVcV6mI0e5dssD75TCMlhvXw==
+"@grafana/plugin-ui@^0.10.1", "@grafana/plugin-ui@^0.10.9":
+  version "0.10.9"
+  resolved "https://registry.yarnpkg.com/@grafana/plugin-ui/-/plugin-ui-0.10.9.tgz#8318a638a5100163b750c43ac5b754c085cf10ec"
+  integrity sha512-mKB/JbKKcbteVNel4UkmQ3inWBOufWjBibk0XSJ62BJkptNnmN0kA8qMfkFtMXKgnQnrDGXJ0hVTVS4iqdDlUQ==
   dependencies:
     "@emotion/css" "^11.11.2"
     "@hello-pangea/dnd" "^17.0.0"
