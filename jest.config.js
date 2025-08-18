@@ -51,6 +51,7 @@ const esModules = [
   'zrender',
   'nanoid',
   '@iot-app-kit/react-components',
+  'parse-duration',
 ];
 
 module.exports = {
