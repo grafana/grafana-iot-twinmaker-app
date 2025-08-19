@@ -6908,6 +6908,18 @@
     picocolors "1.1.1"
     pretty-format "^27.0.2"
 
+"@testing-library/jest-dom@*":
+  version "6.7.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-6.7.0.tgz#cff6452ba03b215c16d97b48adfc4e1ac54c3e03"
+  integrity sha512-RI2e97YZ7MRa+vxP4UUnMuMFL2buSsf0ollxUbTgrbPLKhMn8KVTx7raS6DYjC7v1NDVrioOvaShxsguLNISCA==
+  dependencies:
+    "@adobe/css-tools" "^4.4.0"
+    aria-query "^5.0.0"
+    css.escape "^1.5.1"
+    dom-accessibility-api "^0.6.3"
+    picocolors "^1.1.1"
+    redent "^3.0.0"
+
 "@testing-library/jest-dom@6.6.4":
   version "6.6.4"
   resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-6.6.4.tgz#577a1761768bda5458c42241add3b1570c34d39c"
@@ -7325,7 +7337,7 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@*", "@types/jest@^30.0.0":
+"@types/jest@^30.0.0":
   version "30.0.0"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-30.0.0.tgz#5e85ae568006712e4ad66f25433e9bdac8801f1d"
   integrity sha512-XTYugzhuwqWjws0CVz8QpM36+T+Dz5mTEBKhNs/esGLnCIlGdRy+Dq78NRjd7ls7r8BC8ZRMOrKlkO1hU0JOwA==
@@ -7495,12 +7507,12 @@
   resolved "https://registry.yarnpkg.com/@types/systemjs/-/systemjs-6.15.3.tgz#d758dceafee62d2ed4aad7d07342b145d623e260"
   integrity sha512-STyj2LUevlyVqEQ1wjOORLQTJbNnM2V1DNzmemxVHlOovdKBKqccALDbR9aCcTRThhcXzew88SMbN4SMm6JOcw==
 
-"@types/testing-library__jest-dom@5.14.8":
-  version "5.14.8"
-  resolved "https://registry.yarnpkg.com/@types/testing-library__jest-dom/-/testing-library__jest-dom-5.14.8.tgz#b32090a01c29040461fb7fa10a82400f216a4b93"
-  integrity sha512-NRfJE9Cgpmu4fx716q9SYmU4jxxhYRU1BQo239Txt/9N3EC745XZX1Yl7h/SBIDlo1ANVOCRB4YDXjaQdoKCHQ==
+"@types/testing-library__jest-dom@6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/testing-library__jest-dom/-/testing-library__jest-dom-6.0.0.tgz#b558b64b80a72130714be1f505c6df482d453690"
+  integrity sha512-bnreXCgus6IIadyHNlN/oI5FfX4dWgvGhOPvpr7zzCYDGAPIfvyIoAozMBINmhmsVuqV0cncejF2y5KC7ScqOg==
   dependencies:
-    "@types/jest" "*"
+    "@testing-library/jest-dom" "*"
 
 "@types/three@0.178.1":
   version "0.178.1"
