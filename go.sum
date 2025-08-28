@@ -27,8 +27,8 @@ github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.0 h1:6+lZi2J
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.0/go.mod h1:eb3gfbVIxIoGgJsi9pGne19dhCBpK6opTYpQqAmdy44=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.2 h1:oxmDEO14NBZJbK/M8y3brhMFEIGN4j8a6Aq8eY0sqlo=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.2/go.mod h1:4hH+8QCrk1uRWDPsVfsNDUup3taAjO8Dnx63au7smAU=
-github.com/aws/aws-sdk-go-v2/service/iottwinmaker v1.28.0 h1:nnTAeXfOXdukIG1VlvXSFuuvqQYkPIsohR+flZ2VEng=
-github.com/aws/aws-sdk-go-v2/service/iottwinmaker v1.28.0/go.mod h1:vwwZTaawJlgK663MLzp4UE/KtWXNKOqDKQUjMx7x4cM=
+github.com/aws/aws-sdk-go-v2/service/iottwinmaker v1.28.1 h1:LXAdQu3jDI6f3D1DCzZ40oBjKKCbFRCoQ2H/HbbS0GI=
+github.com/aws/aws-sdk-go-v2/service/iottwinmaker v1.28.1/go.mod h1:vwwZTaawJlgK663MLzp4UE/KtWXNKOqDKQUjMx7x4cM=
 github.com/aws/aws-sdk-go-v2/service/sso v1.27.0 h1:j7/jTOjWeJDolPwZ/J4yZ7dUsxsWZEsxNwH5O7F8eEA=
 github.com/aws/aws-sdk-go-v2/service/sso v1.27.0/go.mod h1:M0xdEPQtgpNT7kdAX4/vOAPkFj60hSQRb7TvW9B0iug=
 github.com/aws/aws-sdk-go-v2/service/ssooidc v1.32.0 h1:ywQF2N4VjqX+Psw+jLjMmUL2g1RDHlvri3NxHA08MGI=
