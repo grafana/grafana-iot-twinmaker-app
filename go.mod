@@ -13,7 +13,7 @@ require (
 	github.com/grafana/grafana-plugin-sdk-go v0.279.0
 	github.com/magefile/mage v1.15.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.0
 )
 
 require (
