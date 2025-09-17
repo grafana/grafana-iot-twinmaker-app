@@ -41,7 +41,7 @@
     "@types/lodash": "^4.17.20",
     "@types/node": "^24.2.0",
     "@types/semver": "^7.7.0",
-    "@types/three": "0.178.1",
+    "@types/three": "0.179.0",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "^8.42.0",
