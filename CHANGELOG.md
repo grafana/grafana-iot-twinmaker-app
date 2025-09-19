@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.1.2
+
+- Dependencies: 
+  - Add resolution for parse-duration in [#484](https://github.com/grafana/grafana-iot-twinmaker-app/pull/484)
+  - Bump jest from 30.0.4 to 30.0.5 in [#482](https://github.com/grafana/grafana-iot-twinmaker-app/pull/482)
+  - Bump @eslint/js from 9.31.0 to 9.32.0 in [#481](https://github.com/grafana/grafana-iot-twinmaker-app/pull/481)
+  - Bump eslint-plugin-prettier from 5.5.3 to 5.5.4 in [#479](https://github.com/grafana/grafana-iot-twinmaker-app/pull/479)
+  - Bump @playwright/test from 1.54.1 to 1.54.2 in [#480](https://github.com/grafana/grafana-iot-twinmaker-app/pull/480)
+  - Bump cytoscape from 3.32.1 to 3.33.0 in [#478](https://github.com/grafana/grafana-iot-twinmaker-app/pull/478)
+  - Bump webpack-shell-plugin-next from 2.3.2 to 2.3.3 in [#474](https://github.com/grafana/grafana-iot-twinmaker-app/pull/474)
+  - Bump @grafana/plugin-ui from 0.10.8 to 0.10.9 in [#471](https://github.com/grafana/grafana-iot-twinmaker-app/pull/471)
+  - Bump @types/three from 0.177.0 to 0.178.1 in [#470](https://github.com/grafana/grafana-iot-twinmaker-app/pull/470)
+  
 ## 2.1.1
 
 - Add support for auto-merging dependabot updates in [#410](https://github.com/grafana/grafana-iot-twinmaker-app/pull/410)
