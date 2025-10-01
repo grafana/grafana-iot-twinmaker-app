@@ -21,7 +21,7 @@ Installation requirements:
 - [GoLang](https://golang.org/)
 - [Mage](https://magefile.org/)
 
-1. `yarn install --frozen-lockfile`
+1. `yarn install --immutable`
 2. `yarn dev` — will build the frontend changes, `yarn watch` will build in watch mode
 3. `mage build:backend` — will build the backend changes
    1. Troubleshooting: If you see `Plugin unavailable` when clicking “Save & test” for the TwinMaker datasource then run: `mage -v buildAll`. This builds the backend plugin for all platforms.
