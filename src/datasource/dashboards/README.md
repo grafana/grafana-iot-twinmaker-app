@@ -1,1 +1,1 @@
-Twinmaker datasource plugin documentation can be found [here](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/lates#aws-iot-twinmaker-dashboards)
+Twinmaker datasource plugin documentation can be found [here](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest#aws-iot-twinmaker-dashboards)
