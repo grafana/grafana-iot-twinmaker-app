@@ -40,7 +40,9 @@
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.20",
     "@types/node": "^24.4.0",
+    "@types/react-router-dom": "^5.2.0",
     "@types/semver": "^7.7.0",
+    "@types/testing-library__jest-dom": "5.14.8",
     "@types/three": "0.179.0",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.42.0",
@@ -69,6 +71,7 @@
     "replace-in-file-webpack-plugin": "^1.0.6",
     "sass": "1.89.2",
     "sass-loader": "16.0.5",
+    "semver": "^7.6.3",
     "style-loader": "4.0.0",
     "swc-loader": "^0.2.6",
     "terser-webpack-plugin": "^5.3.14",
@@ -80,10 +83,7 @@
     "webpack-livereload-plugin": "^3.0.2",
     "webpack-shell-plugin-next": "^2.3.3",
     "webpack-subresource-integrity": "^5.1.0",
-    "webpack-virtual-modules": "^0.6.2",
-    "@types/react-router-dom": "^5.2.0",
-    "@types/testing-library__jest-dom": "5.14.8",
-    "semver": "^7.6.3"
+    "webpack-virtual-modules": "^0.6.2"
   },
   "dependencies": {
     "@aws-sdk/client-iot-events": "3.354.0",
@@ -137,5 +137,6 @@
     "@react-three/test-renderer": "7.0.27",
     "@matterport/r3f": "0.2.6",
     "@matterport/webcomponent": "0.1.26"
-  }
+  },
+  "packageManager": "yarn@4.10.3"
 }
