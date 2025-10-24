@@ -3,6 +3,9 @@
 ## 2.1.3
 
 - Bump transitive dep brace-expansion to 1.1.12 and 2.0.2 in [#564](https://github.com/grafana/grafana-iot-twinmaker-app/pull/564)
+- Bump the aws-sdk-go-v2 group with 3 updates in [#567](https://github.com/grafana/grafana-iot-twinmaker-app/pull/567)
+- Bump github.com/grafana/grafana-aws-sdk from 1.3.0 to 1.3.1 in [#568](https://github.com/grafana/grafana-iot-twinmaker-app/pull/568)
+- Bump github.com/aws/smithy-go from 1.23.0 to 1.23.1 in [#565](https://github.com/grafana/grafana-iot-twinmaker-app/pull/565)
 - Bump github.com/grafana/grafana-plugin-sdk-go from 0.280.0 to 0.281.0 in [#556](https://github.com/grafana/grafana-iot-twinmaker-app/pull/556)
 - Update gitignore for yarn files in [#546](https://github.com/grafana/grafana-iot-twinmaker-app/pull/546)
 - Upgrade yarn to v4.10.3 in [#536](https://github.com/grafana/grafana-iot-twinmaker-app/pull/536)
