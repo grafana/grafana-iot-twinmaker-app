@@ -12285,10 +12285,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape@npm:^3.33.0":
-  version: 3.33.0
-  resolution: "cytoscape@npm:3.33.0"
-  checksum: 10c0/cc2f0c6131c80e21908e99e24715cc222228b2a3a0e28b26dbfdc6032d6f747b5e4e1dfbf3f88883221cd97534173cb9c96b88ae7b349100d46b0026c22443da
+"cytoscape@npm:^3.33.1":
+  version: 3.33.1
+  resolution: "cytoscape@npm:3.33.1"
+  checksum: 10c0/dffcf5f74df4d91517c4faf394df880d8283ce76edef19edba0c762941cf4f18daf7c4c955ec50c794f476ace39ad4394f8c98483222bd2682e1fd206e976411
   languageName: node
   linkType: hard
 
@@ -14985,7 +14985,7 @@ __metadata:
     copy-webpack-plugin: "npm:^13.0.1"
     cspell: "npm:^9.2.2"
     css-loader: "npm:^7.1.2"
-    cytoscape: "npm:^3.33.0"
+    cytoscape: "npm:^3.33.1"
     eslint: "npm:^9.32.0"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-plugin-deprecation: "npm:^3.0.0"
