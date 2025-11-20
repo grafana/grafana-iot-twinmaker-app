@@ -2,6 +2,8 @@
 
 ## 2.1.4
 
+- Bump github.com/grafana/grafana-plugin-sdk-go from 0.282.0 to 0.283.0 in [#593](https://github.com/grafana/grafana-iot-twinmaker-app/pull/593)
+- Bump github.com/aws/aws-sdk-go-v2/service/iottwinmaker from 1.29.11 to 1.29.12 in the aws-sdk-go-v2 group in [#592](https://github.com/grafana/grafana-iot-twinmaker-app/pull/592)
 - Bump github.com/aws/aws-sdk-go-v2/service/iottwinmaker from 1.29.10 to 1.29.11 in the aws-sdk-go-v2 group in [#588](https://github.com/grafana/grafana-iot-twinmaker-app/pull/588)
 - Bump github.com/grafana/grafana-plugin-sdk-go from 0.281.0 to 0.282.0 in [#589](https://github.com/grafana/grafana-iot-twinmaker-app/pull/589)
 - Bump github.com/aws/aws-sdk-go-v2/service/sts from 1.39.0 to 1.39.1 in the aws-sdk-go-v2 group in [#586](https://github.com/grafana/grafana-iot-twinmaker-app/pull/586)
