@@ -10,7 +10,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1
 	github.com/grafana/grafana-aws-sdk v1.3.1
-	github.com/grafana/grafana-plugin-sdk-go v0.282.0
+	github.com/grafana/grafana-plugin-sdk-go v0.283.0
 	github.com/magefile/mage v1.15.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/stretchr/testify v1.11.1
