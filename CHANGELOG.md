@@ -1,5 +1,28 @@
 # Changelog
 
+## 2.1.4
+
+- Bump github.com/grafana/grafana-plugin-sdk-go from 0.282.0 to 0.283.0 in [#593](https://github.com/grafana/grafana-iot-twinmaker-app/pull/593)
+- Bump github.com/aws/aws-sdk-go-v2/service/iottwinmaker from 1.29.11 to 1.29.12 in the aws-sdk-go-v2 group in [#592](https://github.com/grafana/grafana-iot-twinmaker-app/pull/592)
+- Bump github.com/aws/aws-sdk-go-v2/service/iottwinmaker from 1.29.10 to 1.29.11 in the aws-sdk-go-v2 group in [#588](https://github.com/grafana/grafana-iot-twinmaker-app/pull/588)
+- Bump github.com/grafana/grafana-plugin-sdk-go from 0.281.0 to 0.282.0 in [#589](https://github.com/grafana/grafana-iot-twinmaker-app/pull/589)
+- Bump github.com/aws/aws-sdk-go-v2/service/sts from 1.39.0 to 1.39.1 in the aws-sdk-go-v2 group in [#586](https://github.com/grafana/grafana-iot-twinmaker-app/pull/586)
+- Bump github.com/aws/aws-sdk-go-v2/service/sts from 1.38.9 to 1.39.0 in the aws-sdk-go-v2 group in [#585](https://github.com/grafana/grafana-iot-twinmaker-app/pull/585)
+- Bump the aws-sdk-go-v2 group with 2 updates in [#583](https://github.com/grafana/grafana-iot-twinmaker-app/pull/583)
+- Bump github.com/aws/smithy-go from 1.23.1 to 1.23.2 in [#582](https://github.com/grafana/grafana-iot-twinmaker-app/pull/582)
+- Bump the aws-sdk-go-v2 group with 2 updates in [#581](https://github.com/grafana/grafana-iot-twinmaker-app/pull/581)
+- Publish to every environment on Cloud and Add On-Prem promotion in [#577](https://github.com/grafana/grafana-iot-twinmaker-app/pull/577)
+- Bump jest from 30.0.5 to 30.2.0 in [#579](https://github.com/grafana/grafana-iot-twinmaker-app/pull/579)
+- Bump cytoscape from 3.33.0 to 3.33.1 in [#578](https://github.com/grafana/grafana-iot-twinmaker-app/pull/578)
+- Bump @grafana/scenes from 6.20.2 to 6.42.2 in [#576](https://github.com/grafana/grafana-iot-twinmaker-app/pull/576)
+- Bump actions/setup-node from 5 to 6 in [#575](https://github.com/grafana/grafana-iot-twinmaker-app/pull/575)
+- Bump the npm-patch-dev-dependencies group with 6 updates in [#574](https://github.com/grafana/grafana-iot-twinmaker-app/pull/574)
+- Bump the aws-sdk-go-v2 group with 3 updates in [#573](https://github.com/grafana/grafana-iot-twinmaker-app/pull/573)
+- Bump eslint-plugin-jsdoc from 51.4.1 to 60.5.0 in [#571](https://github.com/grafana/grafana-iot-twinmaker-app/pull/571)
+- Bump actions/setup-node from 4 to 5 in [#516](https://github.com/grafana/grafana-iot-twinmaker-app/pull/516)
+- Bump actions/stale from 9 to 10 in [#515](https://github.com/grafana/grafana-iot-twinmaker-app/pull/515)
+- Bump github.com/aws/aws-sdk-go-v2/service/sts from 1.38.7 to 1.38.8 in the aws-sdk-go-v2 group in [#572](https://github.com/grafana/grafana-iot-twinmaker-app/pull/572)
+
 ## 2.1.3
 
 - Bump transitive dep brace-expansion to 1.1.12 and 2.0.2 in [#564](https://github.com/grafana/grafana-iot-twinmaker-app/pull/564)
@@ -50,7 +73,7 @@
 
 ## 2.1.2
 
-- Dependencies: 
+- Dependencies:
   - Add resolution for parse-duration in [#484](https://github.com/grafana/grafana-iot-twinmaker-app/pull/484)
   - Bump jest from 30.0.4 to 30.0.5 in [#482](https://github.com/grafana/grafana-iot-twinmaker-app/pull/482)
   - Bump @eslint/js from 9.31.0 to 9.32.0 in [#481](https://github.com/grafana/grafana-iot-twinmaker-app/pull/481)
@@ -60,14 +83,14 @@
   - Bump webpack-shell-plugin-next from 2.3.2 to 2.3.3 in [#474](https://github.com/grafana/grafana-iot-twinmaker-app/pull/474)
   - Bump @grafana/plugin-ui from 0.10.8 to 0.10.9 in [#471](https://github.com/grafana/grafana-iot-twinmaker-app/pull/471)
   - Bump @types/three from 0.177.0 to 0.178.1 in [#470](https://github.com/grafana/grafana-iot-twinmaker-app/pull/470)
-  
+
 ## 2.1.1
 
 - Add support for auto-merging dependabot updates in [#410](https://github.com/grafana/grafana-iot-twinmaker-app/pull/410)
 - Remove pr_commands in [#417](https://github.com/grafana/grafana-iot-twinmaker-app/pull/417)
 - Chore: Migrate to Github actions in [#409](https://github.com/grafana/grafana-iot-twinmaker-app/pull/409)
 - Tweak dependabot schedule in [#458](https://github.com/grafana/grafana-iot-twinmaker-app/pull/458)
-- Dependencies: 
+- Dependencies:
   - Bump github.com/aws/aws-sdk-go-v2/service/iottwinmaker from 1.25.5 to 1.26.0 in [#472](https://github.com/grafana/grafana-iot-twinmaker-app/pull/472)
   - Bump github.com/aws/aws-sdk-go-v2 from 1.37.0 to 1.37.2 in [#476](https://github.com/grafana/grafana-iot-twinmaker-app/pull/476)
   - Bump github.com/aws/aws-sdk-go-v2/service/sts from 1.35.0 to 1.35.1 in [#475](https://github.com/grafana/grafana-iot-twinmaker-app/pull/475)
@@ -116,6 +139,7 @@
   - Bump prettier from 3.5.3 to 3.6.2 in [#428](https://github.com/grafana/grafana-iot-twinmaker-app/pull/428)
 
 ## 2.1.0
+
 - Add PDC support in [#386](https://github.com/grafana/grafana-iot-twinmaker-app/pull/386)
 - Update to aws-sdk-go-v2 and grafana-aws-sdk new style authentication in [#373](https://github.com/grafana/grafana-iot-twinmaker-app/pull/373)
 - Dependency updates:
