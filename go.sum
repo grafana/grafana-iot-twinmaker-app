@@ -27,8 +27,8 @@ github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.3 h1:x2Ibm/A
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.3/go.mod h1:IW1jwyrQgMdhisceG8fQLmQIydcT/jWY21rFhzgaKwo=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.13 h1:kDqdFvMY4AtKoACfzIGD8A0+hbT41KTKF//gq7jITfM=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.13/go.mod h1:lmKuogqSU3HzQCwZ9ZtcqOc5XGMqtDK7OIc2+DxiUEg=
-github.com/aws/aws-sdk-go-v2/service/iottwinmaker v1.29.11 h1:0Yc6BIfUTSpiN8CiH8ThuBs8YuwI95l3eBH+ZqIOyXU=
-github.com/aws/aws-sdk-go-v2/service/iottwinmaker v1.29.11/go.mod h1:ZHvqcC5PlnABHUY6h4istf5lboE8GPV9hWslIV5oxZE=
+github.com/aws/aws-sdk-go-v2/service/iottwinmaker v1.29.12 h1:eh9IKFaueumm05DT7TeuedsceBD7DUwTJqbPfHiRq0M=
+github.com/aws/aws-sdk-go-v2/service/iottwinmaker v1.29.12/go.mod h1:ZHvqcC5PlnABHUY6h4istf5lboE8GPV9hWslIV5oxZE=
 github.com/aws/aws-sdk-go-v2/service/sso v1.29.6 h1:A1oRkiSQOWstGh61y4Wc/yQ04sqrQZr1Si/oAXj20/s=
 github.com/aws/aws-sdk-go-v2/service/sso v1.29.6/go.mod h1:5PfYspyCU5Vw1wNPsxi15LZovOnULudOQuVxphSflQA=
 github.com/aws/aws-sdk-go-v2/service/ssooidc v1.35.1 h1:5fm5RTONng73/QA73LhCNR7UT9RpFH3hR6HWL6bIgVY=
@@ -108,8 +108,8 @@ github.com/grafana/dataplane/sdata v0.0.9 h1:AGL1LZnCUG4MnQtnWpBPbQ8ZpptaZs14w6k
 github.com/grafana/dataplane/sdata v0.0.9/go.mod h1:Jvs5ddpGmn6vcxT7tCTWAZ1mgi4sbcdFt9utQx5uMAU=
 github.com/grafana/grafana-aws-sdk v1.3.1 h1:wmiju9L7Y+XYCtzoFuScaZ/8Nbv91e5hNLSfTDYF9kc=
 github.com/grafana/grafana-aws-sdk v1.3.1/go.mod h1:eTvmNWTozn+VQY6xeItOO9zjzxpTd5CYxsT63gu6WTc=
-github.com/grafana/grafana-plugin-sdk-go v0.282.0 h1:9JT9E6T0h8HsK9emTZ5s01uCKaf0Ok4PjYbb7M/iOjM=
-github.com/grafana/grafana-plugin-sdk-go v0.282.0/go.mod h1:20qhoYxIgbZRmwCEO1KMP8q2yq/Kge5+xE/99/hLEk0=
+github.com/grafana/grafana-plugin-sdk-go v0.283.0 h1:G7IHshAr30rLWV9FtX3iLlFTTlBhuOkfe7xVAoIP5rE=
+github.com/grafana/grafana-plugin-sdk-go v0.283.0/go.mod h1:20qhoYxIgbZRmwCEO1KMP8q2yq/Kge5+xE/99/hLEk0=
 github.com/grafana/otel-profiling-go v0.5.1 h1:stVPKAFZSa7eGiqbYuG25VcqYksR6iWvF3YH66t4qL8=
 github.com/grafana/otel-profiling-go v0.5.1/go.mod h1:ftN/t5A/4gQI19/8MoWurBEtC6gFw8Dns1sJZ9W4Tls=
 github.com/grafana/pyroscope-go/godeltaprof v0.1.9 h1:c1Us8i6eSmkW+Ez05d3co8kasnuOY813tbMN8i/a3Og=
