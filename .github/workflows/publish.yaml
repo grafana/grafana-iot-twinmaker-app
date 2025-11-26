@@ -42,7 +42,6 @@ jobs:
       go-version: '1.24'
       golangci-lint-version: '2.1.6'
       github-draft-release: false # publish the github release directly, skipping the draft step
-      run-playwright-with-skip-grafana-dev-image: true
 
 
       # Scope for the plugin published to the catalog. Setting this to "grafana_cloud" will make it visible only in Grafana Cloud
