@@ -5,7 +5,7 @@ go 1.24.6
 require (
 	github.com/aws/aws-sdk-go-v2 v1.39.6
 	github.com/aws/aws-sdk-go-v2/service/iottwinmaker v1.29.12
-	github.com/aws/aws-sdk-go-v2/service/sts v1.40.0
+	github.com/aws/aws-sdk-go-v2/service/sts v1.40.2
 	github.com/aws/smithy-go v1.23.2
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1
