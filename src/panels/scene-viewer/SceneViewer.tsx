@@ -123,17 +123,19 @@ export const SceneViewer = (props: SceneViewerPropsFromParent) => {
     [checkTempVar]
   );
 
+  const sceneId = checkTempVar(props.options.sceneId);
+
   const sceneLoader = useMemo(() => {
-    const loader = props.appKitTMDataSource.s3SceneLoader(props.options.sceneId);
+    const loader = props.appKitTMDataSource.s3SceneLoader(sceneId);
 
     return loader;
-  }, [props.appKitTMDataSource, props.options.sceneId]);
+  }, [props.appKitTMDataSource, sceneId]);
 
   const sceneMetadataModule = useMemo(() => {
-    const sceneMetadataModuleFromDataSource = props.appKitTMDataSource.sceneMetadataModule(props.options.sceneId);
+    const sceneMetadataModuleFromDataSource = props.appKitTMDataSource.sceneMetadataModule(sceneId);
 
     return sceneMetadataModuleFromDataSource;
-  }, [props.appKitTMDataSource, props.options.sceneId]);
+  }, [props.appKitTMDataSource, sceneId]);
 
   const valueDataBindingProviders = useMemo(() => {
     const valueDataBindingProvidersFromDataSource = props.appKitTMDataSource.valueDataBindingProviders();
