@@ -6568,9 +6568,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@matterport/r3f@npm:0.2.6":
-  version: 0.2.6
-  resolution: "@matterport/r3f@npm:0.2.6"
+"@matterport/r3f@npm:0.2.7":
+  version: 0.2.7
+  resolution: "@matterport/r3f@npm:0.2.7"
   peerDependencies:
     "@matterport/webcomponent": ">=0.1.26"
     "@react-three/fiber": ^8.9.2
@@ -6580,7 +6580,7 @@ __metadata:
   peerDependenciesMeta:
     react-dom:
       optional: true
-  checksum: 10c0/186864967e4958158ca6011a19b9be37f4b1232958d59666c7ed56d5afb8e273cb01c48c7a7ac14d60cd4baa7488105259ed2e0a1f60cd2b7832ae1322586cd7
+  checksum: 10c0/a4ba9b4e77e72fe211276341622c9ff2a2139a25646b5e06aa1d56f4d219123068eb37f5ad1e3568be20ac2512b1297588ba62edc0a5018e0e20bfe41e166381
   languageName: node
   linkType: hard
 
