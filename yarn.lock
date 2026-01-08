@@ -6584,16 +6584,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@matterport/webcomponent@npm:0.1.26":
-  version: 0.1.26
-  resolution: "@matterport/webcomponent@npm:0.1.26"
+"@matterport/webcomponent@npm:0.1.45":
+  version: 0.1.45
+  resolution: "@matterport/webcomponent@npm:0.1.45"
   dependencies:
     lit: "npm:^2.4.1"
   peerDependencies:
-    three: ^0.146.0
+    three: ^0.176.0
   bin:
     matterport-assets: bin/matterport-assets.cjs
-  checksum: 10c0/e4d2975ae57707ee6c5dac13398f3fb99a3c990faa44d6b798bf87731eac266d408bce5b86226df671ffbc9dc268cc618d4f0bd4a47ca65df652b05fefe2498a
+  checksum: 10c0/d5dc40d5521f6393546c21eeab1249bcb3e7857df567c45480b09cbd06314dd55f24356915f4cd12a3aa84d646db7f3d3c2aff9fb8152e7f0d00512229971361
   languageName: node
   linkType: hard
 
