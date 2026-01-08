@@ -42,7 +42,7 @@
     "@types/node": "^24.4.0",
     "@types/react-router-dom": "^5.2.0",
     "@types/semver": "^7.7.0",
-    "@types/testing-library__jest-dom": "5.14.8",
+    "@types/testing-library__jest-dom": "5.14.9",
     "@types/three": "0.179.0",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.42.0",
@@ -125,18 +125,18 @@
   "resolutions": {
     "d3-color": "^3.1.0",
     "dompurify": "^3.1.3",
-    "fast-xml-parser": "4.5.0",
+    "fast-xml-parser": "4.5.3",
     "lodash.pick": "https://github.com/lodash/lodash/archive/refs/tags/4.17.21.tar.gz",
-    "parse-duration": "2.1.3",
+    "parse-duration": "2.1.5",
     "ramda": "0.27.2",
     "react-use": "^17.5.0",
     "three-stdlib": "2.23.9",
     "_comment": "Do not remove react-three & Matterport dependencies until AMG upgrades to Grafana v10 - PR#259",
     "@react-three/drei": "8.11.0",
-    "@react-three/fiber": "7.0.26",
+    "@react-three/fiber": "7.0.29",
     "@react-three/test-renderer": "7.0.27",
-    "@matterport/r3f": "0.2.6",
-    "@matterport/webcomponent": "0.1.26"
+    "@matterport/r3f": "0.2.7",
+    "@matterport/webcomponent": "0.1.45"
   },
   "packageManager": "yarn@4.10.3"
 }
