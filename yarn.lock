@@ -17836,10 +17836,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"parse-duration@npm:2.1.3":
-  version: 2.1.3
-  resolution: "parse-duration@npm:2.1.3"
-  checksum: 10c0/95b39875ee103d89c2db3cd8c5bcf516c8ba6d571096512a835e0cb648c3039db50a7780bd24ddcc425bc18cd6b9e9ef03c029ae080d85325764c098f1010b44
+"parse-duration@npm:2.1.5":
+  version: 2.1.5
+  resolution: "parse-duration@npm:2.1.5"
+  checksum: 10c0/e1b10862b47091bcbb21cf75f60e8db443cfe0a48b3b8763951e1359ba6f78728f9b7c0581ed1aec9edc05311ccfda52b12fb4d1378ece08935e9ee99fd9b245
   languageName: node
   linkType: hard
 
