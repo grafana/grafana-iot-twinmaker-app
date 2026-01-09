@@ -5325,7 +5325,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/e2e-selectors@npm:12.1.0, @grafana/e2e-selectors@npm:^12.1.0-254610":
+"@grafana/e2e-selectors@npm:12.1.0":
   version: 12.1.0
   resolution: "@grafana/e2e-selectors@npm:12.1.0"
   dependencies:
@@ -5334,6 +5334,17 @@ __metadata:
     tslib: "npm:2.8.1"
     typescript: "npm:5.8.3"
   checksum: 10c0/596dd5944027926def168516b502c330c0973dd6377cbea4ede7dadc14ebb9eab783c2c7d9777041c89f0944477d0b1287d662be495003a249a2879e9f2d478b
+  languageName: node
+  linkType: hard
+
+"@grafana/e2e-selectors@npm:^12.2.0-255920":
+  version: 12.3.1
+  resolution: "@grafana/e2e-selectors@npm:12.3.1"
+  dependencies:
+    semver: "npm:^7.7.0"
+    tslib: "npm:2.8.1"
+    typescript: "npm:5.9.2"
+  checksum: 10c0/b0566d933c5a352234bae4b161fd001d98f33dd513610b355dedf052994eb9e2584205d7be5af4b45c77d5c0a6eeac042606daf2088c52e206fb578eaec1535b
   languageName: node
   linkType: hard
 
@@ -5393,17 +5404,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/plugin-e2e@npm:^2.1.8":
-  version: 2.1.8
-  resolution: "@grafana/plugin-e2e@npm:2.1.8"
+"@grafana/plugin-e2e@npm:^2.2.3":
+  version: 2.2.3
+  resolution: "@grafana/plugin-e2e@npm:2.2.3"
   dependencies:
-    "@grafana/e2e-selectors": "npm:^12.1.0-254610"
+    "@grafana/e2e-selectors": "npm:^12.2.0-255920"
     semver: "npm:^7.5.4"
-    uuid: "npm:^11.0.2"
+    uuid: "npm:^13.0.0"
     yaml: "npm:^2.3.4"
   peerDependencies:
     "@playwright/test": ^1.52.0
-  checksum: 10c0/3b473227400e764314fe548cc45c35e748d03d6570d1f36d297dccfb3fedbf323a3c2de2f8b8f57b55f9016f75d617e117b743cccbcd5d2c5ee80b005c880e92
+  checksum: 10c0/da1bcf35e3a94c815884a58805293e208a2bfd2c4b21b37efff60393e54a96a153ac4b48ff32af120811996ec1a669f34cf2925b6c6b58ea26c426814cbca305
   languageName: node
   linkType: hard
 
@@ -14329,7 +14340,7 @@ __metadata:
     "@grafana/aws-sdk": "npm:0.7.1"
     "@grafana/data": "npm:^12.1.0"
     "@grafana/eslint-config": "npm:^8.1.0"
-    "@grafana/plugin-e2e": "npm:^2.1.8"
+    "@grafana/plugin-e2e": "npm:^2.2.3"
     "@grafana/plugin-ui": "npm:^0.10.9"
     "@grafana/runtime": "npm:^12.1.0"
     "@grafana/scenes": "npm:^6.42.2"
@@ -21507,6 +21518,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:5.9.2":
+  version: 5.9.2
+  resolution: "typescript@npm:5.9.2"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/cd635d50f02d6cf98ed42de2f76289701c1ec587a363369255f01ed15aaf22be0813226bff3c53e99d971f9b540e0b3cc7583dbe05faded49b1b0bed2f638a18
+  languageName: node
+  linkType: hard
+
 "typescript@npm:5.9.3, typescript@npm:^4.7 || 5, typescript@npm:^5.0.4":
   version: 5.9.3
   resolution: "typescript@npm:5.9.3"
@@ -21534,6 +21555,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10c0/39117e346ff8ebd87ae1510b3a77d5d92dae5a89bde588c747d25da5c146603a99c8ee588c7ef80faaf123d89ed46f6dbd918d534d641083177d5fac38b8a1cb
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A5.9.2#optional!builtin<compat/typescript>":
+  version: 5.9.2
+  resolution: "typescript@patch:typescript@npm%3A5.9.2#optional!builtin<compat/typescript>::version=5.9.2&hash=5786d5"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/34d2a8e23eb8e0d1875072064d5e1d9c102e0bdce56a10a25c0b917b8aa9001a9cf5c225df12497e99da107dc379360bc138163c66b55b95f5b105b50578067e
   languageName: node
   linkType: hard
 
@@ -21893,7 +21924,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:11.1.0, uuid@npm:^11.0.0, uuid@npm:^11.0.2, uuid@npm:^11.1.0":
+"uuid@npm:11.1.0, uuid@npm:^11.0.0, uuid@npm:^11.1.0":
   version: 11.1.0
   resolution: "uuid@npm:11.1.0"
   bin:
@@ -21908,6 +21939,15 @@ __metadata:
   bin:
     uuid: dist/bin/uuid
   checksum: 10c0/e62301a1c6102da5ce9a147b492a4b5cfa14d2e8fdf4a6ebfda7929cb72d186f84173815ec18fa4160a03bf9724b16ece3737b3ac6701815bc965f8fa4279298
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "uuid@npm:13.0.0"
+  bin:
+    uuid: dist-node/bin/uuid
+  checksum: 10c0/950e4c18d57fef6c69675344f5700a08af21e26b9eff2bf2180427564297368c538ea11ac9fb2e6528b17fc3966a9fd2c5049361b0b63c7d654f3c550c9b3d67
   languageName: node
   linkType: hard
 
