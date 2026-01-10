@@ -128,7 +128,7 @@
     "fast-xml-parser": "4.5.3",
     "lodash.pick": "https://github.com/lodash/lodash/archive/refs/tags/4.17.21.tar.gz",
     "parse-duration": "2.1.5",
-    "ramda": "0.27.2",
+    "ramda": "0.32.0",
     "react-use": "^17.5.0",
     "three-stdlib": "2.23.9",
     "_comment": "Do not remove react-three & Matterport dependencies until AMG upgrades to Grafana v10 - PR#259",
