@@ -7420,24 +7420,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-three/drei@npm:8.11.0":
-  version: 8.11.0
-  resolution: "@react-three/drei@npm:8.11.0"
+"@react-three/drei@npm:8.20.2":
+  version: 8.20.2
+  resolution: "@react-three/drei@npm:8.20.2"
   dependencies:
     "@babel/runtime": "npm:^7.11.2"
     "@react-spring/three": "npm:^9.3.1"
     "@use-gesture/react": "npm:^10.2.0"
-    detect-gpu: "npm:^3.1.28"
+    detect-gpu: "npm:^4.0.14"
     glsl-noise: "npm:^0.0.0"
     lodash.omit: "npm:^4.5.0"
     lodash.pick: "npm:^4.4.0"
+    meshline: "npm:^2.0.4"
     react-composer: "npm:^5.0.2"
     react-merge-refs: "npm:^1.1.0"
     stats.js: "npm:^0.17.0"
     suspend-react: "npm:^0.0.8"
-    three-mesh-bvh: "npm:^0.5.4"
-    three-stdlib: "npm:^2.8.7"
-    troika-three-text: "npm:^0.45.0"
+    three-mesh-bvh: "npm:^0.5.7"
+    three-stdlib: "npm:^2.8.9"
+    troika-three-text: "npm:^0.46.3"
     utility-types: "npm:^3.10.0"
     zustand: "npm:^3.5.13"
   peerDependencies:
@@ -7448,7 +7449,7 @@ __metadata:
   peerDependenciesMeta:
     react-dom:
       optional: true
-  checksum: 10c0/4b6a49c7fdf05761c3a9bf3730efb523ce1ba495965d2baba6b81047b58bc31db01283dd6f2e05c582267773253fd171bbbd65011a9805ed1751e5682dc26f3d
+  checksum: 10c0/167425e1c8876ed1d111c5449ff157708db3006a2c411e7b4b1280e0a807eda496c1ba19412a194e656cb613af0868581c0f8789741890681c29722c2efbbba8
   languageName: node
   linkType: hard
 
@@ -12609,12 +12610,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"detect-gpu@npm:^3.1.28":
-  version: 3.1.30
-  resolution: "detect-gpu@npm:3.1.30"
+"detect-gpu@npm:^4.0.14":
+  version: 4.0.50
+  resolution: "detect-gpu@npm:4.0.50"
   dependencies:
     webgl-constants: "npm:^1.1.1"
-  checksum: 10c0/55e3e3a6c60d0384e4ed7778bcd815b0db99803429b4aa71366bdef41f8d65a53c99a3e3f5943633a32ee7efa5ca8be006958406ec6aa4132d69ef5099e69699
+  checksum: 10c0/6f641e70764bd0ffccbb585dfd0c02e812591a252d1201cd3789b6bb753ef4e27abf9f48c96e92f867aaf736c58da91472428b41635022fb1e9a53edc7dc7637
   languageName: node
   linkType: hard
 
@@ -16879,6 +16880,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"meshline@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "meshline@npm:2.0.4"
+  peerDependencies:
+    three: ">=0.137"
+  checksum: 10c0/d1e105b414169629f76b811a17307af583b969ebaef721d08ee7846ae9c54d052bca4d10ee817b5f6049642bbdec4fb453892fa5b5158212f741e27c1806c9a4
+  languageName: node
+  linkType: hard
+
 "meshoptimizer@npm:~0.22.0":
   version: 0.22.0
   resolution: "meshoptimizer@npm:0.22.0"
@@ -21044,7 +21054,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"three-mesh-bvh@npm:0.5.24, three-mesh-bvh@npm:^0.5.4":
+"three-mesh-bvh@npm:0.5.24, three-mesh-bvh@npm:^0.5.7":
   version: 0.5.24
   resolution: "three-mesh-bvh@npm:0.5.24"
   peerDependencies:
@@ -21273,32 +21283,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"troika-three-text@npm:^0.45.0":
-  version: 0.45.1
-  resolution: "troika-three-text@npm:0.45.1"
+"troika-three-text@npm:^0.46.3":
+  version: 0.46.4
+  resolution: "troika-three-text@npm:0.46.4"
   dependencies:
     bidi-js: "npm:^1.0.2"
-    troika-three-utils: "npm:^0.45.0"
-    troika-worker-utils: "npm:^0.45.0"
+    troika-three-utils: "npm:^0.46.0"
+    troika-worker-utils: "npm:^0.46.0"
+    webgl-sdf-generator: "npm:1.1.1"
   peerDependencies:
     three: ">=0.103.0"
-  checksum: 10c0/9e013faebb4a4b044ab14f705b6b96c8717950d8ed836dafbee52525cdbb7ada359b8711c8885728d0a82c2ab9eb0519b48d32fed232b62a86b5442cbc51abcb
+  checksum: 10c0/9cc45a62870b33328d923c2768a0d5d1ca04a81cb27c6a077d4320dc061f7f44784ed94908d72652e52585f8b33f3a02fe7f231b15dbe8723e488ef906ad1975
   languageName: node
   linkType: hard
 
-"troika-three-utils@npm:^0.45.0":
-  version: 0.45.0
-  resolution: "troika-three-utils@npm:0.45.0"
+"troika-three-utils@npm:^0.46.0":
+  version: 0.46.0
+  resolution: "troika-three-utils@npm:0.46.0"
   peerDependencies:
     three: ">=0.103.0"
-  checksum: 10c0/5522d44ce1036405a32ca358d1ceaccef9e59d960a5b1ae80fbe0ce64f8148102e81fc5a601ebba0f8543dfb2173f837406a36798e7ce802a18966e12d38af5f
+  checksum: 10c0/38966fe8207530b90ef84c6f8d5c83c90fb35a528b5fa66eeaa234fff556a929ee515dbe7d2f439b8b35a24da8e3e84dbcb3d3c0c5cb48cf03657e9311ddbf19
   languageName: node
   linkType: hard
 
-"troika-worker-utils@npm:^0.45.0":
-  version: 0.45.0
-  resolution: "troika-worker-utils@npm:0.45.0"
-  checksum: 10c0/a16f39e361c6ec11666b4a8a362b55d07afdc18fe3c832dd7e3a324c6afdf601d9d1f7ba84ec74a24f531abe6fac1deb4a7700d8db23619c4973d99fe4e00681
+"troika-worker-utils@npm:^0.46.0":
+  version: 0.46.0
+  resolution: "troika-worker-utils@npm:0.46.0"
+  checksum: 10c0/d341528f8c67f715152f82bd3af1f2af97d91cf97dad5b9a8bee23ed4392aea14cca159a7411ddc518d8e5431dc632d3a5db2e551bd31b25f7988c151eead4cf
   languageName: node
   linkType: hard
 
@@ -22255,6 +22266,13 @@ __metadata:
   version: 1.1.1
   resolution: "webgl-constants@npm:1.1.1"
   checksum: 10c0/525a9838b0cbcbab902d1bc5457882424a9c146f851042c901ae457123193f5c5e47846b47c1c999e4f3abc24322cac494cea0cc52fec28bd8eb3a05cd79d573
+  languageName: node
+  linkType: hard
+
+"webgl-sdf-generator@npm:1.1.1":
+  version: 1.1.1
+  resolution: "webgl-sdf-generator@npm:1.1.1"
+  checksum: 10c0/769bfab22a9485a59bda9448d1d8684228adc9ebdac2cc69012a0854282385d1bef319f703758829e2c647e7532a9844e62977110e825bd75a3e0b8a0ee276ce
   languageName: node
   linkType: hard
 
