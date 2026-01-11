@@ -5391,7 +5391,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/plugin-ui@npm:^0.10.1, @grafana/plugin-ui@npm:^0.10.9":
+"@grafana/plugin-ui@npm:^0.10.1":
   version: 0.10.9
   resolution: "@grafana/plugin-ui@npm:0.10.9"
   dependencies:
@@ -5416,6 +5416,34 @@ __metadata:
     react-dom: ^18.2.0
     rxjs: ^7.8.1
   checksum: 10c0/aa8cbde003ee8587724b9793ea30de9ef8f2c53d784ff6be019a79b75c3ab572aff040da772071aa7593a3fbdc36c57af229cbeb2a9472e8e330a43ca567da5e
+  languageName: node
+  linkType: hard
+
+"@grafana/plugin-ui@npm:^0.12.0":
+  version: 0.12.1
+  resolution: "@grafana/plugin-ui@npm:0.12.1"
+  dependencies:
+    "@emotion/css": "npm:^11.11.2"
+    "@hello-pangea/dnd": "npm:^17.0.0"
+    "@react-awesome-query-builder/ui": "npm:^6.6.4"
+    "@types/prismjs": "npm:^1.26.4"
+    lodash: "npm:^4.17.21"
+    prismjs: "npm:^1.30.0"
+    react-calendar: "npm:^4.8.0"
+    react-popper-tooltip: "npm:^4.4.2"
+    react-use: "npm:^17.3.1"
+    react-virtualized-auto-sizer: "npm:^1.0.6"
+    sql-formatter-plus: "npm:^1.3.6"
+    uuid: "npm:^11.0.0"
+  peerDependencies:
+    "@grafana/data": ">=10.4.0"
+    "@grafana/e2e-selectors": ">=10.4.0"
+    "@grafana/runtime": ">=10.4.0"
+    "@grafana/ui": ">=10.4.0"
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    rxjs: ^7.8.1
+  checksum: 10c0/4d88c6cb7c883521d1bd7eba815674038951e77643ea3050f1355a16ce507ce593e2c267073e842f1d6974a486151420054adf1a813e44fa75284972aa94e243
   languageName: node
   linkType: hard
 
@@ -14271,7 +14299,7 @@ __metadata:
     "@grafana/data": "npm:^12.1.0"
     "@grafana/eslint-config": "npm:^8.1.0"
     "@grafana/plugin-e2e": "npm:^3.0.0"
-    "@grafana/plugin-ui": "npm:^0.10.9"
+    "@grafana/plugin-ui": "npm:^0.12.0"
     "@grafana/runtime": "npm:^12.1.0"
     "@grafana/scenes": "npm:^6.42.2"
     "@grafana/schema": "npm:^12.1.0"
