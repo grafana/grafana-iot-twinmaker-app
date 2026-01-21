@@ -68,7 +68,7 @@
     "path-browserify": "^1.0.1",
     "prettier": "^3.6.2",
     "replace-in-file-webpack-plugin": "^1.0.6",
-    "sass": "1.89.2",
+    "sass": "1.97.2",
     "sass-loader": "16.0.6",
     "semver": "^7.6.3",
     "style-loader": "4.0.0",
