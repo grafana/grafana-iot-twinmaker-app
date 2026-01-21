@@ -9650,13 +9650,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "@types/uuid@npm:10.0.0"
-  checksum: 10c0/9a1404bf287164481cb9b97f6bb638f78f955be57c40c6513b7655160beb29df6f84c915aaf4089a1559c216557dc4d2f79b48d978742d3ae10b937420ddac60
-  languageName: node
-  linkType: hard
-
 "@types/webxr@npm:>=0.5.17, @types/webxr@npm:^0.5.2":
   version: 0.5.24
   resolution: "@types/webxr@npm:0.5.24"
@@ -14340,7 +14333,6 @@ __metadata:
     "@types/semver": "npm:^7.7.0"
     "@types/testing-library__jest-dom": "npm:5.14.9"
     "@types/three": "npm:0.182.0"
-    "@types/uuid": "npm:^10.0.0"
     "@typescript-eslint/eslint-plugin": "npm:^8.42.0"
     "@typescript-eslint/parser": "npm:^8.42.0"
     aws-iot-twinmaker-grafana-utils: "file:libs/aws-iot-twinmaker-grafana-utils-2.1.0.tgz"
