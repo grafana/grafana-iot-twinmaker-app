@@ -10,6 +10,27 @@ const config = async (env): Promise<Configuration> => {
     module: {
       rules: [
         {
+          test: /\.m?js$/,
+          include: /node_modules[\\/]@iot-app-kit[\\/]scene-composer[\\/]dist[\\/]esm[\\/]/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              babelrc: false,
+              configFile: false,
+              inputSourceMap: false,
+              sourceMaps: false,
+              plugins: [['babel-plugin-formatjs', { idInterpolationPattern: '[sha512:contenthash:base64:6]' }]],
+            },
+          },
+        },
+        {
+          test: /\.m?js$/,
+          include: /node_modules\/@iot-app-kit\//,
+          resolve: {
+            fullySpecified: false,
+          },
+        },
+        {
           test: /\.hdr$/,
           loader: 'file-loader',
           options: {
