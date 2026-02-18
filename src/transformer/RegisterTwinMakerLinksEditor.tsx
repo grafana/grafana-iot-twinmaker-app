@@ -169,7 +169,7 @@ function SetVarEditor(props: VarEditorProps): React.ReactElement {
           />
         </InlineField>
       </InlineField>
-      <Button onClick={() => props.onChange(index)} icon="trash-alt" variant="secondary" />
+      <Button aria-label="Remove variable mapping" onClick={() => props.onChange(index)} icon="trash-alt" variant="secondary" />
     </InlineFieldRow>
   );
 }

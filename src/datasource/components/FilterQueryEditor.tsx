@@ -107,6 +107,7 @@ export default function FilterQueryEditor(props: FilterQueryEditorProps) {
             <Button
               data-testid="query-builder-filters-remove-button"
               icon="trash-alt"
+              aria-label="Remove filter"
               variant="destructive"
               size="sm"
               className={btnStyle}
