@@ -17,6 +17,7 @@ import { InlineFieldRow, InlineField, Select, useStyles2, Input, Button, InlineS
 import { getTwinMakerDatasourcePicker } from 'common/datasourceSrv';
 import { getSelectionInfo } from 'common/info/info';
 import { getVariableOptions } from 'common/variables';
+import twinmakerSvg from '../datasource/img/AWS-IoT-TwinMaker.svg';
 
 const labelWidth = 16;
 
@@ -169,7 +170,12 @@ function SetVarEditor(props: VarEditorProps): React.ReactElement {
           />
         </InlineField>
       </InlineField>
-      <Button aria-label="Remove variable mapping" onClick={() => props.onChange(index)} icon="trash-alt" variant="secondary" />
+      <Button
+        aria-label="Remove variable mapping"
+        onClick={() => props.onChange(index)}
+        icon="trash-alt"
+        variant="secondary"
+      />
     </InlineFieldRow>
   );
 }
@@ -189,6 +195,8 @@ export const twinMakerLinksTransformerRegistryItem: TransformerRegistryItem<Regi
   transformation: registerTwinMakerLinksTransformer,
   name: registerTwinMakerLinksTransformer.name,
   description: registerTwinMakerLinksTransformer.description,
+  imageDark: twinmakerSvg,
+  imageLight: twinmakerSvg,
   help: `
   Define selection behavior on the dashboard from the results of an IoT TwinMaker query.
   Supported for the Table panel visualization.
