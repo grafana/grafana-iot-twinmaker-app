@@ -14393,7 +14393,7 @@ __metadata:
     tsconfig-paths: "npm:^4.2.0"
     tslib: "npm:2.8.1"
     typescript: "npm:5.9.3"
-    uuid: "npm:^11.1.0"
+    uuid: "npm:^13.0.0"
     webpack: "npm:^5.104.1"
     webpack-cli: "npm:^6.0.1"
     webpack-livereload-plugin: "npm:^3.0.2"
@@ -21820,7 +21820,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:11.1.0, uuid@npm:^11.0.0, uuid@npm:^11.1.0":
+"uuid@npm:11.1.0, uuid@npm:^11.0.0":
   version: 11.1.0
   resolution: "uuid@npm:11.1.0"
   bin:
