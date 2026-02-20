@@ -132,7 +132,7 @@
     "three-stdlib": "2.36.1",
     "_comment": "Do not remove react-three & Matterport dependencies until AMG upgrades to Grafana v10 - PR#259",
     "@react-three/drei": "8.20.2",
-    "@react-three/fiber": "7.0.29",
+    "@react-three/fiber": "9.5.0",
     "@react-three/test-renderer": "7.0.27",
     "@matterport/r3f": "0.2.7",
     "@matterport/webcomponent": "0.1.45"
