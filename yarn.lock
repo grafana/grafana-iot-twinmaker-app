@@ -7462,14 +7462,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-three/test-renderer@npm:7.0.27":
-  version: 7.0.27
-  resolution: "@react-three/test-renderer@npm:7.0.27"
+"@react-three/test-renderer@npm:9.1.0":
+  version: 9.1.0
+  resolution: "@react-three/test-renderer@npm:9.1.0"
   peerDependencies:
-    "@react-three/fiber": ">=7.0.28"
-    react: ">=17.0"
-    three: ">=0.126"
-  checksum: 10c0/c248af05a8e12e219522402cf98e8c9749d382c0e3d76bb8bbd728fb142262e39e8152eabf412de9a6564a2b02aef84d86566058ec88782328ebed756723873e
+    "@react-three/fiber": ">=9.0.0"
+    react: ^19.0.0
+    three: ">=0.156"
+  checksum: 10c0/0a883f828dca32c4cc228557bd353a42694d0f04f26e974e1fece46ad780ceaddc7d714f6229f05fc7619c73e3ae494625dd5af874552b7e7360db5e84cb81d3
   languageName: node
   linkType: hard
 
