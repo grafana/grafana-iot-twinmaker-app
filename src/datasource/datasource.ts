@@ -7,7 +7,7 @@ import { Credentials } from 'aws-sdk/global';
 import { TwinMakerWorkspaceInfoSupplier } from 'common/info/types';
 import { getCachingWorkspaceInfoSupplier, getTwinMakerWorkspaceInfoSupplier } from 'common/info/info';
 import { TwinMakerQueryType, TwinMakerQuery } from 'common/manager';
-import { Credentials as CredentialsV3, CredentialProvider } from '@aws-sdk/types';
+import { Credentials as CredentialsV3 } from '@aws-sdk/types';
 import { getRequestLooper, MultiRequestTracker } from './requestLooper';
 import { appendMatchingFrames } from './appendFrames';
 import { BatchPutPropertyValuesResponse, Entries } from 'aws-sdk/clients/iottwinmaker';
@@ -36,6 +36,10 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
         return this.getResource(p, params);
       })
     );
+
+    this.batchPutPropertyValues = this.batchPutPropertyValues.bind(this);
+    this.getTokens = this.getTokens.bind(this);
+    this.getTokensV3 = this.getTokensV3.bind(this);
   }
 
   // This will support annotation queries for 7.2+
@@ -139,13 +143,13 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
     });
   }
 
-  batchPutPropertyValues = async (entries: Entries): Promise<BatchPutPropertyValuesResponse> => {
-    return super.postResource('entity-properties', { entries });
-  };
+  async batchPutPropertyValues(entries: Entries): Promise<BatchPutPropertyValuesResponse> {
+    return this.postResource('entity-properties', { entries });
+  }
 
   // Fetch temporary AWS tokens from the backend plugin and convert them into JS SDK Credentials
-  getTokens = async (): Promise<Credentials> => {
-    const tokenInfo = (await super.getResource('token')) as AWSTokenInfo;
+  async getTokens(): Promise<Credentials> {
+    const tokenInfo = (await this.getResource('token')) as AWSTokenInfo;
     const credentials = new Credentials({
       accessKeyId: tokenInfo.accessKeyId,
       secretAccessKey: tokenInfo.secretAccessKey,
@@ -153,11 +157,11 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
     });
     credentials.expireTime = new Date(tokenInfo.expiration);
     return credentials;
-  };
+  }
 
   // Support AWS SDK V3 Credentials
-  getTokensV3: CredentialProvider = async () => {
-    const tokenInfo = (await super.getResource('token')) as AWSTokenInfo;
+  async getTokensV3(): Promise<CredentialsV3> {
+    const tokenInfo = (await this.getResource('token')) as AWSTokenInfo;
     const credentials: CredentialsV3 = {
       accessKeyId: tokenInfo.accessKeyId,
       secretAccessKey: tokenInfo.secretAccessKey,
@@ -165,5 +169,5 @@ export class TwinMakerDataSource extends DataSourceWithBackend<TwinMakerQuery, T
       expiration: new Date(tokenInfo.expiration),
     };
     return credentials;
-  };
+  }
 }

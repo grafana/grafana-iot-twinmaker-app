@@ -28,10 +28,9 @@ export class VideoPlayerPanel extends React.Component<Props, VideoPlayerPanelSta
   }
 
   private updateUxSdk = async (prevProps?: Props) => {
-    configureSdkWithDataSource(this.props.options.datasource).then((result: DataSourceParams | undefined) => {
-      this.dataSourceParams = result;
-      this.setState({ configured: true });
-    });
+    const result = await configureSdkWithDataSource(this.props.options.datasource);
+    this.dataSourceParams = result;
+    this.setState({ configured: true });
   };
 
   private renderContent = () => {
