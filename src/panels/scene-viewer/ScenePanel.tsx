@@ -41,10 +41,9 @@ export class ScenePanel extends React.Component<Props, ScenePanelState> {
 
   private updateUxSdk = async () => {
     const uid = this.props.options.datasource;
-    configureSdkWithDataSource(uid).then((result: DataSourceParams | undefined) => {
-      this.dataSourceParams = result;
-      this.setState({ configured: true });
-    });
+    const result = await configureSdkWithDataSource(uid);
+    this.dataSourceParams = result;
+    this.setState({ configured: true });
   };
 
   private renderContent = () => {

@@ -30,18 +30,17 @@ export class QueryEditorPanel extends React.Component<Props, QueryEditorPanelSta
   }
 
   private updateUxSdk = async () => {
-    configureSdkWithDataSource(this.props.options.datasource).then(async (result: DataSourceParams | undefined) => {
-      this.dataSourceParams = result;
+    const result = await configureSdkWithDataSource(this.props.options.datasource);
+    this.dataSourceParams = result;
 
-      if (this.dataSourceParams) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const awsCredentials = await this.dataSourceParams.awsConfig.credentialsProvider();
-        this.dataSourceParams.awsConfig.awsCredentials = awsCredentials;
-      }
+    if (this.dataSourceParams) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const awsCredentials = await this.dataSourceParams.awsConfig.credentialsProvider();
+      this.dataSourceParams.awsConfig.awsCredentials = awsCredentials;
+    }
 
-      this.setState({ configured: true });
-    });
+    this.setState({ configured: true });
   };
 
   private renderContent = () => {
