@@ -2,6 +2,7 @@
 
 ## 2.1.5
 
+- fix(deps): update go patch updates in [#672](https://github.com/grafana/grafana-iot-twinmaker-app/pull/672)
 - fix: fix generated code returning undefined `this` in callbacks for panels in [#682](https://github.com/grafana/grafana-iot-twinmaker-app/pull/682)
 - chore(deps): update dependency semver to ^7.7.3 in [#683](https://github.com/grafana/grafana-iot-twinmaker-app/pull/683)
 - fix(deps): update module github.com/grafana/grafana-plugin-sdk-go to v0.290.0 in [#666](https://github.com/grafana/grafana-iot-twinmaker-app/pull/666)
