@@ -1,4 +1,5 @@
 import { defineConfig, globalIgnores } from 'eslint/config';
+import { fixupConfigRules } from '@eslint/compat';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
@@ -14,18 +15,18 @@ const compat = new FlatCompat({
 
 export default defineConfig([
   globalIgnores(['**/draco/*.js', "src/static/basisu/basis_transcoder.js", '**/node_modules', '**/build', '**/dist']),
-  {
-    extends: compat.extends('./.config/.eslintrc'),
-  },
+  ...fixupConfigRules(compat.extends('./.config/.eslintrc')),
   {
     rules: {
       'deprecation/deprecation': 'off',
+      'react-hooks/set-state-in-effect': 'off',
     },
   },
   {
     files: ['src/**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
       parserOptions: {
+        project: null,
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
