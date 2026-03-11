@@ -7,6 +7,7 @@ const config = async (env): Promise<Configuration> => {
   const baseConfig = await grafanaConfig(env);
 
   return merge(baseConfig, {
+    externals: ['react-dom/client', 'react-dom/server'],
     module: {
       rules: [
         {
@@ -50,11 +51,12 @@ const config = async (env): Promise<Configuration> => {
     },
     plugins: [
       new WebpackShellPluginNext({
-      onBuildEnd:{
-        scripts: ['npx matterport-assets dist/static/matterport'],
-        blocking: false,
-        parallel: true
-      }})
+        onBuildEnd: {
+          scripts: ['npx matterport-assets dist/static/matterport'],
+          blocking: false,
+          parallel: true,
+        },
+      }),
     ],
   });
 };
