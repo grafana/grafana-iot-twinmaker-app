@@ -4,6 +4,10 @@
 
 Create end-user 3D digital twin applications to monitor industrial operations with AWS IoT TwinMaker. AWS IoT TwinMaker is a service that makes it faster and easier for developers to create digital replicas of real-world systems, helping more customers realize the potential of digital twins to optimize operations.
 
+{{< admonition type="warning" >}}
+The Grafana AWS IoT TwinMaker App will no longer be available in Grafana Cloud as of mid-April 2026. Users who require continued access can use Grafana versions before 13.1
+{{< /admonition >}}
+
 The AWS IoT TwinMaker Application Grafana plugin provides custom panels, dashboard templates, and a datasource to connect to your digital twin data:
 
 - [Scene Viewer panel](#aws-iot-twinmaker-scene-viewer-panel)
