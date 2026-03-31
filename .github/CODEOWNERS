@@ -12,8 +12,8 @@
 # This should make it easy to add new rules without breaking existing ones.
 
 # Grafana AWS datasources owns the datasource plugin code
-/.github/ @grafana/aws-datasources
-/go.mod @grafana/aws-datasources
-/go.sum @grafana/aws-datasources
-/pkg/ @grafana/aws-datasources
-/src/datasource/ @grafana/aws-datasources
+/.github/ @grafana/data-sources-plugins
+/go.mod @grafana/data-sources-plugins
+/go.sum @grafana/data-sources-plugins
+/pkg/ @grafana/data-sources-plugins
+/src/datasource/ @grafana/data-sources-plugins
