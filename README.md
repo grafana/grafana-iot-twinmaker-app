@@ -1,7 +1,7 @@
 # AWS IoT TwinMaker Application plugin
 
 > [!IMPORTANT]  
-> AWS IoT TwinMaker App will no longer be available in Grafana Cloud as of mid-April 2026. Users who require continued access can use Grafana versions before 13.1
+> The SceneViewer panel in the TwinMaker App will be a breaking change in Grafana v13. It will continue to work as expected for all Grafana deployments before version 13.1.
 
 Access data source plugin documentation [here](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/)
 
