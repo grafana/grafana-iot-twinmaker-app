@@ -1,7 +1,7 @@
 # AWS IoT TwinMaker Application plugin
 
 > [!IMPORTANT]  
-> The SceneViewer panel in the TwinMaker App will be a breaking change in Grafana v13. It will continue to work as expected for all Grafana deployments before version 13.1.
+> The SceneViewer panel in the TwinMaker App will stop working in Grafana 13.1. Please consider removing that panel from dashboards. 
 
 Access data source plugin documentation [here](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/)
 
