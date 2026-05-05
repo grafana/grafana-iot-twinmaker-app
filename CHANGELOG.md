@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.1.6
+
+- fix(deps): update dependency brace-expansion to v2.0.3 [security]
+- fix(deps): update dependency @xmldom/xmldom to v0.8.12 [security]
+- fix(deps): update dependency react-router to v6.30.3 [security]
+- fix(deps): update dependency react-router-dom-v5-compat to v6.30.3 [security]
+- fix(deps): update dependency @remix-run/router to v1.23.2 [security]
+- fix(deps): update dependency validator to v13.15.20 [security]
+- fix(deps): update dependency lodash to v4.17.23 [security]
+- fix(deps): update dependency lodash-es to v4.17.23 [security]
+- fix(deps): update dependency js-yaml to v4.1.1 [security]
+- fix(deps): update dependency protobufjs to v7.5.5 [security]
+- fix(deps): update dependency immutable to v4.3.8/v5.1.5 [security]
+- fix(deps): update dependency flatted to v3.4.0 [security]
+- fix(deps): update dependency undici to v7.24.0 [security]
+- fix(deps): update dependency minimatch to v3.1.3/v9.0.6 [security]
+- fix(deps): update dependency picomatch to v4.0.4 [security]
+
 ## 2.1.5
 
 - fix(deps): update go patch updates in [#672](https://github.com/grafana/grafana-iot-twinmaker-app/pull/672)
