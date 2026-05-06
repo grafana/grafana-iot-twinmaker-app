@@ -5317,14 +5317,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/e2e-selectors@npm:13.1.0-24335230309":
-  version: 13.1.0-24335230309
-  resolution: "@grafana/e2e-selectors@npm:13.1.0-24335230309"
+"@grafana/e2e-selectors@npm:13.1.0-24448182242":
+  version: 13.1.0-24448182242
+  resolution: "@grafana/e2e-selectors@npm:13.1.0-24448182242"
   dependencies:
     semver: "npm:^7.7.0"
     tslib: "npm:2.8.1"
     typescript: "npm:5.9.2"
-  checksum: 10c0/c3c2fe863dccb19e0e68b08afc1949c256be89d4f8252fcc174d7a2b7c9e56ece95514abfe3e17a78d983023dc0379514f6a95f4c53265433849116de98b717f
+  checksum: 10c0/248c9c689d943cfc5f5a5d5db23ac41dafbec8cd41b6ce2b9d125105ee1e42c2e4f6fa78115844e7ebf741ea712e66fbbd04dd087384fa53318f82a3fb2f63ff
   languageName: node
   linkType: hard
 
@@ -5384,11 +5384,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/plugin-e2e@npm:^3.5.0":
-  version: 3.5.0
-  resolution: "@grafana/plugin-e2e@npm:3.5.0"
+"@grafana/plugin-e2e@npm:^3.7.1":
+  version: 3.7.1
+  resolution: "@grafana/plugin-e2e@npm:3.7.1"
   dependencies:
-    "@grafana/e2e-selectors": "npm:13.1.0-24335230309"
+    "@grafana/e2e-selectors": "npm:13.1.0-24448182242"
     semver: "npm:^7.5.4"
     uuid: "npm:^13.0.0"
     yaml: "npm:^2.3.4"
@@ -5398,7 +5398,7 @@ __metadata:
   peerDependenciesMeta:
     "@axe-core/playwright":
       optional: true
-  checksum: 10c0/1432066e24ce423ccb9467facaa79d68b36f35213ba1699536effdc942b4ea9f8e53ce56843ee219c43c8094d20687f83fa6a9fa96916f5f3616721b99064473
+  checksum: 10c0/ac108a7991d6d0514cadd9d62131cad89f31d9b805afc5fe2c0673ee68cbdfd1d9de0308aaa72738a39e5600c6b41c7cbc19286a0723cc6b4fcd10b3d23e1ea8
   languageName: node
   linkType: hard
 
@@ -14245,7 +14245,7 @@ __metadata:
     "@grafana/aws-sdk": "npm:0.8.3"
     "@grafana/data": "npm:^12.1.0"
     "@grafana/eslint-config": "npm:^9.0.0"
-    "@grafana/plugin-e2e": "npm:^3.5.0"
+    "@grafana/plugin-e2e": "npm:^3.7.1"
     "@grafana/plugin-ui": "npm:^0.12.0"
     "@grafana/runtime": "npm:^12.1.0"
     "@grafana/scenes": "npm:^6.42.2"
