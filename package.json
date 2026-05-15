@@ -134,7 +134,7 @@
     "@iot-app-kit/charts-core/minimatch": "9.0.6",
     "@typescript-eslint/typescript-estree/minimatch": "9.0.6",
     "brace-expansion": "2.0.3",
-    "@xmldom/xmldom": "0.8.12",
+    "@xmldom/xmldom": "0.8.13",
     "react-router-dom-v5-compat": "6.30.3",
     "react-router": "6.30.3",
     "@remix-run/router": "1.23.2",
