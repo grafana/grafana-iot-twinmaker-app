@@ -97,6 +97,7 @@
     "@emotion/css": "11.13.5",
     "@grafana/aws-sdk": "0.8.3",
     "@grafana/data": "^12.2.0",
+    "@grafana/i18n": "^12.2.0",
     "@grafana/plugin-ui": "^0.12.0",
     "@grafana/runtime": "^12.2.0",
     "@grafana/scenes": "^6.42.2",
@@ -116,8 +117,7 @@
     "rxjs": "7.8.2",
     "semver": "^7.7.2",
     "tslib": "2.8.1",
-    "uuid": "^11.1.0",
-    "@grafana/i18n": "^12.2.0"
+    "uuid": "^11.1.0"
   },
   "engines": {
     "node": ">=24"
