@@ -1,0 +1,32 @@
+{
+    "NextToken": null,
+    "PropertyValues": [
+        {
+            "EntityPropertyReference": {
+                "ComponentName": "AlarmComponent",
+                "EntityId": "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
+                "ExternalIdProperty": {
+                    "alarm_key": "Mixer_1_597c735b-38fd-476c-b276-7592b1699ef8"
+                },
+                "PropertyName": "alarm_status"
+            },
+            "Values": [
+                {
+                    "Time": "2022-04-27T17:19:42Z",
+                    "Timestamp": null,
+                    "Value": {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "NORMAL"
+                    }
+                }
+            ]
+        }
+    ]
+}

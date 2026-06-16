@@ -1,0 +1,86 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ],
+//      "custom": {}
+//  }
+//  Name: 
+//  Dimensions: 4 Fields by 1 Rows
+//  +------------------------------------------------------------------------------------------+-----------------------------------+-------------------+-----------------+
+//  | Name: arn                                                                                | Name: created                     | Name: description | Name: sceneId   |
+//  | Labels:                                                                                  | Labels:                           | Labels:           | Labels:         |
+//  | Type: []*string                                                                          | Type: []time.Time                 | Type: []*string   | Type: []*string |
+//  +------------------------------------------------------------------------------------------+-----------------------------------+-------------------+-----------------+
+//  | arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/scene/CookieFactory | 2022-04-27 17:30:08.759 +0000 UTC | null              | CookieFactory   |
+//  +------------------------------------------------------------------------------------------+-----------------------------------+-------------------+-----------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ],
+          "custom": {}
+        },
+        "fields": [
+          {
+            "name": "arn",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "created",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "sceneId",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/scene/CookieFactory"
+          ],
+          [
+            1651080608759
+          ],
+          [
+            null
+          ],
+          [
+            "CookieFactory"
+          ]
+        ]
+      }
+    }
+  ]
+}

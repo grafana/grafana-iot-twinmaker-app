@@ -1,0 +1,91 @@
+package twinmaker
+
+import (
+	"context"
+	"time"
+
+	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/patrickmn/go-cache"
+)
+
+type cachingHandler struct {
+	handler TwinMakerHandler
+	stash   *cache.Cache
+}
+
+// NewTwinMakerTokenProvider is to get session tokens for TwinMaker datasource
+func NewCachingHandler(handler TwinMakerHandler, ttl time.Duration) TwinMakerHandler {
+	return &cachingHandler{
+		handler: handler,
+		stash:   cache.New(ttl, ttl*2),
+	}
+}
+
+type queryCaller func(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse)
+
+func (s *cachingHandler) doQuery(pfix string, ctx context.Context, query models.TwinMakerQuery, caller queryCaller) (dr backend.DataResponse) {
+	key := pfix + "/" + query.CacheKey()
+	val, ok := s.stash.Get(key)
+	if ok {
+		dr, ok := val.(backend.DataResponse)
+		if ok {
+			return dr
+		}
+	}
+
+	dr = caller(ctx, query)
+	if dr.Error == nil {
+		s.stash.Set(key, dr, 0)
+	}
+
+	return dr
+}
+
+func (s *cachingHandler) ListWorkspaces(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
+	return s.doQuery("ListWorkspaces", ctx, query, s.handler.ListWorkspaces)
+}
+
+func (s *cachingHandler) ListScenes(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
+	return s.doQuery("ListScenes", ctx, query, s.handler.ListScenes)
+}
+
+func (s *cachingHandler) ListEntities(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
+	return s.doQuery("ListEntities", ctx, query, s.handler.ListEntities)
+}
+
+func (s *cachingHandler) ListComponentTypes(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
+	return s.doQuery("ListComponentTypes", ctx, query, s.handler.ListComponentTypes)
+}
+
+func (s *cachingHandler) GetEntity(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
+	return s.doQuery("GetEntity", ctx, query, s.handler.GetEntity)
+}
+
+func (s *cachingHandler) GetPropertyValue(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
+	// NO cache here -- time value?
+	return s.handler.GetPropertyValue(ctx, query)
+}
+
+func (s *cachingHandler) GetComponentHistory(ctx context.Context, query models.TwinMakerQuery) backend.DataResponse {
+	// Not cached (add time)
+	return s.handler.GetComponentHistory(ctx, query)
+}
+
+func (s *cachingHandler) GetEntityHistory(ctx context.Context, query models.TwinMakerQuery) backend.DataResponse {
+	// Not cached (add time)
+	return s.handler.GetEntityHistory(ctx, query)
+}
+
+// return status and value here
+func (s *cachingHandler) GetAlarms(ctx context.Context, query models.TwinMakerQuery) (dr backend.DataResponse) {
+	return s.doQuery("GetAlarms", ctx, query, s.handler.GetAlarms)
+}
+
+func (s *cachingHandler) GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (models.TokenInfo, error) {
+	return s.handler.GetSessionToken(ctx, duration, workspaceId)
+}
+
+func (s *cachingHandler) GetWriteSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (models.TokenInfo, error) {
+	return s.handler.GetWriteSessionToken(ctx, duration, workspaceId)
+}

@@ -1,0 +1,106 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ],
+//      "custom": {}
+//  }
+//  Name: 
+//  Dimensions: 4 Fields by 5 Rows
+//  +---------------------------------------------------------------------------+-----------------------------------+-------------------+---------------------+
+//  | Name: arn                                                                 | Name: created                     | Name: description | Name: workspaceId   |
+//  | Labels:                                                                   | Labels:                           | Labels:           | Labels:             |
+//  | Type: []*string                                                           | Type: []time.Time                 | Type: []*string   | Type: []*string     |
+//  +---------------------------------------------------------------------------+-----------------------------------+-------------------+---------------------+
+//  | arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace      | 2022-04-27 17:26:14.482 +0000 UTC |                   | AlarmWorkspace      |
+//  | arn:aws:iottwinmaker:us-east-1:166800769179:workspace/CookieFactory-11-29 | 2021-11-29 20:48:11.816 +0000 UTC |                   | CookieFactory-11-29 |
+//  | arn:aws:iottwinmaker:us-east-1:166800769179:workspace/GrafanaWorkspace    | 2021-12-15 00:03:55.82 +0000 UTC  |                   | GrafanaWorkspace    |
+//  | arn:aws:iottwinmaker:us-east-1:166800769179:workspace/TestWorkspace       | 2021-12-06 22:45:50.526 +0000 UTC |                   | TestWorkspace       |
+//  | arn:aws:iottwinmaker:us-east-1:166800769179:workspace/TwinMakerWorkspace  | 2022-04-07 18:53:04.114 +0000 UTC |                   | TwinMakerWorkspace  |
+//  +---------------------------------------------------------------------------+-----------------------------------+-------------------+---------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ],
+          "custom": {}
+        },
+        "fields": [
+          {
+            "name": "arn",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "created",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "workspaceId",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace",
+            "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/CookieFactory-11-29",
+            "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/GrafanaWorkspace",
+            "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/TestWorkspace",
+            "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/TwinMakerWorkspace"
+          ],
+          [
+            1651080374482,
+            1638218891816,
+            1639526635820,
+            1638830750526,
+            1649357584114
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "AlarmWorkspace",
+            "CookieFactory-11-29",
+            "GrafanaWorkspace",
+            "TestWorkspace",
+            "TwinMakerWorkspace"
+          ]
+        ]
+      }
+    }
+  ]
+}

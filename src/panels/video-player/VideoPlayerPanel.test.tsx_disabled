@@ -1,0 +1,95 @@
+import React from 'react';
+import { AnyAction, Store } from 'redux';
+import { render, screen } from '@testing-library/react';
+import {
+  mockGrafanaUI,
+  mockPanelProps,
+  mockWorkspaceId,
+} from '../../../tests/utils/__mocks__';
+
+mockGrafanaUI();
+
+import { VideoPlayerPanel } from '../../panel';
+import * as configureSdk from '../../../sdkInit';
+import { DataQueryRequest } from '@grafana/data';
+import { TwinMakerUxSDK } from 'aws-iot-twinmaker-grafana-utils';
+import { mockDisplayOptions } from '../common';
+
+describe('VideoPlayerPanel', () => {
+  const mockDataQueryRequest = {
+    targets: [{ refId: 'ref-id' }],
+  } as DataQueryRequest;
+
+  const panelProps = mockPanelProps(mockDisplayOptions);
+
+  const mockPropsWithQueryRequest = {
+    ...panelProps,
+    data: {
+      ...panelProps.data,
+      request: mockDataQueryRequest,
+    },
+  };
+
+  const mockStore = {
+    getState: jest.fn(),
+    subscribe: jest.fn(),
+  } as unknown as Store<any, AnyAction>;
+  const mockUxSdk = {
+    createComponentForReact: jest.fn(),
+  } as unknown as TwinMakerUxSDK;
+
+  it('should render with loading', () => {
+    render(<VideoPlayerPanel {...panelProps} />);
+    expect(screen.getByTestId('LoadingPlaceholder')).toBeDefined();
+  });
+
+  it('should render with no data source connected', async () => {
+    jest.spyOn(configureSdk, 'configureSdkWithDataSource').mockResolvedValueOnce(undefined);
+
+    await render(<VideoPlayerPanel {...mockPropsWithQueryRequest} />);
+
+    expect(screen.getByText('No TwinMaker Data Source Connected')).toBeDefined();
+  });
+
+  it('should render with VideoPlayer player', async () => {
+    jest.spyOn(configureSdk, 'configureSdkWithDataSource').mockResolvedValueOnce({
+      twinMakerUxSdk: mockUxSdk,
+      store: mockStore,
+      workspaceId: mockWorkspaceId,
+    });
+
+    await render(<VideoPlayerPanel {...mockPropsWithQueryRequest} />);
+
+    expect(screen.getByTestId('VideoPlayer')).toBeDefined();
+  });
+
+  it('should update component when data source targets change', async () => {
+    const differentTargetList = {
+      targets: [{ refId: 'different-ref-id' }],
+    } as DataQueryRequest;
+
+    const differentPropsWithQueryRequest = {
+      ...panelProps,
+      data: {
+        ...panelProps.data,
+        request: differentTargetList,
+      },
+    };
+
+    jest.spyOn(configureSdk, 'configureSdkWithDataSource').mockResolvedValueOnce({
+      twinMakerUxSdk: mockUxSdk,
+      store: mockStore,
+      workspaceId: mockWorkspaceId,
+    });
+
+    const { rerender } = await render(<VideoPlayerPanel {...mockPropsWithQueryRequest} />);
+
+    expect(screen.getByTestId('VideoPlayer')).toBeDefined();
+
+    jest.spyOn(configureSdk, 'configureSdkWithDataSource').mockResolvedValueOnce(undefined);
+
+    await rerender(<VideoPlayerPanel {...differentPropsWithQueryRequest} />);
+
+    expect(screen.getByText('No TwinMaker Data Source Connected')).toBeDefined();
+  });
+});

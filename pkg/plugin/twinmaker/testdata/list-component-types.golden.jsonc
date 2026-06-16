@@ -1,0 +1,131 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ],
+//      "custom": {}
+//  }
+//  Name: 
+//  Dimensions: 4 Fields by 10 Rows
+//  +--------------------------------------------+---------------------------------------------------------------+-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
+//  | Name: componentId                          | Name: description                                             | Name: created                     | Name: arn                                                                                                                                   |
+//  | Labels:                                    | Labels:                                                       | Labels:                           | Labels:                                                                                                                                     |
+//  | Type: []*string                            | Type: []*string                                               | Type: []time.Time                 | Type: []*string                                                                                                                             |
+//  +--------------------------------------------+---------------------------------------------------------------+-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
+//  | com.example.cookiefactory.alarm            | null                                                          | 2022-04-27 17:29:43.035 +0000 UTC | arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.alarm                         |
+//  | com.example.cookiefactory.mixer            | null                                                          | 2022-04-27 17:29:43.217 +0000 UTC | arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.mixer                         |
+//  | com.example.cookiefactory.space            | null                                                          | 2022-04-27 17:29:43.539 +0000 UTC | arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.space                         |
+//  | com.example.cookiefactory.watertank        | null                                                          | 2022-04-27 17:29:43.377 +0000 UTC | arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.watertank                     |
+//  | com.example.timestream-telemetry           | null                                                          | 2022-04-27 17:29:42.887 +0000 UTC | arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.timestream-telemetry                        |
+//  | com.amazon.iotsitewise.connector           | IoT SiteWise connector for syncing asset properties           | 2021-11-13 00:25:32.467 +0000 UTC | arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iotsitewise.connector           |
+//  | com.amazon.iotsitewise.connector.edgevideo | IoT SiteWise connector for syncing edgevideo asset properties | 2021-11-13 00:25:34.069 +0000 UTC | arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iotsitewise.connector.edgevideo |
+//  | com.amazon.iottwinmaker.alarm.basic        | Abstract alarm component type                                 | 2021-11-13 00:25:35.967 +0000 UTC | arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iottwinmaker.alarm.basic        |
+//  | com.amazon.iottwinmaker.documents          | Component type for storing document urls                      | 2021-11-13 00:25:30.797 +0000 UTC | arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iottwinmaker.documents          |
+//  | com.amazon.iottwinmaker.parameters         | Component type for storing parameter values                   | 2021-11-13 00:25:38.067 +0000 UTC | arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iottwinmaker.parameters         |
+//  +--------------------------------------------+---------------------------------------------------------------+-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ],
+          "custom": {}
+        },
+        "fields": [
+          {
+            "name": "componentId",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "created",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "arn",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "com.example.cookiefactory.alarm",
+            "com.example.cookiefactory.mixer",
+            "com.example.cookiefactory.space",
+            "com.example.cookiefactory.watertank",
+            "com.example.timestream-telemetry",
+            "com.amazon.iotsitewise.connector",
+            "com.amazon.iotsitewise.connector.edgevideo",
+            "com.amazon.iottwinmaker.alarm.basic",
+            "com.amazon.iottwinmaker.documents",
+            "com.amazon.iottwinmaker.parameters"
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null,
+            "IoT SiteWise connector for syncing asset properties",
+            "IoT SiteWise connector for syncing edgevideo asset properties",
+            "Abstract alarm component type",
+            "Component type for storing document urls",
+            "Component type for storing parameter values"
+          ],
+          [
+            1651080583035,
+            1651080583217,
+            1651080583539,
+            1651080583377,
+            1651080582887,
+            1636763132467,
+            1636763134069,
+            1636763135967,
+            1636763130797,
+            1636763138067
+          ],
+          [
+            "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.alarm",
+            "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.mixer",
+            "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.space",
+            "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.watertank",
+            "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.timestream-telemetry",
+            "arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iotsitewise.connector",
+            "arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iotsitewise.connector.edgevideo",
+            "arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iottwinmaker.alarm.basic",
+            "arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iottwinmaker.documents",
+            "arn:aws:iottwinmaker:us-east-1:iotrociaccount:workspace/AmazonOwnedTypesWorkspace/component-type/com.amazon.iottwinmaker.parameters"
+          ]
+        ]
+      }
+    }
+  ]
+}

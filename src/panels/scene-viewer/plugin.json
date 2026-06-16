@@ -1,0 +1,12 @@
+{
+  "type": "panel",
+  "name": "AWS IoT TwinMaker Scene Viewer",
+  "id": "grafana-iot-twinmaker-sceneviewer-panel",
+  "info": {
+    "description": "Interact with your AWS IoT TwinMaker Scene",
+    "logos": {
+      "small": "img/AWS-IoT-TwinMaker.svg",
+      "large": "img/AWS-IoT-TwinMaker.svg"
+    }
+  }
+}

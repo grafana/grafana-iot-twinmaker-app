@@ -1,0 +1,164 @@
+{
+    "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/component-type/com.example.cookiefactory.alarm",
+    "ComponentTypeId": "com.example.cookiefactory.alarm",
+    "CreationDateTime": "2022-04-27T17:29:43.035Z",
+    "Description": null,
+    "ExtendsFrom": [
+        "com.example.timestream-telemetry",
+        "com.amazon.iottwinmaker.alarm.basic"
+    ],
+    "Functions": {
+        "dataReader": {
+            "ImplementedBy": {
+                "IsNative": false,
+                "Lambda": {
+                    "Arn": "arn:aws:lambda:us-east-1:166800769179:function:TelemetryForAlarms-timestreamReaderUDQAE43A25A-aCxt84UEfx7J"
+                }
+            },
+            "IsInherited": false,
+            "RequiredProperties": null,
+            "Scope": null
+        }
+    },
+    "IsAbstract": false,
+    "IsSchemaInitialized": false,
+    "IsSingleton": false,
+    "PropertyDefinitions": {
+        "alarm_key": {
+            "Configuration": null,
+            "DataType": {
+                "AllowedValues": null,
+                "NestedType": null,
+                "Relationship": null,
+                "Type": "STRING",
+                "UnitOfMeasure": null
+            },
+            "DefaultValue": null,
+            "IsExternalId": true,
+            "IsFinal": false,
+            "IsImported": false,
+            "IsInherited": true,
+            "IsRequiredInEntity": true,
+            "IsStoredExternally": false,
+            "IsTimeSeries": false
+        },
+        "alarm_status": {
+            "Configuration": null,
+            "DataType": {
+                "AllowedValues": [
+                    {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACTIVE"
+                    },
+                    {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "SNOOZE_DISABLED"
+                    },
+                    {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "ACKNOWLEDGED"
+                    },
+                    {
+                        "BooleanValue": null,
+                        "DoubleValue": null,
+                        "Expression": null,
+                        "IntegerValue": null,
+                        "ListValue": null,
+                        "LongValue": null,
+                        "MapValue": null,
+                        "RelationshipValue": null,
+                        "StringValue": "NORMAL"
+                    }
+                ],
+                "NestedType": null,
+                "Relationship": null,
+                "Type": "STRING",
+                "UnitOfMeasure": null
+            },
+            "DefaultValue": null,
+            "IsExternalId": false,
+            "IsFinal": false,
+            "IsImported": false,
+            "IsInherited": true,
+            "IsRequiredInEntity": false,
+            "IsStoredExternally": true,
+            "IsTimeSeries": true
+        },
+        "telemetryAssetId": {
+            "Configuration": null,
+            "DataType": {
+                "AllowedValues": null,
+                "NestedType": null,
+                "Relationship": null,
+                "Type": "STRING",
+                "UnitOfMeasure": null
+            },
+            "DefaultValue": null,
+            "IsExternalId": false,
+            "IsFinal": false,
+            "IsImported": false,
+            "IsInherited": true,
+            "IsRequiredInEntity": true,
+            "IsStoredExternally": false,
+            "IsTimeSeries": false
+        },
+        "telemetryAssetType": {
+            "Configuration": null,
+            "DataType": {
+                "AllowedValues": null,
+                "NestedType": null,
+                "Relationship": null,
+                "Type": "STRING",
+                "UnitOfMeasure": null
+            },
+            "DefaultValue": {
+                "BooleanValue": null,
+                "DoubleValue": null,
+                "Expression": null,
+                "IntegerValue": null,
+                "ListValue": null,
+                "LongValue": null,
+                "MapValue": null,
+                "RelationshipValue": null,
+                "StringValue": "Alarm"
+            },
+            "IsExternalId": false,
+            "IsFinal": false,
+            "IsImported": false,
+            "IsInherited": true,
+            "IsRequiredInEntity": true,
+            "IsStoredExternally": false,
+            "IsTimeSeries": false
+        }
+    },
+    "Status": {
+        "Error": {
+            "Code": null,
+            "Message": null
+        },
+        "State": "ACTIVE"
+    },
+    "UpdateDateTime": "2022-04-27T17:29:43.035Z",
+    "WorkspaceId": "AlarmWorkspace"
+}

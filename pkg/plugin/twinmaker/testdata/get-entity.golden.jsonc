@@ -1,0 +1,117 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ],
+//      "custom": {}
+//  }
+//  Name: Mixer_1
+//  Dimensions: 5 Fields by 3 Rows
+//  +-----------------+-----------------------------------+-------------------+-------------------------------------------------------+-----------------------+
+//  | Name: component | Name: componentTypeId             | Name: description | Name: properties                                      | Name: timeSeries      |
+//  | Labels:         | Labels:                           | Labels:           | Labels:                                               | Labels:               |
+//  | Type: []string  | Type: []string                    | Type: []*string   | Type: []string                                        | Type: []string        |
+//  +-----------------+-----------------------------------+-------------------+-------------------------------------------------------+-----------------------+
+//  | AlarmComponent  | com.example.cookiefactory.alarm   | null              | ["alarm_key","telemetryAssetId","telemetryAssetType"] | ["alarm_status"]      |
+//  | MixerComponent  | com.example.cookiefactory.mixer   | null              | ["telemetryAssetId","telemetryAssetType"]             | ["RPM","Temperature"] |
+//  | SpecSheets      | com.amazon.iottwinmaker.documents | null              | ["documents"]                                         | []                    |
+//  +-----------------+-----------------------------------+-------------------+-------------------------------------------------------+-----------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "Mixer_1",
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ],
+          "custom": {}
+        },
+        "fields": [
+          {
+            "name": "component",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "componentTypeId",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "properties",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            },
+            "config": {
+              "custom": {
+                "displayMode": "json-view"
+              }
+            }
+          },
+          {
+            "name": "timeSeries",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            },
+            "config": {
+              "custom": {
+                "displayMode": "json-view"
+              }
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "AlarmComponent",
+            "MixerComponent",
+            "SpecSheets"
+          ],
+          [
+            "com.example.cookiefactory.alarm",
+            "com.example.cookiefactory.mixer",
+            "com.amazon.iottwinmaker.documents"
+          ],
+          [
+            null,
+            null,
+            null
+          ],
+          [
+            "[\"alarm_key\",\"telemetryAssetId\",\"telemetryAssetType\"]",
+            "[\"telemetryAssetId\",\"telemetryAssetType\"]",
+            "[\"documents\"]"
+          ],
+          [
+            "[\"alarm_status\"]",
+            "[\"RPM\",\"Temperature\"]",
+            "[]"
+          ]
+        ]
+      }
+    }
+  ]
+}

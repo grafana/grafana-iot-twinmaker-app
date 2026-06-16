@@ -1,0 +1,62 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] 
+//  Name: 
+//  Dimensions: 2 Fields by 1 Rows
+//  +---------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
+//  | Name: alarm_key                                                                                                     | Name: telemetryAssetType                                                                                                     |
+//  | Labels: componentName=AlarmComponent, entityId=Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e, propertyName=alarm_key | Labels: componentName=AlarmComponent, entityId=Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e, propertyName=telemetryAssetType |
+//  | Type: []*string                                                                                                     | Type: []*string                                                                                                              |
+//  +---------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
+//  | Mixer_1_597c735b-38fd-476c-b276-7592b1699ef8                                                                        | Alarm                                                                                                                        |
+//  +---------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "fields": [
+          {
+            "name": "alarm_key",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            },
+            "labels": {
+              "componentName": "AlarmComponent",
+              "entityId": "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
+              "propertyName": "alarm_key"
+            }
+          },
+          {
+            "name": "telemetryAssetType",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            },
+            "labels": {
+              "componentName": "AlarmComponent",
+              "entityId": "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
+              "propertyName": "telemetryAssetType"
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "Mixer_1_597c735b-38fd-476c-b276-7592b1699ef8"
+          ],
+          [
+            "Alarm"
+          ]
+        ]
+      }
+    }
+  ]
+}

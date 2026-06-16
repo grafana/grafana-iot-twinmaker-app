@@ -1,0 +1,11 @@
+{
+  "extends": "./.config/tsconfig.json",
+  "include": ["src", "types"],
+  "compilerOptions": {
+    "jsx": "react",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "resolveJsonModule": true,
+    "typeRoots": ["./node_modules/@types"]
+  }
+}

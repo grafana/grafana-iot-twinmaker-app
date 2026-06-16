@@ -1,0 +1,1807 @@
+{
+    "EntitySummaries": [
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_11_67785f3f-229d-4d41-9ce4-09a5af1f152b",
+            "CreationDateTime": "2022-04-27T17:29:56.616Z",
+            "Description": "",
+            "EntityId": "Mixer_11_67785f3f-229d-4d41-9ce4-09a5af1f152b",
+            "EntityName": "Mixer_11",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:57.598Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/LABELING_BELT_5f98ffd2-ced1-48dd-a111-e3503b4e8532",
+            "CreationDateTime": "2022-04-27T17:29:46.642Z",
+            "Description": "",
+            "EntityId": "LABELING_BELT_5f98ffd2-ced1-48dd-a111-e3503b4e8532",
+            "EntityName": "LABELING_BELT",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_5ce9f1d5-61b0-433f-a850-53fa7ca27aa1",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:46.642Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/VERTICAL_CONVEYOR_c94f46c2-f47c-437a-998c-d6e91b736e24",
+            "CreationDateTime": "2022-04-27T17:29:55.221Z",
+            "Description": "",
+            "EntityId": "VERTICAL_CONVEYOR_c94f46c2-f47c-437a-998c-d6e91b736e24",
+            "EntityName": "VERTICAL_CONVEYOR",
+            "HasChildEntities": true,
+            "ParentEntityId": "COOKIE_LINE_2_31be44be-6df3-4312-bd8f-84a9282f5029",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:55.221Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/CookieLines_a7a47b3c-8de0-4283-bf3f-4177bc0464ed",
+            "CreationDateTime": "2022-04-27T17:29:43.89Z",
+            "Description": "",
+            "EntityId": "CookieLines_a7a47b3c-8de0-4283-bf3f-4177bc0464ed",
+            "EntityName": "CookieLines",
+            "HasChildEntities": true,
+            "ParentEntityId": "Equipment_5c9e83d2-1880-4f83-affd-9a27f80d39f7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:43.89Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/MotionIndicatorWidget_2_6f722f84-30c8-426d-ae7c-f940674d82f9",
+            "CreationDateTime": "2022-04-27T17:29:49.887Z",
+            "Description": "",
+            "EntityId": "MotionIndicatorWidget_2_6f722f84-30c8-426d-ae7c-f940674d82f9",
+            "EntityName": "MotionIndicatorWidget_2",
+            "HasChildEntities": false,
+            "ParentEntityId": "CONVEYOR_STRIGHT_a1f90af8-ea88-4397-b263-57ea6e41e554",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:49.887Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/FREEZER_TUNNEL_2f21726d-64f9-4e92-86e2-b8d1bb3e54d7",
+            "CreationDateTime": "2022-04-27T17:29:54.418Z",
+            "Description": "",
+            "EntityId": "FREEZER_TUNNEL_2f21726d-64f9-4e92-86e2-b8d1bb3e54d7",
+            "EntityName": "FREEZER_TUNNEL",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_2_31be44be-6df3-4312-bd8f-84a9282f5029",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:54.418Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/PLASTIC_LINER_73a5c11d-d738-46ef-ba0c-969d0abd1334",
+            "CreationDateTime": "2022-04-27T17:29:55.022Z",
+            "Description": "",
+            "EntityId": "PLASTIC_LINER_73a5c11d-d738-46ef-ba0c-969d0abd1334",
+            "EntityName": "PLASTIC_LINER",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_2_31be44be-6df3-4312-bd8f-84a9282f5029",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:55.022Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/VerticalConveyor_bf5c3b2a-c092-43d6-90df-07c8ced552b0",
+            "CreationDateTime": "2022-04-27T17:29:51.745Z",
+            "Description": "",
+            "EntityId": "VerticalConveyor_bf5c3b2a-c092-43d6-90df-07c8ced552b0",
+            "EntityName": "VerticalConveyor",
+            "HasChildEntities": false,
+            "ParentEntityId": "VERTICAL_CONVEYOR_a10ee21c-c859-4d73-b0bb-396daaf02335",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:51.745Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_8_fc6e52dd-1600-402f-aee7-4d17eca68d5f",
+            "CreationDateTime": "2022-04-27T17:30:01.826Z",
+            "Description": "",
+            "EntityId": "Mixer_8_fc6e52dd-1600-402f-aee7-4d17eca68d5f",
+            "EntityName": "Mixer_8",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:03.477Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/COOKIE_FORMER_93bae16c-9caf-4281-8509-e044dd17fa34",
+            "CreationDateTime": "2022-04-27T17:29:54.222Z",
+            "Description": "",
+            "EntityId": "COOKIE_FORMER_93bae16c-9caf-4281-8509-e044dd17fa34",
+            "EntityName": "COOKIE_FORMER",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_2_31be44be-6df3-4312-bd8f-84a9282f5029",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:54.222Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/CONVEYOR_STRIGHT_9c62c546-f8ef-489d-9938-d46a12c97f32",
+            "CreationDateTime": "2022-04-27T17:29:45.686Z",
+            "Description": "",
+            "EntityId": "CONVEYOR_STRIGHT_9c62c546-f8ef-489d-9938-d46a12c97f32",
+            "EntityName": "CONVEYOR_STRIGHT",
+            "HasChildEntities": true,
+            "ParentEntityId": "COOKIE_LINE_5ce9f1d5-61b0-433f-a850-53fa7ca27aa1",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:45.686Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/MotionIndicatorWidget_e1d52c7c-b336-4911-84e8-3fc1155a118f",
+            "CreationDateTime": "2022-04-27T17:29:53.632Z",
+            "Description": "",
+            "EntityId": "MotionIndicatorWidget_e1d52c7c-b336-4911-84e8-3fc1155a118f",
+            "EntityName": "MotionIndicatorWidget",
+            "HasChildEntities": false,
+            "ParentEntityId": "CONVEYOR_RIGHT_TURN_e43df61e-f675-461f-97d1-fa16b9855434",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:53.632Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/MotionIndicatorWidget_2_3101eabf-ad05-4232-8ff3-675d3cda4405",
+            "CreationDateTime": "2022-04-27T17:29:45.921Z",
+            "Description": "",
+            "EntityId": "MotionIndicatorWidget_2_3101eabf-ad05-4232-8ff3-675d3cda4405",
+            "EntityName": "MotionIndicatorWidget_2",
+            "HasChildEntities": false,
+            "ParentEntityId": "CONVEYOR_STRIGHT_9c62c546-f8ef-489d-9938-d46a12c97f32",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:45.921Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/MotionIndicatorWidget_1_ecbf4a65-025b-4d47-a395-24d400109b03",
+            "CreationDateTime": "2022-04-27T17:29:48.977Z",
+            "Description": "",
+            "EntityId": "MotionIndicatorWidget_1_ecbf4a65-025b-4d47-a395-24d400109b03",
+            "EntityName": "MotionIndicatorWidget_1",
+            "HasChildEntities": false,
+            "ParentEntityId": "CONVEYOR_LEFT_TURN_d2e72da9-3333-4a24-9e23-0dd64a829c94",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:48.977Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Office_Room_G_d84da41c-33a3-4c5a-a0ca-a203bf5a2faf",
+            "CreationDateTime": "2022-04-27T17:30:05.971Z",
+            "Description": "",
+            "EntityId": "Office_Room_G_d84da41c-33a3-4c5a-a0ca-a203bf5a2faf",
+            "EntityName": "Office_Room_G",
+            "HasChildEntities": false,
+            "ParentEntityId": "Office_Space_3c1e1bde-b842-496d-9832-a1c7db5d85ab",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:07.034Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Camera_MixingRoom_1_9a9af99c-9a8a-49a9-b3c2-61de8e8afe0c",
+            "CreationDateTime": "2022-04-27T17:30:02.937Z",
+            "Description": "",
+            "EntityId": "Camera_MixingRoom_1_9a9af99c-9a8a-49a9-b3c2-61de8e8afe0c",
+            "EntityName": "Camera_MixingRoom_1",
+            "HasChildEntities": false,
+            "ParentEntityId": "SiteWatchCameras_d621310a-e94a-4840-a3aa-ba0bba4c7f81",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:02.937Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Warehouse_Room_F_314b3daf-888d-41ff-ae53-0e83aac2f700",
+            "CreationDateTime": "2022-04-27T17:30:08.498Z",
+            "Description": "",
+            "EntityId": "Warehouse_Room_F_314b3daf-888d-41ff-ae53-0e83aac2f700",
+            "EntityName": "Warehouse_Room_F",
+            "HasChildEntities": false,
+            "ParentEntityId": "Warehouse_058779af-8292-4636-84ee-c065e6da462d",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:09.622Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/MotionIndicatorWidget_aa8ae4ea-ed33-47b6-ae84-3c0cfe7e4705",
+            "CreationDateTime": "2022-04-27T17:29:49.389Z",
+            "Description": "",
+            "EntityId": "MotionIndicatorWidget_aa8ae4ea-ed33-47b6-ae84-3c0cfe7e4705",
+            "EntityName": "MotionIndicatorWidget",
+            "HasChildEntities": false,
+            "ParentEntityId": "CONVEYOR_RIGHT_TURN_54972194-9394-4158-a122-138a7e4a6654",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:49.389Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_0_cd81d9fd-3f74-437a-802b-9747ff240837",
+            "CreationDateTime": "2022-04-27T17:29:55.978Z",
+            "Description": "",
+            "EntityId": "Mixer_0_cd81d9fd-3f74-437a-802b-9747ff240837",
+            "EntityName": "Mixer_0",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:27.439Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_19_002a0bfd-78f2-47d5-b694-73ffeb0be9ee",
+            "CreationDateTime": "2022-04-27T17:29:58.688Z",
+            "Description": "",
+            "EntityId": "Mixer_19_002a0bfd-78f2-47d5-b694-73ffeb0be9ee",
+            "EntityName": "Mixer_19",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:29.215Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_14_456ba291-bf60-417a-848f-22a52bc1cb66",
+            "CreationDateTime": "2022-04-27T17:29:57.427Z",
+            "Description": "",
+            "EntityId": "Mixer_14_456ba291-bf60-417a-848f-22a52bc1cb66",
+            "EntityName": "Mixer_14",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:24.849Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/PALLET_c790c4f2-85f0-4cf4-9c08-846ec49e3f4a",
+            "CreationDateTime": "2022-04-27T17:29:54.814Z",
+            "Description": "",
+            "EntityId": "PALLET_c790c4f2-85f0-4cf4-9c08-846ec49e3f4a",
+            "EntityName": "PALLET",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_2_31be44be-6df3-4312-bd8f-84a9282f5029",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:54.814Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_12_87c19fdf-e824-472d-a2e3-15012e8fc7a8",
+            "CreationDateTime": "2022-04-27T17:29:56.908Z",
+            "Description": "",
+            "EntityId": "Mixer_12_87c19fdf-e824-472d-a2e3-15012e8fc7a8",
+            "EntityName": "Mixer_12",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:24.748Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Office_Room_D_108ea545-614c-4321-8f5b-a7cd9b87556b",
+            "CreationDateTime": "2022-04-27T17:30:05.132Z",
+            "Description": "",
+            "EntityId": "Office_Room_D_108ea545-614c-4321-8f5b-a7cd9b87556b",
+            "EntityName": "Office_Room_D",
+            "HasChildEntities": false,
+            "ParentEntityId": "Office_Space_3c1e1bde-b842-496d-9832-a1c7db5d85ab",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:31.945Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "CreationDateTime": "2022-04-27T17:29:55.829Z",
+            "Description": "",
+            "EntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "EntityName": "Mixers",
+            "HasChildEntities": true,
+            "ParentEntityId": "Equipment_5c9e83d2-1880-4f83-affd-9a27f80d39f7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:55.829Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/BOX_SEALER_ad434a34-4363-4a36-8153-20bd7189951d",
+            "CreationDateTime": "2022-04-27T17:29:44.497Z",
+            "Description": "",
+            "EntityId": "BOX_SEALER_ad434a34-4363-4a36-8153-20bd7189951d",
+            "EntityName": "BOX_SEALER",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_5ce9f1d5-61b0-433f-a850-53fa7ca27aa1",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:44.497Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/COOKIE_FORMER_19556bfd-469c-40bc-a389-dbeab255c144",
+            "CreationDateTime": "2022-04-27T17:29:46.171Z",
+            "Description": "",
+            "EntityId": "COOKIE_FORMER_19556bfd-469c-40bc-a389-dbeab255c144",
+            "EntityName": "COOKIE_FORMER",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_5ce9f1d5-61b0-433f-a850-53fa7ca27aa1",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:46.171Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_25_7d040a42-55c7-4a1c-9509-ce3e09e8071e",
+            "CreationDateTime": "2022-04-27T17:30:00.394Z",
+            "Description": "",
+            "EntityId": "Mixer_25_7d040a42-55c7-4a1c-9509-ce3e09e8071e",
+            "EntityName": "Mixer_25",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:01.585Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_4_784b3c3e-5779-4ca1-ad0b-036b18dd1fcc",
+            "CreationDateTime": "2022-04-27T17:30:00.815Z",
+            "Description": "",
+            "EntityId": "Mixer_4_784b3c3e-5779-4ca1-ad0b-036b18dd1fcc",
+            "EntityName": "Mixer_4",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:02.886Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/MotionIndicatorWidget_1_9dfff2b0-e6db-447b-b903-af870158a8ab",
+            "CreationDateTime": "2022-04-27T17:29:55.424Z",
+            "Description": "",
+            "EntityId": "MotionIndicatorWidget_1_9dfff2b0-e6db-447b-b903-af870158a8ab",
+            "EntityName": "MotionIndicatorWidget_1",
+            "HasChildEntities": false,
+            "ParentEntityId": "VERTICAL_CONVEYOR_c94f46c2-f47c-437a-998c-d6e91b736e24",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:55.424Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Office_Room_B_03432b41-5f93-480e-a0d4-2a61a5c23173",
+            "CreationDateTime": "2022-04-27T17:30:04.624Z",
+            "Description": "",
+            "EntityId": "Office_Room_B_03432b41-5f93-480e-a0d4-2a61a5c23173",
+            "EntityName": "Office_Room_B",
+            "HasChildEntities": false,
+            "ParentEntityId": "Office_Space_3c1e1bde-b842-496d-9832-a1c7db5d85ab",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:05.757Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_10_9ee8913d-1fef-4453-beee-fbfc147fc03c",
+            "CreationDateTime": "2022-04-27T17:29:56.39Z",
+            "Description": "",
+            "EntityId": "Mixer_10_9ee8913d-1fef-4453-beee-fbfc147fc03c",
+            "EntityName": "Mixer_10",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:23.653Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/CONVEYOR_RIGHT_TURN_c4f2df3d-26a2-45c5-a6c9-02ca00eb4af6",
+            "CreationDateTime": "2022-04-27T17:29:45.185Z",
+            "Description": "",
+            "EntityId": "CONVEYOR_RIGHT_TURN_c4f2df3d-26a2-45c5-a6c9-02ca00eb4af6",
+            "EntityName": "CONVEYOR_RIGHT_TURN",
+            "HasChildEntities": true,
+            "ParentEntityId": "COOKIE_LINE_5ce9f1d5-61b0-433f-a850-53fa7ca27aa1",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:45.185Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/MotionIndicatorWidget_1_37172154-f31f-4f8a-bd00-e5676eb43eaf",
+            "CreationDateTime": "2022-04-27T17:29:51.399Z",
+            "Description": "",
+            "EntityId": "MotionIndicatorWidget_1_37172154-f31f-4f8a-bd00-e5676eb43eaf",
+            "EntityName": "MotionIndicatorWidget_1",
+            "HasChildEntities": false,
+            "ParentEntityId": "VERTICAL_CONVEYOR_a10ee21c-c859-4d73-b0bb-396daaf02335",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:51.399Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/FREEZER_TUNNEL_e12e0733-f5df-4604-8f10-417f49e6d298",
+            "CreationDateTime": "2022-04-27T17:29:46.41Z",
+            "Description": "",
+            "EntityId": "FREEZER_TUNNEL_e12e0733-f5df-4604-8f10-417f49e6d298",
+            "EntityName": "FREEZER_TUNNEL",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_5ce9f1d5-61b0-433f-a850-53fa7ca27aa1",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:46.41Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Warehouse_Room_D_e2afb57b-63ad-4e6a-ada3-492f8d11f563",
+            "CreationDateTime": "2022-04-27T17:30:07.953Z",
+            "Description": "",
+            "EntityId": "Warehouse_Room_D_e2afb57b-63ad-4e6a-ada3-492f8d11f563",
+            "EntityName": "Warehouse_Room_D",
+            "HasChildEntities": false,
+            "ParentEntityId": "Warehouse_058779af-8292-4636-84ee-c065e6da462d",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:08.978Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/MotionIndicatorWidget_2_b9e378c9-2ea6-4041-849f-32d78d2392d0",
+            "CreationDateTime": "2022-04-27T17:29:54.019Z",
+            "Description": "",
+            "EntityId": "MotionIndicatorWidget_2_b9e378c9-2ea6-4041-849f-32d78d2392d0",
+            "EntityName": "MotionIndicatorWidget_2",
+            "HasChildEntities": false,
+            "ParentEntityId": "CONVEYOR_STRIGHT_301d3d79-455f-4be2-8b87-843f6b7827d8",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:54.019Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Office_Reception_0d839324-4da3-4189-aa4b-d2dbbd2d0619",
+            "CreationDateTime": "2022-04-27T17:30:04.092Z",
+            "Description": "",
+            "EntityId": "Office_Reception_0d839324-4da3-4189-aa4b-d2dbbd2d0619",
+            "EntityName": "Office_Reception",
+            "HasChildEntities": false,
+            "ParentEntityId": "Office_Space_3c1e1bde-b842-496d-9832-a1c7db5d85ab",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:16.48Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Warehouse_Room_B_49e168f9-413a-4a75-b472-677f4617b4c8",
+            "CreationDateTime": "2022-04-27T17:30:07.45Z",
+            "Description": "",
+            "EntityId": "Warehouse_Room_B_49e168f9-413a-4a75-b472-677f4617b4c8",
+            "EntityName": "Warehouse_Room_B",
+            "HasChildEntities": false,
+            "ParentEntityId": "Warehouse_058779af-8292-4636-84ee-c065e6da462d",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:08.453Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_7_522e64d6-b5c2-4980-bd3f-5db1cf837b1f",
+            "CreationDateTime": "2022-04-27T17:30:01.547Z",
+            "Description": "",
+            "EntityId": "Mixer_7_522e64d6-b5c2-4980-bd3f-5db1cf837b1f",
+            "EntityName": "Mixer_7",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:29.161Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/BOX_ERECTOR_142496af-df2e-490e-aed5-2580eaf75e40",
+            "CreationDateTime": "2022-04-27T17:29:44.281Z",
+            "Description": "",
+            "EntityId": "BOX_ERECTOR_142496af-df2e-490e-aed5-2580eaf75e40",
+            "EntityName": "BOX_ERECTOR",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_5ce9f1d5-61b0-433f-a850-53fa7ca27aa1",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:44.281Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/CONVEYOR_RIGHT_TURN_e43df61e-f675-461f-97d1-fa16b9855434",
+            "CreationDateTime": "2022-04-27T17:29:53.425Z",
+            "Description": "",
+            "EntityId": "CONVEYOR_RIGHT_TURN_e43df61e-f675-461f-97d1-fa16b9855434",
+            "EntityName": "CONVEYOR_RIGHT_TURN",
+            "HasChildEntities": true,
+            "ParentEntityId": "COOKIE_LINE_2_31be44be-6df3-4312-bd8f-84a9282f5029",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:53.425Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Office_Room_A_2ad41ea0-1f08-4120-9485-dcfcb18d7b1f",
+            "CreationDateTime": "2022-04-27T17:30:04.331Z",
+            "Description": "",
+            "EntityId": "Office_Room_A_2ad41ea0-1f08-4120-9485-dcfcb18d7b1f",
+            "EntityName": "Office_Room_A",
+            "HasChildEntities": false,
+            "ParentEntityId": "Office_Space_3c1e1bde-b842-496d-9832-a1c7db5d85ab",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:31.914Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/PALLET_98648a84-72da-443a-b625-f671d99a13ba",
+            "CreationDateTime": "2022-04-27T17:29:46.869Z",
+            "Description": "",
+            "EntityId": "PALLET_98648a84-72da-443a-b625-f671d99a13ba",
+            "EntityName": "PALLET",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_5ce9f1d5-61b0-433f-a850-53fa7ca27aa1",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:46.869Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_15_3ba29ac2-6fcc-4884-a96e-fcab39caa35f",
+            "CreationDateTime": "2022-04-27T17:29:57.682Z",
+            "Description": "",
+            "EntityId": "Mixer_15_3ba29ac2-6fcc-4884-a96e-fcab39caa35f",
+            "EntityName": "Mixer_15",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:58.649Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/VERTICAL_CONVEYOR_a10ee21c-c859-4d73-b0bb-396daaf02335",
+            "CreationDateTime": "2022-04-27T17:29:51.189Z",
+            "Description": "",
+            "EntityId": "VERTICAL_CONVEYOR_a10ee21c-c859-4d73-b0bb-396daaf02335",
+            "EntityName": "VERTICAL_CONVEYOR",
+            "HasChildEntities": true,
+            "ParentEntityId": "COOKIE_LINE_1_70cde09c-2c2b-4aa2-9fc3-a91ff659e8f3",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:51.189Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/VerticalConveyor_9f4323a3-6c87-419a-a087-6be1a4c6a926",
+            "CreationDateTime": "2022-04-27T17:29:55.628Z",
+            "Description": "",
+            "EntityId": "VerticalConveyor_9f4323a3-6c87-419a-a087-6be1a4c6a926",
+            "EntityName": "VerticalConveyor",
+            "HasChildEntities": false,
+            "ParentEntityId": "VERTICAL_CONVEYOR_c94f46c2-f47c-437a-998c-d6e91b736e24",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:55.628Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/COOKIE_LINE_2_31be44be-6df3-4312-bd8f-84a9282f5029",
+            "CreationDateTime": "2022-04-27T17:29:52.03Z",
+            "Description": "",
+            "EntityId": "COOKIE_LINE_2_31be44be-6df3-4312-bd8f-84a9282f5029",
+            "EntityName": "COOKIE_LINE_2",
+            "HasChildEntities": true,
+            "ParentEntityId": "CookieLines_a7a47b3c-8de0-4283-bf3f-4177bc0464ed",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:52.03Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Office_Room_F_29bc43d5-b787-47cf-9ddb-09adc2366a3b",
+            "CreationDateTime": "2022-04-27T17:30:05.62Z",
+            "Description": "",
+            "EntityId": "Office_Room_F_29bc43d5-b787-47cf-9ddb-09adc2366a3b",
+            "EntityName": "Office_Room_F",
+            "HasChildEntities": false,
+            "ParentEntityId": "Office_Space_3c1e1bde-b842-496d-9832-a1c7db5d85ab",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:07.264Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Warehouse_058779af-8292-4636-84ee-c065e6da462d",
+            "CreationDateTime": "2022-04-27T17:30:06.545Z",
+            "Description": "",
+            "EntityId": "Warehouse_058779af-8292-4636-84ee-c065e6da462d",
+            "EntityName": "Warehouse",
+            "HasChildEntities": true,
+            "ParentEntityId": "Factory_aa3d7d8b-6b94-44fe-ab02-6936bfcdade6",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:07.498Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/BOX_ERECTOR_170c5e21-441d-4181-ab3a-f7d01eddf1b8",
+            "CreationDateTime": "2022-04-27T17:29:52.255Z",
+            "Description": "",
+            "EntityId": "BOX_ERECTOR_170c5e21-441d-4181-ab3a-f7d01eddf1b8",
+            "EntityName": "BOX_ERECTOR",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_2_31be44be-6df3-4312-bd8f-84a9282f5029",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:52.255Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_24_254b1597-3153-4ee1-bae4-d961c5810e7f",
+            "CreationDateTime": "2022-04-27T17:30:00.125Z",
+            "Description": "",
+            "EntityId": "Mixer_24_254b1597-3153-4ee1-bae4-d961c5810e7f",
+            "EntityName": "Mixer_24",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:27.024Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_6_9aa0cd6c-a8f7-4a8a-9881-9c3cb2a22bf1",
+            "CreationDateTime": "2022-04-27T17:30:01.279Z",
+            "Description": "",
+            "EntityId": "Mixer_6_9aa0cd6c-a8f7-4a8a-9881-9c3cb2a22bf1",
+            "EntityName": "Mixer_6",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:02.473Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_17_0a71b321-7ff9-4624-a894-d0a4541d630c",
+            "CreationDateTime": "2022-04-27T17:29:58.246Z",
+            "Description": "",
+            "EntityId": "Mixer_17_0a71b321-7ff9-4624-a894-d0a4541d630c",
+            "EntityName": "Mixer_17",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:59.264Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/MotionIndicatorWidget_1_754fed62-d1f6-403c-b01e-0e2d7a2dd95b",
+            "CreationDateTime": "2022-04-27T17:29:44.972Z",
+            "Description": "",
+            "EntityId": "MotionIndicatorWidget_1_754fed62-d1f6-403c-b01e-0e2d7a2dd95b",
+            "EntityName": "MotionIndicatorWidget_1",
+            "HasChildEntities": false,
+            "ParentEntityId": "CONVEYOR_LEFT_TURN_b28f2ca9-b6a7-44cd-a62d-7f76fc17ba45",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:44.972Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Equipment_5c9e83d2-1880-4f83-affd-9a27f80d39f7",
+            "CreationDateTime": "2022-04-27T17:29:43.723Z",
+            "Description": "",
+            "EntityId": "Equipment_5c9e83d2-1880-4f83-affd-9a27f80d39f7",
+            "EntityName": "Equipment",
+            "HasChildEntities": true,
+            "ParentEntityId": "$ROOT",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:43.723Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/FREEZER_TUNNEL_c726a21e-8fd4-4210-b71e-0ef9acc59d97",
+            "CreationDateTime": "2022-04-27T17:29:50.368Z",
+            "Description": "",
+            "EntityId": "FREEZER_TUNNEL_c726a21e-8fd4-4210-b71e-0ef9acc59d97",
+            "EntityName": "FREEZER_TUNNEL",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_1_70cde09c-2c2b-4aa2-9fc3-a91ff659e8f3",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:50.368Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/PLASTIC_LINER_23df2a72-30d6-4f8f-bc15-95a8e945b4fa",
+            "CreationDateTime": "2022-04-27T17:29:50.944Z",
+            "Description": "",
+            "EntityId": "PLASTIC_LINER_23df2a72-30d6-4f8f-bc15-95a8e945b4fa",
+            "EntityName": "PLASTIC_LINER",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_1_70cde09c-2c2b-4aa2-9fc3-a91ff659e8f3",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:50.944Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/CONVEYOR_LEFT_TURN_f518cc43-90d6-4c77-bf06-a096080234aa",
+            "CreationDateTime": "2022-04-27T17:29:52.899Z",
+            "Description": "",
+            "EntityId": "CONVEYOR_LEFT_TURN_f518cc43-90d6-4c77-bf06-a096080234aa",
+            "EntityName": "CONVEYOR_LEFT_TURN",
+            "HasChildEntities": true,
+            "ParentEntityId": "COOKIE_LINE_2_31be44be-6df3-4312-bd8f-84a9282f5029",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:52.899Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/COOKIE_FORMER_e87acad2-1852-4f98-891f-c8f9a3eb7dd4",
+            "CreationDateTime": "2022-04-27T17:29:50.148Z",
+            "Description": "",
+            "EntityId": "COOKIE_FORMER_e87acad2-1852-4f98-891f-c8f9a3eb7dd4",
+            "EntityName": "COOKIE_FORMER",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_1_70cde09c-2c2b-4aa2-9fc3-a91ff659e8f3",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:50.148Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_18_0bd49a00-128b-4a05-b694-c0acf0e12047",
+            "CreationDateTime": "2022-04-27T17:29:58.465Z",
+            "Description": "",
+            "EntityId": "Mixer_18_0bd49a00-128b-4a05-b694-c0acf0e12047",
+            "EntityName": "Mixer_18",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:59.995Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
+            "CreationDateTime": "2022-04-27T17:29:56.17Z",
+            "Description": "",
+            "EntityId": "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
+            "EntityName": "Mixer_1",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:25.319Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/CONVEYOR_RIGHT_TURN_54972194-9394-4158-a122-138a7e4a6654",
+            "CreationDateTime": "2022-04-27T17:29:49.181Z",
+            "Description": "",
+            "EntityId": "CONVEYOR_RIGHT_TURN_54972194-9394-4158-a122-138a7e4a6654",
+            "EntityName": "CONVEYOR_RIGHT_TURN",
+            "HasChildEntities": true,
+            "ParentEntityId": "COOKIE_LINE_1_70cde09c-2c2b-4aa2-9fc3-a91ff659e8f3",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:49.181Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/VerticalConveyor_1989daa2-7b6b-4717-a233-5f708073ee4e",
+            "CreationDateTime": "2022-04-27T17:29:47.672Z",
+            "Description": "",
+            "EntityId": "VerticalConveyor_1989daa2-7b6b-4717-a233-5f708073ee4e",
+            "EntityName": "VerticalConveyor",
+            "HasChildEntities": false,
+            "ParentEntityId": "VERTICAL_CONVEYOR_d5423f7f-379c-4a97-aae0-3a5c0bcc9116",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:47.672Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Office_Room_C_b5b381cd-b7d7-477f-8ed0-e80723e89192",
+            "CreationDateTime": "2022-04-27T17:30:04.884Z",
+            "Description": "",
+            "EntityId": "Office_Room_C_b5b381cd-b7d7-477f-8ed0-e80723e89192",
+            "EntityName": "Office_Room_C",
+            "HasChildEntities": false,
+            "ParentEntityId": "Office_Space_3c1e1bde-b842-496d-9832-a1c7db5d85ab",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:06.109Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Warehouse_Room_A_e4c579dd-5c59-46f8-a9ae-e406d6438132",
+            "CreationDateTime": "2022-04-27T17:30:07.225Z",
+            "Description": "",
+            "EntityId": "Warehouse_Room_A_e4c579dd-5c59-46f8-a9ae-e406d6438132",
+            "EntityName": "Warehouse_Room_A",
+            "HasChildEntities": false,
+            "ParentEntityId": "Warehouse_058779af-8292-4636-84ee-c065e6da462d",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:10.843Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/CONVEYOR_LEFT_TURN_b28f2ca9-b6a7-44cd-a62d-7f76fc17ba45",
+            "CreationDateTime": "2022-04-27T17:29:44.736Z",
+            "Description": "",
+            "EntityId": "CONVEYOR_LEFT_TURN_b28f2ca9-b6a7-44cd-a62d-7f76fc17ba45",
+            "EntityName": "CONVEYOR_LEFT_TURN",
+            "HasChildEntities": true,
+            "ParentEntityId": "COOKIE_LINE_5ce9f1d5-61b0-433f-a850-53fa7ca27aa1",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:44.736Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_20_4345c719-cf76-4c4f-8c10-35c69514e606",
+            "CreationDateTime": "2022-04-27T17:29:59.197Z",
+            "Description": "",
+            "EntityId": "Mixer_20_4345c719-cf76-4c4f-8c10-35c69514e606",
+            "EntityName": "Mixer_20",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:26.647Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Spaces_aae147fa-014f-41b0-adbe-1dd6802bfe48",
+            "CreationDateTime": "2022-04-27T17:30:03.117Z",
+            "Description": "",
+            "EntityId": "Spaces_aae147fa-014f-41b0-adbe-1dd6802bfe48",
+            "EntityName": "Spaces",
+            "HasChildEntities": true,
+            "ParentEntityId": "$ROOT",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:03.117Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/MotionIndicatorWidget_e155d94d-84cd-460f-9a93-37aaea742040",
+            "CreationDateTime": "2022-04-27T17:29:45.399Z",
+            "Description": "",
+            "EntityId": "MotionIndicatorWidget_e155d94d-84cd-460f-9a93-37aaea742040",
+            "EntityName": "MotionIndicatorWidget",
+            "HasChildEntities": false,
+            "ParentEntityId": "CONVEYOR_RIGHT_TURN_c4f2df3d-26a2-45c5-a6c9-02ca00eb4af6",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:45.399Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/WaterTank_ab5e8bc0-5c8f-44d8-b0a9-bef9c8d2cfab",
+            "CreationDateTime": "2022-04-27T17:30:02.429Z",
+            "Description": "",
+            "EntityId": "WaterTank_ab5e8bc0-5c8f-44d8-b0a9-bef9c8d2cfab",
+            "EntityName": "WaterTank",
+            "HasChildEntities": false,
+            "ParentEntityId": "Equipment_5c9e83d2-1880-4f83-affd-9a27f80d39f7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:03.763Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/CONVEYOR_STRIGHT_a1f90af8-ea88-4397-b263-57ea6e41e554",
+            "CreationDateTime": "2022-04-27T17:29:49.644Z",
+            "Description": "",
+            "EntityId": "CONVEYOR_STRIGHT_a1f90af8-ea88-4397-b263-57ea6e41e554",
+            "EntityName": "CONVEYOR_STRIGHT",
+            "HasChildEntities": true,
+            "ParentEntityId": "COOKIE_LINE_1_70cde09c-2c2b-4aa2-9fc3-a91ff659e8f3",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:49.644Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/LABELING_BELT_a507db85-2d94-48d7-b7e0-a205c1b5b509",
+            "CreationDateTime": "2022-04-27T17:29:50.565Z",
+            "Description": "",
+            "EntityId": "LABELING_BELT_a507db85-2d94-48d7-b7e0-a205c1b5b509",
+            "EntityName": "LABELING_BELT",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_1_70cde09c-2c2b-4aa2-9fc3-a91ff659e8f3",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:50.565Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Office_Room_E_6174ea3d-c2a0-4929-903f-fa6b9b979d92",
+            "CreationDateTime": "2022-04-27T17:30:05.392Z",
+            "Description": "",
+            "EntityId": "Office_Room_E_6174ea3d-c2a0-4929-903f-fa6b9b979d92",
+            "EntityName": "Office_Room_E",
+            "HasChildEntities": false,
+            "ParentEntityId": "Office_Space_3c1e1bde-b842-496d-9832-a1c7db5d85ab",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:10.762Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_23_017d92a8-6bc8-44d0-aacf-8943fb776877",
+            "CreationDateTime": "2022-04-27T17:29:59.812Z",
+            "Description": "",
+            "EntityId": "Mixer_23_017d92a8-6bc8-44d0-aacf-8943fb776877",
+            "EntityName": "Mixer_23",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:00.822Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_5_018fbf69-c06a-4690-8817-53bf163df8d4",
+            "CreationDateTime": "2022-04-27T17:30:01.036Z",
+            "Description": "",
+            "EntityId": "Mixer_5_018fbf69-c06a-4690-8817-53bf163df8d4",
+            "EntityName": "Mixer_5",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:29.918Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Office_Hallway_d7738b0c-7a9d-4791-a49d-ddc520f50212",
+            "CreationDateTime": "2022-04-27T17:30:03.881Z",
+            "Description": "",
+            "EntityId": "Office_Hallway_d7738b0c-7a9d-4791-a49d-ddc520f50212",
+            "EntityName": "Office_Hallway",
+            "HasChildEntities": false,
+            "ParentEntityId": "Office_Space_3c1e1bde-b842-496d-9832-a1c7db5d85ab",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:05.131Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Factory_aa3d7d8b-6b94-44fe-ab02-6936bfcdade6",
+            "CreationDateTime": "2022-04-27T17:30:03.322Z",
+            "Description": "",
+            "EntityId": "Factory_aa3d7d8b-6b94-44fe-ab02-6936bfcdade6",
+            "EntityName": "Factory",
+            "HasChildEntities": true,
+            "ParentEntityId": "Spaces_aae147fa-014f-41b0-adbe-1dd6802bfe48",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:04.633Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Office_Space_3c1e1bde-b842-496d-9832-a1c7db5d85ab",
+            "CreationDateTime": "2022-04-27T17:30:03.54Z",
+            "Description": "",
+            "EntityId": "Office_Space_3c1e1bde-b842-496d-9832-a1c7db5d85ab",
+            "EntityName": "Office_Space",
+            "HasChildEntities": true,
+            "ParentEntityId": "Factory_aa3d7d8b-6b94-44fe-ab02-6936bfcdade6",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:05.426Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Warehouse_Floorspace_A_abcf93aa-a29a-428c-bebc-4b0d9b447037",
+            "CreationDateTime": "2022-04-27T17:30:06.739Z",
+            "Description": "",
+            "EntityId": "Warehouse_Floorspace_A_abcf93aa-a29a-428c-bebc-4b0d9b447037",
+            "EntityName": "Warehouse_Floorspace_A",
+            "HasChildEntities": false,
+            "ParentEntityId": "Warehouse_058779af-8292-4636-84ee-c065e6da462d",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:07.811Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_2_06ac63c4-d68d-4723-891a-8e758f8456ef",
+            "CreationDateTime": "2022-04-27T17:29:58.911Z",
+            "Description": "",
+            "EntityId": "Mixer_2_06ac63c4-d68d-4723-891a-8e758f8456ef",
+            "EntityName": "Mixer_2",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:59.879Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Warehouse_Room_C_eb117506-479c-4899-b40f-120ec94572cb",
+            "CreationDateTime": "2022-04-27T17:30:07.699Z",
+            "Description": "",
+            "EntityId": "Warehouse_Room_C_eb117506-479c-4899-b40f-120ec94572cb",
+            "EntityName": "Warehouse_Room_C",
+            "HasChildEntities": false,
+            "ParentEntityId": "Warehouse_058779af-8292-4636-84ee-c065e6da462d",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:08.808Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/766dde7f-19a5-4c2f-a7e9-48498222f577",
+            "CreationDateTime": "2022-04-28T18:32:07.485Z",
+            "Description": "",
+            "EntityId": "766dde7f-19a5-4c2f-a7e9-48498222f577",
+            "EntityName": "ListTestEntity",
+            "HasChildEntities": false,
+            "ParentEntityId": "$ROOT",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-28T18:32:07.485Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/COOKIE_LINE_1_70cde09c-2c2b-4aa2-9fc3-a91ff659e8f3",
+            "CreationDateTime": "2022-04-27T17:29:47.921Z",
+            "Description": "",
+            "EntityId": "COOKIE_LINE_1_70cde09c-2c2b-4aa2-9fc3-a91ff659e8f3",
+            "EntityName": "COOKIE_LINE_1",
+            "HasChildEntities": true,
+            "ParentEntityId": "CookieLines_a7a47b3c-8de0-4283-bf3f-4177bc0464ed",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:47.921Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_9_679aed7c-9544-4d06-bf64-6a19381765ca",
+            "CreationDateTime": "2022-04-27T17:30:02.097Z",
+            "Description": "",
+            "EntityId": "Mixer_9_679aed7c-9544-4d06-bf64-6a19381765ca",
+            "EntityName": "Mixer_9",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:31.024Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/CONVEYOR_STRIGHT_301d3d79-455f-4be2-8b87-843f6b7827d8",
+            "CreationDateTime": "2022-04-27T17:29:53.831Z",
+            "Description": "",
+            "EntityId": "CONVEYOR_STRIGHT_301d3d79-455f-4be2-8b87-843f6b7827d8",
+            "EntityName": "CONVEYOR_STRIGHT",
+            "HasChildEntities": true,
+            "ParentEntityId": "COOKIE_LINE_2_31be44be-6df3-4312-bd8f-84a9282f5029",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:53.831Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/PLASTIC_LINER_a77e76bc-53f3-420d-8b2f-76103c810fac",
+            "CreationDateTime": "2022-04-27T17:29:47.069Z",
+            "Description": "",
+            "EntityId": "PLASTIC_LINER_a77e76bc-53f3-420d-8b2f-76103c810fac",
+            "EntityName": "PLASTIC_LINER",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_5ce9f1d5-61b0-433f-a850-53fa7ca27aa1",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:47.069Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/MotionIndicatorWidget_1_bf298ea4-38cc-48bc-8ffe-62d823dea083",
+            "CreationDateTime": "2022-04-27T17:29:53.137Z",
+            "Description": "",
+            "EntityId": "MotionIndicatorWidget_1_bf298ea4-38cc-48bc-8ffe-62d823dea083",
+            "EntityName": "MotionIndicatorWidget_1",
+            "HasChildEntities": false,
+            "ParentEntityId": "CONVEYOR_LEFT_TURN_f518cc43-90d6-4c77-bf06-a096080234aa",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:53.137Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_13_68bb09dd-7f89-46ee-b00a-f5a1126e5e5d",
+            "CreationDateTime": "2022-04-27T17:29:57.183Z",
+            "Description": "",
+            "EntityId": "Mixer_13_68bb09dd-7f89-46ee-b00a-f5a1126e5e5d",
+            "EntityName": "Mixer_13",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:58.179Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/LABELING_BELT_917ad457-dcb5-4781-a735-df1c7a48ab94",
+            "CreationDateTime": "2022-04-27T17:29:54.62Z",
+            "Description": "",
+            "EntityId": "LABELING_BELT_917ad457-dcb5-4781-a735-df1c7a48ab94",
+            "EntityName": "LABELING_BELT",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_2_31be44be-6df3-4312-bd8f-84a9282f5029",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:54.62Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/SiteWatchCameras_d621310a-e94a-4840-a3aa-ba0bba4c7f81",
+            "CreationDateTime": "2022-04-27T17:30:02.751Z",
+            "Description": "",
+            "EntityId": "SiteWatchCameras_d621310a-e94a-4840-a3aa-ba0bba4c7f81",
+            "EntityName": "SiteWatchCameras",
+            "HasChildEntities": true,
+            "ParentEntityId": "$ROOT",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:02.751Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_16_1fb550b1-868f-4efc-b39a-0e1c0f611890",
+            "CreationDateTime": "2022-04-27T17:29:57.916Z",
+            "Description": "",
+            "EntityId": "Mixer_16_1fb550b1-868f-4efc-b39a-0e1c0f611890",
+            "EntityName": "Mixer_16",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:24.593Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/CONVEYOR_LEFT_TURN_d2e72da9-3333-4a24-9e23-0dd64a829c94",
+            "CreationDateTime": "2022-04-27T17:29:48.76Z",
+            "Description": "",
+            "EntityId": "CONVEYOR_LEFT_TURN_d2e72da9-3333-4a24-9e23-0dd64a829c94",
+            "EntityName": "CONVEYOR_LEFT_TURN",
+            "HasChildEntities": true,
+            "ParentEntityId": "COOKIE_LINE_1_70cde09c-2c2b-4aa2-9fc3-a91ff659e8f3",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:48.76Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Warehouse_Room_E_62a08267-a89f-4a3c-826e-844fc52736e5",
+            "CreationDateTime": "2022-04-27T17:30:08.289Z",
+            "Description": "",
+            "EntityId": "Warehouse_Room_E_62a08267-a89f-4a3c-826e-844fc52736e5",
+            "EntityName": "Warehouse_Room_E",
+            "HasChildEntities": false,
+            "ParentEntityId": "Warehouse_058779af-8292-4636-84ee-c065e6da462d",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:34.459Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Warehouse_Floorspace_B_6633dc49-5b0c-4e0b-973c-91c7a4edf470",
+            "CreationDateTime": "2022-04-27T17:30:06.965Z",
+            "Description": "",
+            "EntityId": "Warehouse_Floorspace_B_6633dc49-5b0c-4e0b-973c-91c7a4edf470",
+            "EntityName": "Warehouse_Floorspace_B",
+            "HasChildEntities": false,
+            "ParentEntityId": "Warehouse_058779af-8292-4636-84ee-c065e6da462d",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:08.375Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Office_Room_H_f9bc827e-af66-4630-afde-193a940694fd",
+            "CreationDateTime": "2022-04-27T17:30:06.226Z",
+            "Description": "",
+            "EntityId": "Office_Room_H_f9bc827e-af66-4630-afde-193a940694fd",
+            "EntityName": "Office_Room_H",
+            "HasChildEntities": false,
+            "ParentEntityId": "Office_Space_3c1e1bde-b842-496d-9832-a1c7db5d85ab",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:11.577Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_3_3218c6d8-627e-465f-9aea-cdbcd212625b",
+            "CreationDateTime": "2022-04-27T17:30:00.628Z",
+            "Description": "",
+            "EntityId": "Mixer_3_3218c6d8-627e-465f-9aea-cdbcd212625b",
+            "EntityName": "Mixer_3",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:28.467Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/BOX_SEALER_c1638b9e-27e1-4e76-9096-5ce2aa1de6f4",
+            "CreationDateTime": "2022-04-27T17:29:52.652Z",
+            "Description": "",
+            "EntityId": "BOX_SEALER_c1638b9e-27e1-4e76-9096-5ce2aa1de6f4",
+            "EntityName": "BOX_SEALER",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_2_31be44be-6df3-4312-bd8f-84a9282f5029",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:52.652Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/BOX_ERECTOR_c750322d-bd83-4a17-8b9c-acfa62ed6d64",
+            "CreationDateTime": "2022-04-27T17:29:48.12Z",
+            "Description": "",
+            "EntityId": "BOX_ERECTOR_c750322d-bd83-4a17-8b9c-acfa62ed6d64",
+            "EntityName": "BOX_ERECTOR",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_1_70cde09c-2c2b-4aa2-9fc3-a91ff659e8f3",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:48.12Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/PALLET_bb958ee7-e8b9-412c-91a4-adda3f924ba6",
+            "CreationDateTime": "2022-04-27T17:29:50.752Z",
+            "Description": "",
+            "EntityId": "PALLET_bb958ee7-e8b9-412c-91a4-adda3f924ba6",
+            "EntityName": "PALLET",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_1_70cde09c-2c2b-4aa2-9fc3-a91ff659e8f3",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:50.752Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/COOKIE_LINE_5ce9f1d5-61b0-433f-a850-53fa7ca27aa1",
+            "CreationDateTime": "2022-04-27T17:29:44.083Z",
+            "Description": "",
+            "EntityId": "COOKIE_LINE_5ce9f1d5-61b0-433f-a850-53fa7ca27aa1",
+            "EntityName": "COOKIE_LINE",
+            "HasChildEntities": true,
+            "ParentEntityId": "CookieLines_a7a47b3c-8de0-4283-bf3f-4177bc0464ed",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:44.083Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/MotionIndicatorWidget_1_ddd5849f-ce5c-4c6a-8056-c829ebee7c26",
+            "CreationDateTime": "2022-04-27T17:29:47.456Z",
+            "Description": "",
+            "EntityId": "MotionIndicatorWidget_1_ddd5849f-ce5c-4c6a-8056-c829ebee7c26",
+            "EntityName": "MotionIndicatorWidget_1",
+            "HasChildEntities": false,
+            "ParentEntityId": "VERTICAL_CONVEYOR_d5423f7f-379c-4a97-aae0-3a5c0bcc9116",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:47.456Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_22_d133c9d0-472c-48bb-8f14-54f3890bc0fe",
+            "CreationDateTime": "2022-04-27T17:29:59.603Z",
+            "Description": "",
+            "EntityId": "Mixer_22_d133c9d0-472c-48bb-8f14-54f3890bc0fe",
+            "EntityName": "Mixer_22",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:27.183Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/Mixer_21_a2fb39ba-7c76-4064-91f8-792718b64fc5",
+            "CreationDateTime": "2022-04-27T17:29:59.404Z",
+            "Description": "",
+            "EntityId": "Mixer_21_a2fb39ba-7c76-4064-91f8-792718b64fc5",
+            "EntityName": "Mixer_21",
+            "HasChildEntities": false,
+            "ParentEntityId": "Mixers_b1e081ee-e6a3-4636-82cb-6b6bce0786a7",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:30:00.343Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/VERTICAL_CONVEYOR_d5423f7f-379c-4a97-aae0-3a5c0bcc9116",
+            "CreationDateTime": "2022-04-27T17:29:47.271Z",
+            "Description": "",
+            "EntityId": "VERTICAL_CONVEYOR_d5423f7f-379c-4a97-aae0-3a5c0bcc9116",
+            "EntityName": "VERTICAL_CONVEYOR",
+            "HasChildEntities": true,
+            "ParentEntityId": "COOKIE_LINE_5ce9f1d5-61b0-433f-a850-53fa7ca27aa1",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:47.271Z"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/entity/BOX_SEALER_91bceabc-ef3f-4783-a080-10fa25557ff8",
+            "CreationDateTime": "2022-04-27T17:29:48.341Z",
+            "Description": "",
+            "EntityId": "BOX_SEALER_91bceabc-ef3f-4783-a080-10fa25557ff8",
+            "EntityName": "BOX_SEALER",
+            "HasChildEntities": false,
+            "ParentEntityId": "COOKIE_LINE_1_70cde09c-2c2b-4aa2-9fc3-a91ff659e8f3",
+            "Status": {
+                "Error": {
+                    "Code": null,
+                    "Message": null
+                },
+                "State": "ACTIVE"
+            },
+            "UpdateDateTime": "2022-04-27T17:29:48.341Z"
+        }
+    ],
+    "NextToken": null
+}

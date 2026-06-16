@@ -1,0 +1,80 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>grafana/grafana-renovate-config//presets/data-sources/base"
+  ],
+  "minimumReleaseAge": "3 days",
+  "prConcurrentLimit": 10,
+  "packageRules": [
+    {
+      "description": "Disable minimum release age for Grafana owned npm packages (@grafana/*)",
+      "matchDatasources": [
+        "npm"
+      ],
+      "matchPackageNames": [
+        "@grafana/*"
+      ],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Disable minimum release age for Grafana owned Go modules (github.com/grafana/*)",
+      "matchManagers": [
+        "gomod"
+      ],
+      "matchPackageNames": [
+        "github.com/grafana/*"
+      ],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Disable minimum release age for Grafana owned GitHub Actions (grafana/*)",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "grafana/*"
+      ],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Keep rxjs in sync with the version used by @grafana/* packages",
+      "matchDatasources": [
+        "npm"
+      ],
+      "matchPackageNames": [
+        "rxjs"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Disable updates for @aws-sdk packages",
+      "matchDatasources": [
+        "npm"
+      ],
+      "matchPackageNames": [
+        "@aws-sdk/*"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Disable updates for @cloudscape-design packages",
+      "matchDatasources": [
+        "npm"
+      ],
+      "matchPackageNames": [
+        "@cloudscape-design/*"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Disable updates for @iot-app-kit packages",
+      "matchDatasources": [
+        "npm"
+      ],
+      "matchPackageNames": [
+        "@iot-app-kit/*"
+      ],
+      "enabled": false
+    }
+  ]
+}

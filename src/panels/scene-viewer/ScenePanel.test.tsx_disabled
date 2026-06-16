@@ -1,0 +1,166 @@
+import React from 'react';
+import { AnyAction, Store } from 'redux';
+import { render, screen } from '@testing-library/react';
+import {
+  mockGrafanaUI,
+  mockPanelProps,
+  mockWorkspaceId,
+} from '../../../tests/utils/__mocks__';
+
+mockGrafanaUI();
+
+import { ScenePanel } from '../../panel';
+import * as configureSdk from '../../../sdkInit';
+import { DataQueryRequest } from '@grafana/data';
+import { TwinMakerUxSDK } from 'aws-iot-twinmaker-grafana-utils';
+import { mockDisplayOptions } from '../common';
+import * as ScenePanelHelpers from '../../helpers';
+import * as UrlParamUtils from 'common/utils/urlParams';
+import { UrlParamUpdateEventType } from 'common/twinMakerShared';
+
+describe('ScenePanel', () => {
+  const mockDataQueryRequest = {
+    targets: [{ refId: 'ref-id' }],
+  } as DataQueryRequest;
+
+  const panelProps = mockPanelProps(mockDisplayOptions);
+
+  const mockPropsWithQueryRequest = {
+    ...panelProps,
+    data: {
+      ...panelProps.data,
+      request: mockDataQueryRequest,
+    },
+  };
+
+  const mockStore = {
+    getState: jest.fn(),
+    subscribe: jest.fn(),
+    dispatch: jest.fn(),
+  } as unknown as Store<any, AnyAction>;
+  const mockUxSdk = {
+    createComponentForReact: jest.fn(),
+  } as unknown as TwinMakerUxSDK;
+
+  it('should render with loading', () => {
+    render(<ScenePanel {...panelProps} />);
+    expect(screen.getByTestId('LoadingPlaceholder')).toBeDefined();
+  });
+
+  it('should render with no data source connected', async () => {
+    jest.spyOn(configureSdk, 'configureSdkWithDataSource').mockResolvedValueOnce(undefined);
+
+    await render(<ScenePanel {...mockPropsWithQueryRequest} />);
+
+    expect(screen.getByText('No TwinMaker Data Source Connected')).toBeDefined();
+  });
+
+  it('should render with sceneId missing', async () => {
+    jest.spyOn(configureSdk, 'configureSdkWithDataSource').mockResolvedValueOnce({
+      twinMakerUxSdk: mockUxSdk,
+      store: mockStore,
+      workspaceId: mockWorkspaceId,
+    });
+
+    const emptyPanelProps = mockPanelProps({
+      sceneId: '',
+    });
+
+    const mockPropsWithQueryRequest = {
+      ...emptyPanelProps,
+      data: {
+        ...emptyPanelProps.data,
+        request: mockDataQueryRequest,
+      },
+    };
+
+    await render(<ScenePanel {...mockPropsWithQueryRequest} />);
+
+    expect(screen.getByText('Missing TwinMaker scene in panel display options')).toBeDefined();
+  });
+
+  it('should render with scene viewer', async () => {
+    jest.spyOn(configureSdk, 'configureSdkWithDataSource').mockResolvedValueOnce({
+      twinMakerUxSdk: mockUxSdk,
+      store: mockStore,
+      workspaceId: mockWorkspaceId,
+    });
+
+    await render(<ScenePanel {...mockPropsWithQueryRequest} />);
+
+    expect(screen.getByTestId('SceneViewer')).toBeDefined();
+  });
+
+  it('should subscribe to url change event and handle properly', async () => {
+    const mockEventBus = mockPropsWithQueryRequest.eventBus;
+    const mockUnsubscribe = jest.fn();
+    const getSelectedAlarmInfoFn = jest.spyOn(ScenePanelHelpers, 'getSelectedAlarmInfo').mockReturnValue(undefined);
+    const hasSelectedAlarmChangedFn = jest.spyOn(UrlParamUtils, 'hasSelectedAlarmChanged').mockReturnValue(true);
+    jest.spyOn(configureSdk, 'configureSdkWithDataSource').mockResolvedValueOnce({
+      twinMakerUxSdk: mockUxSdk,
+      store: mockStore,
+      workspaceId: mockWorkspaceId,
+    });
+    let eventHandler: any;
+    let eventType: any;
+    jest.spyOn(mockEventBus, 'subscribe').mockImplementation((type, handler) => {
+      eventHandler = handler;
+      eventType = type;
+      return { unsubscribe: mockUnsubscribe };
+    });
+
+    const { unmount } = await render(<ScenePanel {...mockPropsWithQueryRequest} />);
+
+    expect(getSelectedAlarmInfoFn).toBeCalledTimes(1);
+    expect(getSelectedAlarmInfoFn).toBeCalledWith({ currentAlarmKey: 'alarm1' });
+    expect(eventType).toEqual(UrlParamUpdateEventType);
+
+    // test event handler
+    const event = new UrlParamUpdateEventType({ previousParams: { currentAlarmKey: 'alarm1' } });
+    eventHandler(event);
+    expect(getSelectedAlarmInfoFn).toBeCalledTimes(2);
+    expect(getSelectedAlarmInfoFn).toBeCalledWith({ currentAlarmKey: 'alarm2' });
+    expect(hasSelectedAlarmChangedFn).toBeCalledTimes(1);
+    expect(hasSelectedAlarmChangedFn).toBeCalledWith({ currentAlarmKey: 'alarm2' }, { currentAlarmKey: 'alarm1' });
+
+    hasSelectedAlarmChangedFn.mockReturnValue(false);
+    eventHandler(event);
+    expect(getSelectedAlarmInfoFn).toBeCalledTimes(2);
+    expect(hasSelectedAlarmChangedFn).toBeCalledTimes(2);
+    expect(hasSelectedAlarmChangedFn).toBeCalledWith({ currentAlarmKey: 'alarm2' }, { currentAlarmKey: 'alarm1' });
+
+    // test unmount
+    unmount();
+    expect(mockUnsubscribe).toBeCalledTimes(1);
+  });
+
+  it('should update component when data source targets change', async () => {
+    const differentTargetList = {
+      targets: [{ refId: 'different-ref-id' }],
+    } as DataQueryRequest;
+
+    const differentPropsWithQueryRequest = {
+      ...panelProps,
+      data: {
+        ...panelProps.data,
+        request: differentTargetList,
+      },
+    };
+
+    jest.spyOn(configureSdk, 'configureSdkWithDataSource').mockResolvedValueOnce({
+      twinMakerUxSdk: mockUxSdk,
+      store: mockStore,
+      workspaceId: mockWorkspaceId,
+    });
+
+    const { rerender } = await render(<ScenePanel {...mockPropsWithQueryRequest} />);
+
+    expect(screen.getByTestId('SceneViewer')).toBeDefined();
+
+    jest.spyOn(configureSdk, 'configureSdkWithDataSource').mockResolvedValueOnce(undefined);
+
+    await rerender(<ScenePanel {...differentPropsWithQueryRequest} />);
+
+    expect(screen.getByText('No TwinMaker Data Source Connected')).toBeDefined();
+  });
+});

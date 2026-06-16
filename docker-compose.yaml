@@ -1,0 +1,20 @@
+version: '3.0'
+
+services:
+  grafana:
+    container_name: 'grafana-iot-twinmaker-app'
+    build:
+      context: ./.config
+      args:
+        grafana_image: ${GRAFANA_IMAGE:-grafana-enterprise}
+        grafana_version: ${GRAFANA_VERSION:-8.4.0}
+    healthcheck:
+      test: curl -f http://localhost:3000 || exit 1
+      start_period: 30s
+      start_interval: 500ms
+    ports:
+      - 3000:3000/tcp
+    volumes:
+      - ./dist:/var/lib/grafana/plugins/grafana-iot-twinmaker-app
+      - ./provisioning:/etc/grafana/provisioning
+      - ~/.aws:/usr/share/grafana/.aws

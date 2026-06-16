@@ -1,0 +1,45 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] 
+//  Name: 
+//  Dimensions: 1 Fields by 3 Rows
+//  +------------------+
+//  | Name: bounds     |
+//  | Labels:          |
+//  | Type: []*float64 |
+//  +------------------+
+//  | 105.09           |
+//  | 9.5              |
+//  | 175.96           |
+//  +------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "fields": [
+          {
+            "name": "bounds",
+            "type": "number",
+            "typeInfo": {
+              "frame": "float64",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            105.09,
+            9.5,
+            175.96
+          ]
+        ]
+      }
+    }
+  ]
+}

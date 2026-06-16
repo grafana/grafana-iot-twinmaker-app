@@ -1,0 +1,42 @@
+{
+    "PropertyValues": {
+        "alarm_key": {
+            "PropertyReference": {
+                "ComponentName": "AlarmComponent",
+                "EntityId": "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
+                "ExternalIdProperty": null,
+                "PropertyName": "alarm_key"
+            },
+            "PropertyValue": {
+                "BooleanValue": null,
+                "DoubleValue": null,
+                "Expression": null,
+                "IntegerValue": null,
+                "ListValue": null,
+                "LongValue": null,
+                "MapValue": null,
+                "RelationshipValue": null,
+                "StringValue": "Mixer_1_597c735b-38fd-476c-b276-7592b1699ef8"
+            }
+        },
+        "telemetryAssetType": {
+            "PropertyReference": {
+                "ComponentName": "AlarmComponent",
+                "EntityId": "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
+                "ExternalIdProperty": null,
+                "PropertyName": "telemetryAssetType"
+            },
+            "PropertyValue": {
+                "BooleanValue": null,
+                "DoubleValue": null,
+                "Expression": null,
+                "IntegerValue": null,
+                "ListValue": null,
+                "LongValue": null,
+                "MapValue": null,
+                "RelationshipValue": null,
+                "StringValue": "Alarm"
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "NextToken": null,
+    "SceneSummaries": [
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace/scene/CookieFactory",
+            "ContentLocation": "s3://twinmaker-workspace-alarmworkspace-166800769179-iad/CookieFactory.json",
+            "CreationDateTime": "2022-04-27T17:30:08.759Z",
+            "Description": null,
+            "SceneId": "CookieFactory",
+            "UpdateDateTime": "2022-04-27T17:30:08.759Z"
+        }
+    ]
+}

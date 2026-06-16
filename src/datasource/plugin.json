@@ -1,0 +1,24 @@
+{
+  "type": "datasource",
+  "name": "AWS IoT TwinMaker",
+  "id": "grafana-iot-twinmaker-datasource",
+  "category": "iot",
+
+  "metrics": true,
+  "backend": true,
+  "alerting": true,
+  "executable": "gpx_twinmaker_datasource",
+
+  "includes": [
+    { "type": "dashboard", "name": "Alarm dashboard", "path": "dashboards/twinmaker-alarm-dashboard.json" },
+    { "type": "dashboard", "name": "Main dashboard", "path": "dashboards/twinmaker-main-dashboard.json" }
+  ],
+
+  "info": {
+    "description": "Connect to digital twin data from AWS IoT TwinMaker.",
+    "logos": {
+      "small": "img/AWS-IoT-TwinMaker.svg",
+      "large": "img/AWS-IoT-TwinMaker.svg"
+    }
+  }
+}

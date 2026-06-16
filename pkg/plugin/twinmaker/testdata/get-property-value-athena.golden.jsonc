@@ -1,0 +1,207 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] 
+//  Name: 
+//  Dimensions: 3 Fields by 41 Rows
+//  +----------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------+
+//  | Name: crit                                                                                               | Name: description                                                                                               | Name: floc                                                                                               |
+//  | Labels: componentName=TabularComponent, entityId=1b480741-1ac9-4c28-ac0e-f815b4bb3347, propertyName=crit | Labels: componentName=TabularComponent, entityId=1b480741-1ac9-4c28-ac0e-f815b4bb3347, propertyName=description | Labels: componentName=TabularComponent, entityId=1b480741-1ac9-4c28-ac0e-f815b4bb3347, propertyName=floc |
+//  | Type: []*int32                                                                                           | Type: []*string                                                                                                 | Type: []*string                                                                                          |
+//  +----------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------+
+//  | 5                                                                                                        | BYTN-02-SDV-09186 does not open                                                                                 | P-268                                                                                                    |
+//  | 5                                                                                                        | BYTN-03-TV-05319 does not open                                                                                  | P-268                                                                                                    |
+//  | 4                                                                                                        | Cable Dmg on SDV                                                                                                | P-268                                                                                                    |
+//  | 5                                                                                                        | Shutdown vlv inspection                                                                                         | P-268                                                                                                    |
+//  | 5                                                                                                        | Shutdown valve inspection PM                                                                                    | P-268                                                                                                    |
+//  | 5                                                                                                        | Valve faulted @119%                                                                                             | P-268                                                                                                    |
+//  | 5                                                                                                        | Shutdown vlv inspection                                                                                         | P-268                                                                                                    |
+//  | 5                                                                                                        | Cable corrosion, SDV                                                                                            | P-268                                                                                                    |
+//  | 4                                                                                                        | Shutdown valve inspection PM                                                                                    | P-268                                                                                                    |
+//  | ...                                                                                                      | ...                                                                                                             | ...                                                                                                      |
+//  +----------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "fields": [
+          {
+            "name": "crit",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int32",
+              "nullable": true
+            },
+            "labels": {
+              "componentName": "TabularComponent",
+              "entityId": "1b480741-1ac9-4c28-ac0e-f815b4bb3347",
+              "propertyName": "crit"
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            },
+            "labels": {
+              "componentName": "TabularComponent",
+              "entityId": "1b480741-1ac9-4c28-ac0e-f815b4bb3347",
+              "propertyName": "description"
+            }
+          },
+          {
+            "name": "floc",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            },
+            "labels": {
+              "componentName": "TabularComponent",
+              "entityId": "1b480741-1ac9-4c28-ac0e-f815b4bb3347",
+              "propertyName": "floc"
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            5,
+            5,
+            4,
+            5,
+            5,
+            5,
+            5,
+            5,
+            4,
+            4,
+            4,
+            5,
+            5,
+            5,
+            4,
+            4,
+            4,
+            5,
+            5,
+            4,
+            4,
+            5,
+            5,
+            5,
+            4,
+            5,
+            5,
+            4,
+            4,
+            5,
+            4,
+            4,
+            5,
+            5,
+            5,
+            5,
+            5,
+            4,
+            5,
+            4,
+            4
+          ],
+          [
+            "BYTN-02-SDV-09186 does not open",
+            "BYTN-03-TV-05319 does not open",
+            "Cable Dmg on SDV",
+            "Shutdown vlv inspection",
+            "Shutdown valve inspection PM",
+            "Valve faulted @119%",
+            "Shutdown vlv inspection",
+            "Cable corrosion, SDV",
+            "Shutdown valve inspection PM",
+            "Valve faulted @102%",
+            "Cable corrosion on SDV",
+            "PM Valve Shutdown",
+            "Damaged cable on SDV",
+            "PM Valve Shutdown",
+            "Shutdown vlv inspection PM",
+            "Damaged cable on SDV",
+            "Shutdown valve  PM",
+            "Shutdown vlv inspection",
+            "PM Valve Shutdown",
+            "Shutdown valve  PM",
+            "Damaged cable on SDV",
+            "Damaged cable on SDV",
+            "Shutdown vlv inspection PM",
+            "Shutdown vlv inspection PM",
+            "Cable corrosion on SDV",
+            "Shutdown vlv inspection",
+            "BYTN-01-SDV-06327 does not open",
+            "Damaged cable on SDV",
+            "Shutdown vlv inspection",
+            "Damaged cable on SDV",
+            "Valve faulted @119%",
+            "Shutdown vlv inspection",
+            "BYTN-04-TV-02385 does not open",
+            "Cable corrosion",
+            "Cable Dmg on SDV",
+            "Shutdown valve inspection PM",
+            "BYTN-02-XV-06517 does not open",
+            "BYTN-04-XV-05623 does not open",
+            "Cable Dmg on SDV",
+            "BYTN-01-XV-01447 does not open",
+            "Cable corrosion"
+          ],
+          [
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268",
+            "P-268"
+          ]
+        ]
+      }
+    }
+  ]
+}

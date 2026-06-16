@@ -1,0 +1,64 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] 
+//  Name: 
+//  Dimensions: 2 Fields by 2 Rows
+//  +-------------------+----------------------------------------------------------+
+//  | Name: Key         | Name: Value                                              |
+//  | Labels:           | Labels:                                                  |
+//  | Type: []*string   | Type: []*string                                          |
+//  +-------------------+----------------------------------------------------------+
+//  | manufacturer_page | https://console.aws.amazon.com/iottwinmaker/home         |
+//  | mixer1_manual     | https://github.com/aws-samples/aws-iot-twinmaker-samples |
+//  +-------------------+----------------------------------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "fields": [
+          {
+            "name": "Key",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Value",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            },
+            "config": {
+              "links": [
+                {
+                  "title": "Link",
+                  "targetBlank": true,
+                  "url": "${__value.text}"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "manufacturer_page",
+            "mixer1_manual"
+          ],
+          [
+            "https://console.aws.amazon.com/iottwinmaker/home",
+            "https://github.com/aws-samples/aws-iot-twinmaker-samples"
+          ]
+        ]
+      }
+    }
+  ]
+}

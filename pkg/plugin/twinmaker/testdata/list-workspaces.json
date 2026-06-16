@@ -1,0 +1,40 @@
+{
+    "NextToken": null,
+    "WorkspaceSummaries": [
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/AlarmWorkspace",
+            "CreationDateTime": "2022-04-27T17:26:14.482Z",
+            "Description": "",
+            "UpdateDateTime": "2022-04-27T17:26:14.482Z",
+            "WorkspaceId": "AlarmWorkspace"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/CookieFactory-11-29",
+            "CreationDateTime": "2021-11-29T20:48:11.816Z",
+            "Description": "",
+            "UpdateDateTime": "2021-11-29T20:48:11.816Z",
+            "WorkspaceId": "CookieFactory-11-29"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/GrafanaWorkspace",
+            "CreationDateTime": "2021-12-15T00:03:55.82Z",
+            "Description": "",
+            "UpdateDateTime": "2021-12-15T00:03:55.82Z",
+            "WorkspaceId": "GrafanaWorkspace"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/TestWorkspace",
+            "CreationDateTime": "2021-12-06T22:45:50.526Z",
+            "Description": "",
+            "UpdateDateTime": "2021-12-06T22:45:50.526Z",
+            "WorkspaceId": "TestWorkspace"
+        },
+        {
+            "Arn": "arn:aws:iottwinmaker:us-east-1:166800769179:workspace/TwinMakerWorkspace",
+            "CreationDateTime": "2022-04-07T18:53:04.114Z",
+            "Description": "",
+            "UpdateDateTime": "2022-04-07T18:53:04.114Z",
+            "WorkspaceId": "TwinMakerWorkspace"
+        }
+    ]
+}

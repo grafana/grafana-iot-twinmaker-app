@@ -1,0 +1,70 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ],
+//      "custom": {}
+//  }
+//  Name: 
+//  Dimensions: 2 Fields by 1 Rows
+//  +------------------------------------------------------------------------------------------------------------------------+-------------------------------+
+//  | Name: alarm_status                                                                                                     | Name: Time                    |
+//  | Labels: componentName=AlarmComponent, entityId=Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e, propertyName=alarm_status | Labels:                       |
+//  | Type: []*string                                                                                                        | Type: []*time.Time            |
+//  +------------------------------------------------------------------------------------------------------------------------+-------------------------------+
+//  | NORMAL                                                                                                                 | 2022-04-27 17:19:42 +0000 UTC |
+//  +------------------------------------------------------------------------------------------------------------------------+-------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ],
+          "custom": {}
+        },
+        "fields": [
+          {
+            "name": "alarm_status",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            },
+            "labels": {
+              "componentName": "AlarmComponent",
+              "entityId": "Mixer_1_4b57cbee-c391-4de6-b882-622c633a697e",
+              "propertyName": "alarm_status"
+            }
+          },
+          {
+            "name": "Time",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "NORMAL"
+          ],
+          [
+            1651079982000
+          ]
+        ]
+      }
+    }
+  ]
+}
