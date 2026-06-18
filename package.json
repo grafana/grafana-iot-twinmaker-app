@@ -124,7 +124,7 @@
   "resolutions": {
     "protobufjs": "7.5.5",
     "flatted": "3.4.0",
-    "undici": "7.24.0",
+    "undici": "8.5.0",
     "@grafana/ui/immutable": "5.1.5",
     "@react-awesome-query-builder/core/immutable": "4.3.8",
     "picomatch": "4.0.4",
