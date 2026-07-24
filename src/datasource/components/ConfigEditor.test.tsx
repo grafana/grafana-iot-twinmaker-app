@@ -37,6 +37,17 @@ jest.mock('common/datasourceSrv', () => ({
   })),
 }));
 
+// ConnectionConfig from @grafana/aws-sdk reports save interactions, which
+// requires a PluginContext and app events that are not available in this
+// test render.
+jest.mock('@grafana/runtime', () => ({
+  ...jest.requireActual('@grafana/runtime'),
+  usePluginInteractionReporter: () => jest.fn(),
+  getAppEvents: () => ({
+    subscribe: () => ({ unsubscribe: jest.fn() }),
+  }),
+}));
+
 function setup() {
   return {
     user: userEvent.setup(),
