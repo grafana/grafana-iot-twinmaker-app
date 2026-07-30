@@ -52,6 +52,7 @@ const esModules = [
   'nanoid',
   '@iot-app-kit/react-components',
   'parse-duration',
+  '@marcbachmann/cel-js',
 ];
 
 module.exports = {

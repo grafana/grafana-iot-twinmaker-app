@@ -169,7 +169,12 @@ function SetVarEditor(props: VarEditorProps): React.ReactElement {
           />
         </InlineField>
       </InlineField>
-      <Button onClick={() => props.onChange(index)} icon="trash-alt" variant="secondary" />
+      <Button
+        onClick={() => props.onChange(index)}
+        aria-label="Remove link"
+        icon="trash-alt"
+        variant="secondary"
+      />
     </InlineFieldRow>
   );
 }
@@ -186,9 +191,11 @@ const getStyles = (theme: GrafanaTheme2) => ({
 export const twinMakerLinksTransformerRegistryItem: TransformerRegistryItem<RegisterTwinMakerLinksOptions> = {
   id: registerTwinMakerLinksTransformer.id,
   editor: RegisterTwinMakerLinksEditor,
-  transformation: registerTwinMakerLinksTransformer,
+  transformation: () => Promise.resolve(registerTwinMakerLinksTransformer),
   name: registerTwinMakerLinksTransformer.name,
   description: registerTwinMakerLinksTransformer.description,
+  imageDark: '',
+  imageLight: '',
   help: `
   Define selection behavior on the dashboard from the results of an IoT TwinMaker query.
   Supported for the Table panel visualization.

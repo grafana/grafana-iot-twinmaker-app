@@ -57,6 +57,7 @@ export default function OrderByEditor(props: OrderByEditorProps) {
             />
             <Button
               data-testid="query-builder-filters-remove-button"
+              aria-label="Remove order by"
               icon="trash-alt"
               variant="destructive"
               size="sm"
