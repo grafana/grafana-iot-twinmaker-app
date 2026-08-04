@@ -75,13 +75,11 @@ To add the AWS IoT TwinMaker data source:
 
 ## Configure connection details
 
-![The AWS IoT TwinMaker data source configuration page](https://github.com/grafana/grafana-iot-twinmaker-app/raw/main/docs/DatasourceConfig.png)
-
 The **Connection Details** section uses the standard Grafana AWS authentication settings. For details about each authentication provider, refer to [AWS authentication](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/datasources/aws-cloudwatch/aws-authentication/).
 
 | Setting | Description |
 | --- | --- |
-| **Authentication Provider** | How the data source resolves base AWS credentials. Options include **AWS SDK Default**, **Credentials file**, and **Access & secret key**. |
+| **Authentication Provider** | How the data source resolves base AWS credentials. Options include **AWS SDK Default**, **Credentials file**, and **Access & secret key**. On Grafana Cloud, **Grafana Assume Role** is also available where it's enabled. The available options are controlled by the `allowed_auth_providers` server setting on self-managed Grafana. |
 | **Credentials Profile Name** | The profile in your AWS credentials file. Shown when you select **Credentials file**. |
 | **Access Key ID** and **Secret Access Key** | Static credentials stored encrypted in the Grafana database. Shown when you select **Access & secret key**. |
 | **Assume Role ARN** | Required. The Amazon Resource Name of the IAM role you created for your TwinMaker workspace. The configuration page shows an error until you provide it. |
@@ -119,7 +117,7 @@ When the connection succeeds, **Save & test** returns the message `TwinMaker dat
 
 ## Private data source connect
 
-Private data source connect (PDC) lets Grafana Cloud reach AWS endpoints in a private network through a secure SOCKS proxy. The AWS IoT TwinMaker data source supports PDC in Grafana 10.0.0 and later.
+Private data source connect (PDC) lets Grafana Cloud reach AWS endpoints in a private network through a secure SOCKS proxy.
 
 When PDC is enabled for your Grafana instance, the configuration page shows a **Secure Socks Proxy** section. Toggle **Enable Secure Socks Proxy** to route data source traffic through the PDC agent.
 

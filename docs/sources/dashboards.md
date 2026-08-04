@@ -29,17 +29,19 @@ To import a pre-built dashboard:
 
 1. Open the AWS IoT TwinMaker data source configuration page and select the **Dashboards** tab.
 1. Click **Import** next to the dashboard template you want to load.
-1. Select the dashboard name to navigate to it.
+1. Click the dashboard name to navigate to the imported dashboard.
 1. Edit the dashboard as desired, then click **Save As** to save your own copy.
+
+Each dashboard starts with a collapsible **Introduction** row that explains how to resolve the initial panel errors, which come from template variables that don't have values yet.
 
 ## Main dashboard
 
-The main dashboard demonstrates the full set of TwinMaker components working together, modeled on the cookie factory example workspace:
+The main dashboard demonstrates the full set of TwinMaker components working together. It's built for the Cookie Factory example workspace, which you can set up from the [AWS IoT TwinMaker samples](https://github.com/aws-samples/aws-iot-twinmaker-samples) GitHub repository. The dashboard includes:
 
 - A **Scene Viewer** panel that loads a scene and queries alarm data for its tags.
 - An **Alarm List** table backed by a **Get Alarms** query, with the register links transformation attached.
-- A **Selected Alarm History** state timeline and a time series history panel driven by the `sel_entity` and `sel_comp` variables.
-- A **Video Player** panel driven by video entity and stream variables.
+- A **Selected Alarm History** state timeline and a **Selected Time Series History** panel, driven by the `sel_entity` and `sel_comp` variables.
+- A **Video Player** panel driven by the `sel_video_entity`, `sel_video_comp`, and `kvs_stream_name` variables.
 
 ## Alarm dashboard
 
@@ -57,7 +59,7 @@ Before using the alarm dashboard, ensure your workspace has:
 
 ### Set up the alarm dashboard
 
-The dashboard defines the `sel_entity` and `sel_comp` template variables to manage selections and fill in the query that shows the history of the alarm property `alarm_status`.
+The dashboard defines the `sel_entity` and `sel_comp` template variables to manage selections and fill in the query that shows the history of the alarm property `alarm_status`. It also defines an `active_camera` variable that stores the selected camera view from the Scene Viewer.
 
 To set up the dashboard:
 
