@@ -28,7 +28,7 @@ The AWS IoT TwinMaker app includes four panel visualizations. This document expl
 | --- | --- |
 | **Scene Viewer** | Renders an interactive 3D scene from your workspace with data-bound tags. |
 | **Video Player** | Plays video from Amazon Kinesis Video Streams. |
-| **Alarm Configuration** | Views and edits alarm thresholds and notification settings. |
+| **Alarm Configuration** | Displays the configuration of a selected alarm and lets users edit the alarm threshold. |
 | **Query Editor** | Embeds the AWS IoT TwinMaker query builder to explore workspace data. |
 
 ## Scene Viewer
@@ -41,7 +41,7 @@ The Scene Viewer panel renders a 3D scene from your TwinMaker workspace. Tags in
 
 ![The edit panel page for the Scene Viewer](https://github.com/grafana/grafana-iot-twinmaker-app/raw/main/docs/EditSceneViewer.png)
 
-To set up your Scene Viewer panel:
+To set up your Scene Viewer panel, follow these steps. The numbers in the image correspond to the steps, and numbers 5.a and 5.b correspond to the two ways of providing data described after the steps.
 
 1. Create a new panel on your dashboard, then search for and select **AWS IoT TwinMaker Scene Viewer** in the visualization list.
 1. Select the same TwinMaker data source in the **Workspace** panel option and in the query editor. This ensures the data you query and the scene you load come from the same TwinMaker workspace.
@@ -111,12 +111,12 @@ The Video Player panel plays video from Amazon Kinesis Video Streams, including 
 
 ![The edit panel page for the Video Player](https://github.com/grafana/grafana-iot-twinmaker-app/raw/main/docs/EditVideoPlayer.png)
 
-To set up your Video Player panel:
+To set up your Video Player panel, follow these steps. The numbers in the image correspond to the steps.
 
 1. Create a new panel on your dashboard, then search for and select **AWS IoT TwinMaker Video Player** in the visualization list.
-1. Select an AWS IoT TwinMaker data source in the panel options.
-1. Enter an Amazon Kinesis video stream name. If you only provide the stream name, the Video Player loads available video from the stream but doesn't show a custom time scrubber.
-1. Enter the entity ID and component name of an AWS IoT TwinMaker entity with a video component. When you provide the entity and component, you can skip the stream name because the Video Player finds the stream associated with the component.
+1. Select your TwinMaker data source in the **Workspace** panel option.
+1. Enter a stream name in the **Kinesis video stream name** option. If you only provide the stream name, the Video Player loads available video from the stream but doesn't show a custom time scrubber.
+1. In the **Entity** and **Component name** options, enter an AWS IoT TwinMaker entity with a video component. When you provide the entity and component, you can skip the stream name because the Video Player finds the stream associated with the component.
 
 After configuring the panel, click **Apply** and save your dashboard.
 
@@ -135,16 +135,16 @@ Video may be stored on your edge connector but not yet uploaded to Amazon Kinesi
 
 ## Alarm Configuration
 
-The Alarm Configuration panel displays the configuration of a selected alarm, including its ID, threshold, and notification recipients, and lets dashboard users edit the alarm threshold without leaving Grafana.
+The Alarm Configuration panel displays the **Alarm ID**, **Threshold**, and **Notifications** of a selected alarm, and lets dashboard users edit the alarm threshold without leaving Grafana.
 
 To use the panel:
 
 1. Configure a write role on the data source. On the data source configuration page, switch on **Define write permissions for Alarm Configuration Panel** and provide an **Assume Role ARN Write**. Refer to [Configure TwinMaker settings](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/configure/#configure-twinmaker-settings).
 1. Create a new panel, then search for and select **AWS IoT TwinMaker Alarm Configuration** in the visualization list.
-1. Select your TwinMaker data source in the panel options.
-1. Add a query that returns the alarm's properties for the selected entity and component, typically using template variables set by an alarm list table or the Scene Viewer.
+1. Select your TwinMaker data source in the **Workspace** panel option.
+1. Add a query that returns the alarm properties for the selected entity and component, typically using template variables set by an alarm list table or the Scene Viewer.
 
-Click **Edit Alarm** in the panel to change the alarm threshold. The panel writes the new value to AWS IoT TwinMaker using the write role you configured.
+Click **Edit Alarm** in the panel to change the alarm threshold. The panel writes the new numeric value to the `alarm_threshold` property in AWS IoT TwinMaker using the write role you configured, then refreshes the other panels on the dashboard.
 
 ## Query Editor panel
 
@@ -153,7 +153,7 @@ The Query Editor panel embeds the AWS IoT TwinMaker query builder in a dashboard
 To use the panel:
 
 1. Create a new panel, then search for and select **AWS IoT TwinMaker Query Editor** in the visualization list.
-1. Select your TwinMaker data source in the panel options.
+1. Select your TwinMaker data source in the **Workspace** panel option.
 1. Build and run queries directly in the panel. The panel doesn't use Grafana queries.
 
 ## Next steps
