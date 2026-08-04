@@ -1,5 +1,5 @@
 ---
-description: Configure the AWS IoT TwinMaker app and data source in Grafana, including authentication, write permissions, private data source connect, and provisioning.
+description: Configure the AWS IoT TwinMaker app and data source in Grafana, including authentication, write permissions, private data source connect, provisioning, and Terraform.
 keywords:
   - grafana
   - aws iot twinmaker
@@ -10,6 +10,7 @@ keywords:
   - assume role
   - private data source connect
   - provisioning
+  - terraform
 labels:
   products:
     - cloud
@@ -152,6 +153,67 @@ To provision static credentials instead of the default SDK credential chain, set
       accessKey: <ACCESS_KEY_ID>
       secretKey: <SECRET_ACCESS_KEY>
 ```
+
+## Provision with Terraform
+
+You can use the [Grafana Terraform provider](https://registry.terraform.io/providers/grafana/grafana/latest/docs) to provision the AWS IoT TwinMaker data source as code. The following examples use the `grafana_data_source` resource.
+
+### Assume role with Terraform
+
+This example uses the default SDK credential chain and assumes the IAM role you created for your TwinMaker workspace.
+
+```hcl
+resource "grafana_data_source" "twinmaker" {
+  type = "grafana-iot-twinmaker-datasource"
+  name = "AWS IoT TwinMaker"
+
+  json_data_encoded = jsonencode({
+    authType      = "default"
+    defaultRegion = "us-east-1"
+    assumeRoleArn = "arn:aws:iam::123456789012:role/grafana-twinmaker-dashboard"
+    workspaceId   = var.twinmaker_workspace_id
+  })
+}
+```
+
+To enable writes for the Alarm Configuration panel or route traffic through private data source connect, add the optional keys to `json_data_encoded`:
+
+```hcl
+  json_data_encoded = jsonencode({
+    authType               = "default"
+    defaultRegion          = "us-east-1"
+    assumeRoleArn          = "arn:aws:iam::123456789012:role/grafana-twinmaker-dashboard"
+    workspaceId            = var.twinmaker_workspace_id
+    externalId             = var.external_id
+    assumeRoleArnWriter    = "arn:aws:iam::123456789012:role/grafana-twinmaker-writer"
+    enableSecureSocksProxy = true
+  })
+```
+
+### Access and secret key with Terraform
+
+This example uses static credentials, which Grafana stores encrypted in secure JSON data.
+
+```hcl
+resource "grafana_data_source" "twinmaker" {
+  type = "grafana-iot-twinmaker-datasource"
+  name = "AWS IoT TwinMaker"
+
+  json_data_encoded = jsonencode({
+    authType      = "keys"
+    defaultRegion = "us-east-1"
+    assumeRoleArn = "arn:aws:iam::123456789012:role/grafana-twinmaker-dashboard"
+    workspaceId   = var.twinmaker_workspace_id
+  })
+
+  secure_json_data_encoded = jsonencode({
+    accessKey = var.aws_access_key
+    secretKey = var.aws_secret_key
+  })
+}
+```
+
+For more information, refer to the [`grafana_data_source` resource](https://registry.terraform.io/providers/grafana/grafana/latest/docs/resources/data_source) in the Grafana Terraform provider documentation.
 
 ## Next steps
 
