@@ -4,9 +4,9 @@ import { test, expect } from '@grafana/plugin-e2e';
 // stable "Add panel" flow instead of the sidebar/edit-pane path.
 //
 // Grafana 13.2.0 (the nightly build in CI's e2e matrix) renamed the sidebar
-// testids, e.g. "edit pane configure panel button" -> "sidebar configure panel
+// test ids, e.g. "edit pane configure panel button" -> "sidebar configure panel
 // button". @grafana/plugin-e2e@3.10.0 pins @grafana/e2e-selectors@13.1.0, which
-// only knows the old name, so addPanel() waits for a testid that no longer
+// only knows the old name, so addPanel() waits for a test id that no longer
 // exists and panelEditPage setup times out. No stable e2e-selectors release
 // carries the new name yet (only Grafana's nightly prerelease does).
 //
