@@ -140,6 +140,7 @@ These issues occur in the Scene Viewer panel.
 
 **Solutions:**
 
+- Remove the Scene Viewer panel from dashboards until a compatible version of the app is released. This is the interim measure recommended by the plugin team.
 - On self-managed Grafana, remain on Grafana v12.x until a compatible version of the app is released, then upgrade both together.
 - On Grafana Cloud, where you can't roll back the Grafana version, track the status of a fix in the [React 19 compatibility issue](https://github.com/grafana/grafana-iot-twinmaker-app/issues/696) and update the app when a compatible release is available.
 

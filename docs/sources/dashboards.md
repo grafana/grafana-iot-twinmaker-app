@@ -14,7 +14,7 @@ labels:
 menuTitle: Pre-built dashboards
 title: AWS IoT TwinMaker pre-built dashboards
 weight: 600
-review_date: 2026-08-04
+review_date: 2026-08-05
 ---
 
 # AWS IoT TwinMaker pre-built dashboards

@@ -15,7 +15,7 @@ labels:
 menuTitle: Template variables
 title: AWS IoT TwinMaker template variables
 weight: 400
-review_date: 2026-08-04
+review_date: 2026-08-05
 ---
 
 # AWS IoT TwinMaker template variables
