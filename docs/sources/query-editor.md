@@ -42,7 +42,7 @@ If you're new to AWS IoT TwinMaker, these terms are used throughout the query ed
 
 ## Query types
 
-Select a query type from the **Query Type** drop-down. The editor supports the following query types.
+Select a query type from the **Query Type** drop-down. New queries default to **Get Alarms**. The editor supports the following query types.
 
 | Query type | Description |
 | --- | --- |
@@ -64,7 +64,7 @@ Use this query type to graph time series property values for a single entity.
 | **Entity** | The entity to query. Select from the list, type an entity ID, or use a template variable. |
 | **Component Name** | The component on the entity that contains the properties. |
 | **Selected Properties** | One or more time series properties to return. |
-| **Filter** | Optional property filters. Each filter has a property name, an operator, and a value. |
+| **Filter** | Optional property filters. Each filter has a property, an operator, and a value. The operator defaults to `=`, and the value is interpreted according to the property's data type, such as string, Boolean, integer, or double. |
 | **Order** | Sort results in `ASC` or `DESC` time order. |
 
 <!-- vale Grafana.Headings = NO -->
@@ -118,6 +118,57 @@ The remaining query types return workspace metadata, which is useful in table pa
 - **List Workspaces** and **List Scenes** require no additional fields.
 - **List Entities** accepts an optional **Component Type** filter to list only entities that include a component of that type.
 - **Get Entity** requires an **Entity** and returns its full definition, including its components.
+
+## Query examples
+
+The following examples use the Cookie Factory sample workspace from the [AWS IoT TwinMaker samples](https://github.com/aws-samples/aws-iot-twinmaker-samples) GitHub repository. Substitute your own entity, component, and property names.
+
+### Graph the temperature history of a mixer
+
+Use this pattern with a time series panel to graph a sensor property over the dashboard time range.
+
+| Field | Value |
+| --- | --- |
+| **Query Type** | Get Property Value History by Entity |
+| **Entity** | `Mixer_1` |
+| **Component Name** | `MixerComponent` |
+| **Selected Properties** | `Temperature` |
+| **Order** | `ASC` |
+
+### List the active alarms in a workspace
+
+Use this pattern with a table panel to build an alarm list. To let users select an alarm by clicking a row, attach the [register links transformation](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/template-variables/#register-links-transformation) to the panel.
+
+| Field | Value |
+| --- | --- |
+| **Query Type** | Get Alarms |
+| **Filter** | `ACTIVE` |
+| **Max. Alarms** | Leave blank to return all alarms, or set a limit such as `50` |
+
+### Provide alarm data to every tag in a scene
+
+Use this pattern on a Scene Viewer panel to fetch alarm status for all entities that share an alarm component type, so tags in the scene change icons based on the latest value. Set **Order** to `DESC` because the Scene Viewer matches the most recent value against tag rules.
+
+| Field | Value |
+| --- | --- |
+| **Query Type** | Get Property Value History by Component Type |
+| **Component Type** | `com.example.cookiefactory.alarm` |
+| **Selected Properties** | `alarm_status` |
+| **Filter** | `alarm_status` `=` `ACTIVE` |
+| **Order** | `DESC` |
+
+### Follow the dashboard selection with template variables
+
+Use this pattern with a state timeline panel to show the alarm history for whichever alarm the user selects in an alarm list or 3D scene. The pre-built dashboards use this exact query. The panel shows an error until the variables have values, which is expected.
+
+| Field | Value |
+| --- | --- |
+| **Query Type** | Get Property Value History by Entity |
+| **Entity** | `${sel_entity}` |
+| **Component Name** | `${sel_comp}` |
+| **Selected Properties** | `alarm_status` |
+
+For more information about setting variable values from panel selections, refer to [Template variables](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/template-variables/).
 
 ## Stream data with Grafana Live
 
