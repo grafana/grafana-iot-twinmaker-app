@@ -55,12 +55,27 @@ This example uses the Cookie Factory sample workspace to create an alert rule th
    | **Component Name** | `MixerComponent` |
    | **Selected Properties** | `Temperature` |
 
-1. Add a **Reduce** expression with the function set to `Last` to reduce the time series to its most recent value.
-1. Add a **Threshold** expression with the condition `IS ABOVE 100` and set it as the alert condition.
+1. Configure the expressions. New alert rules include a **Reduce** and a **Threshold** expression by default:
+
+   - Set the **Reduce** function to `Last` to reduce the time series to its most recent value.
+   - Set the **Threshold** condition to `IS ABOVE` `100`.
+
 1. Set the evaluation behavior, such as evaluating every minute with a pending period of 5 minutes.
 1. Add labels and notification settings, then click **Save rule and exit**.
 
 Grafana evaluates the query on the schedule you set and fires the alert when the latest temperature value exceeds the threshold.
+
+## Example: monitor every mixer with one rule
+
+To alert on all entities that share a component type, use a **Get Property Value History by Component Type** query instead:
+
+| Field | Value |
+| --- | --- |
+| **Query Type** | Get Property Value History by Component Type |
+| **Component Type** | `com.example.cookiefactory.mixer` |
+| **Selected Properties** | `Temperature` |
+
+The query returns a separate series for each entity, labeled with its `entityId` and `componentName`, so Grafana evaluates the alert condition for each mixer and creates a separate alert instance for any mixer that exceeds the threshold. Use the same **Reduce** and **Threshold** expressions as the previous example.
 
 ## Considerations
 
