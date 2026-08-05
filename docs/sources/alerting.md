@@ -14,7 +14,7 @@ labels:
     - oss
 menuTitle: Alerting
 title: AWS IoT TwinMaker alerting
-weight: 450
+weight: 500
 review_date: 2026-08-05
 ---
 
