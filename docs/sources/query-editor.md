@@ -183,3 +183,4 @@ The history and alarm query types support streaming updates through Grafana Live
 
 - [Use template variables in queries](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/template-variables/)
 - [Visualize scenes, video, and alarms with the TwinMaker panels](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/panels/)
+- [Create alert rules from TwinMaker queries](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/alerting/)

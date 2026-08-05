@@ -78,6 +78,7 @@ The following pages help you get started with the AWS IoT TwinMaker app.
 - [AWS IoT TwinMaker query editor](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/query-editor/)
 - [AWS IoT TwinMaker panels](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/panels/)
 - [Template variables](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/template-variables/)
+- [Alerting](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/alerting/)
 - [Pre-built dashboards](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/dashboards/)
 - [Troubleshooting](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/troubleshooting/)
 
@@ -87,7 +88,7 @@ After you configure the data source, you can use the following Grafana features.
 
 - Use [Explore](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/explore/) to query data without building a dashboard.
 - Add [Transformations](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/panels-visualizations/query-transform-data/transform-data/) to manipulate query results.
-- Set up [Alerting](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/alerting/) rules to get notified when data changes.
+- Set up [Alerting](https://grafana.com/docs/plugins/grafana-iot-twinmaker-app/latest/alerting/) rules to get notified when data changes.
 - Configure and use [Template variables](https://grafana.com/docs/grafana/<GRAFANA_VERSION>/dashboards/variables/) to build dynamic dashboards.
 
 ## Example dashboard
