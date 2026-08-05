@@ -1,5 +1,27 @@
 # Changelog
 
+## 2.1.7
+
+- fix: fixed out of SLO CVEs in [#810](https://github.com/grafana/grafana-iot-twinmaker-app/pull/810)
+- chore(deps): bump dependencies in [#809](https://github.com/grafana/grafana-iot-twinmaker-app/pull/809)
+- fix(deps): update dependency immutable to v5 [security] in [#806](https://github.com/grafana/grafana-iot-twinmaker-app/pull/806)
+- ci: add reusable add-to-project workflow in [#798](https://github.com/grafana/grafana-iot-twinmaker-app/pull/798)
+- ci: adopt shared reusable stale workflow in [#797](https://github.com/grafana/grafana-iot-twinmaker-app/pull/797)
+- chore(deps): update backend dependencies (major) in [#799](https://github.com/grafana/grafana-iot-twinmaker-app/pull/799)
+- chore(deps): update Go dependencies in [#808](https://github.com/grafana/grafana-iot-twinmaker-app/pull/808)
+- chore: bump ci-cd-workflows version to support new way to publish docs in [#793](https://github.com/grafana/grafana-iot-twinmaker-app/pull/793)
+- fix: resolve critical CVEs in [#803](https://github.com/grafana/grafana-iot-twinmaker-app/pull/803)
+- chore: use shared data-sources Renovate base preset in [#789](https://github.com/grafana/grafana-iot-twinmaker-app/pull/789)
+- fix: fix plugin failing to load on Grafana 13 (React 19) in [#802](https://github.com/grafana/grafana-iot-twinmaker-app/pull/802)
+- chore: simplify CODEOWNERS to use a global owner in [#787](https://github.com/grafana/grafana-iot-twinmaker-app/pull/787)
+- chore: make grafanaDependency prerelease-inclusive in [#786](https://github.com/grafana/grafana-iot-twinmaker-app/pull/786)
+- chore: update plugin-ci-workflows to v8.0.1 in [#766](https://github.com/grafana/grafana-iot-twinmaker-app/pull/766)
+- ci: use GATB in GitHub workflows in [#750](https://github.com/grafana/grafana-iot-twinmaker-app/pull/750)
+- chore: disable install scripts in package manager configs in [#735](https://github.com/grafana/grafana-iot-twinmaker-app/pull/735)
+- chore: set enable scripts to false in .yarnrc.yml in [#733](https://github.com/grafana/grafana-iot-twinmaker-app/pull/733)
+- chore(deps): update grafana/plugin-ci-workflows/ci-cd-workflows action to v7.3.1 in [#700](https://github.com/grafana/grafana-iot-twinmaker-app/pull/700)
+- chore(deps): update module go.opentelemetry.io/otel to v1.41.0 [security] in [#724](https://github.com/grafana/grafana-iot-twinmaker-app/pull/724)
+
 ## 2.1.6
 
 - fix(deps): update dependency brace-expansion to v2.0.3 [security]
