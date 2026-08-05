@@ -17,6 +17,8 @@ import (
 	httplogger "github.com/grafana/grafana-plugin-sdk-go/experimental/http_logger"
 )
 
+var newAWSConfigProvider = awsauth.NewConfigProvider
+
 // TwinMakerClient calls AWS services and returns the raw results
 type TwinMakerClient interface {
 	GetSessionToken(ctx context.Context, duration time.Duration, workspaceId string) (*ststypes.Credentials, error)
@@ -71,15 +73,17 @@ func NewTwinMakerClient(ctx context.Context, settings models.TwinMakerDataSource
 	}
 
 	noEndpointSettings := awsauth.Settings{
-		LegacyAuthType:     settings.AuthType,
-		AccessKey:          settings.AccessKey,
-		SecretKey:          settings.SecretKey,
-		Region:             region,
-		CredentialsProfile: settings.Profile,
-		AssumeRoleARN:      settings.AssumeRoleARN,
-		ExternalID:         settings.ExternalID,
-		UserAgent:          agent,
-		HTTPClient:         httpClient,
+		LegacyAuthType:             settings.AuthType,
+		AccessKey:                  settings.AccessKey,
+		SecretKey:                  settings.SecretKey,
+		Region:                     region,
+		CredentialsProfile:         settings.Profile,
+		AssumeRoleARN:              settings.AssumeRoleARN,
+		ExternalID:                 settings.ExternalID,
+		GrafanaExternalID:          settings.GrafanaExternalID,
+		UsePerDatasourceExternalID: settings.UsePerDatasourceExternalID,
+		UserAgent:                  agent,
+		HTTPClient:                 httpClient,
 	}
 
 	setEndpoint := func(options *iottwinmaker.Options) {
@@ -109,7 +113,7 @@ func NewTwinMakerClient(ctx context.Context, settings models.TwinMakerDataSource
 }
 
 func getClientService(ctx context.Context, awsSettings awsauth.Settings, optFns ...func(*iottwinmaker.Options)) func() (*iottwinmaker.Client, error) {
-	noEndpointAwsConfig, err := awsauth.NewConfigProvider().GetConfig(ctx, awsSettings)
+	noEndpointAwsConfig, err := newAWSConfigProvider().GetConfig(ctx, awsSettings)
 	if err != nil {
 		return func() (*iottwinmaker.Client, error) {
 			return nil, err
@@ -122,7 +126,7 @@ func getClientService(ctx context.Context, awsSettings awsauth.Settings, optFns 
 }
 
 func getTokenService(ctx context.Context, awsSettings awsauth.Settings, optFns ...func(*sts.Options)) func() (*sts.Client, error) {
-	tokenCfg, err := awsauth.NewConfigProvider().GetConfig(ctx, awsSettings)
+	tokenCfg, err := newAWSConfigProvider().GetConfig(ctx, awsSettings)
 	if err != nil {
 		return func() (*sts.Client, error) {
 			return nil, err
