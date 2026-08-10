@@ -122,7 +122,7 @@
     "node": ">=20"
   },
   "resolutions": {
-    "brace-expansion": "2.1.2",
+    "brace-expansion": "2.1.4",
     "@synchro-charts/core/minimatch": "3.1.4",
     "@eslint/config-array/minimatch": "3.1.4",
     "@eslint/eslintrc/minimatch": "3.1.4",
@@ -132,7 +132,7 @@
     "glob@^10.3.10": "11.1.0",
     "@smithy/config-resolver": "4.4.0",
     "d3-color": "^3.1.0",
-    "dompurify": "3.4.12",
+    "dompurify": "3.4.13",
     "fast-xml-parser": "5.8.0",
     "serialize-javascript": "7.0.7",
     "parse-duration": "2.1.5",
