@@ -19,7 +19,7 @@ labels:
 menuTitle: Configure
 title: Configure the AWS IoT TwinMaker app and data source
 weight: 100
-review_date: 2026-08-05
+review_date: 2026-08-20
 ---
 
 # Configure the AWS IoT TwinMaker app and data source

@@ -14,7 +14,7 @@ labels:
 menuTitle: Troubleshooting
 title: Troubleshoot AWS IoT TwinMaker issues
 weight: 700
-review_date: 2026-08-05
+review_date: 2026-08-20
 ---
 
 # Troubleshoot AWS IoT TwinMaker issues

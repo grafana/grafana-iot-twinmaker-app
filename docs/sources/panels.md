@@ -17,7 +17,7 @@ labels:
 menuTitle: Panels
 title: AWS IoT TwinMaker panels
 weight: 300
-review_date: 2026-08-05
+review_date: 2026-08-20
 ---
 
 # AWS IoT TwinMaker panels

@@ -16,7 +16,7 @@ labels:
 menuTitle: Query editor
 title: AWS IoT TwinMaker query editor
 weight: 200
-review_date: 2026-08-05
+review_date: 2026-08-20
 ---
 
 # AWS IoT TwinMaker query editor

@@ -20,7 +20,7 @@ labels:
 menuTitle: AWS IoT TwinMaker
 title: AWS IoT TwinMaker app
 weight: 10
-review_date: 2026-08-05
+review_date: 2026-08-20
 ---
 
 # AWS IoT TwinMaker app
