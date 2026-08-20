@@ -44,7 +44,7 @@ Grafana alert conditions evaluate numeric data, which affects which queries you 
 
 This example uses the Cookie Factory sample workspace to create an alert rule that fires when the temperature of a mixer stays above `100` degrees. Substitute your own entity, component, property, and threshold.
 
-1. Navigate to **Alerting** > **Alert rules** and click **New alert rule**.
+1. Navigate to **Alerts & IRM** > **Alerting** > **Alert rules** and click **New alert rule**.
 1. Enter a name for the rule, such as `Mixer 1 overheating`.
 1. In the query section, select the AWS IoT TwinMaker data source and enter the query:
 
@@ -55,13 +55,14 @@ This example uses the Cookie Factory sample workspace to create an alert rule th
    | **Component Name** | `MixerComponent` |
    | **Selected Properties** | `Temperature` |
 
-1. Configure the expressions. New alert rules include a **Reduce** and a **Threshold** expression by default:
+1. Toggle on **Advanced options** to show the expressions. New alert rules include a **Reduce** and a **Threshold** expression by default:
 
    - Set the **Reduce** function to `Last` to reduce the time series to its most recent value.
    - Set the **Threshold** condition to `IS ABOVE` `100`.
 
+1. Add a folder and labels for the rule.
 1. Set the evaluation behavior, such as evaluating every minute with a pending period of 5 minutes.
-1. Add labels and notification settings, then click **Save rule and exit**.
+1. Configure notification settings, then click **Save rule and exit**.
 
 Grafana evaluates the query on the schedule you set and fires the alert when the latest temperature value exceeds the threshold.
 
