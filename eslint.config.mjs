@@ -26,6 +26,9 @@ export default defineConfig([
     files: ['src/**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
       parserOptions: {
+        // FlatCompat inherits parserOptions.project from .config/.eslintrc.
+        // typescript-eslint rejects that when projectService is enabled.
+        project: null,
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },

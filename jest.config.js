@@ -53,6 +53,8 @@ const esModules = [
   '@iot-app-kit/react-components',
   'parse-duration',
   '@marcbachmann/cel-js',
+  '@react-hookz/web',
+  '@ver0/deep-equal',
 ];
 
 module.exports = {

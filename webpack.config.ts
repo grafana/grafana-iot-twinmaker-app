@@ -1,7 +1,10 @@
+import { createRequire } from 'node:module';
 import type { Configuration } from 'webpack';
 import { merge } from 'webpack-merge';
 import WebpackShellPluginNext from 'webpack-shell-plugin-next';
-import grafanaConfig from './.config/webpack/webpack.config';
+import grafanaConfig from './.config/webpack/webpack.config.ts';
+
+const require = createRequire(import.meta.url);
 
 const config = async (env): Promise<Configuration> => {
   const baseConfig = await grafanaConfig(env);

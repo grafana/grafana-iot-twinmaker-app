@@ -1,4 +1,4 @@
-import { AnyAction, CombinedState, createStore, Store } from 'redux';
+import { AnyAction, createStore, Store } from 'redux';
 import { TwinMakerUxSDK } from 'aws-iot-twinmaker-grafana-utils';
 import { OldDatasourceStuff } from './oldStuffFromDatasource';
 import { getTwinMakerDatasource } from 'common/datasourceSrv';
@@ -6,7 +6,7 @@ import { initialize } from '@iot-app-kit/source-iottwinmaker';
 import { TMQueryEditorAwsConfig } from 'panels/query-editor/types';
 
 export type DataSourceParams = {
-  store: Store<CombinedState<any>, AnyAction>;
+  store: Store<any, AnyAction>;
   twinMakerUxSdk: TwinMakerUxSDK;
   appKitTMDataSource: ReturnType<typeof initialize>;
   workspaceId: string;
@@ -43,7 +43,7 @@ export async function configureSdkWithDataSource(uid?: string): Promise<DataSour
   ) {
     const twinMakerUxSdk = new TwinMakerUxSDK(twinMakerDataSource.getTwinMakerUxSdk());
 
-    const store: Store<CombinedState<any>, AnyAction> = createStore(
+    const store: Store<any, AnyAction> = createStore(
       twinMakerUxSdk.awsStore.createAwsCombinedReducer({})
     );
     twinMakerUxSdk.awsStore.subscribeAwsStoreUpdate(store);

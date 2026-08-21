@@ -7,5 +7,14 @@
     "baseUrl": "./src",
     "resolveJsonModule": true,
     "typeRoots": ["./node_modules/@types"]
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs",
+      "moduleResolution": "node10",
+      "target": "es5",
+      "esModuleInterop": true
+    },
+    "transpileOnly": true
   }
 }
