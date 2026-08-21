@@ -15,7 +15,7 @@
     "**/dashboards/*.json",
     "src/static/**",
     "vendor/**",
-    "yarn.lock"
+    "package-lock.json"
   ],
   "words": [
     "awsds",

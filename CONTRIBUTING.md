@@ -5,12 +5,12 @@ Pull down the git repo locally.
 Installation requirements:
 
 - [Node.js](https://nodejs.org/en/)
-- [Yarn](https://classic.yarnpkg.com/)
+- [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 - [GoLang](https://golang.org/)
 - [Mage](https://magefile.org/)
 
-1. `yarn install --frozen-lockfile`
-2. `yarn dev` — will build the frontend changes, `yarn watch` will build in watch mode
+1. `npm ci`
+2. `npm run dev` — will build the frontend changes, `npm run watch` will build in watch mode
 3. `mage build:backend` — will build the backend changes
    1. Troubleshooting: If you see `Plugin unavailable` when clicking “Save & test” for the TwinMaker datasource then run: `mage -v buildAll`. This builds the backend plugin for all platforms.
 4. The compiled plugin should be in dist/ directory.
@@ -54,6 +54,6 @@ To build the plugin with `development` mode, change the mode in [webpack.config.
 
 ## E2E tests
 
-1. `yarn playwright install --with-deps`
-1. `yarn server`
-1. `yarn e2e`
+1. `npx playwright install --with-deps`
+1. `npm run server`
+1. `npm run e2e`

@@ -9,7 +9,7 @@
     "e2e": "playwright test",
     "generate-release-notes": "PREV_TAG=$(git tag | tail -n 1) && gh api --method POST /repos/grafana/grafana-iot-twinmaker-app/releases/generate-notes -f tag_name=v${npm_package_version} -f target_commitish=main -f previous_tag_name=${PREV_TAG} | jq -r .body",
     "lint": "eslint --cache .",
-    "lint:fix": "yarn run lint --fix && prettier --write --list-different .",
+    "lint:fix": "npm run lint -- --fix && prettier --write --list-different .",
     "server": "docker compose up --build",
     "sign": "npx --yes @grafana/sign-plugin@latest",
     "spellcheck": "cspell -c cspell.config.json \"**/*.{ts,tsx,js,go,md,mdx,yml,yaml,json,scss,css}\"",
@@ -119,15 +119,27 @@
     "uuid": "^11.1.1"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24",
+    "npm": ">=11.16.0"
   },
-  "resolutions": {
+  "packageManager": "npm@11.18.0",
+  "overrides": {
     "brace-expansion": "2.1.4",
-    "@synchro-charts/core/minimatch": "3.1.4",
-    "@eslint/config-array/minimatch": "3.1.4",
-    "@eslint/eslintrc/minimatch": "3.1.4",
-    "@iot-app-kit/charts-core/minimatch": "9.0.7",
-    "@typescript-eslint/typescript-estree/minimatch": "9.0.7",
+    "@synchro-charts/core": {
+      "minimatch": "3.1.4"
+    },
+    "@eslint/config-array": {
+      "minimatch": "3.1.4"
+    },
+    "@eslint/eslintrc": {
+      "minimatch": "3.1.4"
+    },
+    "@iot-app-kit/charts-core": {
+      "minimatch": "9.0.7"
+    },
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "9.0.7"
+    },
     "glob@^10.2.2": "11.1.0",
     "glob@^10.3.10": "11.1.0",
     "@smithy/config-resolver": "4.4.0",
@@ -145,12 +157,10 @@
     "lodash-es": "4.18.0",
     "lodash.pick": "https://github.com/lodash/lodash/archive/refs/tags/4.18.0.tar.gz",
     "three-stdlib": "2.36.1",
-    "_comment": "Do not remove react-three & Matterport dependencies until AMG upgrades to Grafana v10 - PR#259",
     "@react-three/drei": "8.20.2",
     "@react-three/fiber": "7.0.29",
     "@react-three/test-renderer": "7.0.27",
     "@matterport/r3f": "0.2.7",
     "@matterport/webcomponent": "0.1.45"
-  },
-  "packageManager": "yarn@4.12.0"
+  }
 }
