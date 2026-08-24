@@ -18,11 +18,6 @@ export default defineConfig([
     extends: compat.extends('./.config/.eslintrc'),
   },
   {
-    rules: {
-      'deprecation/deprecation': 'off',
-    },
-  },
-  {
     files: ['src/**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
       parserOptions: {
@@ -35,6 +30,7 @@ export default defineConfig([
     },
     rules: {
       '@typescript-eslint/no-deprecated': 'warn',
+      'react-hooks/set-state-in-effect': 'off',
     },
   },
 ]);
