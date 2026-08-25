@@ -18,20 +18,19 @@ export default defineConfig([
     extends: compat.extends('./.config/.eslintrc'),
   },
   {
-    rules: {
-      'deprecation/deprecation': 'off',
-    },
-  },
-  {
     files: ['src/**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
       parserOptions: {
+        // FlatCompat inherits parserOptions.project from .config/.eslintrc.
+        // typescript-eslint rejects that when projectService is enabled.
+        project: null,
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },
     rules: {
       '@typescript-eslint/no-deprecated': 'warn',
+      'react-hooks/set-state-in-effect': 'off',
     },
   },
 ]);
