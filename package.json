@@ -120,9 +120,9 @@
   },
   "engines": {
     "node": ">=24",
-    "npm": ">=11.16.0"
+    "npm": ">=11.17.0"
   },
-  "packageManager": "npm@11.18.0",
+  "packageManager": "npm@11.17.0",
   "overrides": {
     "@grafana/i18n": "13.1.1",
     "brace-expansion": "2.1.4",
