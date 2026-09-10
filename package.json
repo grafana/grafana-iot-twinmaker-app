@@ -1,6 +1,6 @@
 {
   "name": "grafana-iot-twinmaker-app",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "Grafana IoT TwinMaker App Plugin",
   "scripts": {
     "build": "webpack -c ./webpack.config.ts --env production",
@@ -126,6 +126,8 @@
   "overrides": {
     "@grafana/i18n": "13.1.1",
     "brace-expansion": "2.1.4",
+    "uuid": "^11.1.1",
+    "fast-uri": "3.1.7",
     "@synchro-charts/core": {
       "minimatch": "3.1.4"
     },
