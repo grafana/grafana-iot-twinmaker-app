@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.8
+
+- fix: resolve CVEs in golang.org/x/crypto, golang.org/x/mod, google.golang.org/grpc, uuid, and fast-uri in [#816](https://github.com/grafana/grafana-iot-twinmaker-app/pull/816)
+
 ## 2.1.7
 
 - fix: fixed out of SLO CVEs in [#810](https://github.com/grafana/grafana-iot-twinmaker-app/pull/810)
