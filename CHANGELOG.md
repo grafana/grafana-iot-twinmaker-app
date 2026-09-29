@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.10
+
+- fix: resolve security vulnerabilities (CVE-2026-45249)
+
 ## 2.1.9
 
 - fix: resolve security vulnerabilities (CVE-2026-83608, CVE-2026-83613, CVE-2026-83614, CVE-2026-83615, CVE-2026-83616, CVE-2026-83619, CVE-2026-84375, CVE-2026-84445)
