@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.11
+
+- fix: resolve security vulnerabilities (CVE-2026-102276, CVE-2026-102277, CVE-2026-102278) by bumping the brace-expansion override to 2.1.7
+- chore: remove redundant npm overrides for @grafana/i18n, @remix-run/router, and @matterport/r3f (already pinned to the same versions by their dependents)
+
 ## 2.1.10
 
 - fix: resolve security vulnerabilities (CVE-2026-45249)
