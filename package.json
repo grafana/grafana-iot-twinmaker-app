@@ -1,6 +1,6 @@
 {
   "name": "grafana-iot-twinmaker-app",
-  "version": "2.1.10",
+  "version": "2.1.11",
   "description": "Grafana IoT TwinMaker App Plugin",
   "scripts": {
     "build": "webpack -c ./webpack.config.ts --env production",
@@ -124,8 +124,7 @@
   },
   "packageManager": "npm@11.17.0",
   "overrides": {
-    "@grafana/i18n": "13.1.1",
-    "brace-expansion": "2.1.4",
+    "brace-expansion": "2.1.7",
     "uuid": "^11.1.1",
     "fast-uri": "3.1.7",
     "echarts": "^6.1.0",
@@ -155,7 +154,6 @@
     "js-cookie": "3.0.8",
     "react-router": "6.30.4",
     "react-router-dom-v5-compat": "6.30.4",
-    "@remix-run/router": "1.23.3",
     "ramda": "0.32.0",
     "lodash": "4.18.0",
     "lodash-es": "4.18.0",
@@ -164,7 +162,6 @@
     "@react-three/drei": "8.20.2",
     "@react-three/fiber": "7.0.29",
     "@react-three/test-renderer": "7.0.27",
-    "@matterport/r3f": "0.2.7",
     "@matterport/webcomponent": "0.1.45"
   }
 }
