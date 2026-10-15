@@ -147,7 +147,7 @@
     "glob@^10.3.10": "11.1.0",
     "@smithy/config-resolver": "4.4.0",
     "d3-color": "^3.1.0",
-    "dompurify": "3.4.13",
+    "dompurify": "3.4.16",
     "fast-xml-parser": "5.8.0",
     "serialize-javascript": "7.0.7",
     "parse-duration": "2.1.5",
@@ -162,6 +162,10 @@
     "@react-three/drei": "8.20.2",
     "@react-three/fiber": "7.0.29",
     "@react-three/test-renderer": "7.0.27",
-    "@matterport/webcomponent": "0.1.45"
+    "@matterport/webcomponent": "0.1.45",
+    "moment": "2.31.0",
+    "source-map-js": "1.2.2",
+    "postcss-selector-parser": "7.1.6",
+    "smol-toml": "1.9.0"
   }
 }
