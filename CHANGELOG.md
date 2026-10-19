@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.12
+
+- fix: resolve security vulnerabilities in dompurify, moment, source-map-js, postcss-selector-parser, smol-toml, and golang.org/x/net
+
 ## 2.1.11
 
 - fix: resolve security vulnerabilities (CVE-2026-102276, CVE-2026-102277, CVE-2026-102278) by bumping the brace-expansion override to 2.1.7
