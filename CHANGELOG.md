@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.13
+
+- chore: update Go to 1.27.3
+
 ## 2.1.12
 
 - fix: resolve security vulnerabilities in dompurify, moment, source-map-js, postcss-selector-parser, smol-toml, and golang.org/x/net
