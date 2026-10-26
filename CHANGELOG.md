@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.14
+
+- Bump backend dependency
+
 ## 2.1.13
 
 - chore: update Go to 1.27.3
