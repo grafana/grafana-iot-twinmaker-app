@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.15
+
+- fix: resolve security vulnerabilities by bumping dompurify, zod, and kin-openapi
+
 ## 2.1.14
 
 - Bump backend dependency
