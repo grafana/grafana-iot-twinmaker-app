@@ -129,13 +129,13 @@
     "fast-uri": "3.1.7",
     "echarts": "^6.1.0",
     "@synchro-charts/core": {
-      "minimatch": "3.1.4"
+      "minimatch": "11.0.1"
     },
     "@eslint/config-array": {
-      "minimatch": "3.1.4"
+      "minimatch": "11.0.1"
     },
     "@eslint/eslintrc": {
-      "minimatch": "3.1.4"
+      "minimatch": "11.0.1"
     },
     "@iot-app-kit/charts-core": {
       "minimatch": "9.0.7"
