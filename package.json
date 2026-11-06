@@ -126,7 +126,6 @@
   "overrides": {
     "brace-expansion": "2.1.7",
     "uuid": "^11.1.1",
-    "fast-uri": "3.1.7",
     "echarts": "^6.1.0",
     "@synchro-charts/core": {
       "minimatch": "3.1.4"
