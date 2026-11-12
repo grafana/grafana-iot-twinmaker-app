@@ -3,10 +3,14 @@ package twinmaker
 import (
 	"context"
 	"fmt"
-	iottwinmakertypes "github.com/aws/aws-sdk-go-v2/service/iottwinmaker/types"
+	"reflect"
 	"slices"
+	"time"
+
+	iottwinmakertypes "github.com/aws/aws-sdk-go-v2/service/iottwinmaker/types"
 
 	"github.com/aws/aws-sdk-go-v2/service/iottwinmaker"
+
 	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 )
 
@@ -264,10 +268,75 @@ func (r *twinMakerResource) ListEntity(ctx context.Context, entityId string) ([]
 	return results, err
 }
 
+// allowedWritablePropertyName is the only property the alarm configuration panel ever writes
+// (see AlarmConfigurationPanel.tsx). This handler runs with a privileged, shared AWS writer
+// role rather than the caller's own identity, so the write shape is locked down server-side
+// instead of trusting the client-supplied entries.
+const allowedWritablePropertyName = "alarm_threshold"
+
+func validatePropertyValueEntries(entries []iottwinmakertypes.PropertyValueEntry) error {
+	if len(entries) != 1 {
+		return fmt.Errorf("expected exactly one property value entry, got %d", len(entries))
+	}
+
+	entry := entries[0]
+	ref := entry.EntityPropertyReference
+	if ref == nil || ref.EntityId == nil || *ref.EntityId == "" {
+		return fmt.Errorf("entry is missing entityId")
+	}
+	if ref.ComponentName == nil || *ref.ComponentName == "" {
+		return fmt.Errorf("entry is missing componentName")
+	}
+	if ref.PropertyName == nil || *ref.PropertyName != allowedWritablePropertyName {
+		return fmt.Errorf("writing property %q is not allowed", strPtrValue(ref.PropertyName))
+	}
+	if ref.ComponentPath != nil || ref.ExternalIdProperty != nil {
+		return fmt.Errorf("entry must not set componentPath or externalIdProperty")
+	}
+
+	if len(entry.PropertyValues) != 1 {
+		return fmt.Errorf("expected exactly one property value, got %d", len(entry.PropertyValues))
+	}
+	value := entry.PropertyValues[0].Value
+	if value == nil || value.DoubleValue == nil {
+		return fmt.Errorf("property value must be a numeric doubleValue")
+	}
+	rest := *value
+	rest.DoubleValue = nil
+	if !reflect.DeepEqual(rest, iottwinmakertypes.DataValue{}) {
+		return fmt.Errorf("property value must set only doubleValue")
+	}
+
+	return nil
+}
+
+func strPtrValue(s *string) string {
+	if s == nil {
+		return ""
+	}
+	return *s
+}
+
 func (r *twinMakerResource) BatchPutPropertyValues(ctx context.Context, entries []iottwinmakertypes.PropertyValueEntry) (*iottwinmaker.BatchPutPropertyValuesOutput, error) {
+	if err := validatePropertyValueEntries(entries); err != nil {
+		return nil, err
+	}
+
+	// Rebuild the entry with a server-side timestamp rather than trusting the
+	// client's; this prevents writes with a client-provided timestamp in the
+	// future from blocking further writes.
+	now := time.Now().UTC().Format(time.RFC3339Nano)
+	entry := entries[0]
+	stamped := []iottwinmakertypes.PropertyValueEntry{{
+		EntityPropertyReference: entry.EntityPropertyReference,
+		PropertyValues: []iottwinmakertypes.PropertyValue{
+			{Value: entry.PropertyValues[0].Value, Time: &now},
+		},
+	}}
+
 	input := &iottwinmaker.BatchPutPropertyValuesInput{
 		WorkspaceId: &r.workspaceId,
-		Entries:     entries,
+		Entries:     stamped,
 	}
 	return r.client.BatchPutPropertyValues(ctx, input)
 }

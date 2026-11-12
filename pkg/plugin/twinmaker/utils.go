@@ -12,15 +12,16 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/iottwinmaker"
 	iottwinmakertypes "github.com/aws/aws-sdk-go-v2/service/iottwinmaker/types"
 
-	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
+
+	"github.com/grafana/grafana-iot-twinmaker-app/pkg/models"
 )
 
 type PolicyStatement struct {
-	Effect    string   `json:"Effect"`
-	Action    []string `json:"Action"`
-	Resource  []string `json:"Resource"`
-	Condition string   `json:"Condition,omitempty"`
+	Effect    string                            `json:"Effect"`
+	Action    []string                          `json:"Action"`
+	Resource  interface{}                       `json:"Resource"`
+	Condition map[string]map[string]interface{} `json:"Condition,omitempty"`
 }
 
 type IAMPolicy struct {
@@ -65,7 +66,12 @@ func LoadPolicy(workspace *iottwinmaker.GetWorkspaceOutput) (string, error) {
 				  "kinesisvideo:GetDataEndpoint",
 				  "kinesisvideo:GetHLSStreamingSessionURL"
 				],
-				"Resource": "*"
+				"Resource": "*",
+				"Condition": {
+				  "StringLike": {
+					"aws:ResourceTag/EdgeConnectorForKVS": "*{{.WorkspaceId}}*"
+				  }
+				}
 			},
 			{
 				"Effect": "Allow",
@@ -73,7 +79,12 @@ func LoadPolicy(workspace *iottwinmaker.GetWorkspaceOutput) (string, error) {
 				  "iotsitewise:GetAssetPropertyValue",
 				  "iotsitewise:GetInterpolatedAssetPropertyValues"
 				],
-				"Resource": "*"
+				"Resource": "*",
+				"Condition": {
+				  "StringLike": {
+					"aws:ResourceTag/EdgeConnectorForKVS": "*{{.WorkspaceId}}*"
+				  }
+				}
 			},
 			{
 				 "Effect": "Allow",
