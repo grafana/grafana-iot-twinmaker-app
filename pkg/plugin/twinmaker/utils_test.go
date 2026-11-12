@@ -1,6 +1,8 @@
 package twinmaker
 
 import (
+	"encoding/json"
+	"fmt"
 	"testing"
 	"time"
 
@@ -20,6 +22,47 @@ func TestLoadPolicy(t *testing.T) {
 	policy, err := LoadPolicy(workspace)
 	require.NoError(t, err)
 	require.NotEmpty(t, policy)
+
+	var parsed IAMPolicy
+	require.NoError(t, json.Unmarshal([]byte(policy), &parsed))
+
+	// SiteWise assets and KVS streams aren't scoped by WorkspaceArn, so these actions
+	// must carry a tag-based condition — otherwise the credentials would grant access
+	// to any asset/stream in the account, not just this workspace's.
+	scopedActions := map[string]bool{
+		"kinesisvideo:GetDataEndpoint":                   false,
+		"kinesisvideo:GetHLSStreamingSessionURL":         false,
+		"iotsitewise:GetAssetPropertyValue":              false,
+		"iotsitewise:GetInterpolatedAssetPropertyValues": false,
+		"iotsitewise:BatchPutAssetPropertyValue":         false,
+	}
+
+	for _, stmt := range parsed.Statement {
+		for _, action := range stmt.Action {
+			if _, ok := scopedActions[action]; !ok {
+				continue
+			}
+
+			require.NotEmptyf(t, stmt.Condition, "statement granting %q must have a resource-scoping condition", action)
+
+			found := false
+			for tagOperator, tagConditions := range stmt.Condition {
+				if tagOperator == "StringLike" {
+					for tagKey, tagValue := range tagConditions {
+						if tagKey == "aws:ResourceTag/EdgeConnectorForKVS" && fmt.Sprintf("%v", tagValue) == fmt.Sprintf("*%s*", *workspace.WorkspaceId) {
+							found = true
+						}
+					}
+				}
+			}
+			require.Truef(t, found, "condition for %q must reference the workspace ID so access is scoped to this workspace", action)
+			scopedActions[action] = true
+		}
+	}
+
+	for action, found := range scopedActions {
+		require.Truef(t, found, "expected policy to include a scoped statement for %q", action)
+	}
 }
 
 func TestGetTimeObjectFromStringTime(t *testing.T) {

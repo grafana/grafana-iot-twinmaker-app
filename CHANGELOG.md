@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.0
+
+- fix: *breaking change* restrict reads to resources tagged with the workspace ID
+- fix: restrict property value writes to the alarm_threshold write shape
+
 ## 2.1.15
 
 - fix: resolve security vulnerabilities by bumping dompurify, zod, and kin-openapi
