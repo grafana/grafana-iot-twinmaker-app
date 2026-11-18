@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.1
+
+- fix(deps): bump @grafana/aws-sdk to 0.13.1
+- chore(deps): fix CVEs
+
 ## 3.0.0
 
 - fix: *breaking change* restrict reads to resources tagged with the workspace ID
